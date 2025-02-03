@@ -1,9 +1,9 @@
 ---
-title: 도커/쿠버네티스 실습 환경 구축
+title: 도커/쿠버네티스 실습 환경 구축 매뉴얼
 author: oksjjj
 date: 2025-02-03 13:02:00 +0900
 categories: [도커/쿠버네티스]
-tags: [docker, container, kubernetes, 쿠버네티스, k8s, 컨테이너, container]
+tags: [docker, container, kubernetes, 쿠버네티스, k8s, 컨테이너, container, 구축, 매뉴얼, 실습]
 render_with_liquid: false
 ---
 
