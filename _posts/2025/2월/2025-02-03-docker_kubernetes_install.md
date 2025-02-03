@@ -117,7 +117,7 @@ vi /etc/chrony/chrony.conf
 
 #### chrony.conf 파일 설정 방법
 
-* master 노드 : 임의의 곳에 아래 문구를 추가하고, 파일 저장 및 닫기 
+* master 노드 : 임의의 곳에 아래 문구를 추가하고, 파일 저장하고 닫습니다. 
 ```
 allow 172.31.0.0/24
 ```
@@ -130,7 +130,7 @@ pool 0.ubuntu.pool.ntp.org iburst maxsources 1
 pool 1.ubuntu.pool.ntp.org iburst maxsources 1
 pool 2.ubuntu.pool.ntp.org iburst maxsources 2
 ```
-  * 아래 라인을 추가하고, 파일 저장 및 닫기
+  * 아래 라인을 추가하고, 파일 저장하고 닫습니다.
 ```
 server 172.31.0.100 iburst
 ```
@@ -140,8 +140,8 @@ server 172.31.0.100 iburst
 service chrony restart
 chronyc sources
 ```
-  * master 노드는 외부 노드들을 바라 보는지 확인
-  * worker 노드들은 모두 172.31.0.100을 바라 보는지 확인
+  * master 노드는 외부 노드들을 바라 보는지 확인합니다.
+  * worker 노드들은 모두 172.31.0.100을 바라 보는지 확인합니다.
 
 ### 서버 network 관련 커널 파라미터 수정
 
@@ -334,7 +334,7 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-#### kube-master에서 아래 명령어를 실행해서, kube-master 및 kube-worker1,2가 NotReady 상태로 출력되는지 확인한다  
+#### kube-master에서 아래 명령어를 실행해서, kube-master 및 kube-worker1,2가 NotReady 상태로 출력되는지 확인합니다  
 
 ```
 kubectl get nodes
@@ -342,7 +342,7 @@ kubectl get nodes
 
 
 #### Calico 설치
-※ 쿠버네티스의 pod에 IP를 할당하기 위해서는 CNI(Container Network Interface) 설치가 필요  
+※ 쿠버네티스의 pod에 IP를 할당하기 위해서는 CNI(Container Network Interface) 설치가 필요합니다.  
 
 [Calico 설치 관련 참고 (설정 명령어는 아래에 모두 기술되어 있음)](httpshttps://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart)
 
@@ -362,7 +362,7 @@ kubectl get nodes
 ```
 
 
-## 오류 수정
+## **오류 수정**
 
 ※ /var/log/syslog에 Deactivated successfully 가 지속적으로 출력되는 문제가 있는데 아래 방법으로 해결합니다  
 
@@ -402,7 +402,7 @@ systemctl restart systemd-journald
 여기까지 하면 도커/쿠너네티스 실습 환경은 완료되었습니다.  
 원활한 실습을 위해서는 아래 내용을 꼭 참고하기 바랍니다.  
 
-## Troubleshooting
+## **Troubleshooting**
 
 * 실습을 위해 kube-master 및 모든 worker 노드들을 기동한 이후에는,  
   kube-master 노드에서 아래 명령어를 실행한 이후,  
