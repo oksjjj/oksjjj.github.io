@@ -1,9 +1,9 @@
 ---
-title: Do it! HTML+CSS+자바스크립트 웹 표준의 정석
+title: (Book Review) Do it! HTML+CSS+자바스크립트 웹 표준의 정석
 author: oksjjj
 date: 2025-02-02 10:03:00 +0900
 categories: [Book Review]
-tags: [do it, html, css, 자바스크립트, js, 웹, web, 개발]
+tags: [do it, html, css, 자바스크립트, js, 웹, web, 개발, book, 책, review, 리뷰]
 render_with_liquid: false
 ---
 

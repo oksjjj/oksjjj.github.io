@@ -1,9 +1,9 @@
 ---
-title: Building LLMs for Production
+title: (Book Review) Building LLMs for Production
 author: oksjjj
 date: 2025-02-02 13:03:00 +0900
 categories: [Book Review]
-tags: [llm, chat gpt, transformer, openai, langchain, llama, claude]
+tags: [llm, chat gpt, transformer, openai, langchain, llama, claude, book, 책, review, 리뷰]
 render_with_liquid: false
 ---
 
