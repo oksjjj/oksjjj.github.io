@@ -13,7 +13,7 @@ render_with_liquid: false
 이후 pod, replicaset, deployment, service 등을 실습할 수 있는 매뉴얼을 작성해 보고자 합니다.  
 
 도커/쿠버네티스 실습 환경을 구축하기 위해서, 책도 보고, 구글링도 했는데,  
-항상 무언가 하나는 제대로 동작하지 않았습니다다.  
+항상 무언가 하나는 제대로 동작하지 않았습니다.  
 
 **그래서 숱하게 구글링을 해서, 현재까지는 100% 구동 가능한 버전을 정리한 것이 이 내용입니다.**  
 **자신만의 도커/쿠버네티스 실습 환경을 구축해 보고 싶으신 분들은 아래 내용을 참고해서 고생을 덜 하기를 바랍니다^^**  
@@ -366,7 +366,7 @@ kubectl get nodes
 
 ※ /var/log/syslog에 Deactivated successfully 가 지속적으로 출력되는 문제가 있는데 아래 방법으로 해결합니다  
 
-### kube-master에서 아래 명령어를 실행합니다다  
+### kube-master에서 아래 명령어를 실행합니다  
 
 ```
 vim /etc/systemd/journald.conf
@@ -394,7 +394,7 @@ MaxLevelSyslog=notice
 systemctl restart systemd-journald
 ```
 
-### 모두 poweroff 하고, 3_kube_setup  이라는 명칭으로 스냅샷을 저장합니다다. 
+### 모두 poweroff 하고, 3_kube_setup  이라는 명칭으로 스냅샷을 저장합니다. 
 
 
 ## 실습 환경 구축 완료
