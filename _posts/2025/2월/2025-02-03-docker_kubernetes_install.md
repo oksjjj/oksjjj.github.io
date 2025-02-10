@@ -7,6 +7,7 @@ tags: [docker, container, kubernetes, 쿠버네티스, k8s, 컨테이너, contai
 render_with_liquid: false
 image:
   path: /assets/img/thumbnail/docker_kubernetes_install.png
+  alt: 도커/쿠버네티스 실습 환경 구축 매뉴얼
   src: "https://oksjjj.github.io/thumbnail/docker_kubernetes_install.png"
 ---
 

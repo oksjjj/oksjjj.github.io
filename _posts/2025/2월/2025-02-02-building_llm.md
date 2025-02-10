@@ -7,6 +7,7 @@ tags: [llm, chat gpt, transformer, openai, langchain, llama, claude, book, 책, 
 render_with_liquid: false
 image:
   path: /assets/img/thumbnail/building_llm.png
+  alt: (Book Review) Building LLMs for Production
   src: "https://oksjjj.github.io/thumbnail/building_llm.png"
 ---
 

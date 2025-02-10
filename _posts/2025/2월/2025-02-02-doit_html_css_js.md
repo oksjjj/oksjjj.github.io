@@ -7,6 +7,7 @@ tags: [do it, html, css, 자바스크립트, js, 웹, web, 개발, book, 책, re
 render_with_liquid: false
 image:
   path: /assets/img/thumbnail/doit_html_css_js.png
+  alt: (Book Review) Do it! HTML+CSS+자바스크립트 웹 표준의 정석
   src: "https://oksjjj.github.io/thumbnail/doit_html_css_js.png"
 ---
 
