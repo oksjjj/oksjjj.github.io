@@ -5,6 +5,9 @@ date: 2025-02-03 13:02:00 +0900
 categories: [가상화]
 tags: [docker, container, kubernetes, 쿠버네티스, k8s, 컨테이너, container, 구축, 매뉴얼, 실습]
 render_with_liquid: false
+image:
+  path: /assets/img/thumbnail/docker_kubernetes_install.png
+  src: "https://oksjjj.github.io/thumbnail/docker_kubernetes_install.png"
 ---
 
 ## **개요**

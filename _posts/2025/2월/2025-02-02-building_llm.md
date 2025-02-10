@@ -5,6 +5,9 @@ date: 2025-02-02 13:03:00 +0900
 categories: [Book Review]
 tags: [llm, chat gpt, transformer, openai, langchain, llama, claude, book, 책, review, 리뷰]
 render_with_liquid: false
+image:
+  path: /assets/img/thumbnail/building_llm.png
+  src: "https://oksjjj.github.io/thumbnail/building_llm.png"
 ---
 
 ## **읽게 된 계기**
