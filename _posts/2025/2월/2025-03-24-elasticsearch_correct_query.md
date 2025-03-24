@@ -267,3 +267,28 @@ POST /website/_update/1
   }
 }
 ```  
+  
+#### 수정#6
+**Before**
+```
+POST /website/pageviews/1/_update
+{
+  "script": "ctx._source.views+=1",
+  "upsert": {
+    "views": 1
+  }
+}
+```  
+**After**  
+```
+POST /website/_update/1
+{
+  "script": """
+    if (ctx._source.containsKey('views')) {
+      ctx._source.views += 1
+    } else {
+      ctx._source.views = 1
+    }
+  """
+}
+```  
