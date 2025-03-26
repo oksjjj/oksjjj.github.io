@@ -1,7 +1,7 @@
 ---
 title: Elasticsearch - The DEFINITIVE GUIDE - Chapter#3
 author: oksjjj
-date: 2025-03-25 23:05:00 +0900
+date: 2025-03-26 20:48:00 +0900
 categories: [Elasticsearch - The DEFINITIVE GUIDE]
 tags: [Elasticsearch]
 render_with_liquid: false
@@ -211,4 +211,15 @@ GET /website/_mget
 {
     "ids": ["2", "1"]
 }
+```
+### bulk (첫번째 명령이 실패하더라도 나머지 라인은 진행)
+```
+POST /_bulk
+{ "delete": { "_index": "website", "_id": "123"}}
+{ "create": { "_index": "website", "_id": "123"}}
+{ "title": "My first blog post"}
+{ "index": { "_index": "website" }}
+{ "title": "My second blog post" }
+{ "update": { "_index": "website", "_id": "123", "retry_on_conflict": 3}}
+{ "doc": { "title": "My updated blog post" }}
 ```
