@@ -113,7 +113,7 @@ GET /megacorp/_search
 GET /megacorp/_search
 {
     "query": {
-        "match": {
+        "match_phrase": {
             "about": "rock climbing"
         }
     }
