@@ -20,3 +20,61 @@ POST /_analyze
   "text": "Text to analyze"
 }
 ```
+  
+  
+### 분석되는 필드 생성 (type: text)
+```
+PUT /gb
+{
+    "mappings": {
+        "properties": {
+            "tweet": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "date": {
+                "type": "date"
+            },
+            "name": {
+                "type": "text"
+            },
+            "user_id": {
+                "type": "long"
+            }
+        }
+    }
+}
+```
+
+
+### 분석되지 않는 필드 추가 (type: keyword)
+```
+PUT /gb/_mapping
+{
+    "properties": {
+        "tag": {
+            "type": "keyword"
+        }
+    }
+}
+```
+
+
+### 분석되는 필드 테스트
+```
+POST /gb/_analyze
+{
+    "field": "tweet",
+    "text": "Black-cats"
+}
+```
+
+
+### 분석되지 않는는 필드 테스트
+```
+POST /gb/_analyze
+{
+    "field": "tag",
+    "text": "Black-cats"
+}
+```
