@@ -180,3 +180,8 @@ GET /megacorp/_search
     }
 }
 ```
+  
+인덱스 정리
+```
+DELETE /megacorp
+```

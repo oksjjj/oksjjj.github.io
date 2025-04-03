@@ -223,3 +223,8 @@ POST /_bulk
 { "update": { "_index": "website", "_id": "123", "retry_on_conflict": 3}}
 { "doc": { "title": "My updated blog post" }}
 ```
+  
+인덱스 정리
+```
+DELETE /website
+```

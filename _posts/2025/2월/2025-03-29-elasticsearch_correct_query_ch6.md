@@ -78,3 +78,8 @@ POST /gb/_analyze
     "text": "Black-cats"
 }
 ```
+  
+인덱스 정리
+```
+DELETE /gb
+```

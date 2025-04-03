@@ -12,6 +12,20 @@ image:
 ---
 
 
+### 샘플 데이터 넣기
+```
+POST /emails/_bulk
+{ "index": { "_id": 1 } }
+{ "email": "business opportunity", "folder": "inbox" }
+{ "index": { "_id": 2 } }
+{ "email": "urgent business proposal", "folder": "inbox" }
+{ "index": { "_id": 3 } }
+{ "email": "casual conversation", "folder": "sent" }
+{ "index": { "_id": 4 } }
+{ "email": "team meeting notes", "folder": "inbox" }
+```
+  
+
 ### Filtering a Query
 ```
 GET /_search
@@ -61,6 +75,11 @@ GET /_search
         }
     }
 }
+```
+  
+인덱스 정리
+```
+DELETE /emails
 ```
   
 ### Validating Queries

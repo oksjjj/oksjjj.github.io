@@ -41,3 +41,8 @@ PUT /blogs/_settings
 ```
 GET /_cluster/health
 ```
+  
+인덱스 정리
+```
+DELETE /blogs
+```
