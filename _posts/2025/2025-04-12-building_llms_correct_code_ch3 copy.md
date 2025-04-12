@@ -11,6 +11,11 @@ image:
   src: "https://oksjjj.github.io/building_llms_code.png"
 ---
 
+
+### python 버전
+
+3.9
+  
   
 ### pkg 설치
 ```bash

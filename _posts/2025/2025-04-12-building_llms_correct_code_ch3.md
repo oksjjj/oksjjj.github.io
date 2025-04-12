@@ -11,6 +11,11 @@ image:
   src: "https://oksjjj.github.io/building_llms_code.png"
 ---
 
+## python 버전
+
+3.9
+
+## LangChain
   
 ### Prompt Templates
 
@@ -39,5 +44,248 @@ print(response.content)
 
 ### Summarization Chain Example
 
+```bash
+pip install pypdf
+```
+
 ```python
+from langchain_openai import ChatOpenAI
+from langchain import PromptTemplate
+from langchain.chains.summarize import load_summarize_chain
+from langchain.document_loaders import PyPDFLoader
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+
+summarize_chain = load_summarize_chain(llm)
+
+document_loader = PyPDFLoader(file_path="The One Page Linux Manual.pdf")
+document = document_loader.load()
+
+summary = summarize_chain.invoke(document)
+print(summary['output_text'])
+```
+
+### Q&A Chain Example
+
+```python
+from langchain.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
+prompt = PromptTemplate(template="Question:{question}\nAnswer:",
+                        input_variables=["question"])
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+chain = prompt | llm | StrOutputParser()
+
+chain.invoke("what is the meaning of life?")
+```
+
+### Building a News Articles Summarizer
+
+```bash
+pip install newspaper3k
+pip install "lxml[html_clean]"
+```
+
+```python
+import requests
+from newspaper import Article
+
+headers = {
+    'User-Agent': """Mozilla/5.0(Windows NT 10.0;Win64;x64) AppleWebKit/537.76(KHTML,like Gecko) Chrome/89.0.4389.82 Safari/537.36"""
+}
+
+article_url = """https://www.artificialintelligence-news.com/2022/01/25/meta-claims-new-ai-super-computer-will-set-records/"""
+
+session = requests.Session()
+
+try:
+    response = session.get(article_url, headers=headers, timeout=10)
+
+    if response.status_code == 200:
+        article = Article(article_url)
+        article.download()
+        article.parse()
+
+        print(f"Title:{article.title}")
+        print(f"Text:{article.text}")
+
+    else:
+        print(f"Failed to fetch article at {article_url}")
+
+except Exception as e:
+    print(f"Error occurred while fetching article at {article_url}: {e}")
+```
+
+```python
+from langchain.schema import HumanMessage
+
+template = """You are a very good assistant that summarizes online articles.
+
+Here's the article you want to summarize.
+
+=============================
+Title:{article_title}
+
+{article_text}
+=============================
+
+Write a summary of the previous article.
+"""
+
+prompt = template.format(article_title=article.title, article_text=article.text)
+
+messages = [HumanMessage(content=prompt)]
+```
+
+```python
+from langchain_openai import ChatOpenAI
+
+chat = ChatOpenAI(model_name="gpt-4-turbo", temperature=0)
+```
+
+```python
+summary = chat.invoke(messages)
+print(summary.content)
+```
+
+```python
+template = """You are an advanced AI assistant that summarizes online articles into bulleted lists.
+
+Here's the article you need to summarize.
+
+=============================
+Title:{article_title}
+
+{article_text}
+=============================
+
+Now, provide a summarized version of the article in a bulleted list format.
+"""
+
+prompt = template.format(article_title=article.title, article_text=article.text)
+
+summary = chat.invoke([HumanMessage(content=prompt)])
+print(summary.content)
+```
+
+```python
+template = """You are an advanced AI assistant that summarizes online articles into bulleted lists.
+
+Here's the article you need to summarize.
+
+=============================
+Title:{article_title}
+
+{article_text}
+=============================
+
+Now, provide a summarized version of the article in a bulleted list format, in French.
+"""
+
+prompt = template.format(article_title=article.title, article_text=article.text)
+
+summary = chat.invoke([HumanMessage(content=prompt)])
+print(summary.content)
+```
+
+## LlamaIndex
+
+### Data Connectors
+
+```bash
+pip install llama-index==0.12
+pip install elasticsearch llama-index-vector-stores-elasticsearch
+pip install wikipedia
+pip install llama-index-embeddings-langchain
+```
+
+```python
+from typing import List
+import wikipedia
+from llama_index.core.schema import Document
+from llama_index.core.readers.base import BaseReader
+
+class WikipediaReader(BaseReader):
+    """Reader for loading Wikipedia pages."""
+
+    def load_data(self, pages: List[str]) -> List[Document]:
+        documents = []
+        for page in pages:
+            try:
+                content = wikipedia.page(page).content
+                documents.append(Document(text=content))
+            except Exception as e:
+                print(f"Error loading page '{page}': {e}")
+        return documents
+
+loader = WikipediaReader()
+documents = loader.load_data(["Natural language processing"])
+print(len(documents))
+```
+
+### Nodes
+
+```python
+from llama_index.core.node_parser import SimpleNodeParser
+
+parser = SimpleNodeParser.from_defaults(chunk_size=512, chunk_overlap=20)
+
+nodes = parser.get_nodes_from_documents(documents)
+print(len(nodes))
+```
+
+### Vector Store Index
+
+```python
+from elasticsearch import AsyncElasticsearch
+from llama_index.vector_stores.elasticsearch import ElasticsearchStore
+from langchain_openai import OpenAIEmbeddings
+
+es_client = AsyncElasticsearch(
+    "https://127.0.0.1:9200",
+    basic_auth=('elastic', 'password'),
+    verify_certs=False
+)
+
+es_index_name = "llamaindex_intro"
+
+vector_store = ElasticsearchStore(
+    index_name=es_index_name,
+    es_client=es_client,
+    recreate_index=True
+)
+```
+
+```python
+from llama_index.core import StorageContext, VectorStoreIndex, Settings
+from langchain_openai import OpenAIEmbeddings
+
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
+Settings.embed_model = embeddings
+
+storage_context = StorageContext.from_defaults(vector_store=vector_store)
+
+index = VectorStoreIndex.from_documents(
+    documents, storage_context=storage_context
+)
+```
+
+### Query Engines
+
+```python
+from llama_index.core import GPTVectorStoreIndex
+
+index = GPTVectorStoreIndex.from_documents(documents)
+query_engine = index.as_query_engine()
+response = query_engine.query("What does NLP stands for?")
+print(response.response)
+```
+
+### Saving and Loading Indexes Locally
+
+```python
+
 ```
