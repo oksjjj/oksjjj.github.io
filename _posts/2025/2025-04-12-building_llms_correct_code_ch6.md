@@ -11,11 +11,20 @@ image:
   src: "https://oksjjj.github.io/building_llms_code.png"
 ---
 
-## python 버전
+### python 버전
 
 3.9
 
 ### PromptTemplate
+
+```python
+from dotenv import load_dotenv
+import os
+load_dotenv('../env')
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
+```
 
 ```python
 from langchain import PromptTemplate
@@ -49,15 +58,6 @@ print("Answer:", response)
 ```
 
 ### FewShotPromptTemplate
-
-```python
-from dotenv import load_dotenv
-import os
-load_dotenv('../env')
-
-os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
-```
 
 ```python
 from langchain import FewShotPromptTemplate
@@ -384,10 +384,54 @@ dynamic_prompt = FewShotPromptTemplate(
 ### SemanticSimilarityExampleSelector
 
 ```python
-pip install langchain.deeplake
 pip install "deeplake[enterprise]<4.0.0"
 ```
 
-```python
+주피터 노트북 재시작 후 모두 실행
 
+```python
+from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
+from langchain.vectorstores import DeepLake
+from langchain.embeddings import OpenAIEmbeddings
+from langchain import FewShotPromptTemplate, PromptTemplate
+
+example_prompt = PromptTemplate(
+    input_variables=["input", "output"],
+    template ="Input:{input}\nOutput:{output}",
+)
+
+examples = [
+    {"input": "0°C", "output": "32°F"},
+    {"input": "10°C", "output": "50°F"},
+    {"input": "20°C", "output": "68°F"},
+    {"input": "30°C", "output": "86°F"},
+    {"input": "40°C", "output": "104°F"},
+]
+
+my_activeloop_org_id = "oksjjj"
+my_activeloop_dataset_name = "langchain_course_fewshot_selector"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+
+db = DeepLake(dataset_path=dataset_path)
+
+embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
+
+example_selector = SemanticSimilarityExampleSelector.from_examples(
+    examples, embeddings, db, k=1
+)
+
+similar_prompt = FewShotPromptTemplate(
+    example_selector=example_selector,
+    example_prompt=example_prompt,
+    prefix="Convert the temperature from Celsius to Fahrenheit",
+    suffix ="Input:{temperature}\nOutput:",
+    input_variables =["temperature"],
+)
+
+print(similar_prompt.format(temperature ="10°C"))
+print(similar_prompt.format(temperature ="30°C"))
+
+similar_prompt.example_selector.add_example({"input": "50°C", "output": "122°F"})
+
+print(similar_prompt.format(temperature ="40°C"))
 ```

@@ -204,7 +204,7 @@ print(summary.content)
 ### Data Connectors
 
 ```bash
-pip install llama-index==0.12
+pip install llama-index
 pip install wikipedia
 ```
 
