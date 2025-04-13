@@ -287,5 +287,48 @@ print(response.response)
 ### Saving and Loading Indexes Locally
 
 ```python
+# store index as vector embeddings on the disk
+index.storage_context.persist()
+# This saves the data in the 'storage' by default
+# to minimize repetitive processing
+```
 
+storage 디렉토리 삭제 후 실습  
+
+```python
+# Index Storage Checks
+import os.path
+from llama_index.core import VectorStoreIndex, StorageContext, load_index_from_storage
+
+from typing import List
+import wikipedia
+from llama_index.core.schema import Document
+from llama_index.core.readers.base import BaseReader
+
+class WikipediaReader(BaseReader):
+    """Reader for loading Wikipedia pages."""
+
+    def load_data(self, pages: List[str]) -> List[Document]:
+        documents = []
+        for page in pages:
+            try:
+                content = wikipedia.page(page).content
+                documents.append(Document(text=content))
+            except Exception as e:
+                print(f"Error loading page '{page}': {e}")
+        return documents
+
+# Let's see if our index already exists in storage.
+if not os.path.exists("./storage"):
+    # If not, we'll load the Wikipedia data and create a new index
+    loader = WikipediaReader()
+    documents = loader.load_data(["Natural language processing", "Artificial Intelligence"])
+    index = VectorStoreIndex.from_documents(documents)
+    # Index storing
+    index.storage_context.persist()
+
+else:
+    # If the index already exists, we'll just load it
+    storage_context = StorageContext.from_defaults(persist_dir="./storage")
+    index = load_index_from_storage(storage_context)
 ```
