@@ -51,6 +51,15 @@ print("Answer:", response)
 ### FewShotPromptTemplate
 
 ```python
+from dotenv import load_dotenv
+import os
+load_dotenv('../env')
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
+```
+
+```python
 from langchain import FewShotPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
