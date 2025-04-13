@@ -16,6 +16,15 @@ image:
 3.9
 
 ## LangChain
+
+```python
+from dotenv import load_dotenv
+import os
+load_dotenv('../env')
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
+```
   
 ### Prompt Templates
 
@@ -196,9 +205,7 @@ print(summary.content)
 
 ```bash
 pip install llama-index==0.12
-pip install elasticsearch llama-index-vector-stores-elasticsearch
 pip install wikipedia
-pip install llama-index-embeddings-langchain
 ```
 
 ```python
@@ -239,32 +246,23 @@ print(len(nodes))
 ### Vector Store Index
 
 ```python
-from elasticsearch import AsyncElasticsearch
-from llama_index.vector_stores.elasticsearch import ElasticsearchStore
-from langchain_openai import OpenAIEmbeddings
-
-es_client = AsyncElasticsearch(
-    "https://127.0.0.1:9200",
-    basic_auth=('elastic', 'password'),
-    verify_certs=False
-)
-
-es_index_name = "llamaindex_intro"
-
-vector_store = ElasticsearchStore(
-    index_name=es_index_name,
-    es_client=es_client,
-    recreate_index=True
-)
+pip install llama_index.vector_stores.deeplake
+pip install deeplake
+pip install llama-index-embeddings-langchain
 ```
 
 ```python
-from llama_index.core import StorageContext, VectorStoreIndex, Settings
-from langchain_openai import OpenAIEmbeddings
+from llama_index.vector_stores.deeplake import DeepLakeVectorStore
 
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+my_activeloop_org_id = "oksjjj"
+my_activeloop_dataset_name = "LlamaIndex_intro"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
-Settings.embed_model = embeddings
+vector_store = DeepLakeVectorStore(dataset_path=dataset_path, overwrite=False)
+```
+
+```python
+from llama_index.core import StorageContext, VectorStoreIndex
 
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
