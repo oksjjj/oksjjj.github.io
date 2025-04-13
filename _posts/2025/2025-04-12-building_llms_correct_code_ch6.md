@@ -376,6 +376,7 @@ dynamic_prompt = FewShotPromptTemplate(
 
 ```python
 pip install langchain.deeplake
+pip install "deeplake[enterprise]<4.0.0"
 ```
 
 ```python
