@@ -1,5 +1,5 @@
 ---
-title: Ch#2 - langchain으로 elastic store 만들기
+title: LangChain - Elasticstore
 author: oksjjj
 date: 2025-04-12 14:20:00 +0900
 categories: [LLM/RAG]

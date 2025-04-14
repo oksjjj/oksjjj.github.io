@@ -16,14 +16,11 @@ image:
 
 3.9
   
-  
-### pkg 설치
 ```bash
 pip install openai==1.70.0
 pip install python-dotenv
 ```  
-  
-### openai 환경 변수 설정
+
 ```python
 from dotenv import load_dotenv
 import os

@@ -15,8 +15,6 @@ image:
 
 3.9
 
-### PromptTemplate
-
 ```python
 from dotenv import load_dotenv
 import os
@@ -25,6 +23,8 @@ load_dotenv('../env')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
 ```
+
+### PromptTemplate
 
 ```python
 from langchain import PromptTemplate

@@ -1,5 +1,5 @@
 ---
-title: Ch#3 - llamaindex와 elasticsearch 연동하기
+title: Llama Index - Elasticstore
 author: oksjjj
 date: 2025-04-12 14:30:00 +0900
 categories: [LLM/RAG]

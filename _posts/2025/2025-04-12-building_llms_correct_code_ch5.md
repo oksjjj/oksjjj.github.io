@@ -15,8 +15,6 @@ image:
 
 3.9
 
-## LangChain
-
 ```python
 from dotenv import load_dotenv
 import os
