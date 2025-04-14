@@ -857,7 +857,6 @@ def create_graph_from_triplets(triplets):
     G = nx.DiGraph()
     for triplet in triplets:
         subject, predicate, obj = triplet.strip().split(',')
-        print(subject, predicate, obj)
         G.add_edge(subject.strip(), obj.strip(), label=predicate.strip())
     return G
 
