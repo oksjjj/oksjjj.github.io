@@ -441,7 +441,7 @@ print(similar_prompt.format(temperature ="40°C"))
 validator 는 field_validator로 변경
 
 ```python
-from langchain_core.output_parsers import PydanticOutputParser
+from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field, field_validator
 from typing import List
 
@@ -509,7 +509,7 @@ context={context}
 ```python
 class Suggestions(BaseModel):
     words:List[str]=Field(description="""list of substitute words based on context""")
-    reasons:List[str]=Field(description="""the reasonings of why this each word fits the context""")
+    reasons:List[str]=Field(description="""list of each substitute word's reasons why this each word fits the context""")
 
     @field_validator('words')
     def not_start_with_number(cls, field):
@@ -539,4 +539,346 @@ chain = prompt_template | model | StrOutputParser()
 
 output = chain.invoke({"target_word":target_word, "context": context})
 parser.parse(output)
+```
+
+### CommaSeparatedOutputParser
+
+```python
+from langchain.output_parsers import CommaSeparatedListOutputParser
+
+parser = CommaSeparatedListOutputParser()
+```
+
+```python
+from langchain import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+template = """
+Offser a list of suggestions to substitute the word '{target_word}'
+based on the following text:
+{context}.
+{format_instructions}
+"""
+
+prompt_template = PromptTemplate(
+    template=template,
+    input_variables=["target_word", "context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+
+chain = prompt_template | model | StrOutputParser()
+
+output = chain.invoke({"target_word": target_word, "context": context})
+
+parser.parse(output)
+```
+
+### OutputFixingParser
+
+"reasons" 가 있어야 하는데, "reasoning" 이 있어서 에러 발생
+
+```python
+from langchain.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+from typing import List
+
+class Suggestions(BaseModel):
+    words: List[str] = Field(description="""list of substitute words based on context""")
+    reasons: List[str] = Field(description="""list of each substitute word's reasons why this each word fits the context""")
+
+parser = PydanticOutputParser(pydantic_object=Suggestions)
+
+missformatted_output = '{"words":["conduct","manner"],' \
+'"reasoning":["refers to the way someone acts in a particular situation.",' \
+'"refers to the way someone behaves in a particular situation."]}'
+
+parser.parse(missformatted_output)
+```
+
+```python
+from langchain.output_parsers import OutputFixingParser
+
+outputfixing_parser = OutputFixingParser.from_llm(parser=parser, llm=model)
+outputfixing_parser.parse(missformatted_output)
+```
+
+### RetryOutputParser
+
+```python
+from langchain import PromptTemplate
+from langchain.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+from typing import List
+
+class Suggestions(BaseModel):
+    words: List[str] = Field(description="""list of substitute words based on the context""")
+    reasons: List[str] = Field(description="""list of each substitute word's reasons why this each word fits the context""")
+
+parser = PydanticOutputParser(pydantic_object=Suggestions)
+
+template = """
+Offer a list of suggestions to subtitute the specified target_word
+based on the presented context and the reasoning for each word.
+{format_instructions}
+target_word={target_word}
+context={context}
+"""
+
+prompt = PromptTemplate(
+    template=template,
+    input_variable=["target_word", "context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+
+model_input = prompt.format_prompt(target_word="behaviour",
+              context="""The behaviour of the students in the classroom was disruptive
+                         and made it difficult for the teacher to conduct the lesson.""")
+```
+
+```python
+from langchain.output_parsers import RetryWithErrorOutputParser
+
+missformatted_output = '{"words":["conduct","manner"]}'
+
+retry_parser = RetryWithErrorOutputParser.from_llm(parser=parser, llm=model)
+
+retry_parser.parse_with_prompt(missformatted_output, model_input)
+```
+
+### Improving News Articles Summarizer
+
+```python
+import requests
+from newspaper import Article
+
+headers = {
+    'User-Agent': """Mozilla/5.0(Windows NT 10.0;Win64;x64) AppleWebKit/537.76(KHTML,like Gecko) Chrome/89.0.4389.82 Safari/537.36"""
+}
+
+article_url = """https://www.artificialintelligence-news.com/2022/01/25/meta-claims-new-ai-super-computer-will-set-records/"""
+
+session = requests.Session()
+
+try:
+    response = session.get(article_url, headers=headers, timeout=10)
+
+    if response.status_code == 200:
+        article = Article(article_url)
+        article.download()
+        article.parse()
+
+        print(f"Title: {article.title}")
+        print(f"Text: {article.text}")
+
+    else:
+        print(f"Failed to fetch an article at {article_url}")
+
+except Exception as e:
+    print(f"Error occurred while fetching article at {article_url}: {e}")
+```
+
+```python
+from langchain.schema import HumanMessage
+
+template = """
+As an advanced AI, you've been tasked to summarize online articles into bulleted points.
+Here are a few examples of how you've done this in the past:
+
+Example 1:
+Original Article: 'The Effects of Climate Change
+Summary:
+-Climate change is causing a rise in global temperatures.
+-This leads to melting ice caps and rising sea levels.
+-Resulting in more frequent and severe weather conditions.
+
+Example 2:
+Original Article: 'The Evolution of Artificial Intelligence
+Summary:
+-Artificial Intelligence (AI) has developed significantly over the past decade.
+-AI is now used in multiple fields such as healthcare, finance, and transportation.
+-The future of AI is promising but requires careful regulation.
+
+Now, here's the article you need to summarize:
+
+==================
+Title:{article_title}
+
+{article_text}
+==================
+
+Please provide a summarized version of the article in a bulleted list format.
+"""
+
+prompt = template.format(article_title=article.title, article_text=article.text)
+
+messages = [HumanMessage(content=prompt)]
+```
+
+```python
+from langchain_openai import ChatOpenAI
+
+chat = ChatOpenAI(model_name="gpt-4-turbo", temperature=0.0)
+
+summary = chat.invoke(messages)
+
+print(summary.content)
+```
+
+```python
+from langchain.output_parsers import PydanticOutputParser
+from pydantic import field_validator
+from pydantic import BaseModel, Field
+from typing import List
+
+class ArticleSummary(BaseModel):
+    title: str = Field(description="Title of the article")
+    summary: List[str] = Field(description="Bulleted list summary of the article")
+
+    @field_validator('summary')
+    def has_three_or_more_lines(cls, list_of_lines):
+        if len(list_of_lines) < 3:
+            raise ValueError("Generated summary has less than three bullet points!")
+        return list_of_lines
+    
+parser = PydanticOutputParser(pydantic_object=ArticleSummary)
+```
+
+```python
+from langchain import PromptTemplate
+
+template = """
+You are a very good assistant that summarizes online articles.
+
+Here's the article you want to summarize.
+
+============================
+Title: {article_title}
+
+{article_text}
+============================
+
+{format_instructions}
+"""
+
+prompt_template = PromptTemplate(
+    template=template,
+    input_variables=["article_title", "article_text"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+```
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
+model = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.0)
+
+chain = prompt_template | model | StrOutputParser()
+
+output = chain.invoke({"article_title": article.title, "article_text": article.text})
+
+parsed_output = parser.parse(output)
+print(parsed_output)
+```
+
+### Creating Knowledge Graphs from Textual Data
+
+```python
+from langchain import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain_community.graphs.networkx_graph import KG_TRIPLE_DELIMITER
+
+_DEFAULT_KNOWLEDGE_TRIPLE_EXTRACTION_TEMPLATE = (
+    "You are a networked intelligence helping a human track knowledge triples"
+    "about all relevant people, things, concepts, etc. and integrating"
+    "them with your knowledge stored within your weights"
+    "as well as that stored in a knowledge graph."
+    "Extract all of the knowledge triples from the text."
+    "A knowledge triple is a clause that contains a subject, a predicate,"
+    "and an object. The subject is the entity being described,"
+    "the predicate is the property of the subject that is being"
+    "described, and the object is the value of the property.\n\n"
+    "EXAMPLE\n"
+    """It's a state in the US. It's also the number 1 producer of gold in the US.\n\n"""
+    f"Output:(Nevada,is a,state){KG_TRIPLE_DELIMITER}(Nevada,is in,US)"
+    f"{KG_TRIPLE_DELIMITER}(Nevada,is the number 1 producer of,gold)\n"
+    "END OF EXAMPLE\n\n"
+    "EXAMPLE\n"
+    "I'm going to the store.\n\n"
+    "Output: NONE\n"
+    "EXAMPLE\n"
+    """Oh huh. I know Descartes likes to drive antique scooters and play the mandolin.\n"""
+    f"""Output: (Descartes,likes to drive,antique scooters){KG_TRIPLE_DELIMITER}(Descartes,plays,mandolin)\n"""
+    "END OF EXAMPLE\n\n"
+    "EXAMPLE\n"
+    "{text}"
+    "Output:"
+)
+
+KNOWLEDGE_TRIPLE_EXTRACTION_PROMPT = PromptTemplate(
+    input_variables=["text"],
+    template=_DEFAULT_KNOWLEDGE_TRIPLE_EXTRACTION_TEMPLATE,
+)
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.9)
+
+chain = KNOWLEDGE_TRIPLE_EXTRACTION_PROMPT | llm | StrOutputParser()
+
+text = """The city of Paris is the capital and most populous city of France.
+The Eiffel Tower is a famous landmark in Paris."""
+
+triples = chain.invoke(text)
+
+print(triples)
+```
+
+```python
+def parse_triples(response, delimiter=KG_TRIPLE_DELIMITER):
+    if not response:
+        return []
+    return response.split(delimiter)
+
+triples_list = parse_triples(triples)
+
+print(triples_list)
+```
+
+```bash
+pip install pyvis
+```
+
+```python
+from pyvis.network import Network
+import networkx as nx
+
+# Create a NetworkX graph from the extracted relation triplets
+def create_graph_from_triplets(triplets):
+    G = nx.DiGraph()
+    for triplet in triplets:
+        subject, predicate, obj = triplet.strip().split(',')
+        print(subject, predicate, obj)
+        G.add_edge(subject.strip(), obj.strip(), label=predicate.strip())
+    return G
+
+# Convert the NetworkX graph to a PyVis network
+def nx_to_pyvis(networkx_graph):
+    pyvis_graph = Network(notebook=True)
+    for node in networkx_graph.nodes():
+        pyvis_graph.add_node(node)
+    for edge in networkx_graph.edges(data=True):
+        pyvis_graph.add_edge(edge[0],edge[1],label=edge[2]['label'])
+    return pyvis_graph
+
+triplets = [t.strip() for t in triples_list if t.strip()]
+graph = create_graph_from_triplets(triplets)
+pyvis_network = nx_to_pyvis(graph)
+
+# Customize the appearance of the graph
+pyvis_network.toggle_hide_edges_on_drag(True)
+pyvis_network.toggle_physics(False)
+pyvis_network.set_edge_smooth('discrete')
+
+# Show the interactive knowledge graph visualization
+pyvis_network.show('knowledge_graph.html')
 ```
