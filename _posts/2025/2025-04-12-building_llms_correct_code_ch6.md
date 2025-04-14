@@ -435,3 +435,108 @@ similar_prompt.example_selector.add_example({"input": "50°C", "output": "122°F
 
 print(similar_prompt.format(temperature ="40°C"))
 ```
+
+### PydanticOutputParser
+
+validator 는 field_validator로 변경
+
+```python
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field, field_validator
+from typing import List
+
+class Suggestions(BaseModel):
+    words:List[str] = Field(description="""list of substitute words based on context""")
+
+    @field_validator('words')
+    def not_start_with_number(cls, field):
+        for item in field:
+            if item[0].isnumeric():
+                raise ValueError("The word can not start with numbers!")
+        return field
+    
+parser = PydanticOutputParser(pydantic_object=Suggestions)
+```
+
+```python
+from langchain import PromptTemplate
+
+template = """
+Offer a list of suggestions to substitute the specified target_word based the presented context.
+{format_instructions}
+target_word={target_word}
+context={context}
+"""
+
+target_word = "behaviour"
+context = """The behaviour of the students in the classroom was disruptive 
+and made it difficult for the teacher to conduct the lesson"""
+
+prompt_template = PromptTemplate(
+    template=template,
+    input_variables=["target_word", "context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+```
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
+model_name = "gpt-3.5-turbo"
+temperature = 0
+model = ChatOpenAI(model_name=model_name, temperature=temperature)
+
+chain =  prompt_template | model | StrOutputParser()
+
+output = chain.invoke({"target_word": target_word, "context": context})
+
+parser.parse(output)
+```
+
+### Multiple Outputs Example
+
+```python
+template = """
+Offer a list of suggestions to substitute the specified target_word
+based on the presented context and the reasoning for each word.
+{format_instructions}
+target_word={target_word}
+context={context}
+"""
+```
+
+```python
+class Suggestions(BaseModel):
+    words:List[str]=Field(description="""list of substitute words based on context""")
+    reasons:List[str]=Field(description="""the reasonings of why this each word fits the context""")
+
+    @field_validator('words')
+    def not_start_with_number(cls, field):
+        for item in field:
+            if item[0].isnumeric():
+                raise ValueError("The word can not start with numbers!")
+        return field
+    
+    @field_validator('reasons')
+    def end_with_dot(cls, field):
+        for idx, item in enumerate(field):
+            if item[-1] != ".":
+                field[idx] += "."
+        return field
+```
+
+```python
+parser = PydanticOutputParser(pydantic_object=Suggestions)
+
+prompt_template = PromptTemplate(
+    template=template,
+    input_variables=["target_word", "context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+
+chain = prompt_template | model | StrOutputParser()
+
+output = chain.invoke({"target_word":target_word, "context": context})
+parser.parse(output)
+```
