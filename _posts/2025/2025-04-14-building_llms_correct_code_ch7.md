@@ -101,7 +101,7 @@ response = qa_chain.invoke(query)
 print(response)
 ```
 
-### ContextualCompressionRetriever
+### Contextual Compression Retriever
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -135,7 +135,7 @@ pages = loader.load_and_split()
 print(pages[0])
 ```
 
-### SeleniumURLLoader(URL)
+### Selenium URL Loader(URL)
 
 ```bash
 pip install unstructured selenium
@@ -174,4 +174,104 @@ print(texts[0])
 print(f"You have {len(texts)} documents")
 print("Preview:")
 print(texts[0].page_content)
+```
+
+### Recursive Character Text Splitter
+
+```python
+from langchain.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+loader = PyPDFLoader("Deep Learning for Natural Language Processing.pdf")
+pages = loader.load_and_split()
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=100,
+    length_function=len,
+)
+
+docs = text_splitter.split_documents(pages)
+for doc in docs:
+    print(doc)
+```
+
+### NLTK Text Splitter
+
+```python
+from langchain.text_splitter import NLTKTextSplitter
+
+with open('LLM.txt', encoding='unicode_escape') as f:
+    sample_text = f.read()
+
+text_splitter = NLTKTextSplitter(chunk_size=500)
+texts = text_splitter.split_text(sample_text)
+print(texts)
+```
+
+### Spacy Text Splitter
+
+```bash
+pip install spacy
+python -m spacy download en_core_web_sm
+```
+
+```python
+from langchain.text_splitter import SpacyTextSplitter
+
+with open('LLM.txt', encoding='unicode_escape') as f:
+    sample_text = f.read()
+
+text_splitter = SpacyTextSplitter(chunk_size=500, chunk_overlap=20)
+
+texts = text_splitter.split_text(sample_text)
+
+print(texts[0])
+```
+
+### Markdown Text Splitter
+
+```python
+from langchain.text_splitter import MarkdownTextSplitter
+
+markdown_text = """
+  
+#
+  
+# Welcome to My Blog!
+  
+## Introduction
+Hello everyone! My name is ** John Doe** and I am a _software developer_. I specialize in Python, Java, and JavaScript.  
+  
+Here's a list of my favorite programming languages:  
+  
+1. Python  
+2. JavaScript  
+3. Java  
+  
+You can check out some of my projects on [GitHub]( https:// github.com).  
+  
+## About this Blog
+In this blog, I will share my journey as a software developer. I'll post tutorials, my thoughts on the latest technology trends, and occasional book reviews.  
+  
+Here's a small piece of Python code to say hello:  
+  
+\``` python
+def say_hello( name):
+    print( f" Hello, {name}!")
+
+say_hello(" John")
+\```
+  
+Stay tuned for more updates!  
+  
+## Contact Me
+Feel free to reach out to me on [Twitter]( https:// twitter.com) or send me an email at johndoe@ email.com.
+
+"""
+
+markdown_splitter = MarkdownTextSplitter(chunk_size=100, chunk_overlap=0)
+docs = markdown_splitter.create_documents([markdown_text])
+
+print(docs)
 ```
