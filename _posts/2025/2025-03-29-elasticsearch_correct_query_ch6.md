@@ -1,5 +1,5 @@
 ---
-title: Elasticsearch The DEFINITIVE GUIDE 쿼리 현행화 - Chapter#6
+title: Ch#6 - Elasticsearch The DEFINITIVE GUIDE 쿼리 현행화
 author: oksjjj
 date: 2025-03-29 07:45:00 +0900
 categories: [Elasticsearch - The DEFINITIVE GUIDE]
