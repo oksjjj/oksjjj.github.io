@@ -741,3 +741,10 @@ wrapped_text = textwrap.fill(output_summary['output_text'],
 
 print(wrapped_text)
 ```
+
+```python
+chain = load_summarize_chain(llm, chain_type="refine")
+output_summary = chain.invoke(docs)
+wrapped_text = textwrap.fill(output_summary['output_text'], width=100)
+print(wrapped_text)
+```
