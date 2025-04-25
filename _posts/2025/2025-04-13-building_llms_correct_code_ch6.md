@@ -27,7 +27,7 @@ os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
 ### PromptTemplate
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
@@ -287,7 +287,7 @@ chain.invoke("I love programming.")
 ### Few-shot Prompting
 
 ```python
-from langchain import PromptTemplate, FewShotPromptTemplate
+from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 examples = [
@@ -459,7 +459,7 @@ parser = PydanticOutputParser(pydantic_object=Suggestions)
 ```
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 template = """
 Offer a list of suggestions to substitute the specified target_word based the presented context.
@@ -550,7 +550,7 @@ parser = CommaSeparatedListOutputParser()
 ```
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 template = """
@@ -605,7 +605,7 @@ outputfixing_parser.parse(missformatted_output)
 ### RetryOutputParser
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 from typing import List
@@ -744,7 +744,7 @@ parser = PydanticOutputParser(pydantic_object=ArticleSummary)
 ```
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 template = """
 You are a very good assistant that summarizes online articles.
@@ -784,7 +784,7 @@ print(parsed_output)
 ### Creating Knowledge Graphs from Textual Data
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.graphs.networkx_graph import KG_TRIPLE_DELIMITER

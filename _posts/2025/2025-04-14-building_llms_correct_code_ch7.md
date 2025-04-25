@@ -298,7 +298,7 @@ from langchain.vectorstores import DeepLake
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import ChatOpenAI
 from langchain.document_loaders import SeleniumURLLoader
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 ```
 
 ```python
@@ -408,4 +408,336 @@ most_similar_document = documents[most_similar_index]
 
 print(f"Most similar document to the query '{query}':")
 print(most_similar_document)
+```
+
+### Open-source Embedding Models
+
+```bash
+pip install sentence_transformers
+```
+
+```python
+from langchain.llms import HuggingFacePipeline
+from langchain.embeddings import HuggingFaceEmbeddings
+
+model_name = "sentence-transformers/all-mpnet-base-v2"
+model_kwargs = {'device': 'cpu'}
+hf = HuggingFaceEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
+
+documents = ["Document 1", "Document 2", "Document 3"]
+doc_embeddings = hf.embed_documents(documents)
+```
+
+### Cohere Embeddings
+
+```bash
+pip install cohere
+pip install langchain-cohere
+```
+
+```python
+import cohere
+from langchain_cohere import CohereEmbeddings
+
+cohere = CohereEmbeddings(
+    model="embed-multilingual-v2.0",
+    cohere_api_key=os.getenv("COHERE_API_KEY")
+)
+
+texts = [
+    "Hello from Cohere!",
+    "مرحبًا من كوهير!",
+    "Hallo von Cohere!",
+    "Bonjour de Cohere!",
+    "¡ Hola desde Cohere!",
+    "Olá do Cohere!",
+    "Ciao da Cohere!",
+    "您好，来自 Cohere！",
+    "कोहेरे से नमस्ते!"
+]
+
+document_embeddings = cohere.embed_documents(texts)
+
+for text, embedding in zip(texts, document_embeddings):
+    print(f"Text: {text}")
+    print(f"Embedding: {embedding[:5]}")
+```
+
+### Deep Lake Vector Store
+
+```python
+from langchain_openai import OpenAIEmbeddings
+from langchain.vectorstores import DeepLake
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import ChatOpenAI
+from langchain.chains import RetrievalQA
+```
+
+```python
+texts = [
+    "Napoleon Bonaparte was born in 15 August 1769",
+    "Louis XIV was born in 5 September 1638",
+    "Lady Gaga was born in 28 March 1986",
+    "Michael Jeffrey Jordan was born in 17 February 1963"
+]
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+docs = text_splitter.create_documents(texts)
+```
+
+```python
+embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
+
+my_activeloop_org_id = "oksjjj"
+my_activeloop_dataset_name = "langchain_course_embeddings"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+
+db.add_documents(docs)
+```
+
+```python
+retriever = db.as_retriever()
+```
+
+```python
+model = ChatOpenAI(model="gpt-3.5-turbo")
+qa_chain = RetrievalQA.from_llm(model, retriever=retriever)
+qa_chain.invoke("When was Michael Jordan born?")
+```
+
+### LLMChain
+
+```python
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
+prompt_template = "What is a word to replace the following:{word}?"
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+
+llm_chain = PromptTemplate.from_template(prompt_template) | llm | StrOutputParser()
+```
+
+```python
+llm_chain.invoke("artificial")
+```
+
+```python
+input_list = [
+    {"word":"artificial"},
+    {"word":"intelligence"},
+    {"word":"robot"}
+]
+
+llm_chain.batch(input_list)
+```
+
+```python
+prompt_template = """Looking at the context of '{context}'.\
+What is an appropriate word to replace the following:{word}:"""
+
+llm_chain = PromptTemplate.from_template(template=prompt_template) | llm | StrOutputParser()
+
+llm_chain.invoke({"word":"fan", "context":"object"})
+```
+
+```python
+llm_chain.invoke({"word":"fan", "context":"humans"})
+```
+
+### Conversational Chain
+
+```python
+from langchain_core.output_parsers import CommaSeparatedListOutputParser
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationChain
+
+output_parser = CommaSeparatedListOutputParser()
+
+conversation = ConversationChain(
+    llm=llm,
+    memory=ConversationBufferMemory()
+)
+
+response = conversation.invoke({"input":"""List all possible words as substitute for 'artificial' as comma separated."""})
+response['response']
+```
+
+```python
+response = conversation.invoke({'input': "And the next 4?"})
+response['response']
+```
+
+### Simple Sequential Chain
+
+```python
+from langchain.chains import SimpleSequentialChain
+
+overall_chain = SimpleSequentialChain(chains=[chain_one, chain_two])
+```
+
+### Debug
+
+```python
+template = """List all possible words as substitute for 'artificial' as comma separated.
+
+Current conversation:
+{history}
+
+{input}"""
+
+conversation = ConversationChain(
+    llm=llm,
+    prompt=PromptTemplate(template=template,
+                          input_variables=["history","input"],
+                          output_parser=output_parser),
+    memory=ConversationBufferMemory(),
+    verbose=True)
+
+conversation.invoke({"input":""})
+```
+
+### Custom Chain
+
+```python
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import Runnable
+from typing import Dict, List
+
+class ConcatenateChain(Runnable):
+    def __init__(self, chain_1: Runnable, chain_2: Runnable):
+        self.chain_1 = chain_1
+        self.chain_2 = chain_2
+
+    def invoke(self, input: str) -> dict:
+        output1 = self.chain_1.invoke({"word": input})
+        output2 = self.chain_2.invoke({"word": input})
+
+        return {
+            "concat_output": f"{output1}\n{output2}"
+        }
+```
+
+```python
+prompt_1 = PromptTemplate(
+    input_variables=["word"],
+    template="What is the meaning of the following word: {word}?",
+)
+
+chain_1 = prompt_1 | llm | StrOutputParser()
+
+prompt_2 = PromptTemplate(
+    input_variables=["word"],
+    template="What is the word to replace the following: {word}?",
+)
+
+chain_2 = prompt_2 | llm | StrOutputParser()
+
+concat_chain = ConcatenateChain(chain_1=chain_1, chain_2=chain_2)
+concat_output = concat_chain.invoke("artificial")
+print(f"Concatenated output:\n{concat_output['concat_output']}")
+```
+
+### A YouTube Video Summarizer
+
+```bash
+pip install yt_dlp git+https://github.com/openai/whisper.git
+```
+
+```bash
+brew install ffmpeg
+```
+
+```python
+import yt_dlp
+
+def download_mp4_from_youtube(url):
+    filename = 'lecuninterview.mp4'
+    ydl_opts = {
+        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]',
+        'outtmpl': filename,
+        'quiet': True,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        result = ydl.extract_info(url, download=True)
+
+url = "https://www.youtube.com/watch?v=mBjPyte2ZZo"
+download_mp4_from_youtube(url)
+```
+
+```python
+with open('text.txt', 'w') as file:
+    file.write(result['text'])
+```
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain.chains.mapreduce import MapReduceChain
+from langchain_core.prompts import PromptTemplate
+from langchain.chains.summarize import load_summarize_chain
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+```
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000, chunk_overlap=0, separators=[" ", ",", "\n"]
+)
+```
+
+```python
+from langchain.docstore.document import Document
+
+with open('text.txt') as f:
+    text = f.read()
+
+texts = text_splitter.split_text(text)
+docs = [Document(page_content=t) for t in texts[:4]]
+```
+
+```python
+from langchain.chains.summarize import load_summarize_chain
+import textwrap
+
+chain = load_summarize_chain(llm, chain_type="map_reduce")
+
+output_summary = chain.invoke(docs)
+wrapped_text = textwrap.fill(output_summary['output_text'], width=100)
+print(wrapped_text)
+```
+
+```python
+print(chain.llm_chain.prompt.template)
+```
+
+```python
+prompt_template = """Write a concise bullet summary of the following:
+
+{text}
+
+CONCISE SUMMARY IN BULLET POINTS:"""
+
+BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
+                                     input_variables=["text"])
+```
+
+```python
+chain = load_summarize_chain(llm,
+                             chain_type="stuff",
+                             prompt=BULLET_POINT_PROMPT)
+
+output_summary = chain.invoke(docs)
+
+wrapped_text = textwrap.fill(output_summary['output_text'],
+                             width=1000,
+                             break_long_words=False,
+                             replace_whitespace=False)
+
+print(wrapped_text)
 ```

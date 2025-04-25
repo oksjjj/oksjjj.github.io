@@ -176,7 +176,7 @@ print("Emotion:", response)
 ### Role Prompting
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
@@ -200,7 +200,7 @@ input_data = {"theme": "interstella travel", "year": "3030"}
 chain = prompt | llm | StrOutputParser()
 
 # Run the chain
-respone = chain.invoke(input_data)
+response = chain.invoke(input_data)
 
 print("Theme: interstellar travel")
 print("Year: 3030")
@@ -210,7 +210,7 @@ print("AI-generated song title:", response)
 ### Chain Prompting
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
@@ -240,7 +240,7 @@ print("Fact:", response_fact)
 ### Bad Prompt Practices
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 template = "Tell me something about {topic}"
 prompt = PromptTemplate(
@@ -251,7 +251,7 @@ prompt.format(topic="dogs")
 ```
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
@@ -280,7 +280,7 @@ print("Fact:", response_fact)
 ```
 
 ```python
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 

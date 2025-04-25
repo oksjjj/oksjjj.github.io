@@ -57,7 +57,7 @@ pip install pypdf
 
 ```python
 from langchain_openai import ChatOpenAI
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain.chains.summarize import load_summarize_chain
 from langchain.document_loaders import PyPDFLoader
 
