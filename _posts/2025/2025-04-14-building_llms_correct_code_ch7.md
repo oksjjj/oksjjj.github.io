@@ -864,3 +864,253 @@ qa = RetrievalQA.from_chain_type(llm=llm,
 
 print(qa.invoke("Summarize the mentions of google according to their AI program")['result'])
 ```
+
+### A Voice Assistant for Your Knowledge Base
+
+```bash
+pip install -q elevenlabs streamlit beautifulsoup4 audio-recorder-streamlit streamlit-chat
+```
+
+```python
+os.environ['ELEVEN_API_KEY'] = os.getenv('ELEVEN_API_KEY')
+```
+
+script.py file
+
+```python
+import os
+import requests
+from bs4 import BeautifulSoup
+from langchain_openai import OpenAIEmbeddings
+from langchain.vectorstores import DeepLake
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.document_loaders import TextLoader
+import re
+from dotenv import load_dotenv
+
+load_dotenv('../env')
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
+
+my_activeloop_org_id = "oksjjj"
+my_activeloop_dataset_name = "langchain_course_jarvis_assistant"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+
+embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
+
+def get_documentation_urls():
+    return [
+        '/docs/huggingface_hub/guides/overview',
+        '/docs/huggingface_hub/guides/download',
+        '/docs/huggingface_hub/guides/upload',
+        '/docs/huggingface_hub/guides/hf_file_system',
+        '/docs/huggingface_hub/guides/repository',
+        '/docs/huggingface_hub/guides/search',
+    ]
+
+def construct_full_url(base_url, relative_url):
+    return base_url + relative_url
+
+def scrape_page_content(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    text = soup.body.text.strip()
+
+    # Remove non-ASCII characters
+    text = re.sub(r'[\x00-\x08\x0b-\x0c\x0e-\x1f\x7f-\xff]', '', text)
+
+    # Remove extra whitespaces and newlines
+    text = re.sub(r'\s+', '', text)
+
+    return text.strip()
+
+def scrape_all_content(base_url, relative_urls, filename):
+    content = []
+
+    for relative_url in relative_urls:
+        full_url = construct_full_url(base_url, relative_url)
+        scraped_content = scrape_page_content(full_url)
+        content.append(scraped_content.rstrip('\n'))
+
+    with open(filename, 'w', encoding='utf-8') as file:
+        for item in content:
+            file.write("%s\n" % item)
+
+    return content
+
+def load_docs(root_dir, filename):
+    docs = []
+
+    try:
+        loader = TextLoader(os.path.join(
+            root_dir, filename), encoding='utf-8')
+        docs.extend(loader.load_and_split())
+
+    except Exception as e:
+        pass
+
+    return docs
+
+def split_docs(docs):
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    return text_splitter.split_documents(docs)
+
+
+def main():
+    base_url = 'https://huggingface.co'
+    filename = 'content.txt'
+    root_dir = './'
+    relative_urls = get_documentation_urls()
+
+    content = scrape_all_content(base_url, relative_urls, filename)
+    docs = load_docs(root_dir, filename)
+    texts = split_docs(docs)
+
+    db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+    db.add_documents(texts)
+    os.remove(filename)
+
+if __name__ == '__main__':
+    main()
+```
+
+chat.py file
+```python
+import os
+import openai
+from openai import OpenAI
+import streamlit as st
+from audio_recorder_streamlit import audio_recorder
+from elevenlabs.client import ElevenLabs
+from langchain.chains import RetrievalQA
+from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+from langchain.vectorstores import DeepLake
+from streamlit_chat import message
+from dotenv import load_dotenv
+
+load_dotenv('../env')
+
+TEMP_AUDIO_PATH = "temp_audio.wav"
+AUDIO_FORMAT = "audio/wav"
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['ACTIVELOOP_TOKEN'] = os.getenv('ACTIVELOOP_TOKEN')
+
+my_activeloop_org_id = "oksjjj"
+my_activeloop_dataset_name = "langchain_course_jarvis_assistant"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+
+client = OpenAI()
+eleven_client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
+
+def load_embeddings_and_database(active_loop_data_set_path):
+    embeddings = OpenAIEmbeddings()
+    db = DeepLake(
+        dataset_path=active_loop_data_set_path,
+        read_only=True,
+        embedding_function=embeddings
+    )
+    return db
+
+def transcribe_audio(audio_file_path):
+    try:
+        with open(audio_file_path, "rb") as audio_file:
+            audio_file.seek(0)
+            response = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                response_format="text"
+            )
+        return response
+    
+    except Exception as e:
+        print(f"Error calling Whisper API: {str(e)}")
+        return None
+    
+def record_and_transcribe_audio():
+    audio_bytes = audio_recorder()
+    transcription = None
+    if audio_bytes:
+        st.audio(audio_bytes, format=AUDIO_FORMAT)
+
+        with open(TEMP_AUDIO_PATH, "wb") as f:
+            f.write(audio_bytes)
+
+        if st.button("Transcribe"):
+            transcription = transcribe_audio(TEMP_AUDIO_PATH)
+            os.remove(TEMP_AUDIO_PATH)
+            display_transcription(transcription)
+
+    return transcription
+
+def display_transcription(transcription):
+    if transcription:
+        st.write(f"Transcription: {transcription}")
+        with open("audio_transcription.txt", "w+") as f:
+            f.write(transcription)
+    else:
+        st.write("Error transcribing audio.")
+
+def get_user_input(transcription):
+    return st.text_input("", value=transcription if transcription else "",
+                         key="input")
+
+def search_db(user_input, db):
+    print(user_input)
+    retriever = db.as_retriever(
+        search_type='mmr',
+        search_kwargs={
+            "distance_metric": "cos",
+            "fetch_k": 100,
+            "k": 4,
+        }
+    )
+    model = ChatOpenAI(model_name='gpt-3.5-turbo')
+    qa = RetrievalQA.from_llm(model, retriever=retriever,
+                              return_source_documents=True)
+    return qa({'query': user_input})
+
+def display_conversation(history):
+    for i in range(len(history["generated"])):
+        message(history["past"][i], is_user=True, key=str(i)+"_user")
+        message(history["generated"][i], key=str(i))
+        text = history["generated"][i]
+        audio = eleven_client.generate(
+            text=text,
+            # voice="Anna",
+            model="eleven_multilingual_v2")
+        audio_bytes = b"".join(audio)
+        st.audio(audio_bytes, format="audio/mpeg")
+
+
+def main():
+    st.write("#JavisBase 🧙")
+
+    db = load_embeddings_and_database(dataset_path)
+
+    transcription = record_and_transcribe_audio()
+
+    user_input = get_user_input(transcription)
+
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = ["I am ready to help you"]
+
+    if "past" not in st.session_state:
+        st.session_state["past"] = ["Hey there!"]
+
+    if user_input:
+        output = search_db(user_input, db)
+        print(output['source_documents'])
+        st.session_state.past.append(user_input)
+        response = str(output["result"])
+        st.session_state.generated.append(response)
+
+    if st.session_state["generated"]:
+        display_conversation(st.session_state)
+
+if __name__ == "__main__":
+    main()
+```
