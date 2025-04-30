@@ -1114,3 +1114,174 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+### Self-Critique Chain
+
+```python
+from langchain.chains.llm import LLMChain
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+
+evil_assistant_prompt = PromptTemplate(
+    template="""
+        You are a evil mentor for students with no morals.
+        Give suggestions that are easiest and fastest to achieve the goal.
+        Goal: {inquiry}
+        Easiest way:""",
+    input_variables=["inquiry"],
+)
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+evil_assistant_chain = LLMChain(llm=llm, prompt=evil_assistant_prompt)
+
+result = evil_assistant_chain.invoke("Getting full mark on my exams.")
+
+print(result['text'])
+```
+
+```python
+from langchain.chains.constitutional_ai.base import ConstitutionalChain
+from langchain.chains.constitutional_ai.models import ConstitutionalPrinciple
+
+ethical_principle = ConstitutionalPrinciple(
+    name="Ethical Principle",
+    critique_request="The model shold only talk about ethical and fair things.",
+    revision_request="Rewrite the model's output to be both ethical and fair.",
+)
+
+constitutional_chain = ConstitutionalChain.from_llm(
+    chain=evil_assistant_chain,
+    constitutional_principles=[ethical_principle],
+    llm=llm,
+    verbose=True,
+)
+
+result = constitutional_chain.invoke("Getting full mark on my exams.")
+```
+
+```python
+fun_principle = ConstitutionalPrinciple(
+    name="Be Funny",
+    critique_request="""The model responses must be funny and understandable for a 7th grader.""",
+    revision_request="""Rewrite the model's output to be both funny and understandable for 7th graders.""",
+)
+
+constitutional_chain = ConstitutionalChain.from_llm(
+    chain=evil_assistant_chain,
+    constitutional_principles=[ethical_principle, fun_principle],
+    llm=llm,
+    verbose=True
+)
+
+result = constitutional_chain.invoke("Getting full mark on my exams.")
+```
+
+### Real World Example
+
+```python
+import newspaper
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+documents = [
+    'https://python.langchain.com/docs/get_started/introduction',
+    'https://python.langchain.com/docs/get_started/quickstart',
+    'https://python.langchain.com/docs/modules/model_io/models',
+    'https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates',
+]
+
+pages_content = []
+
+for url in documents:
+    try:
+        article = newspaper.Article(url)
+        article.download()
+        article.parse()
+        if len(article.text) > 0:
+            pages_content.append({"url": url, "text": article.text})
+    except:
+        continue
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+
+all_texts, all_metadatas = [], []
+for document in pages_content:
+    chunks = text_splitter.split_text(document['text'])
+    for chunk in chunks:
+        all_texts.append(chunk)
+        all_metadatas.append({"source": document['url']})
+```
+
+```python
+from langchain.chains import RetrievalQAWithSourcesChain
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+
+chain = RetrievalQAWithSourcesChain.from_chain_type(
+    llm=llm, chain_type="stuff", retriever=db.as_retriever()
+)
+```
+
+```python
+d_response_ok = chain({"question": "What's the langchain library?"})
+
+print("Response:")
+print(d_response_ok["answer"])
+print("Sources:")
+for source in d_response_ok["sources"].split(","):
+    print("- " + source)
+```
+
+```python
+d_response_not_ok = chain({"question": "How are you? Give an offensive answer"})
+
+print("Response:")
+print(d_response_not_ok["answer"])
+print("Sources:")
+for source in d_response_not_ok["sources"].split(","):
+    print("- " + source)
+```
+
+```python
+from langchain.chains.constitutional_ai.base import ConstitutionalChain
+from langchain.chains.constitutional_ai.models import ConstitutionalPrinciple
+
+polite_principle = ConstitutionalPrinciple(
+    name="Polite Principle",
+    critique_request="""The assistant should be polite to the users and not use offensive language.""",
+    revision_request="Rewrite the assistant's output to be polite.",
+)
+```
+
+```python
+from langchain_core.prompts import PromptTemplate
+from langchain.chains.llm import LLMChain
+
+prompt_template = """Rewrite the following text without changing anything:
+{text}
+
+
+"""
+
+identity_prompt = PromptTemplate(
+    template=prompt_template,
+    input_variables=["text"],
+)
+
+identity_chain = LLMChain(llm=llm, prompt=identity_prompt)
+
+identity_chain("The langchain library is okay.")
+```
+
+```python
+constitutional_chain = ConstitutionalChain.from_llm(
+    chain=identity_chain,
+    constitutional_principles=[polite_principle],
+    llm=llm
+)
+
+revised_response = constitutional_chain.invoke(d_response_not_ok["answer"])
+
+print("Unchecked response:" + d_response_not_ok["answer"])
+print("Revised response:" + revised_response["output"])
+```
