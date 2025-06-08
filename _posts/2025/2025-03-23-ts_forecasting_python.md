@@ -5,10 +5,6 @@ date: 2025-03-23 19:00:00 +0900
 categories: [Book Review]
 tags: [시계열 분석, ARIMA, LSTM, Python, book, 책, review, 리뷰]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/ts_forecasting_python.png
-  alt: (Book Review) Time Series Forecasting in Python
-  src: "https://oksjjj.github.io/thumbnail/ts_forecasting_python.png"
 ---
 
 ## **읽게 된 계기**

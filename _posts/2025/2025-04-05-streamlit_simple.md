@@ -5,10 +5,6 @@ date: 2025-04-05 10:50:00 +0900
 categories: [Book Review]
 tags: [Streamlit]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/streamlit_simple.png
-  alt: (Book Review) Web App Development Made Simple with Streamlit
-  src: "https://oksjjj.github.io/thumbnail/streamlit_simple.png"
 ---
 
 ## **읽게 된 계기**

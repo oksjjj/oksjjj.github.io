@@ -5,10 +5,6 @@ date: 2025-06-02 22:30:00 +0900
 categories: [Book Review]
 tags: [머신러닝, 딥러닝, 파이토치]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/mlbook_pytorch.png
-  alt: (Book Review) 머신러닝 교과서 파이토치 편
-  src: "https://oksjjj.github.io/thumbnail/mlbook_pytorch.png"
 ---
 
 ## **읽게 된 계기**

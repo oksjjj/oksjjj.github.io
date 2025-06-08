@@ -5,10 +5,6 @@ date: 2025-04-12 14:20:00 +0900
 categories: [LLM/RAG]
 tags: [llamaindex, elasticsearch]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/rag_code.png
-  alt: RAG Driven generative AI 실습 코드 현행화
-  src: "https://oksjjj.github.io/rag_code.png"
 ---
 
 ### python 버전

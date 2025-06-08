@@ -5,10 +5,6 @@ date: 2025-04-05 09:30:00 +0900
 categories: [Streamlit]
 tags: [Streamlit, footer, burger icon, remove]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/streamlit_tip.png
-  alt: Streamlit Tip
-  src: "https://oksjjj.github.io/streamlit_tip.png"
 ---
 
 app.py 파일 하단에 아래 코드를 추가하면  

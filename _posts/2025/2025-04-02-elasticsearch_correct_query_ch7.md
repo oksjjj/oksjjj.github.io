@@ -5,10 +5,6 @@ date: 2025-04-02 18:45:00 +0900
 categories: [Elasticsearch - The DEFINITIVE GUIDE]
 tags: [Elasticsearch]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/elasticsearch_correct_query.png
-  alt: Elasticsearch The DEFINITIVE GUIDE 쿼리 현행화
-  src: "https://oksjjj.github.io/elasticsearch_correct_query.png"
 ---
 
 

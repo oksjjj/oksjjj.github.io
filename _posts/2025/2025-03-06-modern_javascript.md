@@ -5,10 +5,6 @@ date: 2025-03-06 20:30:00 +0900
 categories: [Book Review]
 tags: [자바스크립트, js, 웹, web, 개발, book, 책, review, 리뷰]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/modern_javascript.png
-  alt: (Book Review) Do it! 모던 자바스크립트 프로그래밍의 정석
-  src: "https://oksjjj.github.io/thumbnail/modern_javascript.png"
 ---
 
 ## **읽게 된 계기**

@@ -5,10 +5,6 @@ date: 2025-06-03 19:20:00 +0900
 categories: [Book Review]
 tags: [머신러닝, 딥러닝, 수학, 파이썬, R]
 render_with_liquid: false
-image:
-  path: /assets/img/thumbnail/ml_math_python_r.png
-  alt: (Book Review) 머신러닝을 위한 수학 with 파이썬, R
-  src: "https://oksjjj.github.io/thumbnail/ml_math_python_r.png"
 ---
 
 ## **읽게 된 계기**
