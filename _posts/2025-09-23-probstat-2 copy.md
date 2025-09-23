@@ -20,7 +20,7 @@ $$
 
 이는 확률밀도함수 그래프 아래의 적분된 면적으로 해석될 수 있다.
 
-<img src="/assets/img/probstat/2/image_1.png" width="600px">
+<img src="/assets/img/probstat/2/image_1.png" alt="image" width="600px">
 
 ---
 
@@ -120,7 +120,7 @@ $$
 
 여기서 $f_X(x)$는 **단위 길이당 확률 질량 (probability mass per unit length)** 을 의미한다.
 
-<img src="/assets/img/probstat/2/image_2.png" width="480px">
+<img src="/assets/img/probstat/2/image_2.png" alt="image" width="480px">
 
 ---
 
@@ -140,7 +140,7 @@ c & \text{if } a \leq x \leq b, \\
 c = \frac{1}{b-a}.
 $$
 
-<img src="/assets/img/probstat/2/image_3.png" width="480px">
+<img src="/assets/img/probstat/2/image_3.png" alt="image" width="480px">
 
 ---
 
@@ -303,7 +303,7 @@ $$
 - $x \to -\infty$일 때 $F_X(x) \to 0$,  
   $x \to \infty$일 때 $F_X(x) \to 1$이다.  
   
-<img src="/assets/img/probstat/2/image_4.png" width="480px">
+<img src="/assets/img/probstat/2/image_4.png" alt="image" width="480px">
 
 ---
 
@@ -348,7 +348,7 @@ $$
 f_X(x) = \frac{1}{\sqrt{2\pi}\sigma} \, e^{-\frac{(x - \mu)^2}{2\sigma^2}}
 $$
 
-<img src="/assets/img/probstat/2/image_5.png" width="600px">
+<img src="/assets/img/probstat/2/image_5.png" alt="image" width="600px">
 
 ---
 
@@ -686,7 +686,7 @@ f_{X \mid A}(x \mid A) =
 \end{cases}
 $$  
 
-<img src="/assets/img/probstat/2/image_6.png" width="400px">
+<img src="/assets/img/probstat/2/image_6.png" alt="image" width="400px">
 
 ---
 
@@ -930,7 +930,7 @@ $$
 \Sigma_{i,j} = \mathbb{E}[(X_i - \mu_i)(X_j - \mu_j)] = \mathrm{Cov}[X_i, X_j]
 $$
 
-<img src="/assets/img/probstat/2/image_7.png" width="600px">
+<img src="/assets/img/probstat/2/image_7.png" alt="image" width="600px">
 
 ---
 
@@ -1066,7 +1066,7 @@ $$
 
 ## p25. 다변량 가우시안 확률변수
 
-<img src="/assets/img/probstat/2/image_8.png" width="720px">
+<img src="/assets/img/probstat/2/image_8.png" alt="image" width="720px">
 
 ---
 
@@ -1082,7 +1082,7 @@ $$
 
 ## p26. 왜 다변량 가우시안 확률변수인가?
 
-<img src="/assets/img/probstat/2/image_9.png" width="720px">
+<img src="/assets/img/probstat/2/image_9.png" alt="image" width="720px">
 
 ---
 
@@ -1100,7 +1100,7 @@ $$
 
 경제학 이론에서 **폰 노이만-모겐슈테른 효용 함수**(Von Neumann-Morgenstern Utility Function)를 생각해 보자.
 
-<img src="/assets/img/probstat/2/image_10.png" width="720px">
+<img src="/assets/img/probstat/2/image_10.png" alt="image" width="720px">
 
 ---
 
@@ -1766,7 +1766,7 @@ $$
 \hat{\lambda} = \frac{1}{\overline{T}_n}
 $$  
 
-<img src="/assets/img/probstat/2/image_11.png" width="480px">
+<img src="/assets/img/probstat/2/image_11.png" alt="image" width="480px">
 
 - 평균과 분산:  
 $$
