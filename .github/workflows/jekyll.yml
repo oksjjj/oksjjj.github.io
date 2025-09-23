@@ -17,11 +17,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 2. Ruby, Bundler 설치
+      # 2. Ruby, Bundler 설치 (Ruby 버전 3.1 이상으로 변경)
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'  # 사용하려는 Ruby 버전 설정
+          ruby-version: '3.1'  # Ruby 버전 3.1 이상으로 변경
           bundler-cache: true  # Bundler 캐시 활성화
 
       # 3. Jekyll 및 의존성 설치
