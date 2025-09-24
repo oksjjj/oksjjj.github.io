@@ -10,7 +10,7 @@ tags: []
 
 > 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
 
-## 정보 검색 개요
+## p2. 정보 검색 개요
 
 <img src="/assets/img/bigdatasearch/2/image_1.png" alt="image" width="540px">
 
@@ -54,7 +54,7 @@ User task → Info need → Query → Search engine → Results → Query refine
 
 ---
 
-## 정보 검색 개요
+## p3. 정보 검색 개요
 
 **정보 검색의 핵심 구성요소**
 
@@ -76,7 +76,7 @@ User task → Info need → Query → Search engine → Results → Query refine
 
 ---
 
-## 정보 검색 개요
+## p4. 정보 검색 개요
 
 - **정확성(Relevance)**: 검색된 문서가 사용자의 질의와 얼마나 관련 있는지를 판단하는 주관적인 기준으로 전문가 그룹이 판단  
 
@@ -114,7 +114,7 @@ $$
 
 ---
 
-## 인터넷 정보검색 시스템
+## p5. 인터넷 정보검색 시스템
 
 - **인터넷에 있는 대량의 정보를 수집하여 사용자의 입맛에 맞게 검색해주는 것**
 
@@ -135,7 +135,7 @@ $$
 
 ---
 
-## 인터넷 정보검색 시스템
+## p6. 인터넷 정보검색 시스템
 
 - **엄청난 양의 정보**  
     - **2025년 웹 데이터 총량?**  
@@ -168,7 +168,7 @@ $$
 
 ---
 
-## 인터넷 정보검색 시스템  
+## p7. 인터넷 정보검색 시스템  
   
 **색인**
 
@@ -189,7 +189,7 @@ $$
 
 ---
 
-## 검색
+## p8. 검색
 
 - **역 파일 구조 탐색**  
     - 검색키워드를 포함하는 문서의 집합을 역파일 구조로부터 가져온다.  
@@ -206,7 +206,7 @@ $$
 
 ---
 
-## 검색
+## p9. 검색
 
 - **불리언 연산(boolean)** : AND, OR, NOT  
 
@@ -238,7 +238,7 @@ $$
 
 ---
 
-## 랭킹
+## p10. 랭킹
 
 - **Boolean**  
     - 해당 키워드가 나오면 1, 나오지 않으면 0  
@@ -279,7 +279,7 @@ $$
 
 ---
 
-## 색인 
+## p11. 색인 
 
 <img src="/assets/img/bigdatasearch/2/image_2.png" alt="image" width="600px">
 
@@ -329,7 +329,7 @@ $$
 
 ---
 
-## 색인 
+## p12. 색인 
 
 <img src="/assets/img/bigdatasearch/2/image_3.png" alt="image" width="600px">
 
@@ -345,7 +345,7 @@ $$
 
 ---
 
-## 색인 
+## p13. 색인 
 
 - **색인 용어의 결정**  
   - 출현빈도가 높은 용어는 부적합  
@@ -372,7 +372,7 @@ $$
 
 ---
 
-## 검색
+## p14. 검색
 
 - **Query Optimization**  
   - Query 처리의 최적 순서는 ?  
@@ -411,7 +411,7 @@ $$
 
 ---
 
-## Phrase Query와 위치 색인
+## p15. Phrase Query와 위치 색인
 
 - **“합성 데이터”와 같이 Query가 구문으로 주어진 경우**  
   - 다음의 문장들이 검색될까?  
@@ -458,7 +458,7 @@ $$
 
 ---
 
-## Phrase Query와 위치 색인
+## p16. Phrase Query와 위치 색인
 
 - **Biword 색인의 문제 및 Issue**  
   - False positives  
@@ -492,7 +492,7 @@ $$
 
 ---
 
-## 검색
+## p17. 검색
 
 - **Boolean Query Processing**  
   - Query: “인공지능” and “기술”  
@@ -539,7 +539,7 @@ $$
 
 ---
 
-## Phrase Query와 위치 색인
+## p18. Phrase Query와 위치 색인
 
 - **위치 색인(Positional Indexing): 표준적으로 사용**  
   - 각 색인어에 대해 색인어의 토큰이 출현했던 위치를 색인  
@@ -595,7 +595,7 @@ $$
 
 ---
 
-## Boolean 검색
+## p19. Boolean 검색
 
 - **Boolean Queries**  
   - 문서의 포함 또는 제외 여부를 결정  
@@ -626,7 +626,7 @@ $$
    
 ---
 
-## 색인 – Scalable Index 구성
+## 20. 색인 – Scalable Index 구성
 
 - 예시 데이터 셋: Reuters newswire (part of 1995 and 1996)
 
@@ -644,7 +644,7 @@ $$
 
 ---
 
-## 색인 – Scalable Index 구성
+## 21. 색인 – Scalable Index 구성
 
 | symbol | statistic                                   | value        | 설명 |
 |--------|---------------------------------------------|--------------|------|
@@ -683,7 +683,7 @@ $$
 
 ---
 
-## 색인 – Scalable Index 구성
+## p22. 색인 – Scalable Index 구성
 
 **Single-pass in-memory indexing**
 
@@ -732,7 +732,7 @@ SPIMI-INVERT(token_stream)
 
 ---
 
-## 색인 – distributed Indexing
+## p23. 색인 – distributed Indexing
 
 - 입력 문서 집합을 **splits** 단위로 분할  
 - **Master**: 유휴 상태의 파서(parser) 머신에 split을 할당  
@@ -780,7 +780,7 @@ SPIMI-INVERT(token_stream)
 
 ---
 
-## 색인 – 동적 색인
+## p24. 색인 – 동적 색인
 
 - **정적 문서 집합 색인 대비 동적으로 변화하는 문서 색인은?**  
   - 문서들은 시간이 지남에 따라 추가되고, 삽입됨  
