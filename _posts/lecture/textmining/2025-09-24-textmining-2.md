@@ -2,7 +2,9 @@
 layout: post
 title: "[2주차] 텍스트 마이닝"
 date: 2025-09-24 08:20:00 +0900
-categories: ["텍스트 마이닝"]
+categories:
+  - "대학원 수업"
+  - "텍스트 마이닝"
 tags: []
 ---
 

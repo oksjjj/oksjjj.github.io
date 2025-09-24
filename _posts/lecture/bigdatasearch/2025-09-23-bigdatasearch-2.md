@@ -2,7 +2,9 @@
 layout: post
 title: "[2주차] 빅데이터와 정보검색"
 date: 2025-09-23 17:00:00 +0900
-categories: ["빅데이터와 정보검색"]
+categories:
+  - "대학원 수업"
+  - "빅데이터와 정보검색"
 tags: []
 ---
 
