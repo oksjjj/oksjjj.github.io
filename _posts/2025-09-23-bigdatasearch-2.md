@@ -6,6 +6,8 @@ categories: ["빅데이터와 정보검색"]
 tags: []
 ---
 
+> 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
+
 ## 정보 검색 개요
 
 <img src="/assets/img/bigdatasearch/2/image_1.png" alt="image" width="540px">
