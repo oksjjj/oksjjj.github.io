@@ -91,9 +91,9 @@ tags: []
 
   **개요**
   - 두 집합 A, B의 중복의 정도를 측정
-  - jaccard(A, B) = |A ∩ B| / |A ∪ B|
-  - jaccard(A, A) = 1
-  - jaccard(A, B) = 0 if A ∩ B = 0
+    - $$jaccard(A, B) = |A ∩ B| / |A ∪ B|$$
+    - $$jaccard(A, A) = 1$$
+    - $$jaccard(A, B) = 0 \quad if A ∩ B = 0$$
 
   **한계점**
   - 단어 빈도(term frequency)를 고려하지 않음
