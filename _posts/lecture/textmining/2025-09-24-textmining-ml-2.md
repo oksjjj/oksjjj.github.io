@@ -898,3 +898,94 @@ $$
 #### 4. **의미**  
 - 1층과 3층 모두 동일하게 **총 가중치 수 = 75개**이지만,  
 - 3층 구조는 훨씬 많은 경로(125)를 가지므로 같은 가중치 수로 더 복잡한 표현을 학습할 수 있다.  
+
+---
+
+# 역전파(Backpropagation)
+
+---
+
+## p29. 동기: 신경망을 이용한 손실 최소화  
+
+- 이제 다음 단계는 신경망을 **학습(train)** 하는 것이다.  
+
+- 예시로, **4계층 신경망(four-layer neural networks)** 에서의 회귀 손실을 생각해보자:  
+
+$$
+\text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w}) 
+= \Big( \mathbf{w} \cdot \sigma\big( \mathbf{V}_3 \, \sigma(\mathbf{V}_2 \, \sigma(\mathbf{V}_1 \varphi(x))) \big) - y \Big)^2
+$$  
+
+- 경사하강법(gradient descent)을 적용하기 위해서는, 각 학습 파라미터에 대한 그래디언트를 계산해야 한다.  
+
+$$
+\mathbf{V}_1 \leftarrow \mathbf{V}_1 - \eta \nabla_{\mathbf{V}_1} \, \text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w})
+$$  
+
+$$
+\mathbf{V}_2 \leftarrow \mathbf{V}_2 - \eta \nabla_{\mathbf{V}_2} \, \text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w})
+$$  
+
+$$
+\mathbf{V}_3 \leftarrow \mathbf{V}_3 - \eta \nabla_{\mathbf{V}_3} \, \text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w})
+$$  
+
+$$
+\mathbf{w} \leftarrow \mathbf{w} - \eta \nabla_{\mathbf{w}} \, \text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w})
+$$  
+
+- 이것은 가능하지만, **수작업 계산량이 너무 많다**는 문제가 있다.  
+
+---
+
+## p30. 계산 그래프
+
+- **계산 그래프(computation graph)** 는 방향성이 있는 비순환 그래프(directed acyclic graph)로서,  
+  루트 노드는 최종 수학적 표현을 나타내고, 각 내부 노드는 중간 부분식을 나타낸다.  
+
+$$
+\text{Loss}(x, y, \mathbf{V}, \mathbf{w}) 
+= \left(\mathbf{w} \cdot \sigma(\mathbf{V}\varphi(x)) - y\right)^2
+$$  
+
+- 계산 그래프를 사용하면, **역전파 알고리즘(backpropagation algorithm)** 을 통해  
+  그래디언트를 효율적으로 계산할 수 있다.  
+
+- PyTorch 같은 프레임워크는 이 과정을 자동으로 처리하지만,  
+  어떻게 작동하는지를 이해하는 것은 중요하다.  
+
+<img src="/assets/img/textmining/3/image_21.png" alt="image" width="300px">  
+
+---
+
+## p31. 계산 그래프: 모듈 박스로서의 함수  
+
+- 하나의 함수를 **박스(box)** 로 생각해 보자.  
+  이 박스는 입력들의 집합을 받아서 출력을 계산한다.  
+
+- **편미분(partial derivative)** 은 각 입력에서 출력으로 연결되는 **엣지(edge)** 위에 표시된다.  
+
+<img src="/assets/img/textmining/3/image_22.png" alt="image" width="300px">  
+
+- **편미분(gradient)** 은 출력이 각 입력의 변화에 얼마나 민감한지를 정량화한다.  
+
+---
+
+- **예시 (Example):**
+
+$$
+out = 2in_1 + in_2 in_3
+$$  
+
+$in_2$ 에 $\epsilon$ 만큼 작은 변화를 주면:  
+
+$$
+\Rightarrow 2in_1 + (in_2 + \epsilon) in_3 = out + in_3 \epsilon
+$$  
+
+즉, 출력이 $in_3 \epsilon$ 만큼 변한다.  
+이는 다음 편미분에 해당한다:  
+
+$$
+\frac{\partial out}{\partial in_2}
+$$
