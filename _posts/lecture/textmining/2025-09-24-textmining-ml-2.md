@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[3주차] 텍스트 마이닝"
+title: "[텍스트 마이닝] 3. Machine Learning 2"
 date: 2025-09-24 09:40:00 +0900
 categories:
   - "대학원 수업"
