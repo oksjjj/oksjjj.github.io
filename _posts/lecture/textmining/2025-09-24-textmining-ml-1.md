@@ -57,30 +57,8 @@ X \;\longrightarrow\; f \;\longrightarrow\; y \in \Pi(X)
 $$  
 
   - $\Pi(X)$ : 가능한 모든 순열(permutations)의 집합 
-  
----
 
-**분류 (이진, Binary Classification)**
-
-- 입력:  
-  - 사용자 이력: {history}  
-  - 한 편의 영화: {movie}  
-- $f$ : 사용자가 해당 영화를 좋아할지 여부를 예측  
-- 출력:  
-  - Yes / No   
-
----
-
-**랭킹 (Ranking)**  
-
-- 입력:  
-  - 사용자 이력: {history}  
-  - 다섯 편의 후보 영화: {movies}  
-- $f$ : 사용자의 잠재적 관심도에 따라 영화들을 순위 매김 
-- 출력:  
-  - [3] > [2] > [5] > [1] > [4]  
-
-- **활용 예시**: 검색 엔진, 추천 시스템
+<img src="/assets/img/textmining/2/ranking.png" alt="image" width="720px">
 
 ---
 
