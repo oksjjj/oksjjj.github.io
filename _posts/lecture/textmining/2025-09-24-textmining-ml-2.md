@@ -692,3 +692,147 @@ $$
     에 적용된다.  
 
   <img src="/assets/img/textmining/3/image_12.png" alt="image" width="480px">
+
+  ---
+
+  ## p25. 심층 신경망  
+
+- 우리는 이러한 개념들을 확장하여 더 깊은 신경망을 구축할 수 있다.  
+
+- **1-계층 신경망 (선형 예측기, linear predictor):**  
+
+  $$
+  \text{score} = \mathbf{w} \cdot \varphi(x)
+  $$  
+  - 은닉층(hidden layer)의 수: 0  
+
+  <img src="/assets/img/textmining/3/image_13.png" alt="image" width="220px">
+
+- **2-계층 신경망:**  
+
+  $$
+  \text{score} = \mathbf{w} \cdot \sigma(\mathbf{V} \varphi(x))
+  $$  
+  - 은닉층의 수: 1  
+
+  <img src="/assets/img/textmining/3/image_14.png" alt="image" width="300px">
+
+- **3-계층 신경망:**  
+
+  $$
+  \text{score} = \mathbf{w} \cdot \sigma(\mathbf{V}_2 \, \sigma(\mathbf{V}_1 \varphi(x)))
+  $$  
+  - 은닉층의 수: 2  
+
+  <img src="/assets/img/textmining/3/image_15.png" alt="image" width="380px">
+
+---
+
+### 보충 설명  
+
+#### 1. **1-계층 신경망 (선형 예측기)**  
+- 계산 과정:  
+
+  $$
+  \text{score} = \mathbf{w} \cdot \varphi(x)
+  $$  
+
+- 의미:  
+  - 입력 $\varphi(x)$를 가중치 벡터 $\mathbf{w}$와 단순히 선형 결합한 값이다.  
+  - 은닉층이 없으므로 비선형 변환은 일어나지 않는다.  
+  - 기본적인 **선형 모델**에 해당한다.  
+
+---
+
+#### 2. **2-계층 신경망**  
+- 계산 과정:  
+  1. 은닉층 계산:  
+
+     $$
+     h = \sigma(\mathbf{V} \varphi(x))
+     $$  
+
+     - $\mathbf{V}$ : 입력을 은닉 유닛으로 변환하는 가중치 행렬  
+     - $\sigma$ : 비선형 활성화 함수(예: sigmoid, ReLU)  
+  2. 출력 계산:  
+
+     $$
+     \text{score} = \mathbf{w} \cdot h
+     $$  
+
+- 의미:  
+  - $\mathbf{V}$와 $\sigma$에 의해 입력이 비선형적으로 변환된다.  
+  - 변환된 표현 $h$는 사람이 설계하지 않은 **학습된 특성**으로 해석할 수 있다.  
+  - $\mathbf{w}$는 이 학습된 특성들을 다시 선형 결합하여 최종 출력을 만든다.  
+
+---
+
+#### 3. **3-계층 신경망**  
+- 계산 과정:  
+  1. 첫 번째 은닉층:  
+
+     $$
+     h^{(1)} = \sigma(\mathbf{V}_1 \varphi(x))
+     $$  
+     
+  2. 두 번째 은닉층:  
+
+     $$
+     h^{(2)} = \sigma(\mathbf{V}_2 h^{(1)})
+     $$  
+
+  3. 출력 계산:  
+
+     $$
+     \text{score} = \mathbf{w} \cdot h^{(2)}
+     $$  
+
+- 의미:  
+  - 입력 $\varphi(x)$가 여러 번의 비선형 변환을 거치며 점점 더 복잡한 특성으로 추출된다.  
+  - $\mathbf{V}_1, \mathbf{V}_2$는 각 층에서 입력을 새로운 표현으로 바꾸는 가중치 행렬이다.  
+  - $\sigma$는 각 층에서 비선형성을 부여하여 단순한 선형 모델이 표현할 수 없는 복잡한 패턴을 학습할 수 있도록 한다.  
+  - 마지막에 $\mathbf{w}$가 이 최종 표현을 결합하여 예측을 만든다.  
+
+---
+
+## p26. 왜 더 깊게 가는가?  
+
+- 더 깊은 신경망은 단순한 특성들의 조합을 더 복잡한 패턴으로 확장할 수 있으며,  
+  이는 더 나은 일반화(generalization)로 이어질 수 있다.  
+
+---
+
+**입력 → 출력으로 이어지는 계층적 특성 추출**  
+
+- **원시 픽셀 (입력)**  
+  - 원시 입력은 픽셀 값들로 구성된다.  
+
+<img src="/assets/img/textmining/3/image_16.png" alt="image" width="50px">  
+
+<p align="center">⬇️</p> 
+
+- **1번째 계층**  
+  - 하위 계층은 단순한 패턴을 감지한다.  
+  - 예: 에지(edges)  
+
+<img src="/assets/img/textmining/3/image_17.png" alt="image" width="100px">  
+
+<p align="center">⬇️</p>  
+
+- **2번째 계층**  
+  - 에지들의 조합이 곡선, 질감, 그리고 객체의 부분을 형성한다.  
+  - 예: 눈, 코, 입  
+
+<img src="/assets/img/textmining/3/image_18.png" alt="image" width="200px">  
+
+<p align="center">⬇️</p>  
+
+- **3번째 계층**  
+  - 더 높은 계층에서는 뉴런이 전체 객체에 반응한다.  
+  - 예: 얼굴 전체  
+
+<img src="/assets/img/textmining/3/image_19.png" alt="image" width="300px">  
+
+---
+
+> **점점 더 추상적이고 고수준의 특성**  
