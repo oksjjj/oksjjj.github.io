@@ -965,7 +965,7 @@ $$
 
 - **편미분(partial derivative)** 은 각 입력에서 출력으로 연결되는 **엣지(edge)** 위에 표시된다.  
 
-<img src="/assets/img/textmining/3/image_22.png" alt="image" width="300px">  
+<img src="/assets/img/textmining/3/image_22.png" alt="image" width="240px">  
 
 - **편미분(gradient)** 은 출력이 각 입력의 변화에 얼마나 민감한지를 정량화한다.  
 
@@ -989,3 +989,117 @@ $$
 $$
 \frac{\partial out}{\partial in_2}
 $$
+
+---
+
+## p32. 계산 그래프: 기본 빌딩 블록  
+
+- 다음은 간단한 함수 다섯 가지와 그 편미분(partial derivatives) 예시이다.  
+
+1. **덧셈 ($a + b$)**  
+  <img src="/assets/img/textmining/3/image_23.png" alt="image" width="130px">  
+   - 입력: a, b  
+   - 출력: a + b  
+   - 편미분:  
+     - $\frac{\partial}{\partial a}(a+b) = 1$  
+     - $\frac{\partial}{\partial b}(a+b) = 1$  
+
+2. **뺄셈 ($a - b$)**  
+   <img src="/assets/img/textmining/3/image_24.png" alt="image" width="120px">  
+   - 입력: a, b  
+   - 출력: a - b  
+   - 편미분:  
+     - $\frac{\partial}{\partial a}(a-b) = 1$  
+     - $\frac{\partial}{\partial b}(a-b) = -1$  
+
+3. **곱셈 ($a \cdot b$)**  
+   <img src="/assets/img/textmining/3/image_25.png" alt="image" width="140px">  
+   - 입력: a, b  
+   - 출력: $a \cdot b$  
+   - 편미분:  
+     - $\frac{\partial}{\partial a}(ab) = b$  
+     - $\frac{\partial}{\partial b}(ab) = a$  
+
+4. **최대값 ($max(a, b)$)**  
+   <img src="/assets/img/textmining/3/image_26.png" alt="image" width="270px">  
+   - 입력: a, b  
+   - 출력: $\max(a, b)$  
+   - 편미분:  
+     - $\frac{\partial}{\partial a}(\max(a, b)) = 1[a > b]$ (a가 b보다 클 때 1, 그렇지 않으면 0)  
+     - $\frac{\partial}{\partial b}(\max(a, b)) = 1[a < b]$ (b가 a보다 클 때 1, 그렇지 않으면 0)  
+
+5. **시그모이드 함수 (Sigmoid function)**  
+   <img src="/assets/img/textmining/3/image_27.png" alt="image" width="260px">  
+   - 입력: a  
+   - 출력: $\sigma(a)$  
+   - 편미분:  
+     - $\frac{\partial}{\partial a}(\sigma(a)) = \sigma(a)(1 - \sigma(a))$  
+
+---
+
+### 보충 설명
+
+#### 1. 시그모이드 정의
+- 시그모이드는  
+
+  $$
+  \sigma(a)=\frac{1}{1+e^{-a}}
+  $$
+
+  로 정의한다.
+
+#### 2. 분수 미분 공식으로 단계별 미분
+- 분수 미분 공식(quotient rule):  
+
+  $$
+  \left(\frac{u}{v}\right)'=\frac{u'v-u\,v'}{v^2}
+  $$
+
+- 여기서 $\(u(a)=1,\; v(a)=1+e^{-a}\)$. 그러면
+
+  $$
+  u'(a)=0,\qquad v'(a)=\frac{d}{da}(1+e^{-a})=-e^{-a}.
+  $$
+
+- 공식을 대입하면
+
+  $$
+  \frac{d\sigma(a)}{da}
+  =\frac{0\cdot(1+e^{-a})-1\cdot(-e^{-a})}{(1+e^{-a})^2}
+  =\frac{-(-e^{-a})}{(1+e^{-a})^2}
+  =\frac{e^{-a}}{(1+e^{-a})^2}.
+  $$
+
+#### 3. (체크) 거듭제곱–연쇄 규칙으로도 같은 결과
+- $\(\sigma(a)=(1+e^{-a})^{-1}\)$ 로 보고 미분하면
+
+  $$
+  \frac{d\sigma(a)}{da}
+  =-1\cdot(1+e^{-a})^{-2}\cdot(-e^{-a})
+  =\frac{e^{-a}}{(1+e^{-a})^2}.
+  $$
+
+#### 4. 최종 정리: $\(\sigma(a)\big(1-\sigma(a)\big)\)$ 꼴로 변형
+1) $\(\sigma(a)=\dfrac{1}{1+e^{-a}}\)$ 이므로
+
+   $$
+   1-\sigma(a)=1-\frac{1}{1+e^{-a}}
+   =\frac{1+e^{-a}-1}{1+e^{-a}}
+   =\frac{e^{-a}}{1+e^{-a}}.
+   $$
+
+2) 두 식을 곱하면
+
+   $$
+   \sigma(a)\big(1-\sigma(a)\big)
+   =\frac{1}{1+e^{-a}}\cdot\frac{e^{-a}}{1+e^{-a}}
+   =\frac{e^{-a}}{(1+e^{-a})^2}.
+   $$
+
+3) 위 결과가 2절에서 구한 $\(\dfrac{d\sigma(a)}{da}\)$ 와 동일하므로
+
+   $$
+   \boxed{\displaystyle \frac{d\sigma(a)}{da}=\sigma(a)\big(1-\sigma(a)\big)}
+   $$
+
+   가 성립한다.
