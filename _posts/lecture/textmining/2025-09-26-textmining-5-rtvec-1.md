@@ -199,3 +199,167 @@ tags: []
 - 이것은 **역설(paradox)** 을 만든다!  
   - **빈도는 유용하다.** 그러나 **지나치게 자주 등장하는 단어들은 오해를 불러일으킬 수 있다.**  
   - 그렇다면 우리는 **이 두 상충되는 제약 조건을 어떻게 균형(balance)** 잡을 수 있을까?  
+
+---
+
+## p19. TF-IDF 가중치
+
+- 한 문서 내의 특정 단어(term)는 다음의 경우 더 중요한 것으로 간주된다:  
+  (1) 해당 문서 안에서 자주 등장할 때 (**TF, Term Frequency**)  
+  (2) 다른 많은 문서들에는 잘 등장하지 않을 때 (**IDF, Inverse Document Frequency**)  
+
+---
+
+<img src="/assets/img/textmining/5/image_13.png" alt="image" width="320px"> 
+
+---
+
+## p20. TF-IDF 가중치
+
+- 한 문서 내의 특정 단어(term)는 다음의 경우 더 중요한 것으로 간주된다:  
+  (1) 해당 문서 안에서 자주 등장할 때 (**TF, Term Frequency**)  
+  (2) 다른 많은 문서들에는 잘 등장하지 않을 때 (**IDF, Inverse Document Frequency**)  
+
+---
+
+1. **TF (단어 빈도, Term Frequency)**  
+   - 단어가 한 문서 안에서 얼마나 자주 등장하는지를 측정한다.  
+   - 문서 내부에서의 중요성을 반영한다.  
+
+2. **IDF (역문서 빈도, Inverse Document Frequency)**  
+   - 단어가 말뭉치(corpus) 전체에서 얼마나 드문지를 측정한다.  
+   - 흔한 단어의 가중치는 낮추고, 드문 단어의 가중치는 높인다.  
+
+---
+
+<img src="/assets/img/textmining/5/image_14.png" alt="image" width="320px"> 
+
+---
+
+## p21. 단어 빈도 (TF, Term Frequency)
+
+- **단어 빈도 $tf_{t,d}$**  
+  - TF는 단어 $t$가 문서 $d$에서 등장하는 횟수(number of times)로 정의된다.  
+  - **직관(Intuition):** 단어가 더 자주 나타날수록, 해당 문서 안에서 더 중요하게 간주된다.  
+
+---
+
+- 원시(raw) 단어 빈도 자체는 우리가 원하는 것이 아니다.  
+  - 어떤 단어가 10번 더 많이 나타난다고 해서, 그 단어가 10배 더 중요하다는 뜻은 아니다.  
+  - **중요성은 빈도에 비례하여 증가하지 않는다.**  
+
+---
+
+- 가장 흔히 쓰이는 형태는 **로그 스케일 빈도(log-scaled frequency)** 이다.  
+
+$$
+tf_{t,d} =
+\begin{cases}
+1 + \log_{10}(\text{count}(t, d)), & \text{if } \text{count}(t, d) > 0 \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+  - (+1은 값이 0이 되는 것을 방지한다.)
+
+---
+
+## p22. 역문서 빈도 (IDF, Inverse Document Frequency)
+
+- **역문서 빈도 $idf_t$**  
+  - IDF는 각 단어 $t$가 **모든 문서에서 얼마나 드물게 등장하는지**에 따라 점수를 매긴다.  
+  - **직관(Intuition):** 어떤 단어가 전체 문서 집합(collection)에서 드물수록, 그 단어는 더 많은 정보를 담고 있다.  
+
+---
+
+<img src="/assets/img/textmining/5/image_15.png" alt="image" width="720px"> 
+
+---
+
+- **비교:** *album*과 *singer*에 비해, *contrabass*와 *piano*는 문서 3(Document 3)을 더 독특하게 나타낸다.  
+- **이유는?**
+
+---
+
+## p23. 역문서 빈도 (IDF, Inverse Document Frequency)
+
+✓ **역문서 빈도 $idf_t$**  
+- IDF는 각 단어 $t$가 **모든 문서에서 얼마나 드물게 등장하는지**에 따라 점수를 매긴다.  
+- 가장 일반적인 형태는 **로그 스케일(log-scaled)** 이다:  
+
+$$
+idf_t = \log_{10}\left(\frac{N}{df_t}\right)
+$$  
+
+- $N$ : 전체 문서의 개수 (total number of documents)  
+- $df_t$ : 단어 $t$가 등장한 문서의 개수 (number of documents containing term $t$)  
+
+---
+
+- **예시 (Example):**
+
+  - 전체 문서 수 $N = 1,000$  
+
+  - 단어 **"album"** 은 300개 문서에 등장  
+
+    $$
+    idf_{album} = \log_{10}\left(\frac{1000}{300}\right) = \log_{10}(3.33) \approx 0.52
+    $$  
+
+  - 단어 **"singer"** 는 200개 문서에 등장  
+
+    $$
+    idf_{singer} = \log_{10}\left(\frac{1000}{200}\right) = \log_{10}(5) \approx 0.70
+    $$  
+
+  - 단어 **"piano"** 는 20개 문서에 등장  
+
+    $$
+    idf_{piano} = \log_{10}\left(\frac{1000}{20}\right) = \log_{10}(50) \approx 1.70
+    $$  
+
+  - 단어 **"contrabass"** 는 5개 문서에 등장  
+
+    $$
+    idf_{contrabass} = \log_{10}\left(\frac{1000}{5}\right) = \log_{10}(200) \approx 2.30
+    $$  
+
+---
+
+## p24. TF-IDF 가중치: 예시
+
+- **BoW 표현 (BoW representation)**  
+  문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
+
+  <img src="/assets/img/textmining/5/image_16.png" alt="image" width="380px">  
+
+---
+
+- **IDF 계산 (idf computation)**  
+  각 단어(term)에 대해 문서 빈도(df)를 계산하고,  
+  아래의 공식을 사용하여 $idf$ 값을 구한다.  
+
+  <img src="/assets/img/textmining/5/image_17.png" alt="image" width="600px">    
+
+---
+
+- **TF 정의**  
+$$
+tf_{t,d} =
+\begin{cases}
+1 + \log_{10}(\text{count}(t, d)), & \text{if } \text{count}(t, d) > 0 \\
+0, & \text{otherwise}
+\end{cases}
+$$  
+
+---
+
+- **IDF 정의**  
+$$
+idf_t = \log_{10}\left(\frac{N}{df_t}\right)
+$$  
+
+---
+
+
+
