@@ -1114,3 +1114,88 @@ $$
   출력(out)의 입력(in)에 대한 도함수는, 연산 그래프에서 경로를 따라 나타나는 **중간 도함수들을 곱함으로써** 얻어진다.  
 
 <img src="/assets/img/textmining/3/image_28.png" alt="image" width="480px">
+
+---
+
+## p34. 예시: 힌지 손실(Hinge loss)을 사용한 선형 분류
+
+- 손실 함수는 다음과 같이 주어진다:  
+
+  $$
+  \text{Loss}(x, y, \mathbf{w}) = \max \{1 - (\mathbf{w} \cdot \varphi(x))y, \; 0 \}
+  $$  
+
+- 연산 그래프(computation graph)는 다음과 같이 구성할 수 있다.  
+
+<img src="/assets/img/textmining/3/image_29.png" alt="image" width="300px">
+
+- 연쇄 법칙(chain rule)을 적용하면, 그래디언트는 다음과 같이 계산된다:  
+
+  $$
+  \nabla_{\mathbf{w}} \, \text{Loss}(x, y, \mathbf{w}) 
+  = (1[\text{margin} < 1])(-1)(y)(\varphi(x))
+  $$  
+
+  $$
+  = -\varphi(x) y \; 1[\text{margin} < 1]
+  $$
+
+<img src="/assets/img/textmining/3/image_30.png" alt="image" width="600px">
+
+---
+
+### 보충 설명: 계산 그래프 (힌지 손실)
+
+---
+
+#### 1. 순전파 (Forward)
+
+1) **점수 (score)**  
+$s = \mathbf{w} \cdot \varphi(x)$  
+
+2) **마진 (margin)**  
+$m = y \cdot s$  
+
+3) **잔차 (residual)**  
+$r = 1 - m$  
+
+4) **손실 (loss)**  
+$L = \max(r, 0)$  
+
+- $r \le 0 \;\Rightarrow\; L = 0$ (마진 충분)  
+- $r > 0 \;\Rightarrow\; L = r$ (마진 부족 또는 오분류)
+
+---
+
+#### 2. 역전파 (Backward: 단계별 편미분)
+
+**① 손실 노드 $L = \max(r,0)$ 의 $r$에 대한 편미분**  
+- $r>0$일 때:  
+  $L = r \;\Rightarrow\; \dfrac{\partial L}{\partial r} = \dfrac{\partial r}{\partial r} = 1$  
+- $r \le 0$일 때:  
+  $L = 0 \;\Rightarrow\; \dfrac{\partial L}{\partial r} = \dfrac{\partial 0}{\partial r} = 0$  
+- 요약: $\dfrac{\partial L}{\partial r} = 1[r>0]$
+
+---
+
+**② 잔차 노드 $r = 1 - m$ 의 $m$에 대한 편미분**  
+$\dfrac{\partial r}{\partial m} = \dfrac{\partial (1)}{\partial m} + \dfrac{\partial (-m)}{\partial m} = 0 + (-1) = -1$
+
+---
+
+**③ 마진 노드 $m = y \cdot s$ 의 편미분**  
+- $s$에 대해: $\dfrac{\partial m}{\partial s} = \dfrac{\partial (y \cdot s)}{\partial s} = y$  
+- $y$에 대해: $\dfrac{\partial m}{\partial y} = \dfrac{\partial (y \cdot s)}{\partial y} = s$
+
+---
+
+**④ 점수 노드 $s = \mathbf{w} \cdot \varphi(x)$ 의 편미분**  
+- $\mathbf{w}$에 대해: $\dfrac{\partial s}{\partial \mathbf{w}} = \dfrac{\partial \mathbf{w} \cdot \varphi(x)}{\partial \mathbf{w}} = \varphi(x)$  
+- $\varphi(x)$에 대해: $\dfrac{\partial s}{\partial \varphi(x)} = \dfrac{\partial \mathbf{w} \cdot \varphi(x)}{\partial \varphi(x)}  = \mathbf{w}$
+
+---
+
+#### 3. 최종 그래디언트 (체인 룰 적용)
+
+- 가중치 $\mathbf{w}$에 대한 그래디언트:  
+$\nabla_{\mathbf{w}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial m} \cdot \dfrac{\partial m}{\partial s} \cdot \dfrac{\partial s}{\partial \mathbf{w}} = 1[r>0] \cdot (-1) \cdot y \cdot \varphi(x) = -\varphi(x)\, y \, 1[r>0]$
