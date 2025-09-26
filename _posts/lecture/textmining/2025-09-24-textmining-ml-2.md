@@ -1144,9 +1144,7 @@ $$
 
 ---
 
-### 보충 설명: 계산 그래프 (힌지 손실)
-
----
+### 보충 설명
 
 #### 1. 순전파 (Forward)
 
@@ -1164,8 +1162,6 @@ $L = \max(r, 0)$
 
 - $r \le 0 \;\Rightarrow\; L = 0$ (마진 충분)  
 - $r > 0 \;\Rightarrow\; L = r$ (마진 부족 또는 오분류)
-
----
 
 #### 2. 역전파 (Backward: 단계별 편미분)
 
@@ -1199,3 +1195,176 @@ $\dfrac{\partial r}{\partial m} = \dfrac{\partial (1)}{\partial m} + \dfrac{\par
 
 - 가중치 $\mathbf{w}$에 대한 그래디언트:  
 $\nabla_{\mathbf{w}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial m} \cdot \dfrac{\partial m}{\partial s} \cdot \dfrac{\partial s}{\partial \mathbf{w}} = 1[r>0] \cdot (-1) \cdot y \cdot \varphi(x) = -\varphi(x)\, y \, 1[r>0]$
+
+---
+
+## p35. 예시: 이층(two-layer) 신경망을 사용한 회귀
+
+- 손실 함수는 다음과 같이 주어진다:  
+
+$$
+\text{Loss}(x, y, \mathbf{V}, \mathbf{w}) 
+= \big(\mathbf{w} \cdot \sigma(\mathbf{V}\varphi(x)) - y\big)^2
+$$  
+
+- 계산 그래프(computation graph)는 다음과 같이 구성할 수 있다.  
+
+<img src="/assets/img/textmining/3/image_31.png" alt="image" width="270px">
+
+- 연쇄 법칙(chain rule)을 적용하면, 그래디언트는 다음과 같이 계산된다:  
+
+$$
+\nabla_{\mathbf{w}} \, \text{Loss}(x, y, \mathbf{V}, \mathbf{w}) 
+= 2(\text{residual}) \, \mathbf{h}
+$$  
+
+$$
+\nabla_{\mathbf{V}} \, \text{Loss}(x, y, \mathbf{V}, \mathbf{w}) 
+= 2(\text{residual}) \, \mathbf{w} \circ \mathbf{h} \circ (1-\mathbf{h}) \varphi(x)^\top
+$$  
+
+- 주의:  
+  $\circ$ 는 **원소별(elementwise) 곱셈**을 의미한다. 이는 **활성화 함수(activation)** 가 각 원소에 독립적으로 적용되기 때문에 필요하다.  
+
+**Shape (행렬/벡터의 차원)**
+
+- $\mathbf{w}$ : $k \times 1$  
+- $\mathbf{h}$ : $k \times 1$  
+- $\mathbf{V}$ : $k \times d$  
+- $\varphi(x)$ : $d \times 1$  
+- $\mathbf{w} \cdot \mathbf{h} = \mathbf{w}^\top \mathbf{h}$  
+
+---
+
+### 보충 설명
+
+#### 1. 순전파 (Forward)
+
+1) **은닉층 입력**  
+$z = \mathbf{V} \varphi(x)$  
+
+2) **은닉층 활성화**  
+$\mathbf{h} = \sigma(z)$  
+
+3) **출력 (예측값)**  
+$\hat{y} = \mathbf{w} \cdot \mathbf{h}$  
+
+4) **잔차 (residual)**  
+$r = \hat{y} - y$  
+
+5) **손실 (loss)**  
+$L = r^2 = (\hat{y} - y)^2$  
+
+---
+
+#### 2. 역전파 (Backward: 단계별 편미분)
+
+**① 손실 노드 $L = r^2$ 의 $r$에 대한 편미분**  
+$\dfrac{\partial L}{\partial r} = \dfrac{\partial (r^2)}{\partial r} = 2r$
+
+---
+
+**② 잔차 노드 $r = \hat{y} - y$ 의 편미분**  
+- $\hat{y}$에 대해:  
+  $\dfrac{\partial r}{\partial \hat{y}} = \dfrac{\partial (\hat{y} - y)}{\partial \hat{y}} = 1$  
+- $y$에 대해:  
+  $\dfrac{\partial r}{\partial y} = \dfrac{\partial (\hat{y} - y)}{\partial y} = -1$  
+
+---
+
+**③ 출력 노드 $\hat{y} = \mathbf{w} \cdot \mathbf{h}$ 의 편미분**  
+- $\mathbf{w}$에 대해:  
+  $\dfrac{\partial \hat{y}}{\partial \mathbf{w}} = \dfrac{\partial (\mathbf{w} \cdot \mathbf{h})}{\partial \mathbf{w}} = \mathbf{h}$  
+- $\mathbf{h}$에 대해:  
+  $\dfrac{\partial \hat{y}}{\partial \mathbf{h}} = \dfrac{\partial (\mathbf{w} \cdot \mathbf{h})}{\partial \mathbf{h}} = \mathbf{w}$  
+
+---
+
+**④ 은닉층 노드 $\mathbf{h} = \sigma(z)$ 의 $z$에 대한 편미분**  
+$\dfrac{\partial \mathbf{h}}{\partial z} = \dfrac{\partial \sigma(z)}{\partial z} = \sigma(z) \circ (1 - \sigma(z)) = \mathbf{h} \circ (1 - \mathbf{h})$  
+
+---
+
+**⑤ 은닉층 입력 $z = \mathbf{V}\varphi(x)$ 의 편미분**  
+- $\mathbf{V}$에 대해(미분하면 전치가 되는 이유는 아래에 설명):  
+  $\dfrac{\partial z}{\partial \mathbf{V}} = \dfrac{\partial (\mathbf{V}\varphi(x))}{\partial \mathbf{V}} = \varphi(x)^\top$  
+- $\varphi(x)$에 대해:  
+  $\dfrac{\partial z}{\partial \varphi(x)} = \dfrac{\partial (\mathbf{V}\varphi(x))}{\partial \varphi(x)} = \mathbf{V}$  
+
+---
+
+#### 3. 최종 그래디언트 (체인 룰 적용)
+
+- 가중치 $\mathbf{w}$에 대한 그래디언트:  
+$\nabla_{\mathbf{w}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial \mathbf{w}} = (2r) \cdot (1) \cdot \mathbf{h} = 2r \, \mathbf{h}$  
+
+- 가중치 $\mathbf{V}$에 대한 그래디언트:  
+$\nabla_{\mathbf{V}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial \mathbf{h}} \cdot \dfrac{\partial \mathbf{h}}{\partial z} \cdot \dfrac{\partial z}{\partial \mathbf{V}}$  
+
+$= (2r) \cdot (1) \cdot \mathbf{w} \cdot \big(\mathbf{h} \circ (1-\mathbf{h})\big) \cdot \varphi(x)^\top$  
+
+---
+
+### 추가 보충 설명: 왜 미분하면 전치가 나타나는가?
+
+#### 1. **형상(Shape) 확인**  
+$z = \mathbf{V}\varphi(x)$ 에서,  
+- $\mathbf{V}$ : $(k \times d)$  
+- $\varphi(x)$ : $(d \times 1)$  
+
+따라서  
+
+$$
+z \in \mathbb{R}^{k \times 1}
+$$  
+
+즉, $z$는 $k$차원 열 벡터이다.  
+
+---
+
+#### 2. **$z$의 $i$번째 원소**  
+$z$의 $i$번째 원소는  
+
+$$
+z_i = \sum_{j=1}^d V_{ij}\,\varphi_j(x)
+$$  
+
+이다. 이는 곧 $\mathbf{V}$의 $i$번째 행과 $\varphi(x)$의 내적이다:  
+
+$$
+z_i = \mathbf{V}_{i,:} \cdot \varphi(x)
+$$  
+
+---
+
+#### 3. **$i$행에 대한 미분**  
+$i$번째 원소 $z_i$를 $\mathbf{V}_{i,:}$에 대해 미분하면  
+
+$$
+\frac{\partial z_i}{\partial \mathbf{V}_{i,:}} 
+= \big[\varphi_1(x), \varphi_2(x), \dots, \varphi_d(x)\big]
+= \varphi(x)^\top
+$$  
+
+즉, **특정 행($i$행)에 대한 그래디언트는 $\varphi(x)$의 전치**이다.  
+행벡터가 되는 이유는, $V_{ij}$를 $j$별로 미분한 결과들이 가로로 나열되기 때문이다.  
+선형대수학에서 기본은 열벡터이고, 행벡터는 전치로 표현한다.  
+
+---
+
+#### 4. **전체 $\mathbf{V}$에 대한 미분**  
+모든 $i=1,\dots,k$에 대해 동일한 논리가 적용되므로,  
+
+$$
+\frac{\partial z}{\partial \mathbf{V}} =
+\begin{bmatrix}
+\varphi(x)^\top \\
+\varphi(x)^\top \\
+\vdots \\
+\varphi(x)^\top
+\end{bmatrix}_{k \times d}
+$$  
+
+즉, **각 행이 $\varphi(x)^\top$인 행렬**이 된다.  
+
+---
