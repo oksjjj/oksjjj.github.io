@@ -480,3 +480,65 @@ $$
 
 
 <img src="/assets/img/textmining/4/image_24.png" alt="image" width="720px">  
+
+---
+
+## p29. 클러스터링: K-평균 (K-means)
+
+- **K-평균(K-means)** 은 데이터를 $K$개의 클러스터(cluster)로 나누는 클러스터링 알고리즘이다.  
+  각 인스턴스는 **가장 가까운 평균(centroid, 중심점)** 을 가진 클러스터에 속한다.  
+
+---
+
+- **목표(Objectives):**  
+  1. 각 데이터 포인트 $\phi(x_i)$ 를 가장 가까운 클러스터에 할당한다.  
+  2. 클러스터 중심점(centroids) $\mu_k$ 를 배치하여 클러스터 내부 분산(intra-cluster variance)을 최소화한다.  
+
+$$
+\min_{\mathbf{z}} \min_{\mu} \; \text{Loss}_{k\text{-means}}(\mathbf{z}, \mu)
+$$  
+
+$$
+\text{Loss}_{k\text{-means}}(\mathbf{z}, \mu) \;=\; \sum_{i=1}^{n} \left\| \phi(x_i) - \mu_{z_i} \right\|^2
+$$  
+
+---
+
+- **K-평균(K-means)** 은 **중심점(centroids) $\mu$ 와 클러스터 할당(cluster assignments) $\mathbf{z}$** 를 **동시에 최적화(jointly optimize)** 한다.  
+
+---
+
+## p30. 클러스터링: K-평균 (K-means)
+
+- **최적화(Optimization): 교대 최소화(alternating minimization)**  
+  - 교대 최소화는 목적 함수(objective function)를 최적화하기 위해,  
+  - 다른 변수들은 **고정한 상태로**, 일부 변수 집합(subsets of variables)을  
+    **반복적으로 업데이트**하는 방식이다.  
+
+---
+
+- **Step 1:** $\mu$를 고정한 상태에서 $\mathbf{z}$를 최적화한다.  
+- **Step 2:** $\mathbf{z}$를 고정한 상태에서 $\mu$를 최적화한다.  
+
+---
+
+**💻 알고리즘: K-평균 (K-means)**  
+
+1. 무작위로 중심점(centroids) $\mu = [\mu_1, \dots, \mu_K]$ 를 초기화한다.  
+2. $t = 1, \dots, T$ 에 대해 반복한다:  
+   - **Step 1:** $\mu$가 주어졌을 때 $\mathbf{z}$ (클러스터 할당)를 설정한다.  
+     - 각 데이터 포인트 $i = 1, \dots, n$ 에 대해:  
+
+     $$
+     z_i \;\leftarrow\; \arg\min_{k=1,\dots,K} \;\|\phi(x_i) - \mu_k\|^2
+     $$  
+
+   - **Step 2:** $\mathbf{z}$가 주어졌을 때 중심점(centroids) $\mu$를 설정한다.  
+     - 각 클러스터 $k = 1, \dots, K$ 에 대해:  
+
+     $$
+     \mu_k \;\leftarrow\; \frac{1}{|\{ i : z_i = k \}|} \sum_{i: z_i = k} \phi(x_i)
+     $$  
+
+---
+
