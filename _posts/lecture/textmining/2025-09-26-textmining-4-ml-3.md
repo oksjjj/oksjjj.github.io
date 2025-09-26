@@ -449,3 +449,34 @@ $$
 - 중요한 정보를 보존하면서 데이터의 복잡성을 줄인다.  
 
 <img src="/assets/img/textmining/4/image_23.png" alt="image" width="480px">  
+
+---
+
+## p28. 클러스터링 (Clustering)
+
+- **클러스터링이란** 객체 집합을 그룹화하는 작업으로,  
+  **같은 그룹(클러스터)에 속한 인스턴스(instance)** 들은 서로 더 유사하고,  
+  다른 클러스터에 속한 것들과는 덜 유사하도록 하는 것이다.  
+
+---
+
+- **입력 (Input):** 데이터 인스턴스  
+
+$$
+D_{train} = \{x_1, \ldots, x_n\}
+$$  
+
+- **출력 (Output):** 각 인스턴스를 클러스터에 할당  
+
+$$
+\mathbf{z} = [z_1, \ldots, z_n], \quad z_i \in \{1, \ldots, K\}
+$$  
+
+- **$K$ (클러스터의 개수)** 는 하이퍼파라미터(hyperparameter)이다.  
+
+---
+
+- **중심점(centroid) $\mu_k$** 는 클러스터 $k$의 **대표 벡터(representative vector)** 이다.  
+
+
+<img src="/assets/img/textmining/4/image_24.png" alt="image" width="720px">  
