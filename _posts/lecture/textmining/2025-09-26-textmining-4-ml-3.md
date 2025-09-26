@@ -402,3 +402,50 @@ $$
 - **데이터 인스턴스:** 입력 $x$. **라벨이 없음!**  
 - 라벨이 없는 데이터는 **대규모로 수집하기 쉽다**.  
   (예: 1억 개의 라벨 없는 데이터는 저렴하게 얻을 수 있다.)  
+
+---
+
+## p26. 비지도 학습 예시: 단어 클러스터링
+
+**입력:**  
+- 원시 텍스트 (뉴스 기사 1억 단어)
+
+**출력:**  
+- **클러스터 1:** Friday Monday Thursday Wednesday Tuesday Saturday Sunday weekends Sundays Saturdays  
+- **클러스터 2:** June March July April January December October November September August  
+- **클러스터 3:** water gas coal liquid acid sand carbon steam shale iron  
+- **클러스터 4:** great big vast sudden mere sheer gigantic lifelong scant colossal  
+- **클러스터 5:** man woman boy girl lawyer doctor guy farmer teacher citizen  
+- **클러스터 6:** American Indian European Japanese German African Catholic Israeli Italian Arab  
+- **클러스터 7:** pressure temperature permeability density porosity stress velocity viscosity gravity tension  
+- **클러스터 8:** mother wife father son husband brother daughter sister boss uncle  
+- …  
+- **클러스터 14:** had hadn't hath would've could've should've must've might’ve  
+- **클러스터 15:** head body hands eyes voice arm seat eye hair mouth  
+
+---
+
+## p27. 비지도 학습은 무엇을 할 수 있는가?
+
+- 비지도 학습은 **라벨이 없는 데이터**에서 **숨겨진 패턴과 구조를 발견**하는 데 도움을 준다.
+
+---
+
+**클러스터링 (Clustering)**  
+- 유사한 데이터 포인트들을 같은 클러스터로 묶는다.  
+
+<img src="/assets/img/textmining/4/image_21.png" alt="image" width="480px">  
+
+---
+
+**이상치/이상 탐지 (Outlier/anomaly detection)**  
+- 드물거나 비정상적인 데이터 포인트를 식별한다.  
+
+<img src="/assets/img/textmining/4/image_22.png" alt="image" width="480px">  
+
+---
+
+**차원 축소 (Dimensionality reduction)**  
+- 중요한 정보를 보존하면서 데이터의 복잡성을 줄인다.  
+
+<img src="/assets/img/textmining/4/image_23.png" alt="image" width="480px">  
