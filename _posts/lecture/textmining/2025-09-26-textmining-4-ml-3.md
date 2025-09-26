@@ -14,7 +14,7 @@ tags: []
 
 - **머신러닝의 진정한 목적은 무엇인가?**  
   1. 학습 세트(training set)에서의 오류를 최소화한다  
-  2. 보이지 않는 미래의 예시들(unseen future examples)에서 오류를 최소화한다  
+  2. 보이지 않는 미래의 데이터(unseen future examples)에서 오류를 최소화한다  
   3. 기계에 대해 배운다 (learn about machines)  
   4. 경사하강법(gradient descent)을 통해 학습 손실을 최소화한다  
 
@@ -71,10 +71,10 @@ tags: []
 
 - 파란색: 훈련 세트(Training set)  
 - 주황색: 테스트 세트(Test set)  
-- 가로축: 모델 복잡도(가설 집합)  
+- 가로축: 모델 복잡도(가설 클래스)  
 - 세로축: 오류(Error)  
 
-**참고:** 가설 집합(Hypothesis class)은 가능한 모든 예측기들의 집합이다.  
+**참고:** 가설 클래스(Hypothesis class)는 가능한 모든 예측기들의 집합이다.  
 
 ---
 
@@ -113,7 +113,7 @@ tags: []
 ## p8. 학습(fitting)과 일반화(generalization) 이해하기  
 
 - 실제로 우리는 가능한 모든 예측기(predictors)를 고려할 수 없다.  
-  - 대신, **가설 집합(hypothesis class) $\mathcal{F}$** 을 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
+  - 대신, **가설 클래스(hypothesis class) $\mathcal{F}$** 를 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
   - 학습이 끝난 후, 우리는 **학습된 예측기(learned predictor) $\hat{f}$** 를 얻게 된다.  
 
 <img src="/assets/img/textmining/4/image_7.png" alt="image" width="600px"> 
@@ -123,7 +123,7 @@ tags: []
 ## p9. 학습(fitting)과 일반화(generalization) 이해하기  
 
 - 실제로 우리는 가능한 모든 예측기(predictors)를 고려할 수 없다.  
-  - 대신, **가설 집합(hypothesis class) $\mathcal{F}$** 을 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
+  - 대신, **가설 클래스(hypothesis class) $\mathcal{F}$** 를 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
   - 또한, $\mathcal{F}$ 안에는 **가능한 한 최선의 함수(the best possible function) $g$** 가 존재한다.   
 
 <img src="/assets/img/textmining/4/image_8.png" alt="image" width="600px"> 
@@ -143,7 +143,7 @@ $$
 $$  
 
 - **추정 오차(Estimation error)** 는 **제한된 데이터와 학습의 비효율성(limited data and learning inefficiencies)** 으로부터 발생한다.  
-- **근사 오차(Approximation error)** 는 **가설 집합(hypothesis class)의 한계(limitations)** 으로부터 발생한다.  
+- **근사 오차(Approximation error)** 는 **가설 클래스(hypothesis class)의 한계(limitations)** 로부터 발생한다.  
 
 ---
 
@@ -153,7 +153,7 @@ $$
 
 <img src="/assets/img/textmining/4/image_10.png" alt="image" width="600px">  
 
-- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+- 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
   - 그 이유는 모델의 표현력이 더 풍부해져서, 최적 함수에 한층 더 가까워질 수 있기 때문이다.   
 
@@ -165,11 +165,11 @@ $$
 
 <img src="/assets/img/textmining/4/image_11.png" alt="image" width="600px">  
 
-- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+- 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
     - 모델이 더 표현력이 커져서(optimal function에 더 가까워질 수 있게 되어) 최적 함수에 접근할 수 있기 때문이다.  
   - **추정 오차(Estimation error)** 는 증가한다.  
-    - 더 복잡한 가설 집합은 효과적으로 학습하기 위해 더 많은 데이터가 필요하기 때문이다.  
+    - 더 복잡한 가설 클래스를 효과적으로 학습하기 위해서는 더 많은 데이터가 필요하기 때문이다.  
     - 데이터가 제한되어 있을 때, 표현력이 큰 모델은 일반화하지 못하고 학습 집합을 **외워버리는(overfitting)** 경향이 있다.  
 
 ---
@@ -180,11 +180,11 @@ $$
 
 <img src="/assets/img/textmining/4/image_12.png" alt="image" width="600px">  
 
-- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+- 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
     - 모델이 더 표현력이 풍부해져서 최적 함수에 더 가까워질 수 있기 때문이다.  
   - **추정 오차(Estimation error)** 는 증가한다.  
-    - 더 복잡한 가설 집합은 효과적인 학습을 위해 더 많은 데이터가 필요하기 때문이다.  
+    - 더 복잡한 가설 클래스는 효과적인 학습을 위해 더 많은 데이터가 필요하기 때문이다.  
     - 데이터가 제한되어 있을 때, 표현력이 큰 모델은 일반화하지 못하고 학습 집합을 **외워버리는(overfitting)** 경향이 있다.  
 
 ---
@@ -336,3 +336,69 @@ $$
 <img src="/assets/img/textmining/4/image_18.png" alt="image" width="200px"> 
 - **테스트 세트(Test set):** 라벨이 없는 데이터에 대해 모델이 최종적으로 예측을 수행한다.  
 <img src="/assets/img/textmining/4/image_19.png" alt="image" width="200px"> 
+
+---
+
+## p21. 전형적인 개발 사이클  
+
+**A. 데이터 세트 분할**  
+1) 데이터 세트를 훈련 세트, 검증 세트, 테스트 세트로 나눈다.  
+
+---
+
+**B. 훈련 (수렴할 때까지 반복)**  
+2) 훈련 세트를 사용하여 모델을 업데이트한다.  
+3) 검증 세트를 사용하여 모델을 평가한다.  
+4) 중단 조건을 확인한다.  
+
+---
+
+**C. 테스트**  
+5) 최종 모델을 테스트 세트에서 평가한다.  
+
+---
+
+**✔ 하이퍼파라미터 튜닝**  
+- 서로 다른 하이퍼파라미터 값으로 모델을 여러 번 훈련한다.  
+- 검증 세트를 기준으로 값을 선택한다.  
+
+<img src="/assets/img/textmining/4/image_20.png" alt="image" width="720px">  
+
+---
+
+## p22. 요약
+
+**적합(fitting)과 일반화(generalization)**  
+- **실제 목표가 아닌 것**: 훈련 손실을 최소화하는 것 (이미 본 예시에서는 잘 동작함)  
+- **실제 목표**: 일반화 (앞으로 보지 못한 새로운 예시에서도 잘 동작함)  
+- **일반 원칙**: 훈련 오류를 최소화하면서 동시에 모델 복잡성을 제어해야 한다  
+  (가설 클래스(hypothesis class)를 작게 유지할 것!)  
+
+---
+
+**과적합(overfitting)을 방지하기 위한 최선의 방법들**  
+- **특성 선택(feature selection)**: 불필요한 입력을 줄여 모델을 단순화한다.  
+- **정규화(regularization)**: 가중치에 패널티를 부여하여 과도한 복잡성을 억제한다.  
+- **조기 종료(early stopping)**: 모델이 노이즈를 암기하기 전에 훈련을 중단한다.  
+- **검증 세트(validation set)**: 보지 못한 데이터를 시뮬레이션하고, 따로 분리한 데이터 세트를 사용하여 모델을 조정한다.  
+- **추가 데이터 수집**: 더 다양하고(different) 많은 데이터를 수집한다 (예산이 허락한다면).  
+
+---
+
+# 비지도 학습(Unsupervised learning)
+
+---
+
+## p25. 지도 학습과 비지도 학습
+
+**지도 학습:**  
+- **데이터 인스턴스:** 입력–출력 쌍 $(x, y)$, 여기서 $y$는 $x$에 대한 라벨이다.  
+- 라벨링은 사람의 노력이 필요하므로 비용이 많이 든다.  
+  (예: 10,000개의 라벨이 달린 데이터를 얻는 것은 매우 비싸다.)  
+
+---
+
+**비지도 학습:**  
+- **데이터 인스턴스:** 입력 $x$. **라벨이 없음!**  
+- 라벨이 없는 데이터는 **대규모로 수집하기 쉽다**.  
+  (예: 1억 개의 라벨 없는 데이터는 저렴하게 얻을 수 있다.)  
