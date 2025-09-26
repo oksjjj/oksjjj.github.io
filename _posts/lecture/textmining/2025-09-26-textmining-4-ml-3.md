@@ -71,10 +71,10 @@ tags: []
 
 - 파란색: 훈련 세트(Training set)  
 - 주황색: 테스트 세트(Test set)  
-- 가로축: 모델 복잡도(가설 클래스)  
+- 가로축: 모델 복잡도(가설 집합)  
 - 세로축: 오류(Error)  
 
-**참고:** 가설 클래스(Hypothesis class)은 가능한 모든 예측기들의 집합이다.  
+**참고:** 가설 집합(Hypothesis class)은 가능한 모든 예측기들의 집합이다.  
 
 ---
 
@@ -143,4 +143,88 @@ $$
 $$  
 
 - **추정 오차(Estimation error)** 는 **제한된 데이터와 학습의 비효율성(limited data and learning inefficiencies)** 으로부터 발생한다.  
-- **근사 오차(Approximation error)** 는 **가설 집합(hypothesis class)의 한계(limitations)** 로부터 발생한다.  
+- **근사 오차(Approximation error)** 는 **가설 집합(hypothesis class)의 한계(limitations)** 으로부터 발생한다.  
+
+---
+
+## p11. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
+
+<img src="/assets/img/textmining/4/image_10.png" alt="image" width="600px">  
+
+- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+  - **근사 오차(Approximation error)** 는 감소한다.  
+  - 그 이유는 모델의 표현력이 더 풍부해져서, 최적 함수에 한층 더 가까워질 수 있기 때문이다.   
+
+---
+
+## p12. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
+
+<img src="/assets/img/textmining/4/image_11.png" alt="image" width="600px">  
+
+- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+  - **근사 오차(Approximation error)** 는 감소한다.  
+    - 모델이 더 표현력이 커져서(optimal function에 더 가까워질 수 있게 되어) 최적 함수에 접근할 수 있기 때문이다.  
+  - **추정 오차(Estimation error)** 는 증가한다.  
+    - 더 복잡한 가설 집합은 효과적으로 학습하기 위해 더 많은 데이터가 필요하기 때문이다.  
+    - 데이터가 제한되어 있을 때, 표현력이 큰 모델은 일반화하지 못하고 학습 집합을 **외워버리는(overfitting)** 경향이 있다.  
+
+---
+
+## p13. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
+
+<img src="/assets/img/textmining/4/image_12.png" alt="image" width="600px">  
+
+- 가설 집합(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
+  - **근사 오차(Approximation error)** 는 감소한다.  
+    - 모델이 더 표현력이 풍부해져서 최적 함수에 더 가까워질 수 있기 때문이다.  
+  - **추정 오차(Estimation error)** 는 증가한다.  
+    - 더 복잡한 가설 집합은 효과적인 학습을 위해 더 많은 데이터가 필요하기 때문이다.  
+    - 데이터가 제한되어 있을 때, 표현력이 큰 모델은 일반화하지 못하고 학습 집합을 **외워버리는(overfitting)** 경향이 있다.  
+
+---
+
+- 목표는 두 오차를 모두 최소화하는 **적절한 균형(right balance)** 을 찾아내어, 최상의 일반화 성능을 얻는 것이다.  
+
+---
+
+## p14. 어떻게 과대적합(overfitting)을 줄일 수 있을까?  
+
+1. **특성 선택(Feature selection):** 입력 차원 줄이기  
+
+   - 가능한 **모든 특성(all possible features)** 을 사용하는 대신,  
+     **가장 관련 있는 특성들(only the most relevant ones)** 만 선택하여 복잡성을 줄일 수 있다.  
+
+   - **왜 이것이 도움이 될까?**  
+     - 더 많은 특성들은 모델 파라미터 수를 증가시킨다.  
+     - 특성 선택은 모델을 단순화하면서, 필요한 정보만 유지할 수 있도록 해준다.  
+
+---
+
+## p15. 어떻게 과대적합(overfitting)을 줄일 수 있을까?  
+
+1. **특성 선택(Feature selection):** 입력 차원 줄이기  
+
+   - 가능한 **모든 특성(all possible features)** 을 사용하는 대신,  
+     **가장 관련 있는 특성들(only the most relevant ones)** 만 선택하여 복잡성을 줄일 수 있다.  
+
+   - **왜 이것이 도움이 될까?**  
+     - 더 많은 특성들은 모델 파라미터 수를 증가시킨다.  
+     - 특성 선택은 모델을 단순화하면서, 필요한 정보만 유지할 수 있도록 해준다.  
+
+   - **어떻게 수행되는가(How is this done)?**  
+     - 이 부분은 본 강의 범위를 벗어난다.  
+
+---
+
+<img src="/assets/img/textmining/4/image_13.png" alt="image" width="720px">  
+
+- **특성 선택은 현재 활발히 연구되는 주제(hot research topic)이다.**  
+- 최근 방법들은 **가장 관련 있는 입력 특성들(the most relevant input features)** 을 자동으로 찾아낸다.  
+
+*(그림 출처: MvFS: Multi-view Feature Selection for Recommender System, ACM CIKM, 2023)*  

@@ -184,7 +184,7 @@ $$
 f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x)
 $$  
 
-- **가설 클래스(Hypothesis class):**  
+- **가설 집합(Hypothesis class):**  
   - **고정된 $\varphi(x)$** 와 **가변적인 $\mathbf{w}$** 에 따라 **가능한 예측기들의 집합**   
 
 $$
@@ -489,7 +489,7 @@ $$
 <img src="/assets/img/textmining/2/image_21.png" alt="image" width="720px">
 
 - **어떤 예측기들이 가능한가?**  
-  - **가설 클래스(Hypothesis class):**  
+  - **가설 집합(Hypothesis class):**  
 
     $$
     \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) \}
@@ -1167,7 +1167,7 @@ $$
 <img src="/assets/img/textmining/2/image_30.png" alt="image" width="720px">
 
 - **어떤 예측기들이 가능한가?**  
-  - **가설 클래스(Hypothesis class):**  
+  - **가설 집합(Hypothesis class):**  
 
     $$
     \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) \}
