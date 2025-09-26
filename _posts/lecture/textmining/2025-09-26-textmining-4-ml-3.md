@@ -13,8 +13,8 @@ tags: []
 ## p2. 질문  
 
 - **머신러닝의 진정한 목적은 무엇인가?**  
-  1. 학습(training) 집합에서의 오류를 최소화한다  
-  2. 보이지 않는 미래의 예시들에서 오류를 최소화한다  
+  1. 학습 세트(training set)에서의 오류를 최소화한다  
+  2. 보이지 않는 미래의 예시들(unseen future examples)에서 오류를 최소화한다  
   3. 기계에 대해 배운다 (learn about machines)  
   4. 경사하강법(gradient descent)을 통해 학습 손실을 최소화한다  
 
@@ -96,3 +96,25 @@ tags: []
 - 모델 복잡도가 지나치게 높으면 학습 데이터의 잡음까지 외워버린다.  
 - 그 결과 학습 오류는 낮지만 테스트 오류는 다시 높아진다.  
 - 이는 모델이 새로운 데이터에 일반화하지 못하고, 훈련 데이터에만 특화된 복잡한 규칙을 학습했기 때문이다.  
+
+---
+
+## p7. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 가능한 모든 예측기(predictors)의 공간을 생각해보자.  
+  - 그 안에는 완벽하게 예측하는 **최적 예측기(optimal predictor)** $f^*$ 가 존재한다.  
+  - 물론, 이 예측기는 도달할 수 없는(unattainable) 것이다.  
+  - 그렇다면, 우리는 $f^*$ 로부터 얼마나 떨어져 있을까?  
+
+<img src="/assets/img/textmining/4/image_6.png" alt="image" width="600px"> 
+
+---
+
+## p8. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 실제로 우리는 가능한 모든 예측기(predictors)를 고려할 수 없다.  
+  - 대신, **가설 집합(hypothesis class) $\mathcal{F}$** 을 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
+  - 학습이 끝난 후, 우리는 **학습된 예측기(learned predictor) $\hat{f}$** 를 얻게 된다.  
+
+<img src="/assets/img/textmining/4/image_7.png" alt="image" width="600px"> 
+
