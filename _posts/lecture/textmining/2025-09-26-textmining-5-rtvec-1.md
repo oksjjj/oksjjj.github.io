@@ -328,14 +328,14 @@ $$
 
 ## p24. TF-IDF 가중치: 예시
 
-- **BoW 표현 (BoW representation)**  
+- **BoW 표현**  
   문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
 
   <img src="/assets/img/textmining/5/image_16.png" alt="image" width="380px">  
 
 ---
 
-- **IDF 계산 (idf computation)**  
+- **IDF 계산**  
   각 단어(term)에 대해 문서 빈도(df)를 계산하고,  
   아래의 공식을 사용하여 $idf$ 값을 구한다.  
 
@@ -361,5 +361,301 @@ $$
 
 ---
 
+## p26. TF-IDF 가중치: 예시
 
+- **BoW 표현**  
+  단어의 등장 횟수로만 문서를 표현한다.  
 
+  <img src="/assets/img/textmining/5/image_18.png" alt="image" width="380px">    
+
+---
+
+- **TF-IDF 표현**  
+  단어의 등장 빈도(TF, Term Frequency)와 역문서빈도(IDF, Inverse Document Frequency)를 곱하여  
+  문서를 실수 값 벡터로 표현한다.   
+
+  <img src="/assets/img/textmining/5/image_19.png" alt="image" width="600px">  
+
+---
+
+- **핵심 설명**  
+  - 이제 각 문서는 TF-IDF 가중치로 이루어진 **실수 벡터** $\in \mathbb{R}^{ \mid V \mid }$ 로 표현된다.  
+  - BoW와 달리, **TF-IDF는 흔한 단어의 중요도를 낮추고, 문서를 구분하는 단어를 강조한다.**  
+
+---
+
+# 희소 표현(sparse representation)을 활용한 벡터 공간 모델(Vector Space Model)
+
+<img src="/assets/img/textmining/5/image_2.png" alt="image" width="600px">
+
+---
+
+## p28. 희소 표현(sparse representation)의 유사성  
+
+- **쿼리(query)와 문서(document)의 유사성 계산**  
+  쿼리 $q$와 문서 $d$가 주어졌을 때, 희소 표현(sparse representation)을 기반으로 유사성을 계산한다.  
+
+  - 쿼리 $q$: 단어 $t$의 각 항목은 $tf_{t,q}$  
+  - 문서 $d$: 단어 $t$의 각 항목은 $tf_{t,d} \times idf_t$  
+
+---
+
+- **주의 (Note)**  
+  쿼리에 IDF를 적용하지 않는 것이 표준 관례이다.  
+  - 쿼리는 일반적으로 매우 짧으며, 소수의 단어만 포함한다.  
+  - IDF를 적용하면 이러한 단어들의 가중치가 과도하게 낮아져, 쿼리 표현의 효과성이 줄어든다.  
+
+---
+
+- **예시 (Example)**  
+  - **쿼리 $q$:** `"any any zebra"`  
+  - **문서 $d$:** `"zebra any love any zebra"`  
+
+  <img src="/assets/img/textmining/5/image_20.png" alt="image" width="500px">  
+
+*단순화를 위해, 위 그림에서는 원시 빈도(raw counts)를 $tf$로 표시한다.*  
+
+---
+
+## p29. 희소 표현(sparse representation)의 유사성  
+
+- **예시 (Example)**  
+  - **쿼리 $q$:** `"any any zebra"`  
+  - **문서 $d$:** `"zebra any love any zebra"`  
+
+  <img src="/assets/img/textmining/5/image_20.png" alt="image" width="500px">  
+
+---
+
+- **문제 (Question)**  
+  Vector($q$)와 Vector($d$)의 내적(inner product)은 무엇인가?  
+
+---
+
+- **계산 과정**  
+
+$$
+\text{Vector}(q) \cdot \text{Vector}(d) 
+= 2 \times tf_{any,d} \times idf_{any} + 1 \times tf_{zebra,d} \times idf_{zebra}
+$$  
+
+$$
+= tf_{any,d} \times idf_{any} + tf_{any,d} \times idf_{any} + tf_{zebra,d} \times idf_{zebra}
+$$  
+
+$$
+= \sum_{t \in q} (tf_{t,d} \times idf_t)
+$$  
+
+---
+
+## p30. 내적(inner product)의 문제점  
+
+- **예시 (Example)**  
+  - **쿼리 $q$:** `"any any zebra"`  
+  - **문서 $d_1$:** `"zebra any love any zebra"`  
+  - **문서 $d_2$:** `"zebra any love any zebra zebra any love any zebra"` (2번 반복)  
+
+  <img src="/assets/img/textmining/5/image_21.png" alt="image" width="720px">  
+
+---
+
+### 보충 설명  
+  - 쿼리 $q$는 동일하지만, 문서 $d_2$는 단순히 $d_1$을 2번 반복한 것에 불과하다.  
+  - 그러나 내적 값(inner product)은 단어 출현 횟수(tf)에 직접 비례하기 때문에,  
+    $d_2$의 벡터 값은 $d_1$의 벡터 값보다 단순히 2배가 된다.  
+  - 이로 인해 문서의 "길이" 차이 때문에 유사도가 왜곡될 수 있다.  
+
+---
+
+## p31. 내적(inner product)의 문제점  
+
+- **예시 (Example)**  
+  - **쿼리 $q$:** `"any any zebra"`  
+  - **문서 $d_1$:** `"zebra any love any zebra"`  
+  - **문서 $d_2$:** `"zebra any love any zebra zebra any love any zebra"` (2회 반복)  
+  - **문서 $d_{100}$:** `"zebra any love any zebra zebra any love any zebra ..."` (100회 반복)  
+
+  <img src="/assets/img/textmining/5/image_22.png" alt="image" width="720px">  
+
+---
+
+### 보충 설명  
+  - 문서 $d_{100}$은 단순히 $d_1$의 내용을 100번 반복한 것에 불과하다.  
+  - 그러나 내적(inner product)을 계산하면, $d_{100}$의 벡터는 $d_1$의 벡터보다 모든 항이 단순히 **100배 커진다**.  
+  - 이로 인해 문서의 길이가 길어질수록, 내용적 차이가 없음에도 불구하고 쿼리와의 유사도가 과대평가된다.  
+  - 따라서 단순한 내적은 **문서 길이에 민감하게 반응**한다는 문제가 존재한다.  
+
+---
+
+## p32. 내적(inner product)의 문제점  
+
+- **예시 (Example)**  
+  - **쿼리 $q$:** `"any any zebra"`  
+  - **문서 $d_1$:** `"zebra any love any zebra"`  
+  - **문서 $d_2$:** `"zebra any love any zebra zebra any love any zebra"` (2회 반복)  
+  - **문서 $d_{100}$:** `"zebra any love any zebra zebra any love any zebra ..."` (100회 반복)  
+
+---
+
+- **수식 관계**  
+  - $\text{Vector}(d_2) = 2 \, \text{Vector}(d_1)$  
+  - $\text{Vector}(q) \cdot \text{Vector}(d_2) = 2 \, \text{Vector}(q) \cdot \text{Vector}(d_1)$  
+
+  - $\text{Vector}(d_{100}) = 100 \, \text{Vector}(d_1)$  
+  - $\text{Vector}(q) \cdot \text{Vector}(d_{100}) = 100 \, \text{Vector}(q) \cdot \text{Vector}(d_1)$  
+
+---
+
+- <span style="color:red">우리는 문서 $d$의 길이를 단순히 늘림으로써, 쿼리 $q$와 문서 $d$의 내적을 원하는 만큼 크게 만들 수 있다!</span>  
+
+---
+
+## p33. 간단한 해결책: 코사인 유사도(Cosine similarity)
+
+- 이는 먼저 벡터를 단위 길이(unit length)로 **정규화(normalizing)** 한 다음,  
+  **내적(dot product)을 계산**하는 것과 동일하다.  
+
+---
+
+- 정의:  
+
+$$
+\mathbf{x} = [x_1, x_2, \ldots, x_N], \quad 
+\mathbf{y} = [y_1, y_2, \ldots, y_N]
+$$  
+
+$$
+\cos(\mathbf{x}, \mathbf{y}) 
+= \frac{x_1 y_1 + x_2 y_2 + \cdots + x_N y_N}{\sqrt{x_1^2 + x_2^2 + \cdots + x_N^2} \times \sqrt{y_1^2 + y_2^2 + \cdots + y_N^2}}
+= \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \cdot \|\mathbf{y}\|}
+= \left(\frac{\mathbf{x}}{\|\mathbf{x}\|}\right) \cdot \left(\frac{\mathbf{y}}{\|\mathbf{y}\|}\right)
+$$  
+
+---
+
+- $\mathbf{x}$, $2\mathbf{x}$, $100\mathbf{x}$는 길이 정규화를 거치면 동일한 벡터가 된다.  
+
+- 코사인 유사도 값이 클수록 두 단위 벡터(unit vector) 사이의 각도는 작아지고,  
+  이는 곧 두 벡터가 더 "유사(similar)"하다는 것을 의미한다.  
+
+<img src="/assets/img/textmining/5/image_23.png" alt="image" width="400px"> 
+
+---
+
+## p34. 간단한 해결책: 코사인 유사도(Cosine similarity)
+
+- 요약하면, **희소 벡터(sparse vectors)** 를 다룰 때는  
+  **코사인 유사도(cosine similarity)** 를 사용한다!  
+
+---
+
+- 희소 벡터(sparse vector)는 고차원(high-dimensional) 구조이며,  
+  차원 수는 어휘집(vocabulary)의 크기와 동일하다.  
+
+- 더 긴 문서(longer documents)는 더 많은 단어(terms)와 더 큰 빈도(counts)를 포함하므로  
+  **벡터 크기(vector magnitudes)** 가 더 커지는 경향이 있다.  
+
+- 코사인 유사도는 벡터들 사이의 **각(angle)** 을 비교한다.  
+  → 따라서 문서 길이(document length)에 대해 **강건(robust)** 한 유사도 측정을 가능하게 한다.  
+
+---
+
+<img src="/assets/img/textmining/5/image_24.png" alt="image" width="500px"> 
+
+---
+
+- 계산 과정:  
+
+$$
+\|Vector(q)\| = \sqrt{2^2 + 1^2} = \sqrt{5}
+$$  
+
+$$
+\|Vector(d_1)\| = \sqrt{4^2 + 2^2 + 8^2} = \sqrt{84}
+$$  
+
+$$
+\cos(Vector(q), Vector(d_1)) = \frac{2 \times 4 + 0 \times 2 + 1 \times 8}{\sqrt{5} \times \sqrt{84}} \approx 0.781
+$$  
+
+---
+
+## p35. 요약: 희소 표현(Sparse representations)
+
+- **BoW 표현**  
+  문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
+
+  <img src="/assets/img/textmining/5/image_18.png" alt="image" width="380px">  
+
+---
+
+- **TF-IDF 표현**  
+  단어의 빈도(frequency) 정보를 바탕으로 문서와 단어를 표현한다.  
+
+  <img src="/assets/img/textmining/5/image_19.png" alt="image" width="600px">   
+
+---
+
+- **비교 요약**  
+  - BoW와 TF-IDF는 둘 다 단어 빈도 정보를 기반으로 문서와 단어를 표현한다.  
+  - 그러나 BoW와 달리, TF-IDF는 **자주 등장하는 단어(common words)의 가중치를 줄이고(downweights),  
+    문서를 구별하는 단어(terms that distinguish documents)를 강조(highlights)** 한다.  
+
+---
+
+## p37. 요약: 희소 표현(Sparse representations)
+
+- 우리는 문서를 희소 벡터(sparse vectors)로 표현하는 방법과, 이들의 유사도를 계산하는 방법을 학습했다.  
+
+---
+
+- **장점:**  
+  - 단순하고 계산하기 쉽다.  
+  - 작은/중간 규모의 어휘(vocabularies)에 효율적이다.  
+
+---
+
+- **단점:**  
+  - **높은 차원(High dimensionality):**  
+    - 어휘 크기가 쉽게 100k(10만)를 초과할 수 있다.  
+    - 이는 비효율적인 표현으로 이어진다.  
+
+  - **평탄화된 텍스트 뷰(Flattened view of text):**  
+    - 문장의 구조와 단어 순서를 무시한다.  
+    - 예: *“the horse ate”* = *“ate the horse”* 로 처리된다.  
+
+  - **문맥에 둔감(Context-insensitive):**  
+    - 단어의 의미 구분(word senses)을 하지 못한다.  
+    - 예: *“bank”* (강둑, river) vs. *“bank”* (금융, finance)를 동일한 토큰으로 취급한다.  
+
+<img src="/assets/img/textmining/5/image_25.png" alt="image" width="480px">
+
+---
+
+## p38. 다음: 밀집 표현 (Dense representations)
+
+- **희소 표현(sparse representation)에서 밀집 표현(dense representation)으로**  
+
+  - 희소 벡터(sparse vectors): 매우 길다 (길이 = $ \mid V \mid $, 종종 10k 이상), 대부분의 항목 값 = 0  
+  - 밀집 벡터(dense vectors): 상대적으로 짧다 (50–1000 차원), 대부분의 항목 값 ≠ 0  
+
+---
+
+- **정적 임베딩(Static embeddings)**  
+  - 각 단어는 **하나의 고정된 밀집 벡터(single fixed dense vector)** 로 할당된다.  
+  - 주변 문맥(context)을 반영하지 않는다.  
+    - 예: “bank” → 항상 같은 벡터  
+  - 예시: Word2vec, GloVe  
+
+  <img src="/assets/img/textmining/5/image_26.png" alt="image" width="300px">  
+
+---
+
+- **문맥 임베딩(Contextual embeddings)**  
+  - 각 단어의 벡터는 **주변 문맥(surrounding context)** 에 따라 달라진다.  
+  - 단어의 의미가 문맥에 따라 변한다.  
+    - 예: “bank of the river” vs. “bank account”  
+  - 예시: BERT, LLM 기반 임베딩  
+
+  <img src="/assets/img/textmining/5/image_27.png" alt="image" width="500px">  
