@@ -542,3 +542,68 @@ $$
 
 ---
 
+## p31. K-평균 (K-means) 예시
+
+- 주어진 학습 데이터:  
+
+$$
+D_{train} = \{0, 2, 10, 12\}, \quad \mu = [0, 2]
+$$  
+
+<img src="/assets/img/textmining/4/image_25.png" alt="image" width="480px">  
+
+※ 보라색 표시된 점이 중심점(centroids)
+
+---
+
+- **Iteration 1**  
+
+  - **Step 1:**  
+    $$
+    z_1 = 1, \quad z_2 = 2, \quad z_3 = 2, \quad z_4 = 2
+    $$  
+
+  - **Step 2:**  
+    $$
+    \mu_1 = 0, \quad \mu_2 = 8
+    $$  
+
+<img src="/assets/img/textmining/4/image_26.png" alt="image" width="480px">  
+
+---
+
+- **Iteration 2**  
+
+  - **Step 1:**  
+    $$
+    z_1 = 1, \quad z_2 = 1, \quad z_3 = 2, \quad z_4 = 2
+    $$  
+
+  - **Step 2:**  
+    $$
+    \mu_1 = 1, \quad \mu_2 = 11
+    $$  
+
+<img src="/assets/img/textmining/4/image_27.png" alt="image" width="480px">  
+
+---
+
+- **수렴 (Converged)**
+
+---
+
+## p32. K-평균 (K-means) 예시
+
+- **클러스터의 개수 ($K$): 3**
+
+<img src="/assets/img/textmining/4/image_28.png" alt="image" width="720px">  
+
+---
+
+## p33. 요약: 기계 학습 (machine learning)
+
+- **특성 추출 (Feature extraction):** 선형 & 비선형 특성, 가설 클래스(hypothesis class)  
+- **예측 과제 (Prediction task):** 회귀(regression), 분류(classification), 순위화(ranking), 군집(clustering)  
+- **선형 및 비선형 모델 (Linear and nonlinear models):** 선형 예측기(linear predictors), 신경망(neural networks)  
+- **최적화 (Optimization):** 경사 하강법(gradient descent), 역전파(backpropagation), 교대 최소화(alternating minimization)  
+- **일반화 (Generalization):** 과적합(overfitting), 과소적합(underfitting), 오류 분해(error decomposition), 개발 주기(development cycle)
