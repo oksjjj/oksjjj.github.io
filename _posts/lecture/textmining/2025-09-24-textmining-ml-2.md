@@ -1103,3 +1103,14 @@ $$
    $$
 
    가 성립한다.
+
+---
+
+## p33. 계산 그래프: 함수의 합성 (Composing functions)
+
+- 이러한 기본 블록들을 사용하여, 연쇄 법칙(chain rule)을 통해 **체계적으로 도함수(derivatives)를 계산**하면서 더 복잡한 함수를 만들 수 있다.  
+
+- **연쇄 법칙(Chain rule):**  
+  출력(out)의 입력(in)에 대한 도함수는, 연산 그래프에서 경로를 따라 나타나는 **중간 도함수들을 곱함으로써** 얻어진다.  
+
+<img src="/assets/img/textmining/3/image_28.png" alt="image" width="480px">
