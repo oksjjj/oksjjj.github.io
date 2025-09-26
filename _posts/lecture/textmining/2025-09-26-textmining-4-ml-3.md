@@ -118,3 +118,29 @@ tags: []
 
 <img src="/assets/img/textmining/4/image_7.png" alt="image" width="600px"> 
 
+---
+
+## p9. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 실제로 우리는 가능한 모든 예측기(predictors)를 고려할 수 없다.  
+  - 대신, **가설 집합(hypothesis class) $\mathcal{F}$** 을 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
+  - 또한, $\mathcal{F}$ 안에는 **가능한 한 최선의 함수(the best possible function) $g$** 가 존재한다.   
+
+<img src="/assets/img/textmining/4/image_8.png" alt="image" width="600px"> 
+
+---
+
+## p10. 학습(fitting)과 일반화(generalization) 이해하기  
+
+- 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
+
+<img src="/assets/img/textmining/4/image_9.png" alt="image" width="600px">  
+
+$$
+\text{Err}(\hat{f}) - \text{Err}(f^*) 
+= \underbrace{\text{Err}(\hat{f}) - \text{Err}(g)}_{\text{estimation error}} 
++ \underbrace{\text{Err}(g) - \text{Err}(f^*)}_{\text{approximation error}}
+$$  
+
+- **추정 오차(Estimation error)** 는 **제한된 데이터와 학습의 비효율성(limited data and learning inefficiencies)** 으로부터 발생한다.  
+- **근사 오차(Approximation error)** 는 **가설 집합(hypothesis class)의 한계(limitations)** 로부터 발생한다.  
