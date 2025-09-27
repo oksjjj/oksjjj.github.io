@@ -1804,3 +1804,373 @@ $$
   - 가능하다면 질의 로그에서 샘플을 추출하라.  
 
 - **Public Test Collection (공개 테스트 컬렉션)**  
+
+---
+
+## p42. 전통적 및 현대 IR 테스트 컬렉션  
+
+**전통적 테스트 컬렉션**  
+
+| Test Set              | 데이터 구성 특징                     | 데이터 규모                                             | 접근 URL |
+|-----------------------|------------------------------------|------------------------------------------------------|----------|
+| **TREC Robust Track** | 뉴스 기사, 정부 문서, 어려운 질의         | 문서: 528,155개<br>질의: 250개<br>관련성 판단: 311,410개 | <a href="https://trec.nist.gov/data/robust.html" target="_blank">Link</a> |
+| **TREC Web Track**    | ClueWeb 컬렉션, 웹페이지, 다양성 평가     | 문서: 1억 개 (ClueWeb12)<br>질의: 300개 (2009–2014)   | <a href="https://lemurproject.org/clueweb12/" target="_blank">Link</a> |
+| **Cranfield Collection** | 항공공학 논문 초록, 전문 도메인           | 문서: 1,400개<br>질의: 225개                         | <a href="http://ir.dcs.gla.ac.uk/resources/test_collections/cran/" target="_blank">Link</a> |
+| **CACM Collection**   | 컴퓨터과학 논문 초록, ACM 저널           | 문서: 3,204개<br>질의: 64개                          | <a href="http://ir.dcs.gla.ac.uk/resources/test_collections/cacm/" target="_blank">Link</a> |
+| **Time Collection**   | Time 잡지 기사, 일반 도메인              | 문서: 423개<br>질의: 83개                            | <a href="http://ir.dcs.gla.ac.uk/resources/test_collections/time/" target="_blank">Link</a> |
+
+---
+
+**대규모 현대 테스트셋**  
+
+| Test Set                | 데이터 구성 특징                           | 데이터 규모                                                                 | 접근 URL |
+|-------------------------|----------------------------------------|------------------------------------------------------------------------|----------|
+| **MS MARCO Passage**    | Bing 검색질의, 웹 패시지, 딥러닝 최적화        | 패시지: 8,841,823개<br>질의: 1,010,916개 (train)<br>질의: 6,980개 (dev) | <a href="https://microsoft.github.io/msmarco/" target="_blank">Link</a> |
+| **MS MARCO Document**   | 웹 문서 전문, 실제 검색 환경                | 문서: 3,213,835개<br>질의: 367,013개 (train)<br>질의: 5,193개 (dev)    | <a href="https://microsoft.github.io/msmarco/" target="_blank">Link</a> |
+| **Natural Questions**   | Google 검색 질의, 위키피디아, QA 형태         | 문서: 2,681,468개<br>질의: 307,373개<br>답변: long/short answer         | <a href="https://ai.google.com/research/NaturalQuestions" target="_blank">Link</a> |
+| **DL-Hard**             | MS MARCO 기반, 어려운 질의 선별              | 질의: 50개 (매우 어려운 질의)<br>의기반: MS MARCO 컬렉션                 | <a href="https://github.com/microsoft/DL-Hard" target="_blank">Link</a> |
+
+---
+
+## p43. 한국어 일반 도메인 테스트셋  
+
+| Test Set        | 데이터 구성 특징                         | 데이터 규모                                         | 접근 URL |
+|-----------------|--------------------------------------|--------------------------------------------------|----------|
+| **KorQuAD 1.0** | 한국어 위키피디아, 기계독해                  | 문서: 1,560개<br>질의: 70,079개<br>답변: extractive | <a href="https://korquad.github.io/" target="_blank">Link</a> |
+| **KorQuAD 2.1** | 한국어 위키피디아, 답변 불가능한 질의 포함       | 문서: 5,668개<br>질의: 100,000개<br>답변: extractive / impossible | <a href="https://korquad.github.io/" target="_blank">Link</a> |
+| **KLUE-MRC**    | 한국어 자연어 이해 벤치마크, 기계독해           | 문서: 5,841개<br>질의: 17,554개<br>답변: span-based | <a href="https://github.com/KLUE-benchmark/KLUE" target="_blank">Link</a> |
+| **AI Hub QA**   | 다양한 도메인, 생활 질의응답                  | 질의: 270,000개<br>답변: 다지선다형<br>도메인: 일반상식 | <a href="https://aihub.or.kr/" target="_blank">Link</a> |
+
+---
+
+## p44. IR 평가  
+
+- 사용자 요구(User Need)는 질의(Query)로 변환됨  
+- 관련성(Relevance)은 질의가 아닌 **사용자 요구**에 대해 평가  
+
+- 예시:  
+  - 정보 요구(Information Need): *수영장 바닥이 검게 변해서 청소가 필요하다*  
+  - 질의(Query): *pool cleaner*  
+  - 문서가 단순히 해당 단어들을 포함하는지가 아니라, **근본적인 요구사항을 해결하는지**를 평가해야 함  
+
+---
+
+사용자의 실제 정보 요구(Information Need)와 그것을 표현한 검색어(Query) 사이에는 차이가 있으며,  
+문서의 관련성(Relevance)은 검색어의 단순한 키워드 매칭이 아니라  
+**사용자의 근본적인 정보 요구를 얼마나 잘 충족시키는가**로 판단해야 한다.  
+
+---
+
+## p45. IR 평가  
+
+**비순위 검색(Unranked Retrieval) 평가**  
+
+|                | Relevant | Nonrelevant |
+|----------------|----------|-------------|
+| **Retrieved**  | tp       | fp          |
+| **Not Retrieved** | fn       | tn          |
+
+- **Precision (정밀도)**  
+
+  $$
+  P = \frac{tp}{tp + fp}
+  $$  
+
+- **Recall (재현율)**  
+
+  $$
+  R = \frac{tp}{tp + fn}
+  $$  
+
+---
+
+**순위 검색(Ranked Retrieval) 평가**  
+
+- **이진 적합성(Binary Relevance)**  
+  - **Precision@K (P@K):** 상위 K개 검색 결과 중 관련성(Relevance)이 있는 문서의 비율  
+  - **Mean Average Precision (MAP):** 여러 질의에 대한 Average Precision의 평균  
+  - **Mean Reciprocal Rank (MRR):** 각 질의에서 첫 번째로 찾은 관련 문서가 높은 순위에 있는 정도  
+
+- **다단계 관련성(Multiple Levels of Relevance)**  
+  - **Normalized Discounted Cumulative Gain (NDCG):** 관련성 수준(Highly, Relevant, Partially, Not Relevant)을 고려해 순위를 평가  
+
+---
+
+**관련성(Relevance) 수준**    
+
+- **Highly Relevant:** 완전히 요구사항 충족  
+- **Relevant:** 부분적 유용한 정보 포함  
+- **Partially Relevant:** 약간의 관련 정보 포함  
+- **Not Relevant:** 전혀 도움이 되지 않음  
+
+---
+
+## p46. IR 평가  
+
+- **Precision@K**  
+  - Precision@K = (상위 K개 결과 중 관련 문서 수) / K  
+
+  순위: 1 2 3 4 5 6 7 8 9 10  
+  결과: R N R R N R N N R N  
+
+  - Precision@1 = 1/1 = 1.0 (100%)  
+  - Precision@3 = 2/3 = 0.67 (67%)  
+  - Precision@5 = 3/5 = 0.6 (60%)  
+  - Precision@10 = 5/10 = 0.5 (50%)  
+
+- **장점**  
+  - 직관적, 실용적, 간단한 계산  
+
+- **단점**  
+  - Recall 무시: 전체 관련 문서 중 얼마나 찾았는지 고려하지 않음  
+  - 순서 무관: 상위 K개 내에서의 순서는 구분하지 않음  
+  - 이진 관련성: 다단계 관련성을 반영하지 못함  
+
+| K 값  | 의미                  | 활용 사례                |
+|-------|-----------------------|--------------------------|
+| P@1   | 첫 번째 결과의 정확도     | 내비게이션 질의, 팩트 체킹 |
+| P@5   | 첫 페이지 상위 결과       | 일반적인 웹 검색          |
+| P@10  | 첫 페이지 전체 결과       | 전통적인 검색 엔진 평가    |
+| P@20  | 확장된 결과 집합          | 연구용 검색, 전문 검색     |
+
+---
+
+## p47. IR 평가  
+
+- **Mean Average Precision(MAP)**  
+
+- 계산과정  
+  - 1단계: Precision@K 계산  
+  - 2단계: Average Precision (AP) 계산  
+
+    $$
+    AP = \sum (P(k) \times rel(k)) / \text{전체 관련 문서 수}
+    $$  
+
+    - P(k): k번째 위치에서의 Precision@k  
+    - rel(k): k번째 문서가 관련 문서면 1, 아니면 0  
+
+  - 3단계: Mean Average Precision 계산  
+
+    $$
+    MAP = (1/Q) \times \sum AP(q)
+    $$  
+
+    - Q: 전체 질의 수  
+    - AP(q): 각 질의의 Average Precision  
+
+---
+
+- **예시**  
+
+  - 질의 1  
+  
+| 순위    | 1   | 2   | 3    | 4    | 5   | 6    | 7    | 8   | 9    | 10  |
+|---------|-----|-----|------|------|-----|------|------|-----|------|-----|
+| 결과    | R   | N   | R    | R    | N   | R    | N    | R   | N    | N   |
+| P@k     | 1.0 | 0.5 | 0.67 | 0.75 | 0.6 | 0.67 | 0.57 | 0.5 | 0.56 | 0.5 |
+  
+**AP = (1.0 + 0.67 + 0.75 + 0.67 + 0.56) / 5 = 0.73**
+
+  - 질의 2  
+  
+| 순위    | 1   | 2   | 3    | 4    | 5   | 6    | 7    | 8   | 9    | 10  |
+|---------|-----|-----|------|------|-----|------|------|-----|------|-----|
+| 결과    | N   | R   | N    | R    | R   | N    | N    | R   | N    | N   |
+| P@k     | 0   | 0.5 | 0.33 | 0.5  | 0.6 | 0.5  | 0.43 | 0.5 | 0.44 | 0.4 |
+  
+**AP = (0.5 + 0.5 + 0.6 + 0.5) / 4 = 0.525** 
+
+- **최종 MAP**  
+
+  $$
+  MAP = (0.73 + 0.525) / 2 = 0.628
+  $$  
+
+---
+
+## p48. IR 평가  
+
+**MAP의 특징점**  
+
+- **장점**  
+  - **순위 민감성**: 높은 순위의 관련 문서에 더 큰 가중치  
+  - **재현율 고려**: 모든 관련 문서를 찾는 능력 반영  
+  - **종합적 평가**: 하나의 숫자로 전체 시스템 성능 요약  
+  - **표준화**: IR 분야의 널리 인정받는 표준 메트릭  
+
+- **한계점**  
+  - **이진 관련성**: "관련" vs "비관련"만 구분 → nDCG 같은 다단계 메트릭 사용하여 해결  
+  - **사용자 행동 미반영**: 실제 사용자는 상위 몇 개만 확인 → MAP@K 변형 사용  
+    - 예: **MAP@K** = 상위 10개 결과만으로 AP 계산  
+
+---
+
+## p49. IR 평가  
+
+**Mean Reciprocal Rank (MRR)**  
+
+- 각 질의에 대해 **첫 번째 관련 문서의 순위 역수**를 계산하고, 이를 모든 질의에 대해 평균  
+
+$$
+RR = \frac{1}{rank_i}
+$$  
+
+- $rank_i$ : 첫 번째 관련 문서의 순위
+
+$$
+MRR = \frac{1}{Q} \times \sum RR_q
+$$  
+
+- $Q$: 전체 질의 수  
+- $RR_q$: 각 질의 q의 Reciprocal Rank  
+
+---
+
+**질의 1**  
+
+| 순위    | 1 | 2 | 3 | 4 | 5 |
+|---------|---|---|---|---|---|
+| 결과    | N | R | N | R | N |
+
+- RR = 1/2 = 0.5  
+
+---
+
+**질의 2**  
+
+| 순위    | 1 | 2 | 3 | 4 | 5 |
+|---------|---|---|---|---|---|
+| 결과    | R | N | N | R | N |
+
+- RR = 1/1 = 1.0  
+
+---
+
+**질의 3**  
+
+| 순위    | 1 | 2 | 3 | 4 | 5 |
+|---------|---|---|---|---|---|
+| 결과    | N | N | N | R | N |
+
+- RR = 1/4 = 0.25  
+
+---
+
+**최종 MRR**  
+
+$$
+MRR = (0.5 + 1.0 + 0.25) / 3 = 1.75 / 3 = 0.583
+$$  
+
+---
+
+- 직관적: 사용자가 원하는 답을 얼마나 빨리 찾는지 측정  
+- 실용성: 실제 사용자 경험과 직결  
+
+---
+
+## p50. IR 평가  
+
+**nDCG (Normalized Discounted Cumulative Gain)**  
+
+- 다단계 관련성과 순위를 모두 고려하는 정보검색 평가 메트릭  
+
+- 구성요소  
+  - Gain: 문의 **관련성 수준**에 따른 이득  
+  - Cumulative Gain (CG): 상위 k개 문서의 이득합계  
+  - Discounted Cumulative Gain (DCG): 순위에 따른 할인을 적용한 누적 이득  
+  - Ideal DCG (iDCG): 이상적인 순서로 정렬했을 때의 최대 DCG  
+
+$$
+Gain = relevance\_level \quad (0: 관련없음,\ 1: 약간관련,\ 2: 관련됨,\ 3: 매우 관련됨)
+$$  
+
+$$
+CG@k = \sum_{i=1}^{k} gain_i
+$$  
+
+$$
+DCG@k = \sum_{i=1}^{k} \frac{gain_i}{\log_2(i+1)}
+$$  
+
+$$
+nDCG@k = \frac{DCG@k}{IDCG@k}
+$$  
+
+---
+
+## p51. IR 평가  
+
+**순위 및 관련성**  
+
+| 순위      | 1 | 2 | 3 | 4 | 5 | 6 |
+|-----------|---|---|---|---|---|---|
+| 관련성    | 3 | 2 | 3 | 0 | 1 | 2 |
+
+---
+
+**DCG@6 계산**  
+
+$$
+DCG@6 = \frac{3}{\log_2(2)} + \frac{2}{\log_2(3)} + \frac{3}{\log_2(4)} 
++ \frac{0}{\log_2(5)} + \frac{1}{\log_2(6)} + \frac{2}{\log_2(7)}
+$$  
+
+$$
+= 3/1.0 + 2/1.585 + 3/2.0 + 0/2.322 + 1/2.585 + 2/2.807
+$$  
+
+$$
+= 3.0 + 1.262 + 1.5 + 0 + 0.387 + 0.712 = 6.861
+$$  
+
+---
+
+**IDCG@6 계산**  
+
+$$
+IDCG@6 = \frac{3}{1.0} + \frac{3}{1.585} + \frac{2}{2.0} + \frac{2}{2.322} + \frac{1}{2.585} + \frac{0}{2.807}
+$$  
+
+$$
+= 3.0 + 1.893 + 1.0 + 0.861 + 0.387 + 0 = 7.141
+$$  
+
+---
+
+**nDCG@6 계산**  
+
+$$
+nDCG@6 = \frac{6.861}{7.141} = 0.961
+$$  
+
+---
+
+**결과 테이블**  
+
+| k   | DCG@k | IDCG@k | nDCG@k |
+|-----|-------|--------|--------|
+| 1   | 3.000 | 3.000  | 1.000  |
+| 2   | 4.262 | 4.893  | 0.871  |
+| 3   | 5.762 | 5.893  | 0.978  |
+| 4   | 5.762 | 6.754  | 0.853  |
+| 5   | 6.149 | 7.141  | 0.861  |
+| 6   | 6.861 | 7.141  | 0.961  |
+
+---
+
+## p52. IR 평가  
+
+**nDCG의 장점**  
+
+- 다단계 관련성 지원  
+  - nDCG: 매우관련(3) > 관련(2) > 약간관련(1) > 비관련(0)  
+
+- 순위 할인 (Position Discount)  
+  - 상위 순위는 높은 가중치, 낮은 순위는 낮은 가중치 부여  
+  - $\log_2(i+1)$로 할인  
+
+- 정규화된 비교  
+  - nDCG 값의 범위: 0 ~ 1  
+  - 서로 다른 질의간의 직접 비교가 가능함  
