@@ -101,3 +101,9 @@ tags: []
 - 역할: Visualize(시각화), Manage(관리), Bulk 데이터 입력  
 - **Elasticsearch**의 데이터를 시각화하거나 편리하게 조작 기능을 제공  
 - GUI 환경을 제공한다  
+
+---
+
+## p8. ELK stack  
+
+<img src="/assets/img/bigdatasearch/4/image_2.png" alt="image" width="720px">  
