@@ -1817,7 +1817,7 @@ $$
 | **TREC Web Track**    | ClueWeb 컬렉션, 웹페이지, 다양성 평가     | 문서: 1억 개 (ClueWeb12)<br>질의: 300개 (2009–2014)   | <a href="https://lemurproject.org/clueweb12/" target="_blank">Link</a> |
 | **Cranfield Collection** | 항공공학 논문 초록, 전문 도메인           | 문서: 1,400개<br>질의: 225개                         | <a href="https://ir.dcs.gla.ac.uk/resources/test_collections/cran/" target="_blank">Link</a> |
 | **CACM Collection**   | 컴퓨터과학 논문 초록, ACM 저널           | 문서: 3,204개<br>질의: 64개                          | <a href="https://ir.dcs.gla.ac.uk/resources/test_collections/cacm/" target="_blank">Link</a> |
-| **Time Collection**   | Time 잡지 기사, 일반 도메인              | 문서: 423개<br>질의: 83개                            | <a href="http://ir.dcs.gla.ac.uk/resources/test_collections/time/" target="_blank">Link</a> |
+| **Time Collection**   | Time 잡지 기사, 일반 도메인              | 문서: 423개<br>질의: 83개                            | <a href="https://ir.dcs.gla.ac.uk/resources/test_collections/time/" target="_blank">Link</a> |
 
 ---
 
