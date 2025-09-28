@@ -107,3 +107,117 @@ tags: []
 ## p8. ELK stack  
 
 <img src="/assets/img/bigdatasearch/4/image_2.png" alt="image" width="720px">  
+
+---
+
+## p9. ElasticSearch  
+
+- Elasticsearch는 자바로 개발, 자바 실행이 가능한 환경이라면 어디서든 구동  
+
+- Windows 설치 및 실행  
+  - https://www.elastic.co/downloads/elasticsearch  
+    - 엘라스틱서치 압축 파일 다운로드 -> 압축 해제  
+
+- 엘라스틱서치 설정  
+  - Elasticsearch 설치경로 → config 이동 → elasticsearch.yml 편집  
+    - Data path 및 log path 지정  
+    - Network host(localhost)와 http Port(9200) 지정  
+
+- Elasticsearch 실행  
+  - bin\elasticsearch  
+
+- 브라우저에서 조회  
+  - http://127.0.0.1:9200/  
+
+- 서비스 설치 및 시작  
+  - bin\elasticsearch-service.bat install  
+  - bin\elasticsearch-service.bat start  
+  - http://127.0.0.1:9200/ 에 접속하여 확인  
+
+- 서비스 종료  
+  - bin\elasticsearch-service.bat stop  
+
+<img src="/assets/img/bigdatasearch/4/image_3.png" alt="image" width="600px"> 
+
+---
+
+## p10. ElasticSearch  
+
+- Java 버전 확인  
+<img src="/assets/img/bigdatasearch/4/image_4.png" alt="image" width="720px"> 
+
+- CRUD : REST API 를 사용해서 데이터 색인, 조회 및 삭제  
+
+---
+
+- 도큐먼트 생성  
+
+**명령어**   
+```bash
+curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
+Elasticsearch\" }“
+```
+
+**출력 결과**  
+```
+{"_index":"my_index","_id":"1","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":0,"_primary_term":2}
+```
+
+---
+
+- 도큐먼트 조회  
+
+**명령어**   
+```bash
+curl -XGET http://localhost:9200/my_index/_doc/1
+```
+
+**출력 결과**  
+```
+{"_index":"my_index","_id":"1","_version":1,"_seq_no":0,"_primary_term":2,"found":true,"_source":{ "message":"안녕하세요 Elasticsearch" }}
+```
+
+---
+
+- 도큐먼트 수정  
+
+**명령어**   
+```bash
+curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
+Elasticsearch Stack\" }“
+```
+
+**출력 결과**  
+```
+{"_index":"my_index","_id":"1","_version":2,"result":"updated","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":1,"_primary_term":2}
+```
+
+---
+
+- 도큐먼트 삭제  
+
+**명령어**   
+```bash
+curl -XDELETE http://localhost:9200/my_index/_doc/1
+```
+
+**출력 결과**  
+```
+{"_index":"my_index","_id":"1","_version":3,"result":"deleted","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":3,"_primary_term":3}
+```
+
+---
+
+- 인덱스 삭제  
+
+**명령어**   
+```bash
+curl -XDELETE "http://localhost:9200/my_index"
+```
+
+**출력 결과**  
+```
+{"acknowledged":true}
+```
+
+---
