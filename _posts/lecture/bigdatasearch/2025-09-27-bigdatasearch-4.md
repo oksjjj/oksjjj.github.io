@@ -153,7 +153,7 @@ tags: []
 - 도큐먼트 생성  
 
 **명령어**   
-```bash
+```powershell
 curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
 Elasticsearch\" }“
 ```
@@ -168,7 +168,7 @@ Elasticsearch\" }“
 - 도큐먼트 조회  
 
 **명령어**   
-```bash
+```powershell
 curl -XGET http://localhost:9200/my_index/_doc/1
 ```
 
@@ -182,7 +182,7 @@ curl -XGET http://localhost:9200/my_index/_doc/1
 - 도큐먼트 수정  
 
 **명령어**   
-```bash
+```powershell
 curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
 Elasticsearch Stack\" }“
 ```
@@ -197,7 +197,7 @@ Elasticsearch Stack\" }“
 - 도큐먼트 삭제  
 
 **명령어**   
-```bash
+```powershell
 curl -XDELETE http://localhost:9200/my_index/_doc/1
 ```
 
@@ -211,7 +211,7 @@ curl -XDELETE http://localhost:9200/my_index/_doc/1
 - 인덱스 삭제  
 
 **명령어**   
-```bash
+```powershell
 curl -XDELETE "http://localhost:9200/my_index"
 ```
 
@@ -221,3 +221,948 @@ curl -XDELETE "http://localhost:9200/my_index"
 ```
 
 ---
+
+## p11. ElasticSearch  
+
+**1-1 도큐먼트 색인**  
+
+```
+curl -XPUT "http://localhost:9200/my_index/_doc/1" -H 'Content-Type: application/json' -d'
+{
+"message":"안녕하세요 Elasticsearch"
+}'
+```
+
+**1-2 도큐먼트 조회**  
+
+```
+curl -XGET "http://localhost:9200/my_index/_doc/1"
+```
+
+**1-3 도큐먼트 색인 : 기존 도큐먼트에 업데이트**  
+
+```
+curl -XPUT "http://localhost:9200/my_index/_doc/1" -H 'Content-Type: application/json' -d'
+{
+"message":"안녕하세요 Elastic Stack"
+}'
+```
+
+
+**1-4 도큐먼트 색인 : ID 자동 생성**  
+
+```
+curl -XPOST "http://localhost:9200/my_index/_doc" -H 'Content-Type: application/json' -d'
+{
+"message":"안녕하세요 Kibana"
+}'
+```
+
+**1-5 도큐먼트 삭제**
+
+```
+curl -XDELETE "http://localhost:9200/my_index/_doc/1"
+```
+
+**1-6 인덱스 삭제**  
+
+```
+curl -XDELETE "http://localhost:9200/my_index"
+```
+
+---
+
+## p12. Kibana  
+
+- **Kibana 설치 및 실행**  
+  - 다운로드 링크: https://www.elastic.co/kr/downloads/kibana  
+
+- **Kibana 설정 및 실행**  
+  - `kibana-9.1.4/config/kibana.yml` 수정  
+  - `kibana-9.1.4/bin/kibana.bat` 실행  
+
+<img src="/assets/img/bigdatasearch/4/image_5.png" alt="image" width="480px"> 
+
+- **접속**  
+  - http://localhost:5601 에 접속  
+    - Elasticsearch 실행된 상태여야 함  
+    - 해당 페이지에서 *try sample data* 버튼을 통해 데이터 입력  
+
+---
+
+## p13. Elasticsearch 설치 및 실행(Docker 사용)  
+
+- **사전준비**  
+  - Windows 10/11 (WSL2 사용 권장) + WSL2가 설치·활성화  
+  - Docker Desktop(Windows) 설치 및 WSL 통합  
+  - 충분한 메모리(개발용 최소 4GB)  
+
+- **필수 커널 설정: vm.max_map_count**  
+  - Elasticsearch 실행 전 호스트 커널 파라미터 `vm.max_map_count` 값을 **≥ 262144** 설정  
+
+```powershell
+# PowerShell
+wsl -d docker-desktop -u root -- sysctl -w vm.max_map_count=262144
+
+# 또는 interactive
+wsl -d docker-desktop -u root
+# >> sysctl -w vm.max_map_count=262144
+```
+
+-**간단한 빠른 시작(한번만 테스트)**  
+
+```powershell
+docker run --name es01 -p 9200:9200 -p 9300:9300 \
+-e "discovery.type=single-node" \
+-e "ELASTIC_PASSWORD=changeme" \
+-e "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
+docker.elastic.co/elasticsearch/elasticsearch:<ES_VERSION>
+```
+
+---
+
+## p14. Elasticsearch 설치 및 실행(Docker 사용)  
+
+**아래 방법으로 설치되지 않는 경우 보충 설명 참고**
+
+- **docker-compose로 설정**  
+  (개발용 single-node + Kibana 예시)  
+  파일명: `docker-compose.yml`  
+  (현재 디렉터리에 저장)  
+
+```yaml
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:<ES_VERSION>
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ELASTIC_PASSWORD=changeme
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:<ES_VERSION>
+    container_name: kib01
+    environment:
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=changeme
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+volumes:
+  esdata:
+```
+
+- **시작**  
+
+```bash
+docker compose up -d
+```
+
+- **실행방법**
+
+  - Elasticsearch: http://localhost:9200  
+    (ID: elastic, PW: changeme)
+
+  - Kibana: http://localhost:5601
+
+---
+
+### 보충 설명 : Elastic Search 공식 문서에 따른 docker-compose 설치 방법
+
+#### 1. .env 파일 생성
+
+```bash
+vi .env
+```
+
+- 아래 내용을 붙어 넣고 파일 저장  
+
+```
+# Password for the 'elastic' user (at least 6 characters)
+ELASTIC_PASSWORD=changeme
+
+# Password for the 'kibana_system' user (at least 6 characters)
+KIBANA_PASSWORD=changeme
+
+# Version of Elastic products
+STACK_VERSION=9.1.2
+
+# Set the cluster name
+CLUSTER_NAME=docker-cluster
+
+# Set to 'basic' or 'trial' to automatically start the 30-day trial
+LICENSE=basic
+#LICENSE=trial
+
+# Port to expose Elasticsearch HTTP API to the host
+ES_PORT=9200
+#ES_PORT=127.0.0.1:9200
+
+# Port to expose Kibana to the host
+KIBANA_PORT=5601
+#KIBANA_PORT=80
+
+# Increase or decrease based on the available host memory (in bytes)
+MEM_LIMIT=1073741824
+
+# Project namespace (defaults to the current folder name if not set)
+#COMPOSE_PROJECT_NAME=myproject
+```
+
+#### 2. docker-compose.yml 생성
+
+```bash
+vi docker-compose.yml
+```
+
+- 아래 내용을 붙여 넣고 파일 저장
+
+```
+version: "2.2"
+
+services:
+  setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+    user: "0"
+    command: >
+      bash -c '
+        if [ x${ELASTIC_PASSWORD} == x ]; then
+          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${KIBANA_PASSWORD} == x ]; then
+          echo "Set the KIBANA_PASSWORD environment variable in the .env file";
+          exit 1;
+        fi;
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: es01\n"\
+          "    dns:\n"\
+          "      - es01\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: es02\n"\
+          "    dns:\n"\
+          "      - es02\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: es03\n"\
+          "    dns:\n"\
+          "      - es03\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+        fi;
+        echo "Setting file permissions"
+        chown -R root:root config/certs;
+        find . -type d -exec chmod 750 \{\} \;;
+        find . -type f -exec chmod 640 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting kibana_system password";
+        until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+  es01:
+    depends_on:
+      setup:
+        condition: service_healthy
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - ${ES_PORT}:9200
+    environment:
+      - node.name=es01
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es02,es03
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es01/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es01/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.ml.use_auto_machine_memory_percent=true
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  es02:
+    depends_on:
+      - es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata02:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es02
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es03
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es02/es02.key
+      - xpack.security.http.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es02/es02.key
+      - xpack.security.transport.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.ml.use_auto_machine_memory_percent=true
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  es03:
+    depends_on:
+      - es02
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata03:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es03
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es02
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es03/es03.key
+      - xpack.security.http.ssl.certificate=certs/es03/es03.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es03/es03.key
+      - xpack.security.transport.ssl.certificate=certs/es03/es03.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.ml.use_auto_machine_memory_percent=true
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  kibana:
+    depends_on:
+      es01:
+        condition: service_healthy
+      es02:
+        condition: service_healthy
+      es03:
+        condition: service_healthy
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/kibana/config/certs
+      - kibanadata:/usr/share/kibana/data
+    ports:
+      - ${KIBANA_PORT}:5601
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+    mem_limit: ${MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+volumes:
+  certs:
+    driver: local
+  esdata01:
+    driver: local
+  esdata02:
+    driver: local
+  esdata03:
+    driver: local
+  kibanadata:
+    driver: local
+```
+
+#### 3. Elasticsearch 기동 방법
+
+```bash
+docker compose up -d
+```
+
+#### 4. Elasticsearch 중지 방법
+
+```bash
+docker compose down
+```
+
+#### 5. Elasticsearch 완전 삭제 방법 (데이터까지 삭제)
+
+```bash
+docker compose down -v
+```
+
+---
+
+## p15. Elasticsearch 설치 및 실행(Docker 사용)  
+
+**동작 확인 & 간단 CRUD (curl 예시)**  
+- 보안 활성화 때문에 기본적으로 HTTPS 입니다.  
+  테스트시 자체서명 인증 무시 `-k` 사용  
+
+- **상태확인**  
+
+```bash
+curl -u elastic:changeme -k https://localhost:9200/
+```
+
+- **인덱스 생성**
+
+```bash
+curl -u elastic:changeme -k -X PUT "https://localhost:9200/my-index" \
+-H 'Content-Type: application/json' -d '{
+  "settings": { "number_of_shards": 1 },
+  "mappings": {
+    "properties": {
+      "title": {"type":"text"},
+      "content": {"type":"text"}
+    }
+  }
+}'
+```
+
+---
+
+## p16. Elasticsearch 설치 및 실행(Docker 사용)  
+
+- **동작 확인 & 간단 CRUD (curl 예시)**  
+
+- **문서색인**  
+
+```bash
+curl -u elastic:changeme -k -X POST "https://localhost:9200/my-index/_doc/" \
+-H 'Content-Type: application/json' -d'{"title":"안내","content":"Docker로 띄운 Elasticsearch 테스트 문서입니다."}'
+```
+
+- **검색**
+
+```bash
+curl -u elastic:changeme -k -X GET "https://localhost:9200/my-index/_search" \
+-H 'Content-Type: application/json' -d'{"query":{"match":{"content":"테스트"}}}'
+```
+
+(Elasticsearch의 인덱스·문서·검색 API는 [공식 문서](https://www.elastic.co/guide/en/elasticsearch/reference/8.19/getting-started.html?utm_source=chatgpt.com){:target="_blank"} 참조)  
+
+**보안·운영 주의사항**  
+
+- **개발용**: `discovery.type=single-node` + `ELASTIC_PASSWORD`로 빠르게 시작 가능  
+- **실서비스**: 보안(인증·권한·TLS)·백업·모니터링·멀티노드 설계 필요  
+  - Elastic 8은 보안이 기본 활성화되며 자동으로 인증서/패스워드/등록 토큰을 생성  
+
+---
+
+## p17. Elasticsearch Python Client  
+
+- Python 검색 API 샘플 코드  
+  - **Elasticsearch + Kibana(docker-compose)** 환경, **Elasticsearch 기본 REST API** 사용  
+  - (http://localhost:9200, 계정: elastic/changeme)에 연결하여 **문서를 색인 → 검색**하는 예제  
+
+**실행 전 (버전 8.x용):**  
+```bash
+pip install elasticsearch
+```
+
+- 코드 실행 시 http 주소로 인해 에러가 발생하는 경우, 아래 보충 설명 코드 참고
+
+```python
+from elasticsearch import Elasticsearch
+
+# Elasticsearch 연결
+es = Elasticsearch(
+    ["http://localhost:9200"], basic_auth=("elastic", "changeme")
+)
+
+# 1) 인덱스 생성 (있으면 무시)
+index_name = "my-index"
+if not es.indices.exists(index=index_name):
+    es.indices.create(
+        index=index_name,
+        body={
+            "mappings": {
+                "properties": {
+                    "title": {"type": "text"},
+                    "content": {"type": "text"}
+                }
+            }
+        }
+    )
+
+# 2) 문서 색인
+doc = {"title": "안내",
+       "content": "Docker로 띄운 Elasticsearch 테스트 문서입니다."}
+es.index(index=index_name, document=doc)
+
+# 3) 검색
+query = {
+    "query": {
+        "match": {
+            "content": "테스트"
+        }
+    }
+}
+res = es.search(index=index_name, body=query)
+
+print("검색 결과:")
+for hit in res["hits"]["hits"]:
+    print(hit["_source"])
+```
+
+### 보충 설명 : https 버전 python 코드
+
+```python
+from elasticsearch import Elasticsearch
+
+# Elasticsearch 연결
+es = Elasticsearch(
+    ["https://localhost:9200"], basic_auth=("elastic", "changeme"),
+    verify_certs=False
+)
+
+# 1) 인덱스 생성 (있으면 무시)
+index_name = "my-index"
+if not es.indices.exists(index=index_name):
+    es.indices.create(
+        index=index_name,
+        body={
+            "mappings": {
+                "properties": {
+                    "title": {"type": "text"},
+                    "content": {"type": "text"}
+                }
+            }
+        }
+    )
+
+# 2) 문서 색인
+doc = {"title": "안내",
+       "content": "Docker로 띄운 Elasticsearch 테스트 문서입니다."}
+es.index(index=index_name, document=doc)
+
+# 3) 검색
+query = {
+    "query": {
+        "match": {
+            "content": "테스트"
+        }
+    }
+}
+res = es.search(index=index_name, body=query)
+
+print("검색 결과:")
+for hit in res["hits"]["hits"]:
+    print(hit["_source"])
+```
+
+---
+
+## p18. Elasticsearch API 매핑표 (curl ↔ Python)  
+  
+**인덱스 존재 여부 확인**
+- REST API (curl) : 없는 경우 404
+
+```bash
+curl -u elastic:changeme -X GET http://localhost:9200/my-index
+```
+
+- REST API (curl, https 기준) : 없는 경우 404
+```bash
+curl -u elastic:changeme -k -X GET https://localhost:9200/my-index
+```
+
+- Python (elasticsearch-py)
+
+```python
+es.indices.exists(index="my-index")
+```
+  
+**인덱스 생성**
+- REST API (curl)
+
+```bash
+curl -u elastic:changeme -X PUT "http://localhost:9200/my-index" \
+-H 'Content-Type: application/json' -d '{
+  "mappings": {
+    "properties": {
+      "title": {"type":"text"},
+      "content": {"type":"text"}
+    }
+  }
+}'
+```
+
+- REST API (curl, https 기준)
+
+```bash
+curl -u elastic:changeme -k -X PUT "https://localhost:9200/my-index" \
+-H 'Content-Type: application/json' -d '{
+  "mappings": {
+    "properties": {
+      "title": {"type":"text"},
+      "content": {"type":"text"}
+    }
+  }
+}'
+```
+
+- Python (elasticsearch-py)
+
+```python
+es.indices.create(
+  index="my-index",
+  body={
+    "mappings": {
+      "properties": {
+        "title": {"type": "text"},
+        "content": {"type": "text"}
+      }
+    }
+  }
+)
+```
+
+**문서 색인 (자동 ID)**
+- REST API (curl)
+
+```bash
+curl -u elastic:changeme -X POST "http://localhost:9200/my-index/_doc" \
+-H 'Content-Type: application/json' -d '{
+  "title": "안내",
+  "content": "테스트 문서입니다."
+}'
+```
+
+- REST API (curl, https 기준)
+
+```bash
+curl -u elastic:changeme -k -X POST "https://localhost:9200/my-index/_doc" \
+-H 'Content-Type: application/json' -d '{
+  "title": "안내",
+  "content": "테스트 문서입니다."
+}'
+```
+
+- Python (elasticsearch-py)
+
+```python
+doc = {"title": "안내", "content": "테스트 문서입니다."}
+es.index(index="my-index", document=doc)
+```
+
+**문서 검색**
+- REST API (curl)
+
+```bash
+curl -u elastic:changeme -X GET "http://localhost:9200/my-index/_search" \
+-H 'Content-Type: application/json' -d '{
+  "query": {
+    "match": {
+      "content": "테스트"
+    }
+  }
+}'
+```
+
+- REST API (curl, https 기준)
+
+```bash
+curl -u elastic:changeme -k -X GET "https://localhost:9200/my-index/_search" \
+-H 'Content-Type: application/json' -d '{
+  "query": {
+    "match": {
+      "content": "테스트"
+    }
+  }
+}'
+```
+
+- Python (elasticsearch-py)
+
+```python
+query = { "query": {"match": {"content": "테스트"}}}
+res = es.search(index="my-index", body=query)
+for hit in res["hits"]["hits"]:
+    print(hit["_source"])
+```
+
+---
+
+## p19. Elasticsearch + Kibana (Docker 사용)
+
+- **Kibana**
+  - Elasticsearch의 데이터를 시각화·탐색·관리할 수 있는 **웹 UI 도구**
+  - Elasticsearch: “검색 백엔드”, Kibana: “관리 및 시각화 프런트엔드”
+
+- **Windows + Docker 환경에서 띄운 Elasticsearch + Kibana를 기준으로**
+  - Kibana 접속
+  - 인덱스 생성 및 문서 색인
+  - Kibana에서 인덱스 패턴 정의
+  - 검색/시각화/대시보드 구축
+
+---
+
+## p20. Elasticsearch + Kibana (Docker 사용)
+
+1) Kibana 접속
+- Docker Compose 실행 후 http://localhost:5601
+- 로그인: elastic / changeme (docker-compose에서 지정한 값)
+
+2) Elasticsearch에 데이터 준비
+- Elasticsearch에 간단한 문서를 색인 (REST API 또는 Kibana **Dev Tools Console**에서 실행 가능)
+- Dev Tools Console 사용예시
+  - Kibana 좌측 메뉴 → **Management → Dev Tools → Console**에서 입력
+
+```
+PUT my-index
+{
+  "mappings": {
+    "properties": {
+      "title": {"type": "text"},
+      "content": {"type": "text"},
+      "date": {"type": "date"}
+    }
+  }
+}
+```
+
+```
+POST my-index/_doc
+{
+  "title": "안내",
+  "content": "Docker와 Kibana로 구축한 Elasticsearch 검색엔진 예시입니다.",
+  "date": "2025-09-23"
+}
+```
+
+```
+POST my-index/_doc
+{
+  "title": "테스트",
+  "content": "검색 기능 검증을 위한 문서입니다.",
+  "date": "2025-09-22"
+}
+```
+
+---
+
+## p21. Elasticsearch+Kibana(Docker 사용)
+
+3) Kibana에서 인덱스 패턴 생성  
+- Kibana가 데이터를 인식하려면 **Index Pattern**을 정의해야 함  
+  - Kibana 좌측 메뉴 → Management → Stack Management  
+  - **Index Patterns** 선택  
+  - **Create index pattern** 클릭  
+  - 패턴 이름에 `my-index*` 입력  
+  - `date` 필드를 Time filter로 지정  
+  - 생성 완료  
+
+→ Discover, Visualize, Dashboard에서 my-index 데이터를 조회 가능  
+
+---
+
+4) Kibana에서 검색 및 탐색  
+- **Discover 탭**  
+  - 좌측 메뉴 → Analytics → Discover  
+  - `my-index*` 선택  
+  - 검색창에 쿼리 입력: `content : "검색"`  
+
+- **필터/쿼리 예시**  
+  - `title: "안내"` → 제목이 "안내"인 문서 조회  
+  - `date:[2025-09-20 TO 2025-09-23]` → 날짜 범위 검색  
+
+---
+
+## p22. Kibana KQL vs. Elasticsearch Query DSL 비교표
+
+**Kibana 두 가지 검색 방식 사용**  
+- **KQL (Kibana Query Language)** → Discover 화면 상단 검색창에서 입력하는 직관적인 검색 언어  
+- **Elasticsearch Query DSL (JSON)** → Dev Tools Console / Saved Search / API 요청에 사용되는 JSON 기반 검색 쿼리  
+  
+**특정 필드 값 일치**
+- KQL (검색창) : `title : "안내"`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "match": { "title": "안내" }}}
+```
+
+**단어 포함 (match)**
+- KQL (검색창) : `content : "검색"`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "match": {"content": "검색" }}}
+```
+
+**AND 조건**
+- KQL (검색창) : `title : "안내" AND content : "Docker"`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "bool": { "must": [ { "match": { "title": "안내" }}, { "match": { "content": "Docker" }} ]}}}
+```
+
+**OR 조건**
+- KQL (검색창) : `title : "안내" OR title : "테스트"`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "bool": { "should": [ { "match": { "title": "안내" }}, { "match": { "title": "테스트" }} ], "minimum_should_match": 1}}}
+```
+
+**날짜 범위 검색**
+- KQL (검색창) : `date >= "2025-09-20" and date <= "2025-09-23"`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "range": {"date": { "gte": "2025-09-20", "lte": "2025-09-23"}}}}
+```
+
+**부분 일치 (wildcard)**
+- KQL (검색창) : `title : 안*`
+- Query DSL (Dev Tools / JSON)
+
+```
+GET my-index/_search
+{ "query": { "wildcard": {"title": "안*"}}}
+```
+
+---
+
+## p23. Elasticsearch+Kibana(Docker 사용)
+
+- **참고자료**
+  - Configure Elasticsearch with Docker  
+    - [https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-configure](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-configure){:target="_blank"}
+
+  - Using the Docker images in production  
+    - [https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-prod](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-prod){:target="_blank"}
+
+  - Beginner's guide to Elasticsearch  
+    - [https://dev.to/lisahjung/beginner-s-guide-to-elasticsearch-4j2k](https://dev.to/lisahjung/beginner-s-guide-to-elasticsearch-4j2k){:target="_blank"}
+
+  - Performing CRUD operations with Elasticsearch & Kibana  
+    - [https://dev.to/elastic/performing-crud-operations-with-elasticsearch-kibana-50ka](https://dev.to/elastic/performing-crud-operations-with-elasticsearch-kibana-50ka){:target="_blank"}
+
+  - *ElasticCloud*  
+    - [https://www.elastic.co/kr/cloud](https://www.elastic.co/kr/cloud){:target="_blank"}
+
+  - *Elastic 가이드 북*  
+    - [https://esbook.kimjmin.net/](https://esbook.kimjmin.net/){:target="_blank"}
+
+---
+
+## p24. 과제
+
+- 과제내용
+  - Local 또는 클라우드에 도커 기반의 ElasticSearch + Kibana를 설치하고  
+  - 30개 이상의 한국어 중심 문서/웹/블로그/뉴스 등으로 구성된 검색엔진 구축
+    - Python Client를 사용하여 개발  
+    - Kibana를 적용하여 Bulk 텍스트 처리 및 색인  
+    - 데이터 색인과 텍스트 분석(참고: [https://esbook.kimjmin.net/06-text-analysis](https://esbook.kimjmin.net/06-text-analysis){:target="_blank"})  
+      - 쿼리 분석과 색인: 사용자 정의 custom analyzer 사용 (한국어 형태소 Nori Tokenizer 사용)  
+    - 검색과 쿼리([https://esbook.kimjmin.net/05-search](https://esbook.kimjmin.net/05-search){:target="_blank"})  
+      - 검색모델: Elasticsearch BM25 모델 score 확인  
+      - Score에 따라 Top-5 출력  
+
+- 기한
+  - 10월 12일 자정까지
