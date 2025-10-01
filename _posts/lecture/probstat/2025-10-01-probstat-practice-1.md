@@ -22,7 +22,7 @@ tags: []
 
 ## 수학적 정식화
 중심화된 데이터 행렬 $X \in \mathbb{R}^{n \times d}$ 가 주어졌을 때,  
-PCA는 다음을 만족하는 직교 단위 벡터 집합 $\{ w_k \}_{k=1}^d$ 를 찾는다.
+PCA는 다음을 만족하는 직교 단위 벡터 집합 $\lbrace w_k \rbrace_{k=1}^d$ 를 찾는다.
 
 $$
 \max_{\|w\|_2=1} \operatorname{Var}(Xw) = \frac{1}{n}\|Xw\|_2^2,
@@ -42,6 +42,7 @@ W_r = [w_1, \dots, w_r], \quad r \le d,
 $$
 
 이 근사는 모든 순위-$r$ 선형 복원 중에서 프로베니우스 오차(Frobenius error)를 최소화한다.
+
 
 ```python
 # 필요한 라이브러리 불러오기
@@ -213,3 +214,230 @@ plt.show()
 <img src="/assets/img/probstat/pr1/image_2.png" alt="image" width="480px">
 
 <img src="/assets/img/probstat/pr1/image_3.png" alt="image" width="480px">
+
+
+### 2.2 1차원 투영과 복원
+
+첫 번째 성분에 데이터를 투영하고, 복원된 결과를 시각화한다.
+
+```python
+# -----------------------------
+# 1차원 투영과 복원 시각화
+# -----------------------------
+
+# PCA 수행 (상위 1개 성분만 사용)
+Z1, W1, Xc2b, expl2b, ratio2b = pca_svd(X2, r=1)
+
+# 원래 데이터의 평균 계산
+Xmean = X2.mean(axis=0, keepdims=True)
+
+# 1차원 성분을 이용해 복원
+Xr1 = reconstruct(Z1, W1, Xmean)
+
+# -----------------------------
+# 원본 데이터 vs rank-1 복원 결과 비교
+# -----------------------------
+fig = plt.figure(figsize=(5, 5))
+ax = fig.add_subplot(111)
+
+# 원본 데이터 산점도 (회색, 반투명)
+ax.scatter(X2[:, 0], X2[:, 1], s=8, alpha=0.5)
+
+# rank-1 복원 데이터 산점도 (파랑)
+ax.scatter(Xr1[:, 0], Xr1[:, 1], s=8)
+
+# 일부 점마다 원본과 복원을 연결하는 선 (25번째마다 하나씩)
+for i in range(0, X2.shape[0], 25):
+    ax.plot([X2[i, 0], Xr1[i, 0]],
+            [X2[i, 1], Xr1[i, 1]])
+
+# 축비 동일하게 설정
+ax.set_aspect("equal", adjustable="box")
+
+# 제목
+ax.set_title("Original vs rank-1 reconstruction")
+
+plt.show()
+```
+
+<img src="/assets/img/probstat/pr1/image_4.png" alt="image" width="600px">
+
+
+## 3. 차원에 따른 복원 오차
+
+비등방성 5차원 데이터셋에서, 보존된 순위(rank)가 증가함에 따라 프로베니우스(Frobenius) 복원 오차가 어떻게 감소하는지 살펴본다.
+
+```python
+# -----------------------------
+# 5차원 데이터에서 차원(r)에 따른 복원 오차 확인
+# -----------------------------
+
+# 표본 수와 차원 수
+n = 800
+d = 5
+
+# 직교 행렬 Q 생성 (QR 분해 이용)
+Q, _ = np.linalg.qr(rng.standard_normal((d, d)))
+
+# 고유값 스펙트럼 (3.0에서 0.2까지 선형적으로 감소)
+vals = np.linspace(3.0, 0.2, d)
+
+# 공분산 행렬 C = Q diag(vals) Q^T
+C = Q @ np.diag(vals) @ Q.T
+
+# 다변량 정규분포 표본 생성 (평균 0, 공분산 C)
+X5 = rng.multivariate_normal(np.zeros(d), C, size=n)
+
+# -----------------------------
+# 순위 r에 따른 복원 오차 계산
+# -----------------------------
+errs = []
+
+# 전체 분산 (평균을 뺀 뒤 Frobenius norm 제곱)
+tot = np.linalg.norm(X5 - X5.mean(axis=0, keepdims=True))**2
+
+# r=1부터 d까지 PCA 수행 후 복원 오차 측정
+for r in range(1, d+1):
+    Z, W, Xc, expl, ratio = pca_svd(X5, r=r)
+    Xr = reconstruct(Z, W, X5.mean(axis=0, keepdims=True))
+    e = np.linalg.norm(X5 - Xr)**2
+    errs.append(e)
+
+# -----------------------------
+# 시각화: 상대적 복원 오차 (relative error)
+# -----------------------------
+fig = plt.figure(figsize=(5, 4))
+ax = fig.add_subplot(111)
+ax.plot(range(1, d+1), np.array(errs)/tot, marker="o")
+ax.set_xlabel("rank r")                       # 보존된 차원 수
+ax.set_ylabel("relative reconstruction error") # 상대적 복원 오차
+ax.set_title("Error decay")                   # 차원 증가에 따른 오차 감소
+plt.show()
+```
+
+<img src="/assets/img/probstat/pr1/image_5.png" alt="image" width="480px">
+
+
+## 4. 3D 시각화
+
+$ \mathbb{R}^3 $에서 거의 1차원에 가까운 필라멘트 형태의 데이터를 합성하고, 점구름을 시각화한 뒤, 2차원 PCA 투영 결과와 비교한다.
+
+```python
+# -----------------------------
+# 3차원 데이터 합성과 PCA 투영
+# -----------------------------
+
+# 표본 수
+m = 700
+
+# 매개변수 t ~ Uniform(-3, 3)
+t = rng.uniform(-3, 3, size=m)
+
+# 1차원 선형 구조 (필라멘트) 생성
+line = np.stack([3*t, 0.5*t, -t], axis=1)
+
+# 잡음 추가 (정규분포, 표준편차 0.7)
+noise = rng.normal(scale=0.7, size=(m, 3))
+
+# 최종 3차원 데이터셋
+X3 = line + noise
+
+# PCA 수행 (상위 2개 성분 유지)
+Z, W, Xc, expl, ratio = pca_svd(X3, r=2)
+
+# -----------------------------
+# 3차원 데이터 점구름 시각화
+# -----------------------------
+fig = plt.figure(figsize=(5, 4))
+ax = fig.add_subplot(111, projection="3d")
+ax.scatter(X3[:, 0], X3[:, 1], X3[:, 2], s=6)
+ax.set_title("3D cloud")
+plt.show()
+
+# -----------------------------
+# 2차원 PCA 투영 결과 시각화
+# -----------------------------
+fig = plt.figure(figsize=(5, 4))
+ax = fig.add_subplot(111)
+
+# 2차원 복원 데이터 (평균을 다시 더해줌)
+Xproj = Z @ W.T + X3.mean(axis=0, keepdims=True)
+
+# 산점도
+ax.scatter(Xproj[:, 0], Xproj[:, 1], s=6)
+ax.set_title("PCA 2D projection in first two coordinates")
+plt.show()
+```
+
+<img src="/assets/img/probstat/pr1/image_6.png" alt="image" width="480px">
+
+<img src="/assets/img/probstat/pr1/image_7.png" alt="image" width="480px">
+
+
+## 5. 라이브러리 기반 PCA (옵션) — 고전 데이터셋
+
+가능하다면 표준 구현을 사용하여 잘 알려진 데이터셋에 적용해 본다.
+
+
+```python
+# -----------------------------
+# 라이브러리 기반 PCA (scikit-learn) 예제
+# -----------------------------
+try:
+    from sklearn.decomposition import PCA
+    from sklearn import datasets
+
+    # -----------------------------
+    # Iris 데이터셋 예제
+    # -----------------------------
+    iris = datasets.load_iris()
+    X = iris.data
+    y = iris.target
+
+    # PCA: 2차원으로 축소
+    pca = PCA(n_components=2, svd_solver="full")
+    Xp = pca.fit_transform(X)
+
+    # 시각화
+    fig = plt.figure(figsize=(5, 4))
+    ax = fig.add_subplot(111)
+    ax.scatter(Xp[:, 0], Xp[:, 1], s=12, c=y)
+    ax.set_title("Iris: PCA to 2D")
+    ax.set_xlabel("PC1")
+    ax.set_ylabel("PC2")
+    plt.show()
+
+    # -----------------------------
+    # Digits 데이터셋 예제
+    # -----------------------------
+    digits = datasets.load_digits()
+    Xd = digits.data
+    yd = digits.target
+
+    # PCA: 2차원으로 축소 (랜덤화 SVD 사용)
+    pca2 = PCA(n_components=2, svd_solver="randomized", random_state=0)
+    Xpd = pca2.fit_transform(Xd)
+
+    # 시각화
+    fig = plt.figure(figsize=(5, 4))
+    ax = fig.add_subplot(111)
+    sc = ax.scatter(Xpd[:, 0], Xpd[:, 1], s=8, c=yd)
+    ax.set_title("Digits: PCA to 2D")
+    ax.set_xlabel("PC1")
+    ax.set_ylabel("PC2")
+    plt.show()
+
+# -----------------------------
+# scikit-learn 미설치 환경 처리
+# -----------------------------
+except Exception as e:
+    fig = plt.figure(figsize=(5, 2))
+    ax = fig.add_subplot(111)
+    ax.text(0.05, 0.5, "sklearn not available in this runtime", fontsize=12)
+    ax.axis("off")
+    plt.show()
+```
+
+<img src="/assets/img/probstat/pr1/image_8.png" alt="image" width="480px">
+
+<img src="/assets/img/probstat/pr1/image_9.png" alt="image" width="480px">
