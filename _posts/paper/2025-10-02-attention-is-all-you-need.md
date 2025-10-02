@@ -73,7 +73,7 @@ Illia Polosukhin ‡ - illia.polosukhin@gmail.com
 
 ## 1 서론 (Introduction)  
 
-특히, 순환 신경망(Recurrent Neural Networks, RNN), 장단기 메모리(Long Short-Term Memory, LSTM) [12], 그리고 게이트 순환 신경망(Gated Recurrent Neural Networks) [7]은 시퀀스 모델링과 변환(transduction) 문제(예: 언어 모델링, 기계 번역 [29, 2, 5])에서 확고하게 최첨단(state-of-the-art) 접근법으로 자리 잡아왔다.  
+순환 신경망(Recurrent Neural Networks, RNN), 장단기 메모리(Long Short-Term Memory, LSTM) [12], 그리고 게이트 순환 신경망(Gated Recurrent Neural Networks) [7]은 시퀀스 모델링과 변환(transduction) 문제(예: 언어 모델링, 기계 번역 [29, 2, 5])에서 확고하게 최첨단(state-of-the-art) 접근법으로 자리 잡아왔다.  
 이후 수많은 연구들이 계속해서, 순환 언어 모델과 인코더-디코더 아키텍처 [31, 21, 13]의 적용 범위를 확장하려는 노력을 이어왔다.  
 
 순환 모델은 일반적으로 입력과 출력 시퀀스의 기호 위치(symbol positions)에 따라 연산을 단계적으로 진행한다.  
