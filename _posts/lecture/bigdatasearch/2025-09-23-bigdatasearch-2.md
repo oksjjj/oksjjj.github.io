@@ -12,7 +12,7 @@ tags: []
 
 ## p2. 정보 검색 개요
 
-<img src="/assets/img/bigdatasearch/2/image_1.png" alt="image" width="540px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_1.png" alt="image" width="540px">
 
 
 1. User task (사용자 과제)  
@@ -281,7 +281,7 @@ $$
 
 ## p11. 색인 
 
-<img src="/assets/img/bigdatasearch/2/image_2.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_2.png" alt="image" width="600px">
 
 - **색인 대상 문서 예시**  
   - Doc#1: 인공지능 기술의 발전과 일자리 전망은  
@@ -331,7 +331,7 @@ $$
 
 ## p12. 색인 
 
-<img src="/assets/img/bigdatasearch/2/image_3.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_3.png" alt="image" width="600px">
 
 ---
 
@@ -354,7 +354,7 @@ $$
 
 - **Zipf의 법칙**  
 
-<img src="/assets/img/bigdatasearch/2/image_4.png" alt="image" width="480px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_4.png" alt="image" width="480px">
 
   - 대량의 텍스트에 사용된 어구의 빈출 순위와 빈도를 집계하면,  
     빈출 순위가 r번째인 빈도는 빈출 순위 첫 번째 빈도를 1/r한 값이 되는 법칙(제타 분포)  
@@ -382,7 +382,7 @@ $$
 
 - **예) Query**: “인공지능” and “기술” and “전망”  
 
-<img src="/assets/img/bigdatasearch/2/image_5.png" alt="image" width="540px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_5.png" alt="image" width="540px">
 
 
 - (인공지능 and 전망) and 기술  
@@ -499,12 +499,12 @@ $$
     - “인공지능”을 포함하고 있는 문서 리스트와 “기술”을 포함하고 있는 문서 리스트를 가져오고  
     - 두 문서 리스트에 공통적으로 등장하는 문서를 찾는다  
 
-<img src="/assets/img/bigdatasearch/2/image_6.png" alt="image" width="540px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_6.png" alt="image" width="540px">
 
 
   - Query: “인공지능” and “기술” and “전망”
 
-<img src="/assets/img/bigdatasearch/2/image_7.png" alt="image" width="540px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_7.png" alt="image" width="540px">
 
 ---
 
@@ -630,7 +630,7 @@ $$
 
 - 예시 데이터 셋: Reuters newswire (part of 1995 and 1996)
 
-<img src="/assets/img/bigdatasearch/2/image_8.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_8.png" alt="image" width="720px">
 
 ---
 
@@ -752,7 +752,7 @@ SPIMI-INVERT(token_stream)
 - reduce: (<termID1, list(docID)>, <termID2, list(docID)>, …)  
   → (postings list1, postings list2, …)  
 
-<img src="/assets/img/bigdatasearch/2/image_9.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/2/image_9.png" alt="image" width="600px">
 
 ---
 

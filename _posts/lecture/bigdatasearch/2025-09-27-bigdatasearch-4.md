@@ -71,7 +71,7 @@ tags: []
 | **Replica Shard**  | Primary Shard의 복제본. 장애 대비/로드 밸런싱에 사용. |
 | **Gateway**        | 클러스터가 재시작될 때 인덱스와 샤드를 복구하는 저장소 역할. |
 
-<img src="/assets/img/bigdatasearch/4/image_1.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/4/image_1.png" alt="image" width="720px">  
 
 ---
 
@@ -106,7 +106,7 @@ tags: []
 
 ## p8. ELK stack  
 
-<img src="/assets/img/bigdatasearch/4/image_2.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/4/image_2.png" alt="image" width="720px">  
 
 ---
 
@@ -137,14 +137,14 @@ tags: []
 - 서비스 종료  
   - bin\elasticsearch-service.bat stop  
 
-<img src="/assets/img/bigdatasearch/4/image_3.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/bigdatasearch/4/image_3.png" alt="image" width="600px"> 
 
 ---
 
 ## p10. ElasticSearch  
 
 - Java 버전 확인  
-<img src="/assets/img/bigdatasearch/4/image_4.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/4/image_4.png" alt="image" width="720px"> 
 
 - CRUD : REST API 를 사용해서 데이터 색인, 조회 및 삭제  
 
@@ -281,7 +281,7 @@ curl -XDELETE "http://localhost:9200/my_index"
   - `kibana-9.1.4/config/kibana.yml` 수정  
   - `kibana-9.1.4/bin/kibana.bat` 실행  
 
-<img src="/assets/img/bigdatasearch/4/image_5.png" alt="image" width="480px"> 
+<img src="/assets/img/lecture/bigdatasearch/4/image_5.png" alt="image" width="480px"> 
 
 - **접속**  
   - http://localhost:5601 에 접속  

@@ -37,7 +37,7 @@ tags: []
 - **높은 학습 오류 (High training error)**  
 - **높은 테스트 오류 (High test error)**   
 
-<img src="/assets/img/textmining/4/image_1.png" alt="image" width="270px">
+<img src="/assets/img/lecture/textmining/4/image_1.png" alt="image" width="270px">
 
 ---
 
@@ -46,7 +46,7 @@ tags: []
 - **낮은 학습 오류 (Low training error)**  
 - **낮은 테스트 오류 (Low test error)**  
 
-<img src="/assets/img/textmining/4/image_2.png" alt="image" width="270px">
+<img src="/assets/img/lecture/textmining/4/image_2.png" alt="image" width="270px">
 
 ---
 
@@ -56,7 +56,7 @@ tags: []
 - **낮은 학습 오류 (Low training error)**  
 - **높은 테스트 오류 (High test error)**  
 
-<img src="/assets/img/textmining/4/image_3.png" alt="image" width="270px">
+<img src="/assets/img/lecture/textmining/4/image_3.png" alt="image" width="270px">
 
 ---
 
@@ -67,7 +67,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/4/image_4.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/4/image_4.png" alt="image" width="480px">
 
 - 파란색: 훈련 세트(Training set)  
 - 주황색: 테스트 세트(Test set)  
@@ -78,7 +78,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/4/image_5.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/textmining/4/image_5.png" alt="image" width="600px"> 
 
 ---
 
@@ -106,7 +106,7 @@ tags: []
   - 물론, 이 예측기는 도달할 수 없는(unattainable) 것이다.  
   - 그렇다면, 우리는 $f^*$ 로부터 얼마나 떨어져 있을까?  
 
-<img src="/assets/img/textmining/4/image_6.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/textmining/4/image_6.png" alt="image" width="600px"> 
 
 ---
 
@@ -116,7 +116,7 @@ tags: []
   - 대신, **가설 클래스(hypothesis class) $\mathcal{F}$** 를 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
   - 학습이 끝난 후, 우리는 **학습된 예측기(learned predictor) $\hat{f}$** 를 얻게 된다.  
 
-<img src="/assets/img/textmining/4/image_7.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/textmining/4/image_7.png" alt="image" width="600px"> 
 
 ---
 
@@ -126,7 +126,7 @@ tags: []
   - 대신, **가설 클래스(hypothesis class) $\mathcal{F}$** 를 정의하여, 공간을 관리 가능한 모델 집합으로 제한한다.  
   - 또한, $\mathcal{F}$ 안에는 **가능한 한 최선의 함수(the best possible function) $g$** 가 존재한다.   
 
-<img src="/assets/img/textmining/4/image_8.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/textmining/4/image_8.png" alt="image" width="600px"> 
 
 ---
 
@@ -134,7 +134,7 @@ tags: []
 
 - 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
 
-<img src="/assets/img/textmining/4/image_9.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/4/image_9.png" alt="image" width="600px">  
 
 $$
 \text{Err}(\hat{f}) - \text{Err}(f^*) 
@@ -151,7 +151,7 @@ $$
 
 - 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
 
-<img src="/assets/img/textmining/4/image_10.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/4/image_10.png" alt="image" width="600px">  
 
 - 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
@@ -163,7 +163,7 @@ $$
 
 - 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
 
-<img src="/assets/img/textmining/4/image_11.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/4/image_11.png" alt="image" width="600px">  
 
 - 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
@@ -178,7 +178,7 @@ $$
 
 - 우리는 $f^*$ 로부터 얼마나 떨어져 있는가?  
 
-<img src="/assets/img/textmining/4/image_12.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/4/image_12.png" alt="image" width="600px">  
 
 - 가설 클래스(hypothesis class)의 크기가 커질수록 (예: 선형 모델에서 심층 신경망으로 갈수록):  
   - **근사 오차(Approximation error)** 는 감소한다.  
@@ -222,7 +222,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/4/image_13.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/4/image_13.png" alt="image" width="720px">  
 
 - **특성 선택은 현재 활발히 연구되는 주제(hot research topic)이다.**  
 - 최근 방법들은 **가장 관련 있는 입력 특성들(the most relevant input features)** 을 자동으로 찾아낸다.  
@@ -290,7 +290,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/4/image_14.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_14.png" alt="image" width="480px">  
 
 - **참고(Note):** L2 노름은 벡터가 원점으로부터 떨어진 **유클리드 거리(Euclidean distance)** 를 측정한다.  
 
@@ -308,7 +308,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/4/image_15.png" alt="image" width="480px"> 
+<img src="/assets/img/lecture/textmining/4/image_15.png" alt="image" width="480px"> 
 
 - 왼쪽: 모델이 충분히 학습되지 않음  
 - 오른쪽: 모델이 학습 데이터를 외우지만 일반화에는 실패함  
@@ -323,7 +323,7 @@ $$
   - 검증 세트는 테스트 세트의 대리(proxy) 역할을 한다.  
     즉, **아직 보지 못한 데이터(simulated unseen data)** 를 시뮬레이션 한다.
 
-  <img src="/assets/img/textmining/4/image_16.png" alt="image" width="480px">   
+  <img src="/assets/img/lecture/textmining/4/image_16.png" alt="image" width="480px">   
 
 ---
 
@@ -331,11 +331,11 @@ $$
 그리고 훈련 세트 / 검증 세트 / 테스트 세트 로봇 그림)  
 
 - **훈련 세트(Training set):** 라벨이 있는 데이터에서 패턴을 학습한다.  
-<img src="/assets/img/textmining/4/image_17.png" alt="image" width="200px"> 
+<img src="/assets/img/lecture/textmining/4/image_17.png" alt="image" width="200px"> 
 - **검증 세트(Validation set):** 모델이 얼마나 잘 학습되고 있는지 주기적으로 확인한다.  
-<img src="/assets/img/textmining/4/image_18.png" alt="image" width="200px"> 
+<img src="/assets/img/lecture/textmining/4/image_18.png" alt="image" width="200px"> 
 - **테스트 세트(Test set):** 라벨이 없는 데이터에 대해 모델이 최종적으로 예측을 수행한다.  
-<img src="/assets/img/textmining/4/image_19.png" alt="image" width="200px"> 
+<img src="/assets/img/lecture/textmining/4/image_19.png" alt="image" width="200px"> 
 
 ---
 
@@ -362,7 +362,7 @@ $$
 - 서로 다른 하이퍼파라미터 값으로 모델을 여러 번 훈련한다.  
 - 검증 세트를 기준으로 값을 선택한다.  
 
-<img src="/assets/img/textmining/4/image_20.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/4/image_20.png" alt="image" width="720px">  
 
 ---
 
@@ -434,21 +434,21 @@ $$
 **클러스터링 (Clustering)**  
 - 유사한 데이터 포인트들을 같은 클러스터로 묶는다.  
 
-<img src="/assets/img/textmining/4/image_21.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_21.png" alt="image" width="480px">  
 
 ---
 
 **이상치/이상 탐지 (Outlier/anomaly detection)**  
 - 드물거나 비정상적인 데이터 포인트를 식별한다.  
 
-<img src="/assets/img/textmining/4/image_22.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_22.png" alt="image" width="480px">  
 
 ---
 
 **차원 축소 (Dimensionality reduction)**  
 - 중요한 정보를 보존하면서 데이터의 복잡성을 줄인다.  
 
-<img src="/assets/img/textmining/4/image_23.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_23.png" alt="image" width="480px">  
 
 ---
 
@@ -479,7 +479,7 @@ $$
 - **중심점(centroid) $\mu_k$** 는 클러스터 $k$의 **대표 벡터(representative vector)** 이다.  
 
 
-<img src="/assets/img/textmining/4/image_24.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/4/image_24.png" alt="image" width="720px">  
 
 ---
 
@@ -550,7 +550,7 @@ $$
 D_{train} = \{0, 2, 10, 12\}, \quad \mu = [0, 2]
 $$  
 
-<img src="/assets/img/textmining/4/image_25.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_25.png" alt="image" width="480px">  
 
 ※ 보라색 표시된 점이 중심점(centroids)
 
@@ -568,7 +568,7 @@ $$
     \mu_1 = 0, \quad \mu_2 = 8
     $$  
 
-<img src="/assets/img/textmining/4/image_26.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_26.png" alt="image" width="480px">  
 
 ---
 
@@ -584,7 +584,7 @@ $$
     \mu_1 = 1, \quad \mu_2 = 11
     $$  
 
-<img src="/assets/img/textmining/4/image_27.png" alt="image" width="480px">  
+<img src="/assets/img/lecture/textmining/4/image_27.png" alt="image" width="480px">  
 
 ---
 
@@ -596,7 +596,7 @@ $$
 
 - **클러스터의 개수 ($K$): 3**
 
-<img src="/assets/img/textmining/4/image_28.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/4/image_28.png" alt="image" width="720px">  
 
 ---
 

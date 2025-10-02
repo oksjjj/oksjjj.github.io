@@ -21,7 +21,7 @@ tags: []
 
   - **주의:** ‘선형(linear)’은 **가중치 벡터**와 **예측값** 사이의 관계를 의미한다. (**입력 $x$가 아님**)  
 
-<img src="/assets/img/textmining/3/image_1.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/3/image_1.png" alt="image" width="600px">
 
 ---
 
@@ -246,7 +246,7 @@ $$
 \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) : \mathbf{w} \in \mathbb{R}^3 \}
 $$  
 
-<img src="/assets/img/textmining/3/image_2.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/3/image_2.png" alt="image" width="480px">
 
 ---
 
@@ -268,7 +268,7 @@ $$
 \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) : \mathbf{w} \in \mathbb{R}^4 \}
 $$  
 
-<img src="/assets/img/textmining/3/image_3.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/3/image_3.png" alt="image" width="480px">
 
 ---
 
@@ -348,7 +348,7 @@ $$
 - 원래 입력 공간에서, 결정 경계(decision boundary)는 **원(circle)** 이다.  
 - 변환된 특성 공간에서는, 결정 경계가 **초평면(hyperplane)** 이 된다.  
 
-<img src="/assets/img/textmining/3/image_4.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/3/image_4.png" alt="image" width="600px">
 
 ---
 
@@ -475,7 +475,7 @@ $$
     y = +1 \; \text{(안전)}, \quad y = -1 \; \text{(충돌)}
     $$  
 
-<img src="/assets/img/textmining/3/image_5.png" alt="image" width="240px">
+<img src="/assets/img/lecture/textmining/3/image_5.png" alt="image" width="240px">
 
 - **참 함수(true function)를 가정:**  
   - 두 자동차가 충분히 멀리 떨어져 있으면(거리 ≥ 1) 안전하다.  
@@ -484,7 +484,7 @@ $$
   y = \text{sign}(|x_1 - x_2| - 1)
   $$  
 
-<img src="/assets/img/textmining/3/image_6.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/3/image_6.png" alt="image" width="480px">
 
 ---
 
@@ -504,7 +504,7 @@ $$
   h_2(x) = 1[x_2 - x_1 \geq 1]
   $$  
 
-<img src="/assets/img/textmining/3/image_7.png" alt="image" width="240px">
+<img src="/assets/img/lecture/textmining/3/image_7.png" alt="image" width="240px">
 
 - **[예측]** 둘 중 하나라도 참이면 안전(safe):  
 
@@ -512,7 +512,7 @@ $$
   f(x) = \text{sign}(h_1(x) - h_2(x))
   $$  
 
-<img src="/assets/img/textmining/3/image_8.png" alt="image" width="240px">
+<img src="/assets/img/lecture/textmining/3/image_8.png" alt="image" width="240px">
 
 ---
 
@@ -586,7 +586,7 @@ $$
 
   - 기타 변형들: Leaky ReLU, ELU, SELU, GELU 등  
 
-  <img src="/assets/img/textmining/3/image_9.png" alt="image" width="480px">
+  <img src="/assets/img/lecture/textmining/3/image_9.png" alt="image" width="480px">
 
 ---
 
@@ -611,7 +611,7 @@ $$
 
 - 이제 우리는 **2-계층(two-layer) 신경망**을 정의할 준비가 되었다:  
 
-<img src="/assets/img/textmining/3/image_10.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/3/image_10.png" alt="image" width="600px">
 
 - **중간(hidden) 유닛들:**  
 
@@ -671,7 +671,7 @@ $$
 
   - 선형 예측기는 사람이 직접 지정한 특성 $\varphi(x)$에 적용된다.  
 
-  <img src="/assets/img/textmining/3/image_11.png" alt="image" width="300px">
+  <img src="/assets/img/lecture/textmining/3/image_11.png" alt="image" width="300px">
 
 
 - **신경망:**  
@@ -691,7 +691,7 @@ $$
 
     에 적용된다.  
 
-  <img src="/assets/img/textmining/3/image_12.png" alt="image" width="480px">
+  <img src="/assets/img/lecture/textmining/3/image_12.png" alt="image" width="480px">
 
   ---
 
@@ -706,7 +706,7 @@ $$
   $$  
   - 은닉층(hidden layer)의 수: 0  
 
-  <img src="/assets/img/textmining/3/image_13.png" alt="image" width="220px">
+  <img src="/assets/img/lecture/textmining/3/image_13.png" alt="image" width="220px">
 
 - **2-계층 신경망:**  
 
@@ -715,7 +715,7 @@ $$
   $$  
   - 은닉층의 수: 1  
 
-  <img src="/assets/img/textmining/3/image_14.png" alt="image" width="300px">
+  <img src="/assets/img/lecture/textmining/3/image_14.png" alt="image" width="300px">
 
 - **3-계층 신경망:**  
 
@@ -724,7 +724,7 @@ $$
   $$  
   - 은닉층의 수: 2  
 
-  <img src="/assets/img/textmining/3/image_15.png" alt="image" width="380px">
+  <img src="/assets/img/lecture/textmining/3/image_15.png" alt="image" width="380px">
 
 ---
 
@@ -805,7 +805,7 @@ $$
 - **원시 픽셀 (입력)**  
   - 원시 입력은 픽셀 값들로 구성된다.  
 
-<img src="/assets/img/textmining/3/image_16.png" alt="image" width="50px">  
+<img src="/assets/img/lecture/textmining/3/image_16.png" alt="image" width="50px">  
 
 <p align="center">⬇️</p> 
 
@@ -813,7 +813,7 @@ $$
   - 하위 계층은 단순한 패턴을 감지한다.  
   - 예: 에지(edges)  
 
-<img src="/assets/img/textmining/3/image_17.png" alt="image" width="100px">  
+<img src="/assets/img/lecture/textmining/3/image_17.png" alt="image" width="100px">  
 
 <p align="center">⬇️</p>  
 
@@ -821,7 +821,7 @@ $$
   - 에지들의 조합이 곡선, 질감, 그리고 객체의 부분을 형성한다.  
   - 예: 눈, 코, 입  
 
-<img src="/assets/img/textmining/3/image_18.png" alt="image" width="200px">  
+<img src="/assets/img/lecture/textmining/3/image_18.png" alt="image" width="200px">  
 
 <p align="center">⬇️</p>  
 
@@ -829,7 +829,7 @@ $$
   - 더 높은 계층에서는 뉴런이 전체 객체에 반응한다.  
   - 예: 얼굴 전체  
 
-<img src="/assets/img/textmining/3/image_19.png" alt="image" width="300px">  
+<img src="/assets/img/lecture/textmining/3/image_19.png" alt="image" width="300px">  
 
 ---
 
@@ -853,7 +853,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/3/image_20.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/3/image_20.png" alt="image" width="720px">  
 
 ---
 
@@ -954,7 +954,7 @@ $$
 - PyTorch 같은 프레임워크는 이 과정을 자동으로 처리하지만,  
   어떻게 작동하는지를 이해하는 것은 중요하다.  
 
-<img src="/assets/img/textmining/3/image_21.png" alt="image" width="300px">  
+<img src="/assets/img/lecture/textmining/3/image_21.png" alt="image" width="300px">  
 
 ---
 
@@ -965,7 +965,7 @@ $$
 
 - **편미분(partial derivative)** 은 각 입력에서 출력으로 연결되는 **엣지(edge)** 위에 표시된다.  
 
-<img src="/assets/img/textmining/3/image_22.png" alt="image" width="240px">  
+<img src="/assets/img/lecture/textmining/3/image_22.png" alt="image" width="240px">  
 
 - **편미분(gradient)** 은 출력이 각 입력의 변화에 얼마나 민감한지를 정량화한다.  
 
@@ -997,7 +997,7 @@ $$
 - 다음은 간단한 함수 다섯 가지와 그 편미분(partial derivatives) 예시이다.  
 
 1. **덧셈 ($a + b$)**  
-  <img src="/assets/img/textmining/3/image_23.png" alt="image" width="130px">  
+  <img src="/assets/img/lecture/textmining/3/image_23.png" alt="image" width="130px">  
    - 입력: a, b  
    - 출력: a + b  
    - 편미분:  
@@ -1005,7 +1005,7 @@ $$
      - $\frac{\partial}{\partial b}(a+b) = 1$  
 
 2. **뺄셈 ($a - b$)**  
-   <img src="/assets/img/textmining/3/image_24.png" alt="image" width="120px">  
+   <img src="/assets/img/lecture/textmining/3/image_24.png" alt="image" width="120px">  
    - 입력: a, b  
    - 출력: a - b  
    - 편미분:  
@@ -1013,7 +1013,7 @@ $$
      - $\frac{\partial}{\partial b}(a-b) = -1$  
 
 3. **곱셈 ($a \cdot b$)**  
-   <img src="/assets/img/textmining/3/image_25.png" alt="image" width="140px">  
+   <img src="/assets/img/lecture/textmining/3/image_25.png" alt="image" width="140px">  
    - 입력: a, b  
    - 출력: $a \cdot b$  
    - 편미분:  
@@ -1021,7 +1021,7 @@ $$
      - $\frac{\partial}{\partial b}(ab) = a$  
 
 4. **최대값 ($max(a, b)$)**  
-   <img src="/assets/img/textmining/3/image_26.png" alt="image" width="270px">  
+   <img src="/assets/img/lecture/textmining/3/image_26.png" alt="image" width="270px">  
    - 입력: a, b  
    - 출력: $\max(a, b)$  
    - 편미분:  
@@ -1029,7 +1029,7 @@ $$
      - $\frac{\partial}{\partial b}(\max(a, b)) = 1[a < b]$ (b가 a보다 클 때 1, 그렇지 않으면 0)  
 
 5. **시그모이드 함수 (Sigmoid function)**  
-   <img src="/assets/img/textmining/3/image_27.png" alt="image" width="260px">  
+   <img src="/assets/img/lecture/textmining/3/image_27.png" alt="image" width="260px">  
    - 입력: a  
    - 출력: $\sigma(a)$  
    - 편미분:  
@@ -1113,7 +1113,7 @@ $$
 - **연쇄 법칙(Chain rule):**  
   출력(out)의 입력(in)에 대한 도함수는, 연산 그래프에서 경로를 따라 나타나는 **중간 도함수들을 곱함으로써** 얻어진다.  
 
-<img src="/assets/img/textmining/3/image_28.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/3/image_28.png" alt="image" width="480px">
 
 ---
 
@@ -1127,7 +1127,7 @@ $$
 
 - 연산 그래프(computation graph)는 다음과 같이 구성할 수 있다.  
 
-<img src="/assets/img/textmining/3/image_29.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/3/image_29.png" alt="image" width="300px">
 
 - 연쇄 법칙(chain rule)을 적용하면, 그래디언트는 다음과 같이 계산된다:  
 
@@ -1140,7 +1140,7 @@ $$
   = -\varphi(x) y \; 1[\text{margin} < 1]
   $$
 
-<img src="/assets/img/textmining/3/image_30.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/3/image_30.png" alt="image" width="600px">
 
 ---
 
@@ -1209,7 +1209,7 @@ $$
 
 - 계산 그래프(computation graph)는 다음과 같이 구성할 수 있다.  
 
-<img src="/assets/img/textmining/3/image_31.png" alt="image" width="270px">
+<img src="/assets/img/lecture/textmining/3/image_31.png" alt="image" width="270px">
 
 - 연쇄 법칙(chain rule)을 적용하면, 그래디언트는 다음과 같이 계산된다:  
 
@@ -1383,7 +1383,7 @@ $$
 2. **역전파:**  
    - 각 노드에 대해 (루트 → 리프) 방향으로 역전파 값을 계산한다.  
 
-<img src="/assets/img/textmining/3/image_32.png" alt="image" width="270px">
+<img src="/assets/img/lecture/textmining/3/image_32.png" alt="image" width="270px">
 
 ---
 
@@ -1393,7 +1393,7 @@ $$
   **출력층에서 이전 층으로 오차 신호를 거꾸로 전파**한다.  
 - 이는 **연쇄 법칙(chain rule)** 에 기반하며, **중복 계산을 피하기 위해** 사용된다.  
 
-<img src="/assets/img/textmining/3/image_33.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/3/image_33.png" alt="image" width="720px">
 
 ---
 
@@ -1403,7 +1403,7 @@ $$
   **출력층에서 이전 층으로 오차 신호를 거꾸로 전파**한다.  
 - 이는 **연쇄 법칙(chain rule)** 에 기반하며, **중복 계산을 피하기 위해** 사용된다.  
 
-<img src="/assets/img/textmining/3/image_34.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/3/image_34.png" alt="image" width="720px">
 
 ---
 
@@ -1414,7 +1414,7 @@ $$
 
 - 목표는 학습 데이터에서의 손실을 최소화하는 것이다:  
 
-  <img src="/assets/img/textmining/3/image_35.png" alt="image" width="270px">
+  <img src="/assets/img/lecture/textmining/3/image_35.png" alt="image" width="270px">
 
 **💻 알고리즘 (Algorithm: SGD)**  
 
@@ -1436,7 +1436,7 @@ $$
 
 ## p40. 신경망 최적화는 어려울 수 있다  
 
-<img src="/assets/img/textmining/3/image_36.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/3/image_36.png" alt="image" width="720px">
 
 - **선형 예측기**의 경우, 손실 함수는 **볼록(convex)**이다.  
   - 이는 단일 전역 최소값(global minimum)을 가진다는 의미이다.  

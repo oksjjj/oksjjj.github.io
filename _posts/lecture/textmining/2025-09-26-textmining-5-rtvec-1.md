@@ -22,7 +22,7 @@ tags: []
 - 우리는 텍스트를 **고차원 공간(high-dimensional space)** 의 벡터로 표현한다.  
   이렇게 하면 그 의미(semantics)를 포착하고 비교할 수 있다.  
 
-<img src="/assets/img/textmining/5/image_1.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_1.png" alt="image" width="600px">  
 
 ---
 
@@ -39,7 +39,7 @@ tags: []
 
 - **어휘집(vocabulary)의 각 단어를 하나의 차원으로 표현한다면 어떨까?**  
 
-<img src="/assets/img/textmining/5/image_2.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_2.png" alt="image" width="600px">  
 
 ---
 
@@ -55,7 +55,7 @@ tags: []
   - 어휘집(vocabulary)은 말뭉치(corpus) 전체에서의 **고유한 단어들의 집합**으로 미리 정의된다.  
   - BoW는 **단어의 순서와 문맥(context)을 무시**하고, 각 단어가 몇 번 등장하는지만 집중한다. 
 
-<img src="/assets/img/textmining/5/image_3.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_3.png" alt="image" width="600px">  
 
 ---
 
@@ -71,7 +71,7 @@ tags: []
 - **각 열(column)** 은 하나의 **문서(document)** 에 대응한다.  
 - 행렬의 값은 단순히 해당 문서에서 **용어(term)가 등장한 횟수** 를 의미한다.  
 
-<img src="/assets/img/textmining/5/image_4.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_4.png" alt="image" width="600px">  
 
 ---
 
@@ -85,7 +85,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_5.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_5.png" alt="image" width="600px">  
 
 ---
 
@@ -102,7 +102,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_6.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/5/image_6.png" alt="image" width="720px">  
 
 ---
 
@@ -119,7 +119,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_7.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/textmining/5/image_7.png" alt="image" width="600px">  
 
 ---
 
@@ -139,11 +139,11 @@ tags: []
 ---
 
 - *맥락 창(context window)은 몇 개의 이웃 단어들을 고려할지를 정의한다.* 
-<img src="/assets/img/textmining/5/image_8.png" alt="image" width="520px">   
+<img src="/assets/img/lecture/textmining/5/image_8.png" alt="image" width="520px">   
 
 ---
 
-<img src="/assets/img/textmining/5/image_9.png" alt="image" width="720px">   
+<img src="/assets/img/lecture/textmining/5/image_9.png" alt="image" width="720px">   
 
 ---
 
@@ -156,11 +156,11 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_8.png" alt="image" width="520px">   
+<img src="/assets/img/lecture/textmining/5/image_8.png" alt="image" width="520px">   
 
 ---
 
-<img src="/assets/img/textmining/5/image_10.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/5/image_10.png" alt="image" width="720px">  
 
 - 두 단어는, 만약 이들의 **맥락 벡터(context vectors)** (행렬의 행)이 유사하다면, 서로 유사한 것으로 간주된다.  
 
@@ -176,8 +176,8 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_11.png" alt="image" width="450px">  
-<img src="/assets/img/textmining/5/image_12.png" alt="image" width="450px">  
+<img src="/assets/img/lecture/textmining/5/image_11.png" alt="image" width="450px">  
+<img src="/assets/img/lecture/textmining/5/image_12.png" alt="image" width="450px">  
 
 ---
 
@@ -191,8 +191,8 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_11.png" alt="image" width="450px">  
-<img src="/assets/img/textmining/5/image_12.png" alt="image" width="450px">  
+<img src="/assets/img/lecture/textmining/5/image_11.png" alt="image" width="450px">  
+<img src="/assets/img/lecture/textmining/5/image_12.png" alt="image" width="450px">  
 
 ---
 
@@ -210,7 +210,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_13.png" alt="image" width="320px"> 
+<img src="/assets/img/lecture/textmining/5/image_13.png" alt="image" width="320px"> 
 
 ---
 
@@ -232,7 +232,7 @@ tags: []
 
 ---
 
-<img src="/assets/img/textmining/5/image_14.png" alt="image" width="320px"> 
+<img src="/assets/img/lecture/textmining/5/image_14.png" alt="image" width="320px"> 
 
 ---
 
@@ -272,7 +272,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/5/image_15.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/textmining/5/image_15.png" alt="image" width="720px"> 
 
 ---
 
@@ -331,7 +331,7 @@ $$
 - **BoW 표현**  
   문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
 
-  <img src="/assets/img/textmining/5/image_16.png" alt="image" width="380px">  
+  <img src="/assets/img/lecture/textmining/5/image_16.png" alt="image" width="380px">  
 
 ---
 
@@ -339,7 +339,7 @@ $$
   각 단어(term)에 대해 문서 빈도(df)를 계산하고,  
   아래의 공식을 사용하여 $idf$ 값을 구한다.  
 
-  <img src="/assets/img/textmining/5/image_17.png" alt="image" width="600px">    
+  <img src="/assets/img/lecture/textmining/5/image_17.png" alt="image" width="600px">    
 
 ---
 
@@ -366,7 +366,7 @@ $$
 - **BoW 표현**  
   단어의 등장 횟수로만 문서를 표현한다.  
 
-  <img src="/assets/img/textmining/5/image_18.png" alt="image" width="380px">    
+  <img src="/assets/img/lecture/textmining/5/image_18.png" alt="image" width="380px">    
 
 ---
 
@@ -374,7 +374,7 @@ $$
   단어의 등장 빈도(TF, Term Frequency)와 역문서빈도(IDF, Inverse Document Frequency)를 곱하여  
   문서를 실수 값 벡터로 표현한다.   
 
-  <img src="/assets/img/textmining/5/image_19.png" alt="image" width="600px">  
+  <img src="/assets/img/lecture/textmining/5/image_19.png" alt="image" width="600px">  
 
 ---
 
@@ -386,7 +386,7 @@ $$
 
 # 희소 표현(sparse representation)을 활용한 벡터 공간 모델(Vector Space Model)
 
-<img src="/assets/img/textmining/5/image_2.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/5/image_2.png" alt="image" width="600px">
 
 ---
 
@@ -411,7 +411,7 @@ $$
   - **쿼리 $q$:** `"any any zebra"`  
   - **문서 $d$:** `"zebra any love any zebra"`  
 
-  <img src="/assets/img/textmining/5/image_20.png" alt="image" width="500px">  
+  <img src="/assets/img/lecture/textmining/5/image_20.png" alt="image" width="500px">  
 
 *단순화를 위해, 위 그림에서는 원시 빈도(raw counts)를 $tf$로 표시한다.*  
 
@@ -423,7 +423,7 @@ $$
   - **쿼리 $q$:** `"any any zebra"`  
   - **문서 $d$:** `"zebra any love any zebra"`  
 
-  <img src="/assets/img/textmining/5/image_20.png" alt="image" width="500px">  
+  <img src="/assets/img/lecture/textmining/5/image_20.png" alt="image" width="500px">  
 
 ---
 
@@ -456,7 +456,7 @@ $$
   - **문서 $d_1$:** `"zebra any love any zebra"`  
   - **문서 $d_2$:** `"zebra any love any zebra zebra any love any zebra"` (2번 반복)  
 
-  <img src="/assets/img/textmining/5/image_21.png" alt="image" width="720px">  
+  <img src="/assets/img/lecture/textmining/5/image_21.png" alt="image" width="720px">  
 
 ---
 
@@ -476,7 +476,7 @@ $$
   - **문서 $d_2$:** `"zebra any love any zebra zebra any love any zebra"` (2회 반복)  
   - **문서 $d_{100}$:** `"zebra any love any zebra zebra any love any zebra ..."` (100회 반복)  
 
-  <img src="/assets/img/textmining/5/image_22.png" alt="image" width="720px">  
+  <img src="/assets/img/lecture/textmining/5/image_22.png" alt="image" width="720px">  
 
 ---
 
@@ -539,7 +539,7 @@ $$
 - 코사인 유사도 값이 클수록 두 단위 벡터(unit vector) 사이의 각도는 작아지고,  
   이는 곧 두 벡터가 더 "유사(similar)"하다는 것을 의미한다.  
 
-<img src="/assets/img/textmining/5/image_23.png" alt="image" width="400px"> 
+<img src="/assets/img/lecture/textmining/5/image_23.png" alt="image" width="400px"> 
 
 ---
 
@@ -561,7 +561,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/5/image_24.png" alt="image" width="500px"> 
+<img src="/assets/img/lecture/textmining/5/image_24.png" alt="image" width="500px"> 
 
 ---
 
@@ -586,14 +586,14 @@ $$
 - **BoW 표현**  
   문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
 
-  <img src="/assets/img/textmining/5/image_18.png" alt="image" width="380px">  
+  <img src="/assets/img/lecture/textmining/5/image_18.png" alt="image" width="380px">  
 
 ---
 
 - **TF-IDF 표현**  
   단어의 빈도(frequency) 정보를 바탕으로 문서와 단어를 표현한다.  
 
-  <img src="/assets/img/textmining/5/image_19.png" alt="image" width="600px">   
+  <img src="/assets/img/lecture/textmining/5/image_19.png" alt="image" width="600px">   
 
 ---
 
@@ -629,7 +629,7 @@ $$
     - 단어의 의미 구분(word senses)을 하지 못한다.  
     - 예: *“bank”* (강둑, river) vs. *“bank”* (금융, finance)를 동일한 토큰으로 취급한다.  
 
-<img src="/assets/img/textmining/5/image_25.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/5/image_25.png" alt="image" width="480px">
 
 ---
 
@@ -648,7 +648,7 @@ $$
     - 예: “bank” → 항상 같은 벡터  
   - 예시: Word2vec, GloVe  
 
-  <img src="/assets/img/textmining/5/image_26.png" alt="image" width="300px">  
+  <img src="/assets/img/lecture/textmining/5/image_26.png" alt="image" width="300px">  
 
 ---
 
@@ -658,4 +658,4 @@ $$
     - 예: “bank of the river” vs. “bank account”  
   - 예시: BERT, LLM 기반 임베딩  
 
-  <img src="/assets/img/textmining/5/image_27.png" alt="image" width="500px">  
+  <img src="/assets/img/lecture/textmining/5/image_27.png" alt="image" width="500px">  

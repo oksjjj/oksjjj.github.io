@@ -24,7 +24,7 @@ tags: []
   - 비슷한 문맥(context)에서 발생하는 단어들은 비슷한 의미를 가지는 경향이 있다.  
   - 단어의 의미는 그것이 나타나는 문맥에 의해 크게 정의된다.  
 
-<img src="/assets/img/textmining/6/image_1.png" alt="image" width="240px">
+<img src="/assets/img/lecture/textmining/6/image_1.png" alt="image" width="240px">
 
 - 예시: 우리가 "Ong choy"의 의미를 모른다고 가정하지만, 다음과 같은 문장을 본다고 하자:  
   - Ong choy는 마늘과 함께 볶으면(sautéed with garlic) 맛있다.  
@@ -46,7 +46,7 @@ tags: []
   - 비슷한 문맥(context)에서 발생하는 단어들은 비슷한 의미를 가지는 경향이 있다.  
   - 단어의 의미는 그것이 나타나는 문맥에 의해 크게 정의된다.  
 
-<img src="/assets/img/textmining/6/image_1.png" alt="image" width="240px">
+<img src="/assets/img/lecture/textmining/6/image_1.png" alt="image" width="240px">
 
 - 예시: 우리가 "Ong choy"의 의미를 모른다고 가정하지만, 다음과 같은 문장을 본다고 하자:  
   - Ong choy는 마늘과 함께 볶으면(sautéed with garlic) 맛있다.  
@@ -71,7 +71,7 @@ tags: []
 - **단어 임베딩(word embeddings)**: 각 행이 하나의 단어에 대한 밀집 벡터에 대응하는 행렬.  
   - 이는 한 공간(어휘, vocabulary)의 원소들을 다른 공간(벡터 공간, vector space)에서 표현하는 사상(mapping)으로 볼 수 있다.  
 
-<img src="/assets/img/textmining/6/image_2.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_2.png" alt="image" width="720px">
 
 ---
 
@@ -81,7 +81,7 @@ tags: []
   - 윈도우 크기: **<span style="background-color:cyan">타깃 단어(target word)</span>**의 좌우에 있는 **<span style="background-color:yellow">문맥 단어(context words)</span>**의 최대 개수 
   - 예시 (window size = 2)  
 
-<img src="/assets/img/textmining/6/image_3.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_3.png" alt="image" width="720px">
 
 ---
 
@@ -91,7 +91,7 @@ tags: []
   - 이 행렬의 크기는 $V \times V$이며, 여기서 $V$는 어휘집(vocabulary) 크기이다.  
   - 각 항목은 문맥 윈도우(context window) 안에서 한 단어(행, row)가 다른 단어(열, column)와 함께 얼마나 자주 나타나는지를 센다.  
 
-<img src="/assets/img/textmining/6/image_4.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/6/image_4.png" alt="image" width="600px">
 
 ---
 
@@ -101,7 +101,7 @@ tags: []
   - 이 행렬의 크기는 $V \times V$이며, 여기서 $V$는 어휘집(vocabulary) 크기이다.  
   - 각 항목은 문맥 윈도우(context window) 안에서 한 단어(행, row)가 다른 단어(열, column)와 함께 얼마나 자주 나타나는지를 센다.  
 
-<img src="/assets/img/textmining/6/image_5.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/6/image_5.png" alt="image" width="600px">
 
 <span style="color:red">이 벡터는 분포 가설(distributional hypothesis)을 반영한다: 의미적으로 유사한 단어들은 유사한 표현을 가진다. 그러나, 이 표현은 희소(sparse)하고 차원이 너무 높다(high-dimensional)!</span>
 
@@ -173,7 +173,7 @@ $$
 PMI(w_1, w_2) = \log \frac{P(w_1, w_2)}{P(w_1) P(w_2)}
 $$  
 
-<img src="/assets/img/textmining/6/image_6.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_6.png" alt="image" width="720px">
 
 - <span style="color:red">원시 빈도(raw count)는 4였다</span>  
 - <span style="color:red">원시 빈도(raw count)는 7이었다</span>  
@@ -189,7 +189,7 @@ $$
 B. **truncated SVD에 의한 차원 축소 (Dimensionality reduction by truncated SVD)**  
 - 축소된 행렬의 각 행(row)은 해당 단어(term)의 단어 임베딩(word embedding)이 된다.  
 
-<img src="/assets/img/textmining/6/image_7.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_7.png" alt="image" width="720px">
 
 - $V \times V$ 희소 행렬(sparse matrix)  
 - $V \times k$ 밀집 행렬(dense matrix)  
@@ -201,7 +201,7 @@ B. **truncated SVD에 의한 차원 축소 (Dimensionality reduction by truncate
 - **차원 축소에 대한 직관적인 이해:**  
   - 원래 행렬의 값들이 그렇게 나타나는 이유를 근사적으로 설명해주는 숨겨진(latent) 차원들이 존재한다.  
 
-<img src="/assets/img/textmining/6/image_8.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_8.png" alt="image" width="360px">
 
 - **이 차원들의 축(axes of these dimensions)** 은 다음과 같이 선택될 수 있다:  
   - 첫 번째 차원은 데이터가 **<span style="color:blue">가장 큰 분산(greatest variance)</span>** 을 보이는 방향이다.  
@@ -221,7 +221,7 @@ $$
 A = U S V^T
 $$  
 
-<img src="/assets/img/textmining/6/image_9.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/6/image_9.png" alt="image" width="600px">
 
 - $n$: 데이터 인스턴스(data instances)의 개수  
 - $d$: 원래 특성(original features)의 개수  
@@ -242,7 +242,7 @@ $$
 A \approx U_k S_k V_k^T
 $$  
 
-<img src="/assets/img/textmining/6/image_10.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/6/image_10.png" alt="image" width="600px">
 
 - $n$: 데이터 인스턴스(data instances)의 개수  
 - $d$: 원래 특성(original features)의 개수  
@@ -256,7 +256,7 @@ $$
 
 - **예시 (Example):**
 
-<img src="/assets/img/textmining/6/image_11.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_11.png" alt="image" width="720px">
 
 ---
 
@@ -283,7 +283,7 @@ $$
 
 ## p27. 요약: 모델, 손실 함수, 최적화
 
-<img src="/assets/img/textmining/6/image_12.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_12.png" alt="image" width="720px">
 
 - 어떤 예측기(predictors)가 가능한가?  
   - **가설 집합 (Hypothesis class)**  
@@ -317,7 +317,7 @@ $$
 
 > *“Skip-gram”: 일부 맥락 단어들을 건너뛰고(context words), 나머지를 예측한다!*
 
-<img src="/assets/img/textmining/6/image_13.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_13.png" alt="image" width="720px">
 
 <span style="color:red">맥락 창(context window) 밖의 단어들을 건너뛰기, 예: new, pop</span>
 
@@ -341,7 +341,7 @@ $$
 - *D*: 전체 공기출현 쌍 집합 (total set of co-occurrence pairs)  
 - *θ*: 최적화될 단어 임베딩들 (word embeddings to be optimized, model parameters)
 
-<img src="/assets/img/textmining/6/image_14.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_14.png" alt="image" width="360px">
 
 - 확률을 어떻게 표현할까? (How to express the probability?)
 
@@ -376,7 +376,7 @@ $$
 \log p_{\theta}(c \mid w) \propto v_c \cdot v_w
 $$
 
-<img src="/assets/img/textmining/6/image_15.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_15.png" alt="image" width="360px">
 
 ---
 
@@ -410,7 +410,7 @@ $$
   \log p_{\theta}(c' \mid w) \propto v_{c'} \cdot v_w
   $$
 
-<img src="/assets/img/textmining/6/image_16.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_16.png" alt="image" width="360px">
 
 ---
 
@@ -439,9 +439,9 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/6/softmax.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/softmax.png" alt="image" width="360px">
 
-<img src="/assets/img/textmining/6/image_17.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_17.png" alt="image" width="360px">
 
 ---
 
@@ -466,7 +466,7 @@ p_{\theta}(c \mid w)
 = \frac{\exp(v_c \cdot v_w)}{\sum_{c' \in |V|} \exp(v_{c'} \cdot v_w)}
 $$
 
-<img src="/assets/img/textmining/6/image_18.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_18.png" alt="image" width="360px">
 
 ---
 
@@ -499,7 +499,7 @@ $$
 - $\theta$: 학습(또는 모델) 매개변수 (learning/model parameters)  
 - $\eta$: 단계 크기(step size, 학습률 learning rate) → 하이퍼파라미터  
 
-<img src="/assets/img/textmining/6/image_19.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/6/image_19.png" alt="image" width="480px">
 
 ---
 
@@ -532,7 +532,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/6/image_20.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/6/image_20.png" alt="image" width="480px">
 
 ---
 
@@ -558,7 +558,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/6/image_21.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_21.png" alt="image" width="720px">
 
 ---
 
@@ -576,7 +576,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/6/image_22.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/6/image_22.png" alt="image" width="360px">
 
 ---
 
@@ -596,7 +596,7 @@ $$
 **Negative sampling**
 - 우리는 소수의 “부정 단어들(negative words)”만 샘플링하여 업데이트에 사용한다.  
 
-<img src="/assets/img/textmining/6/image_23.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_23.png" alt="image" width="720px">
 
 ---
 
@@ -625,7 +625,7 @@ $$
 
 ---
 
-<img src="/assets/img/textmining/6/image_24.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/6/image_24.png" alt="image" width="480px">
 
 ---
 
@@ -682,7 +682,7 @@ $$
 - **데모(Demo)**:  
   <a href="https://projector.tensorflow.org/" target="_blank">https://projector.tensorflow.org/</a>  
 
-<img src="/assets/img/textmining/6/image_25.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_25.png" alt="image" width="720px">
 
 ---
 
@@ -714,7 +714,7 @@ $$
   - **<span style="color:blue">쿼리 q</span>**: “Taylor release new album”  
   - **<span style="color:purple">문서 d</span>**: “American singer Taylor …”  
 
-<img src="/assets/img/textmining/6/image_26.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/6/image_26.png" alt="image" width="720px">
 
 ---
 
@@ -760,7 +760,7 @@ $$
     - 예: “bank” → 항상 같은 벡터  
   - 예시: Word2vec, GloVe  
 
-  <img src="/assets/img/textmining/5/image_26.png" alt="image" width="300px">  
+  <img src="/assets/img/lecture/textmining/5/image_26.png" alt="image" width="300px">  
 
 ---
 
@@ -770,7 +770,7 @@ $$
     - 예: “bank of the river” vs. “bank account”  
   - 예시: BERT, LLM 기반 임베딩  
 
-  <img src="/assets/img/textmining/5/image_27.png" alt="image" width="500px">  
+  <img src="/assets/img/lecture/textmining/5/image_27.png" alt="image" width="500px">  
 
 ---
 

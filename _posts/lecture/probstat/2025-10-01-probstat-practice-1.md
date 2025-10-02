@@ -124,7 +124,7 @@ ax.set_title("2D cloud with principal axes")
 plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_1.png" alt="image" width="600px">
+<img src="/assets/img/lecture/probstat/pr1/image_1.png" alt="image" width="600px">
 
 
 ## 2. SVD로 처음부터 구현하는 PCA
@@ -211,9 +211,9 @@ ax.set_title("Cumulative explained variance")
 plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_2.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_2.png" alt="image" width="480px">
 
-<img src="/assets/img/probstat/pr1/image_3.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_3.png" alt="image" width="480px">
 
 
 ### 2.2 1차원 투영과 복원
@@ -260,7 +260,7 @@ ax.set_title("Original vs rank-1 reconstruction")
 plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_4.png" alt="image" width="600px">
+<img src="/assets/img/lecture/probstat/pr1/image_4.png" alt="image" width="600px">
 
 
 ## 3. 차원에 따른 복원 오차
@@ -315,7 +315,7 @@ ax.set_title("Error decay")                   # 차원 증가에 따른 오차 �
 plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_5.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_5.png" alt="image" width="480px">
 
 
 ## 4. 3D 시각화
@@ -369,9 +369,9 @@ ax.set_title("PCA 2D projection in first two coordinates")
 plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_6.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_6.png" alt="image" width="480px">
 
-<img src="/assets/img/probstat/pr1/image_7.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_7.png" alt="image" width="480px">
 
 
 ## 5. 라이브러리 기반 PCA (옵션) — 고전 데이터셋
@@ -438,6 +438,6 @@ except Exception as e:
     plt.show()
 ```
 
-<img src="/assets/img/probstat/pr1/image_8.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_8.png" alt="image" width="480px">
 
-<img src="/assets/img/probstat/pr1/image_9.png" alt="image" width="480px">
+<img src="/assets/img/lecture/probstat/pr1/image_9.png" alt="image" width="480px">

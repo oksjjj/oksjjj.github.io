@@ -118,7 +118,7 @@ $$
 
 ## p5. 언어모델의 발전과정
 
-<img src="/assets/img/bigdatasearch/5/image_1.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_1.png" alt="image" width="720px">
 
 - **특정 작업 보조기 (Specific task helper)**  
   - **n-그램 모델 (n-gram models)**  
@@ -192,7 +192,7 @@ $$
 
 ## p6. 트랜스포머 모델의 이해와 활용
 
-<img src="/assets/img/bigdatasearch/5/image_2.png" alt="image" width="360px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="360px">
 
 - **병렬처리와 모델 확장 가능한 트랜스포머**  
   - Encoder와 Decoder 연결 구조  
@@ -242,7 +242,7 @@ $$
 
 **동작 과정**
 
-<img src="/assets/img/bigdatasearch/5/image_3.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_3.png" alt="image" width="720px">
 
 ---
 
@@ -272,7 +272,7 @@ $$
 
 ## p8. 트랜스포머 모델
 
-<img src="/assets/img/bigdatasearch/5/image_2.png" alt="image" width="360px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="360px">
 
 **모델의 구조**  
 
@@ -334,7 +334,7 @@ $$
   - 각 토큰은 임베딩 모델을 사용하여 고정크기($d_{model}$)의 벡터로 임베딩 (논문에서는 $d_{model}=512$)  
   - 각 토큰의 임베딩 벡터와 토큰의 위치를 인코딩한 벡터를 더하여 입력 벡터를 구성  
 
-<img src="/assets/img/bigdatasearch/5/image_4.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_4.png" alt="image" width="720px">
 
 ---
 
@@ -389,7 +389,7 @@ $$
 - 논문에서의 설정:  
   $d_{model} = 512 \quad (i.e., i \in [0, 255])$  
 
-<img src="/assets/img/bigdatasearch/5/image_5.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_5.png" alt="image" width="720px">
 
 ---
 
@@ -455,7 +455,7 @@ $$
   - **병렬 연산 가능** → 연산 속도 향상  
   - 긴 문장에서도 효율적으로 문맥을 유지  
 
-<img src="/assets/img/bigdatasearch/5/image_6.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_6.png" alt="image" width="600px">
 
 ---
 
@@ -463,7 +463,7 @@ $$
 
 **Multi-Head Attention Block의 내부 구조**  
 
-<img src="/assets/img/bigdatasearch/5/image_7.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_7.png" alt="image" width="720px">
 
 ---
 
@@ -494,13 +494,13 @@ $$
   - Scaled Dot-Product Attention 알고리즘 적용하여 단어간 Attention Score를 계산하되  
   - Query, Key, Value 벡터를 h개 Head로 분할하여 h개의 AttentionScore를 구한 후 결합(Concat)하여 어텐션 가중치를 구한다. 그리고 어텐션 가중치를 Value 벡터에 적용하여 최종 Attention Value 벡터를 도출함  
 
-<img src="/assets/img/bigdatasearch/5/image_8.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_8.png" alt="image" width="600px">
 
 - **Q(Query)** : 입력시퀀스에서 관련된 부분을 찾으려고 하는 소스 벡터  
 - **K(Key)** : 관계의 연관도를 찾기 위해 쿼리와 비교하는 대상 벡터  
 - **V(Value)** : 특정 Key에 해당하는 입력 시퀀스의 정보로 가중치를 구하는데 사용  
 
-<img src="/assets/img/bigdatasearch/5/image_9.png" alt="image" width="360px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_9.png" alt="image" width="360px">
 
 - 입력 문장 내의 단어들끼리 상호 연관성을 구함으로써 “making”이 “difficult”과 가장 연관이 많이 되고 있음을 알아냄  
 
@@ -517,7 +517,7 @@ $$
   - 여러 관점에서 단어 간 관계 학습 → 더 정밀한 문맥 이해  
   - 병렬 연산 가능 → 학습 속도 증가  
 
-<img src="/assets/img/bigdatasearch/5/image_10.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_10.png" alt="image" width="600px">
 
 ---
 
@@ -527,12 +527,12 @@ $$
   - 서브층의 입력과 출력을 더하는 것으로 출력과 입력 간의 차이만을 학습  
   - 모델의 입력값이 점진적으로 변화하며 안정적 학습이 되도록 하기 위해 적용  
 
-<img src="/assets/img/bigdatasearch/5/image_11.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_11.png" alt="image" width="600px">
 
 - **Residual Connection 결과에 대한 정규화**  
-<img src="/assets/img/bigdatasearch/5/image_12.png" alt="image" width="360px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_12.png" alt="image" width="360px"> 
   - 각 Residual Connection 결과 벡터의 평균 μ과 분산 σ²를 구해 정규화를 수행하며, 학습을 안정적으로 수행하도록 함  
-<img src="/assets/img/bigdatasearch/5/image_13.png" alt="image" width="360px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_13.png" alt="image" width="360px"> 
 
 ---
 
@@ -573,7 +573,7 @@ $$
 - 개별 토큰의 특징을 심화 학습하는 "미세 조정 장치" 역할  
 - ReLU 활성화로 하위층에서는 복잡한 단어 내부 패턴 학습(형태소 규칙, 구문특성 등), 상위층에서는 의미론적 관계 등을 학습  
 
-<img src="/assets/img/bigdatasearch/5/image_14.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_14.png" alt="image" width="720px"> 
 
 - $X$: 멀티헤드 어텐션 결과 행렬, $(seq\_len, d_{model})$의 크기  
 - $W_1$: 가중치 행렬 $(d_{model}, d_{ff})$의 크기  
@@ -617,7 +617,7 @@ $$
 - **Decoder Block: Masked Self-Attention**  
   - 셀프 어텐션을 통해 어텐션 스코어 행렬 도출 후, 미래에 있는 단어들은 참고하지 못하도록 마스킹  
 
-<img src="/assets/img/bigdatasearch/5/image_15.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_15.png" alt="image" width="720px"> 
 
 ---
 
@@ -649,7 +649,7 @@ $$
 
 - **Decoder Encode-Decoder MSA**
 
-<img src="/assets/img/bigdatasearch/5/image_16.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_16.png" alt="image" width="720px"> 
 
 - Query: 디코더의 첫번째 서브층의 결과 행렬  
 - Key: 인코더의 마지막 층에서 온 행렬  
@@ -701,7 +701,7 @@ $$
 - **Softmax Layer**  
   - Logits 벡터를 확률 분포로 변환, 최종적으로 분류에 사용할 스코어를 확률로 출력  
 
-<img src="/assets/img/bigdatasearch/5/image_17.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_17.png" alt="image" width="720px"> 
 
 ---
 
@@ -758,7 +758,7 @@ $$
 
 ## p21. GPT 모델 시리즈 개요  
 
-<img src="/assets/img/bigdatasearch/5/image_18.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_18.png" alt="image" width="720px"> 
 
 - **GPT 모델의 발전과정**  
 
@@ -833,7 +833,7 @@ $$
   - 트랜스포머 아키텍처 기반으로 Decoder 구조만을 사용하는 Autoregressive Language 모델  
   - 한번에 한 토큰을 예측하고, 이를 다시 입력에 추가하여 계속 다음 텍스트를 예측하는 모델  
 
-<img src="/assets/img/bigdatasearch/5/image_19.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_19.png" alt="image" width="720px"> 
 
 ---
 
@@ -901,14 +901,14 @@ $$
   - 라벨러가 원하는 출력 행동을 직접 시연한다.  
   - 이 데이터는 GPT-3를 감독 학습(supervised learning)으로 파인튜닝하는 데 사용된다.   
 
-<img src="/assets/img/bigdatasearch/5/image_20.png" alt="image" width="360px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_20.png" alt="image" width="360px"> 
 
 - **2단계: 비교 데이터를 수집하고, 보상 모델(reward model)을 학습한다.**  
   - 하나의 프롬프트와 여러 개의 모델 출력이 샘플링된다.  
   - 라벨러가 출력들을 가장 좋은 것부터 가장 나쁜 것까지 순위를 매긴다.  
   - 이 데이터는 보상 모델을 학습하는 데 사용된다.  
 
-<img src="/assets/img/bigdatasearch/5/image_21.png" alt="image" width="360px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_21.png" alt="image" width="360px"> 
 
 - **3단계: 강화학습을 통해 보상 모델에 맞추어 정책(policy)을 최적화한다.**  
   - 새로운 프롬프트가 데이터셋에서 샘플링된다.  
@@ -916,7 +916,7 @@ $$
   - 보상 모델이 출력에 대해 보상을 계산한다.  
   - 이 보상은 정책을 업데이트하는 데 사용된다.  
 
-<img src="/assets/img/bigdatasearch/5/image_22.png" alt="image" width="360px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_22.png" alt="image" width="360px">  
 
 ---
 
@@ -957,7 +957,7 @@ $$
     - Q: 중국의 수도는 무엇입니까?  
       A: 베이징  
 
-<img src="/assets/img/bigdatasearch/5/image_23.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_23.png" alt="image" width="600px">  
 
 - **(b) 일상 대화 데이터 포맷팅**  
   - API 수집 & 사람이 직접 작성(Human-written)을 통해 작업 설명(Task description) 확보  
@@ -967,7 +967,7 @@ $$
       1. 건강한 식단을 유지하세요: ~에 집중  
       2. 신체 활동을 늘리세요: ~에 참여  
 
-<img src="/assets/img/bigdatasearch/5/image_24.png" alt="image" width="400px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_24.png" alt="image" width="400px">  
 
 - **(c) 합성(Synthetic) 데이터 포맷팅**  
   - 시드 인스턴스(Seed Instances)를 기반으로 LLM이 지시문(Instruction)을 생성  
@@ -977,7 +977,7 @@ $$
     - 출력: 정직은 지혜의 책에서 첫 장이다.  
   - 인스턴스 풀(Instance Pool)에 저장된 후 필터(Filter) 과정을 거침  
 
-<img src="/assets/img/bigdatasearch/5/image_25.png" alt="image" width="440px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_25.png" alt="image" width="440px">  
 
 ---
 
@@ -1004,7 +1004,7 @@ $$
 - **평가: Aligned Model 정의 요소**  
   - Likert, Helpful, Truthfulness, Harmlessness / Bias  
 
-<img src="/assets/img/bigdatasearch/5/image_26.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_26.png" alt="image" width="720px">  
 
 ---
 
@@ -1033,7 +1033,7 @@ $$
 
 ## p31. LLM 구축 방법  
 
-<img src="/assets/img/bigdatasearch/5/image_27.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_27.png" alt="image" width="720px">  
 
 - **데이터 정제 (Data Cleaning)**  
   - *데이터 필터링 (Data Filtering)*  
@@ -1130,7 +1130,7 @@ $$
 
 **Fig. 7**: 대규모 언어 모델(LLM, Large Language Models)의 사전학습을 위한 전형적인 데이터 전처리 파이프라인을 보여줌.
 
-<img src="/assets/img/bigdatasearch/5/image_28.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_28.png" alt="image" width="720px">  
 
 - **원시 말뭉치 (Raw Corpus)**  
   - 인터넷, 논문, 코드 저장소 등에서 수집된 대규모 데이터  
@@ -1189,7 +1189,7 @@ $$
 
 ## p33. LLM의 Capabilities  
 
-<img src="/assets/img/bigdatasearch/5/image_29.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_29.png" alt="image" width="720px">  
 
 - **기초 기능 (Basic)**  
   - *이해 (Comprehension)*: 요약(Summarization), 객관식 질의응답(Multi choice QA), 참/거짓 질의응답(Boolean QA), 단순화(Simplification), 독해(Reading Comprehension)  
@@ -1546,7 +1546,7 @@ $$
   작업을 하위 작업으로 분할하여 이전 단계의 결과를 다음 단계의 입력으로 연속적으로 사용하여  
   프롬프트 작업의 연쇄를 만드는 기법  
 
-<img src="/assets/img/bigdatasearch/5/image_30.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_30.png" alt="image" width="720px">  
 
 ---
 
@@ -1592,7 +1592,7 @@ $$
   - **두 번째 단계: 답변 추론**  
     첫 번째 단계에서 생성한 정보적 근거를 사용하여 질문에 대한 정답을 추론  
 
-<img src="/assets/img/bigdatasearch/5/image_31.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_31.png" alt="image" width="720px">  
 
 ---
 
@@ -1621,7 +1621,7 @@ $$
   - 모델로부터 답을 얻기 전에 **Few-shot Prompting**으로 모델이 직접 관련 정보를 가져오도록 한 다음,  
     이를 질문과 함께 활용해서 답을 생성하는 방법  
 
-<img src="/assets/img/bigdatasearch/5/image_32.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_32.png" alt="image" width="720px">  
 
 ---
 
@@ -1759,7 +1759,7 @@ $$
   - 작업과 관련된 데이터/문서를 **외부 지식베이스를 연결하여 검색한 결과를 LLM의 문맥으로 Prompt에 제공**,  
     모델의 정확성과 신뢰성 향상시키는 기법  
 
-<img src="/assets/img/bigdatasearch/5/image_33.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_33.png" alt="image" width="720px">  
 
 ---
 
@@ -1777,7 +1777,7 @@ $$
   - **행동 (Action)** : 사전 허용/정의된 API 등 외부 환경(예: 검색 엔진)과 모델의 실시간 상호 작용  
   - **관찰 (Observation)** : 행동을 수행한 결과 출력  
 
-<img src="/assets/img/bigdatasearch/5/image_34.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_34.png" alt="image" width="600px">  
 
 ---
 
@@ -1804,7 +1804,7 @@ $$
 
 ## p56. ReAct 예시
 
-<img src="/assets/img/bigdatasearch/5/image_35.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_35.png" alt="image" width="720px">  
 
 - **User 요청**  
   - 세계의 음식 문화에 대해 알려주는 책을 추천해줘  
@@ -1873,7 +1873,7 @@ $$
 
 ## p58. OpenAI 에서의 Function Calling
 
-<img src="/assets/img/bigdatasearch/5/image_36.png" alt="image" width="600px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_36.png" alt="image" width="600px">  
 
 - **OpenAI 에서의 Function Calling ?**  
   - OpenAI의 Function Calling은 모델이 **사용자의 질문을 분석**하여 적절한 함수를 선택하고,  

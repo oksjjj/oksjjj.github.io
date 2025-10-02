@@ -337,7 +337,7 @@ Weight Vector (dictionary size V):
    - **문서의 순위는 질의와의 각도에 따라 결정**됨  
      - 각도가 작을수록 유사도가 높음  
 
-<img src="/assets/img/bigdatasearch/3/image_1.png" alt="image" width="400px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_1.png" alt="image" width="400px">
 
 ---
 
@@ -375,7 +375,7 @@ Weight Vector (dictionary size V):
     - $\cos(\text{질의}, \text{문서})$ 값을 기준으로 오름차순으로 문서의 순위  
     - 코사인 함수는 $[0^\circ, 180^\circ]$ 구간에서 **단조 감소 함수**
   
-<img src="/assets/img/bigdatasearch/3/image_2.png" alt="image" width="540px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_2.png" alt="image" width="540px">
 
 ---
 
@@ -396,7 +396,7 @@ Weight Vector (dictionary size V):
     \cos(\vec{q}, \vec{d}) = \vec{q} \cdot \vec{d} = \sum_{i=1}^{|V|} q_i d_i
     $$
 
-<img src="/assets/img/bigdatasearch/3/image_3.png" alt="image" width="400px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_3.png" alt="image" width="400px">
 
 - **$q_i$, $d_i$의 의미**
   - $q_i$: **질의(query)에서 용어 $i$의 가중치**  
@@ -635,7 +635,7 @@ $$
 
 - **Why Probabilistic IR**
 
-<img src="/assets/img/bigdatasearch/3/image_4.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_4.png" alt="image" width="600px">
 
 > - **Hard 방식**: 문서가 질의 조건을 만족하면 1, 만족하지 않으면 0으로 처리한다.  
 >   - 예: Boolean Retrieval (AND, OR 연산으로만 결과 결정)  
@@ -1227,7 +1227,7 @@ $$
   - **낮은 k1 값**: tf가 어느 정도 증가하면 점수 증가율이 급격히 둔화.  
     - 일정 횟수 이상 등장하는 단어는 더 이상 점수에 큰 영향을 주지 않는다고 판단  
     
-<img src="/assets/img/bigdatasearch/3/image_5.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_5.png" alt="image" width="600px">
 
 ---
 
@@ -1283,7 +1283,7 @@ $$
   - $b = 0$: no document length normalization  
     → 문서 길이에 대해 **보정하지 않음**  
 
-<img src="/assets/img/bigdatasearch/3/image_6.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_6.png" alt="image" width="600px">
 
 ---  
 
@@ -1726,7 +1726,7 @@ $$
 2. 기준이 되는 질의 모음 (benchmark suite of queries)  
 3. 평가: 각 질의와 각 문서에 대해 **관련 있음(Relevant)** 또는 **관련 없음(Nonrelevant)** 으로 판단  
 
-<img src="/assets/img/bigdatasearch/3/image_7.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_7.png" alt="image" width="600px">
 
 ---
 

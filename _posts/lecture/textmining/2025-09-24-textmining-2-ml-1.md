@@ -23,10 +23,10 @@ x \;\longrightarrow\; f \;\longrightarrow\; y \in \mathbb{R}
 $$
 
 - 위치, 크기 ⟶ 주택 가격  
-<img src="/assets/img/textmining/2/image_1.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_1.png" alt="image" width="480px">
 
 - 주가, 날짜 ⟶ 미래 주가  
-<img src="/assets/img/textmining/2/image_2.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_2.png" alt="image" width="480px">
 
 ---
 
@@ -40,11 +40,11 @@ $$
 
 - 이진 분류 (Binary classification, $\mid C \mid = 2$)  
   - 예: 스팸 탐지 (스팸 / 정상 메일)  
-<img src="/assets/img/textmining/2/image_3.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_3.png" alt="image" width="480px">
 
 - 다중 클래스 분류 (Multiclass classification, $\mid C \mid > 2$)  
   - 예: 이미지 분류 (고양이, 개, 말)  
-<img src="/assets/img/textmining/2/image_4.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_4.png" alt="image" width="480px">
 
 ---
 
@@ -58,7 +58,7 @@ $$
 
   - $\Pi(X)$ : 가능한 모든 순열(permutations)의 집합 
 
-<img src="/assets/img/textmining/2/ranking.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/ranking.png" alt="image" width="720px">
 
 ---
 
@@ -73,7 +73,7 @@ $$
 
 - 주택 가격 예측을 위한 데이터 예시  
 
-<img src="/assets/img/textmining/2/image_5.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_5.png" alt="image" width="720px">
 
 ---
 
@@ -88,10 +88,10 @@ $$
 ---
 
 - 레이블이 있는 데이터에서 패턴을 학습하고, 주기적으로 모델이 얼마나 잘하고 있는지 테스트한다.  
-<img src="/assets/img/textmining/2/image_6.png" alt="image" width="540px">
+<img src="/assets/img/lecture/textmining/2/image_6.png" alt="image" width="540px">
 
 - 모델을 사용하여 레이블이 없는 데이터의 레이블을 예측한다.  
-<img src="/assets/img/textmining/2/image_7.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/2/image_7.png" alt="image" width="360px">
 
 ---
 
@@ -102,7 +102,7 @@ $$
 
 - **특성 추출기(Feature extractor)**: 입력 $x$가 주어졌을 때, (특성 이름, 특성 값) 쌍들의 집합을 출력한다.  
 
-<img src="/assets/img/textmining/2/image_8.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_8.png" alt="image" width="720px">
 
 ---
 
@@ -126,14 +126,14 @@ $$
 
   - $\varphi(x) \in \mathbb{R}^d$ 는 **$d$차원 공간의 한 점(point)**으로 생각할 수 있다.  
 
-<img src="/assets/img/textmining/2/image_9.png" alt="image" width="540px">
+<img src="/assets/img/lecture/textmining/2/image_9.png" alt="image" width="540px">
 
 ---
 
 ## p11. 가중치 벡터 (Weight vector)  
 
 - 가중치 벡터 $\mathbf{w} \in \mathbb{R}^d$ 는 **각 특성이 예측에 기여하는 정도**를 결정하는 실수 값 매개변수들로 구성된다.  
-<img src="/assets/img/textmining/2/image_10.png" alt="image" width="320px">
+<img src="/assets/img/lecture/textmining/2/image_10.png" alt="image" width="320px">
 
 - 가중치 벡터는 모델의 핵심 구성 요소이며, **모델 파라미터(model parameters)**라고도 불린다.  
 
@@ -146,10 +146,10 @@ $$
 - 선형 예측기는 **입력 특성들의 가중치 합(weighted sum of input features)**을 사용하여 예측을 수행한다.  
 
 - 가중치 벡터 $\mathbf{w} \in \mathbb{R}^d$  
-<img src="/assets/img/textmining/2/image_11.png" alt="image" width="280px">  
+<img src="/assets/img/lecture/textmining/2/image_11.png" alt="image" width="280px">  
 
 - 특성 벡터 $\varphi(x) \in \mathbb{R}^d$  
-<img src="/assets/img/textmining/2/image_12.png" alt="image" width="300px"> 
+<img src="/assets/img/lecture/textmining/2/image_12.png" alt="image" width="300px"> 
 
 
 - 점수(Score):  
@@ -191,7 +191,7 @@ $$
 \mathcal{F} = \{ f_{\mathbf{w}} : \mathbf{w} \in \mathbb{R}^2 \}
 $$  
 
-<img src="/assets/img/textmining/2/image_12_2.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/textmining/2/image_12_2.png" alt="image" width="720px"> 
 
 ---
 
@@ -204,7 +204,7 @@ $$
   - 잔차는 $(\mathbf{w} \cdot \varphi(x)) - y$ 로 정의된다.  
   - 즉, 예측값 $f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x)$가 실제 목표값 $y$를 **얼마나 초과(overshoot)했는지**를 나타낸다.  
 
-<img src="/assets/img/textmining/2/image_13.png" alt="image" width="300px"> 
+<img src="/assets/img/lecture/textmining/2/image_13.png" alt="image" width="300px"> 
 
 ---
 
@@ -234,7 +234,7 @@ $$
   Loss([4,3], [1,0.57]) = ([1,0.57] \cdot [1,4] - 3)^2
   $$  
 
-<img src="/assets/img/textmining/2/image_14.png" alt="image" width="300px"> 
+<img src="/assets/img/lecture/textmining/2/image_14.png" alt="image" width="300px"> 
 
 ---
 
@@ -263,7 +263,7 @@ $$
   TrainLoss([1, 0.57]) = 0.38
   $$  
 
-<img src="/assets/img/textmining/2/image_15.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_15.png" alt="image" width="300px">
 
 ---
 
@@ -295,7 +295,7 @@ $$
 
 - 여기서 $\eta$ (학습률, step size)는 **하이퍼파라미터**이다.  
 
-<img src="/assets/img/textmining/2/image_16.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_16.png" alt="image" width="480px">
 
 ---
 
@@ -340,7 +340,7 @@ $$
 |---------------|------------------------------------------------------|--------------------------------|
 |               |                                                      |                                |
 
-<img src="/assets/img/textmining/2/image_17.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_17.png" alt="image" width="300px">
 
 ---
 
@@ -385,7 +385,7 @@ $$
 |---------------|------------------------------------------------------|--------------------------------|
 | 1             | $\tfrac{1}{3}(2([0,0]\cdot[1,1]-1)[1,1] + 2([0,0]\cdot[1,2]-3)[1,2] + 2([0,0]\cdot[1,4]-3)[1,4]) = [-4.67,\,-12.67]$ | $[0.47,\,1.27]$ |
 
-<img src="/assets/img/textmining/2/image_18.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_18.png" alt="image" width="300px">
 
 ---
 
@@ -432,7 +432,7 @@ $$
 | 2             | $\tfrac{1}{3}(2([0.47,1.27]\cdot[1,1]-1)[1,1] + 2([0.47,1.27]\cdot[1,2]-3)[1,2] + 2([0.47,1.27]\cdot[1,4]-3)[1,4]) = [2.18,\,7.24]$ | $[0.25,\,0.54]$ |
   
 
-<img src="/assets/img/textmining/2/image_19.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_19.png" alt="image" width="300px">
 
 ---
 
@@ -480,13 +480,13 @@ $$
 | $\vdots$      | $\vdots$                                             | $\vdots$                       |
 | 200 (수렴)    | $\tfrac{1}{3}(2([1,0.57]\cdot[1,1]-1)[1,1] + 2([1,0.57]\cdot[1,2]-3)[1,2] + 2([1,0.57]\cdot[1,4]-3)[1,4]) = [0,\,0]$ | $[1,\,0.57]$ |
 
-<img src="/assets/img/textmining/2/image_20.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_20.png" alt="image" width="300px">
 
 ---
 
 ## p27. 요약  
 
-<img src="/assets/img/textmining/2/image_21.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_21.png" alt="image" width="720px">
 
 - **어떤 예측기들이 가능한가?**  
   - **가설 클래스(Hypothesis class):**  
@@ -517,7 +517,7 @@ $$
 
 ## p28. 선형 분류 
 
-<img src="/assets/img/textmining/2/image_22.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_22.png" alt="image" width="720px">
 
 - 분류기(classifier)는 서로 다른 클래스들을 가장 잘 구분하는 **결정 경계(decision boundary)**를 학습한다.  
 
@@ -543,7 +543,7 @@ $$
 
   이진 분류기 $f_{\mathbf{w}}$는 법선 벡터 $\mathbf{w}$를 갖는 초평면을 정의한다.  
 
-<img src="/assets/img/textmining/2/image_23.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_23.png" alt="image" width="300px">
 
 ---
 
@@ -680,7 +680,7 @@ $$
 
   이다.  
   
-<img src="/assets/img/textmining/2/image_24.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_24.png" alt="image" width="480px">
 
 - 그림에서 파란선은 초평면이고, 보라색 $\mathbf{w}$는 초평면의 **법선 벡터**이다.  
 - 점 $\varphi(x)$에서 초평면까지의 최단 거리는, 점 $\varphi(x)$ 벡터의 $\mathbf{w}$ 방향 성분이다.
@@ -741,7 +741,7 @@ $$
     Loss(x,y,\mathbf{w}) = \max\{-(\mathbf{w}\cdot \varphi(x))y, \, 0\}
     $$  
 
-<img src="/assets/img/textmining/2/image_25.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_25.png" alt="image" width="300px">
 
 - **그림 설명**  
   - x축: 마진 $(\mathbf{w}\cdot \varphi(x))y$  
@@ -774,7 +774,7 @@ $$
   - 마진이 위배되면(loss > 0) → 손실은 **선형적으로 증가**한다.  
   - 마진이 만족되면(loss = 0) → 손실은 **0**이 된다.  
   
-<img src="/assets/img/textmining/2/image_26.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_26.png" alt="image" width="300px">
 
 - **힌지 손실의 기울기 (gradient):**  
 
@@ -816,7 +816,7 @@ $$
 | -2    | 0     | 1    |
 | 1     | -1    | -1   |
 
-<img src="/assets/img/textmining/2/image_27.png" alt="image" width="300px">
+<img src="/assets/img/lecture/textmining/2/image_27.png" alt="image" width="300px">
 
 ---
 
@@ -938,7 +938,7 @@ $$
 
 - **로지스틱 손실을 선형 분류기에 적용하면, 그 모델을 로지스틱 회귀(logistic regression) 모델이라고 부른다.**  
 
-<img src="/assets/img/textmining/2/image_28.png" alt="image" width="360px">
+<img src="/assets/img/lecture/textmining/2/image_28.png" alt="image" width="360px">
 
 - **그래프**  
   - 초록색 선: 힌지 손실  
@@ -972,7 +972,7 @@ $$
     \frac{d}{dz}\sigma(z) = \sigma(z)\sigma(-z) = \sigma(z)(1 - \sigma(z))
     $$  
 
-<img src="/assets/img/textmining/2/image_29.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_29.png" alt="image" width="480px">
 
 - **그래프 해석**  
   - 분홍색 곡선: $\sigma(z)$ (출력 확률)  
@@ -1164,7 +1164,7 @@ $$
 
 ## p39. 요약  
 
-<img src="/assets/img/textmining/2/image_30.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_30.png" alt="image" width="720px">
 
 - **어떤 예측기들이 가능한가?**  
   - **가설 클래스(Hypothesis class):**  
@@ -1236,7 +1236,7 @@ $$
   - **경사하강법은 느리다!**  
   - 그래디언트를 계산하려면 **전체 훈련 데이터**를 모두 사용해야 한다.  
 
-<img src="/assets/img/textmining/2/image_31.png" alt="image" width="480px">
+<img src="/assets/img/lecture/textmining/2/image_31.png" alt="image" width="480px">
 
 ---
 
@@ -1265,13 +1265,13 @@ $$
 - **단점 (Cons):**  
   - 업데이트가 **잡음(noisy)** 이 섞여 매끄럽게 수렴하지 않을 수 있음  
 
-<img src="/assets/img/textmining/2/image_32.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_32.png" alt="image" width="720px">
 
 ---
 
 ## p43. 확률적 경사하강법 (SGD)  
 
-<img src="/assets/img/textmining/2/image_33.png" alt="image" width="600px">
+<img src="/assets/img/lecture/textmining/2/image_33.png" alt="image" width="600px">
 
 ### 보충 설명
 
@@ -1303,7 +1303,7 @@ $$
   - $\mid \mathcal{B} \mid = 1 \;\;\Rightarrow\;$ SGD  
   - $\mid \mathcal{B} \mid = \mid D_{train} \mid \;\;\Rightarrow\;$ GD  
 
-<img src="/assets/img/textmining/2/image_34.png" alt="image" width="720px">
+<img src="/assets/img/lecture/textmining/2/image_34.png" alt="image" width="720px">
 
 ### 보충 설명
   
