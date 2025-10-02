@@ -823,3 +823,306 @@ $$
   - 한각 문제: 신뢰성 향상을 위한 자기검증 메커니즘 필요  
   - 계산 비용: 에너지 효율적인 학습 알고리즘 개발  
   - 윤리적 문제: 편향 완화와 오용 방지 체계 구축  
+
+---
+
+## p24. GPT(Generative Pre-trained Transformer)  
+
+- **GPT?**  
+  - 2018년 오픈 AI에서 개발한 언어모델로 GPT-n 시리즈로 발전  
+  - 트랜스포머 아키텍처 기반으로 Decoder 구조만을 사용하는 Autoregressive Language 모델  
+  - 한번에 한 토큰을 예측하고, 이를 다시 입력에 추가하여 계속 다음 텍스트를 예측하는 모델  
+
+<img src="/assets/img/bigdatasearch/5/image_19.png" alt="image" width="720px"> 
+
+---
+
+## p25. InstructGPT / ChatGPT 개요  
+
+- **LLMs은 학습 가능한 파라미터 수를 증가시키는 쪽으로 발전**  
+  - 실제로 학습 가능한 파라미터 수가 증가할수록 모델 성능이 증가하고,  
+  - LLM은 이제 몇 개의 예시를 주면 다양한 NLP task를 수행할 수 있음  
+
+- 그러나, public NLP datasets에 대한 객관적인 성능은 향상되었으나, 인간의 의도를 잘 반영하고 있지 못하고(misaligned), 다음의 문제점들이 드러남  
+  - Making up facts  
+  - Generating biased or toxic text  
+  - Simply not following user instructions  
+
+- **왜?**  
+  - 기존의 LLMs의 Objective는 오로지 “주어진 문서의 다음에 나올 토큰을 예측”하는 것에 집중  
+  - 이는 “사용자의 지시에 안전하게 따르고 도움을 줄 것”이라는 objective가 아님  
+
+---
+
+## p26. InstructGPT / ChatGPT 개요  
+
+- **문제 해결을 위한 관련 사후 학습 연구**  
+  - 정렬(alignment), 인간 피드백 기반 학습  
+  - 지시를 따르도록 언어 모델 학습시키기  
+  - 언어 모델의 해로움 측정 (evaluating harms)  
+  - 해로움을 줄이기 위해 언어 모델 행동 수정하기  
+
+- **강화학습에 있어서의 문제제기**  
+  - AI가 생성한 글의 점수를 매기는 것이 가능한가?  
+  - 점수 등 지표가 있어야 손실함수를 만들 수 있다.  
+  - 주관적/상황에 따라 달라지기 때문에 지표와 손실함수를 정의하기 어렵다.  
+  - 따라서 사람이 직접 피드백을 통해 점수를 제공할 수 있는 체계를 만든다.  
+
+---
+
+## p27. InstructGPT / ChatGPT 개요  
+
+- **RLHF (Reinforcement Learning from Human Feedback)**  
+  - 지시, 대화 데이터에 대한 지도학습과 강화학습으로 LLM을 추가학습함으로써  
+  - 사용자의 지시, 대화에 따라 사용자의 의도를 반영하여 응답할 수 있는 human-aligned LLM 도출  
+
+- **학습과정**  
+  - **Step1: supervised fine-tuning (SFT)**  
+    - 입력 prompt에 대한 답변을 human labeler 40명이 작성해 training dataset 구축 (데이터 13,000개)  
+      - 어떻게 답변하는 것이 바람직한지 모범 답안을 제시함 (demonstrations of the desired behavior)  
+    - Training dataset으로 GPT-3 (1750억 파라미터)를 지시문에 따라 생성할 수 있도록 supervised fine-tuning  
+    - 사람의 선호를 보상 신호로 활용해 모델을 사전학습  
+
+  - **Step2: reward model (RM) training**  
+    - 여러 버전의 model output (한 번에 4~6개)에 대해 human labeler가 선호도 순위를 매긴 preference dataset 구축 (데이터 33,000개)  
+    - Preference dataset으로 reward model 학습  
+    - Reward model은 사람이 선호하는 output을 예측해 점수(reward)를 출력함  
+
+  - **Step3: reinforcement learning via PPO algorithm on the reward model**  
+    - RM을 이용해 supervised policy (Step 1에서 학습시킨 모델)을 fine-tuning (데이터 31,000개)  
+    - 최종 모델로 fine-tuning 해가는 과정에서 Step1의 모델과 너무 다르지 않도록 penalty를 줌  
+
+---
+
+## p28. RLHF 학습 과정  
+
+- **1단계: 시연 데이터를 수집하고, 지도 정책(supervised policy)을 학습한다.**  
+  - 프롬프트 데이터셋에서 하나의 프롬프트가 샘플링된다.  
+  - 라벨러가 원하는 출력 행동을 직접 시연한다.  
+  - 이 데이터는 GPT-3를 감독 학습(supervised learning)으로 파인튜닝하는 데 사용된다.   
+
+<img src="/assets/img/bigdatasearch/5/image_20.png" alt="image" width="360px"> 
+
+- **2단계: 비교 데이터를 수집하고, 보상 모델(reward model)을 학습한다.**  
+  - 하나의 프롬프트와 여러 개의 모델 출력이 샘플링된다.  
+  - 라벨러가 출력들을 가장 좋은 것부터 가장 나쁜 것까지 순위를 매긴다.  
+  - 이 데이터는 보상 모델을 학습하는 데 사용된다.  
+
+<img src="/assets/img/bigdatasearch/5/image_21.png" alt="image" width="360px"> 
+
+- **3단계: 강화학습을 통해 보상 모델에 맞추어 정책(policy)을 최적화한다.**  
+  - 새로운 프롬프트가 데이터셋에서 샘플링된다.  
+  - 정책이 출력을 생성한다.  
+  - 보상 모델이 출력에 대해 보상을 계산한다.  
+  - 이 보상은 정책을 업데이트하는 데 사용된다.  
+
+<img src="/assets/img/bigdatasearch/5/image_22.png" alt="image" width="360px">  
+
+---
+
+### 보충 설명  
+
+#### 1. **RLHF의 핵심 개념**  
+- RLHF(Reinforcement Learning from Human Feedback)는 **사람의 선호도를 반영**하여 언어 모델을 학습시키는 방법이다.  
+- 기존 LLM은 단순히 다음 토큰을 예측하는 데 집중했으나, RLHF는 사람의 지시와 의도를 더 잘 따르는 방향으로 조정(alignment)한다.  
+- 이를 통해 모델이 **보다 안전하고, 유용하며, 신뢰할 수 있는 응답**을 하도록 만든다.  
+
+#### 2. **세 단계의 의미**  
+- **Step 1 (Supervised Fine-Tuning)**: 사람이 작성한 예시 데이터를 통해 모델이 바람직한 출력 방식을 학습한다.  
+- **Step 2 (Reward Model 학습)**: 여러 출력 중 사람이 더 선호하는 것을 순위로 매겨, 모델이 "좋은 출력"과 "나쁜 출력"을 구분하도록 학습한다.  
+- **Step 3 (정책 최적화)**: 보상 모델을 기준으로 강화학습을 수행하여, 모델의 정책을 반복적으로 개선한다.  
+
+#### 3. **효과와 한계**  
+- 효과: 모델이 **사용자 의도를 더 잘 반영**하고, 유해하거나 편향된 출력을 줄인다.  
+- 한계: 사람의 피드백 자체가 주관적일 수 있고, 피드백을 수집하는 데 많은 **비용과 시간이 필요**하다.  
+- 따라서 RLHF는 "완벽한 해법"이 아니라, **모델과 사람 사이의 간극을 줄이는 실용적 방법**으로 이해할 수 있다.  
+
+---
+
+## p29. Instruction Following을 위한 데이터셋 구축 예시  
+
+- **그림 설명**  
+  - 인스턴스 포맷팅(instance formatting)과 지시문(instruction) 형식의 인스턴스를 구축하기 위한 세 가지 서로 다른 방법을 나타낸 그림.  
+
+- **(a) 작업(Task) 데이터셋 포맷팅**  
+  - 사람이 직접 작성한(Task description) 설명  
+    - 예: *이 질문에 답해주세요:*  
+  - 시연(Demonstrations) 예시  
+    - Q: 프랑스의 수도는 무엇입니까?  
+      A: 파리  
+    - Q: 브라질의 수도는 무엇입니까?  
+      A: 브라질리아  
+  - NLP 데이터셋 예시: 문장 구성(Sentence Composition), 질문 응답(Question Answering), 텍스트 함의(Textual Entailment), 패러프레이징(Paraphrasing), 감정 분석(Sentiment Analysis), 자연어 추론(NLI), 번역(Translation), 질문 생성(Question Generation) 등  
+  - 입력(Input) → 출력(Output) 쌍으로 변환  
+    - Q: 중국의 수도는 무엇입니까?  
+      A: 베이징  
+
+<img src="/assets/img/bigdatasearch/5/image_23.png" alt="image" width="600px">  
+
+- **(b) 일상 대화 데이터 포맷팅**  
+  - API 수집 & 사람이 직접 작성(Human-written)을 통해 작업 설명(Task description) 확보  
+    - 예: *다이어트를 할 수 있는 몇 가지 방법을 추천해줄 수 있나요?*  
+  - 사람이 작성한 원하는 출력(Desired output)  
+    - 출력:  
+      1. 건강한 식단을 유지하세요: ~에 집중  
+      2. 신체 활동을 늘리세요: ~에 참여  
+
+<img src="/assets/img/bigdatasearch/5/image_24.png" alt="image" width="400px">  
+
+- **(c) 합성(Synthetic) 데이터 포맷팅**  
+  - 시드 인스턴스(Seed Instances)를 기반으로 LLM이 지시문(Instruction)을 생성  
+  - 작업 설명(Task description) 예시: *이 주제에 대해 유명인의 명언을 알려주세요.*  
+  - LLM이 입력-출력(Input-Output) 생성  
+    - 입력: 정직함의 중요성  
+    - 출력: 정직은 지혜의 책에서 첫 장이다.  
+  - 인스턴스 풀(Instance Pool)에 저장된 후 필터(Filter) 과정을 거침  
+
+<img src="/assets/img/bigdatasearch/5/image_25.png" alt="image" width="440px">  
+
+---
+
+### 보충 설명  
+
+1. **데이터셋 구축의 필요성**  
+   - 대규모 언어 모델(LLM)은 단순히 인터넷 텍스트를 학습하는 것만으로는 사용자의 지시를 잘 따르지 못한다.  
+   - 따라서 **Instruction Following** 능력을 강화하기 위해, 사람이 만든 질문-응답 데이터, 실제 대화 데이터, 합성 데이터 등을 활용하여 모델을 정교하게 학습시킨다.  
+
+2. **세 가지 접근 방식의 차이점**  
+   - (a) **Task Datasets**: 기존 NLP 데이터셋을 재활용하여, 질문과 답변 형태의 **입력-출력 쌍**으로 변환한다. → 가장 전통적이고 구조화된 방법.  
+   - (b) **Daily Chat Data**: 사람과의 실제 대화나 API를 통해 수집된 데이터를 기반으로, 모델이 현실적인 질문에 답하도록 학습한다. → 일상적이고 실용적인 대화 능력 향상에 기여.  
+   - (c) **Synthetic Data**: 모델이 스스로 생성한 입력-출력 예시를 활용한다. 사람이 만든 **Seed Instances**를 바탕으로 다양한 데이터가 자동 생성되며, 이후 품질 검증(Filtering)을 거쳐 학습 데이터로 사용된다.  
+
+3. **종합적 효과**  
+   - 세 가지 방법을 결합하면, **구조화된 지식 학습(Task Dataset)**, **실제 대화 적응력(Daily Chat)**, **데이터 확장성(Synthetic Data)**을 동시에 확보할 수 있다.  
+   - 특히 Synthetic Data는 사람이 모든 데이터를 직접 만들 필요가 없으므로, **확장성과 비용 절감**에 큰 장점이 있다.  
+   - 결과적으로 LLM은 **사용자 지시를 더 잘 이해하고, 다양한 상황에 적응하며, 보다 일관된 답변**을 제공할 수 있게 된다.  
+
+---
+
+## p30. 성능  
+
+- **평가: Aligned Model 정의 요소**  
+  - Likert, Helpful, Truthfulness, Harmlessness / Bias  
+
+<img src="/assets/img/bigdatasearch/5/image_26.png" alt="image" width="720px">  
+
+---
+
+### 보충 설명  
+
+#### 1. **Alignment의 핵심 목표**  
+- LLM은 단순히 다음 토큰을 예측하는 모델에서, **인간의 지시와 의도에 맞게 동작하는 모델**로 발전해야 한다.  
+- 이를 위해 평가 지표로 **Truthfulness(진실성), Harmlessness(무해성), Bias(편향 억제)** 등이 사용된다.  
+- 단순 성능(언어 유창성)뿐 아니라 **인간 중심의 가치 반영**이 중요해짐.  
+
+#### 2. **InstructGPT의 성능 향상 포인트**  
+- **독성(Toxicity) 감소**: 사용자의 질문에 불필요하게 공격적이거나 해로운 응답을 줄임.  
+- **진실성(TruthfulQA) 강화**: 잘못된 사실을 생성하는 확률을 낮추고 정확한 지식 기반 응답 제공.  
+- **환각(Hallucination) 억제**: 근거 없는 답변이나 허위 정보 생성을 감소시킴.  
+- **적절성(Customer Assistant Appropriate)**: 실제 고객 지원, 상담 시 보다 적합한 응답을 생성.  
+
+#### 3. **Likert Score의 의미**  
+- Likert scale은 사용자가 모델 응답에 대해 "얼마나 유용하고 만족스러운가?"를 평가하는 척도.  
+- GPT-3에서 InstructGPT로 발전할수록 **Likert 점수가 상승** → 인간 사용자 입장에서 더 도움이 되는 모델로 진화했음을 의미.  
+
+#### 4. **결론적 시사점**  
+- InstructGPT는 **성능(Performance)과 Alignment(정렬)를 동시에 개선**한 사례.  
+- 단순히 파라미터 크기를 키우는 것만이 아니라, **인간 피드백 기반 학습(RLHF)과 지도 학습**이 모델 품질 향상에 필수적임을 보여줌.  
+
+---
+
+## p31. LLM 구축 방법  
+
+<img src="/assets/img/bigdatasearch/5/image_27.png" alt="image" width="720px">  
+
+- **데이터 정제 (Data Cleaning)**  
+  - *데이터 필터링 (Data Filtering)*  
+    - 노이즈 제거 (Removing Noise)  
+    - 이상치 처리 (Handling Outliers)  
+    - 불균형 보정 (Addressing Imbalances)  
+    - 텍스트 전처리 (Text Preprocessing)  
+  - *중복 제거 (Deduplication)*  
+
+- **토크나이즈 (Tokenizations)**  
+  - 바이트쌍 인코딩 (Byte Pair Encoding)  
+  - 워드피스 인코딩 (WordPiece Encoding)  
+  - 센텐스피스 인코딩 (SentencePiece Encoding)  
+
+- **위치 인코딩 (Positional Encoding)**  
+  - 절대 위치 임베딩 (Absolute Positional Embeddings)  
+  - 상대 위치 임베딩 (Relative Positional Embeddings)  
+  - 회전 위치 임베딩 (Rotary Position Embeddings)  
+  - 상대 위치 편향 (Relative Positional Bias)  
+
+- **LLM 아키텍처 (LLM Architectures)**  
+  - 인코더 전용 (Encoder-Only)  
+  - 디코더 전용 (Decoder-Only)  
+  - 인코더-디코더 (Encoder-Decoder)  
+
+- **모델 사전학습 (Model Pre-training)**  
+  - 마스크드 언어 모델링 (Masked Language Modeling)  
+  - 인과적 언어 모델링 (Causal Language Modeling)  
+  - 다음 문장 예측 (Next Sentence Prediction)  
+  - 전문가 혼합 (Mixture of Experts)  
+
+- **파인튜닝 및 지시 튜닝 (Fine-tuning and Instruction Tuning)**  
+  - 지도 학습 파인튜닝 (Supervised Fine-tuning)  
+  - 일반 파인튜닝 (General Fine-tuning)  
+  - 다중 턴 지시 (Multi-turn Instructions)  
+  - 지시 따르기 (Instruction Following)  
+
+- **정렬 (Alignment)**  
+  - 지도 학습 (Supervised Learning)  
+  - 인간 피드백 기반 강화학습 (Reinforcement Learning from Human Feedback)  
+  - 직접 선호 최적화 (Direct Preference Optimization)  
+  - 카너먼-트버스키 최적화 (Kahneman-Tversky Optimization)  
+
+- **디코딩 전략 (Decoding Strategies)**  
+  - 탐욕적 탐색 (Greedy Search)  
+  - 빔 서치 (Beam Search)  
+  - Top-k 샘플링 (Top-k Sampling)  
+  - Top-p 샘플링 (Top-p Sampling)  
+
+- **비용 효율적 학습/추론, 적응 및 압축 (Cost-Effective Training/Inference, Adaptation & Compression)**  
+  - 최적화된 학습 (Optimized Training)  
+    - 제로 중복 최적화기 (Zero Redundancy Optimizer)  
+    - 가중 키-값 기법 (Repactance Weighted Key Value)  
+  - 저랭크 적응 (Low-Rank Adaption)  
+  - 지식 증류 (Knowledge Distillation)  
+  - 양자화 (Quantization)  
+
+---
+
+### 보충 설명  
+
+#### 1. **데이터 정제와 중복 제거의 중요성**  
+- LLM의 성능은 훈련 데이터 품질에 크게 좌우된다.  
+- 노이즈나 중복 데이터가 포함되면 학습 과정에서 불필요한 편향(bias)과 과적합(overfitting)이 발생할 수 있다.  
+- 따라서 **Data Filtering**과 **Deduplication**은 모델 학습의 출발점이자 가장 중요한 단계이다.  
+
+#### 2. **위치 인코딩(Positional Encoding)의 역할**  
+- Transformer는 RNN처럼 순차적 구조가 없으므로, 입력 토큰의 순서를 직접 알 수 없다.  
+- 이를 해결하기 위해 **절대 위치 임베딩(Absolute)**, **상대 위치 임베딩(Relative)**, **회전 위치 임베딩(Rotary)** 등이 도입된다.  
+- 특히 **Rotary Position Embeddings (RoPE)** 는 최근 긴 문맥(long context) 처리에서 중요한 역할을 하며, RAG 등에서 긴 문서 embedding에 활용된다.  
+
+#### 3. **사전학습과 전문가 혼합(Mixture of Experts)**  
+- **Masked Language Modeling**은 BERT처럼 문맥 이해를 위한 양방향 학습에 쓰인다.  
+- **Causal Language Modeling**은 GPT 계열처럼 다음 토큰 예측을 통해 생성 능력을 학습한다.  
+- **Mixture of Experts**는 여러 모델을 병렬적으로 두고 일부 전문가 모듈만 활성화하여 연산 효율을 높이는 기법으로, 대규모 모델에서 자원 효율성을 높이는 데 사용된다.  
+
+#### 4. **Alignment의 필요성**  
+- 단순히 언어를 잘 예측하는 것만으로는 안전하고 유용한 모델을 만들 수 없다.  
+- RLHF(Reinforcement Learning from Human Feedback)는 인간 피드백을 반영하여 **사용자의 의도와 더 잘 정렬(alignment)** 되도록 돕는다.  
+- 최근에는 **Direct Preference Optimization (DPO)** 같은 기법도 제안되어, 강화학습 없이 직접 사용자 선호를 반영하는 연구가 활발하다.  
+
+#### 5. **디코딩 전략과 최종 성능**  
+- 생성 단계에서 **Greedy Search**는 가장 높은 확률 토큰만 선택해 반복적인 출력이 발생하기 쉽다.  
+- **Beam Search**는 여러 경로를 탐색하지만 다양성이 부족할 수 있다.  
+- **Top-k / Top-p 샘플링**은 무작위성을 도입해 더 창의적이고 다양성 있는 출력을 가능하게 한다.  
+
+#### 6. **모델 최적화와 경량화**  
+- 초대규모 모델은 학습 및 추론 비용이 막대하기 때문에, **양자화(Quantization)**, **저랭크 적응(LoRA)**, **지식 증류(Knowledge Distillation)** 등이 필수적이다.  
+- 이러한 최적화 기법들은 모델을 실제 서비스 환경에 배포할 수 있게 하는 핵심 기술이다.  
+
+---
+
