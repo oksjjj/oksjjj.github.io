@@ -1126,3 +1126,784 @@ $$
 
 ---
 
+## p32. 데이터 전처리  
+
+**Fig. 7**: 대규모 언어 모델(LLM, Large Language Models)의 사전학습을 위한 전형적인 데이터 전처리 파이프라인을 보여줌.
+
+<img src="/assets/img/bigdatasearch/5/image_28.png" alt="image" width="720px">  
+
+- **원시 말뭉치 (Raw Corpus)**  
+  - 인터넷, 논문, 코드 저장소 등에서 수집된 대규모 데이터  
+
+- **필터링 및 선택 (Filtering & Selection)**  
+  - 언어 필터링 (Language Filtering)  
+  - 지표 기반 필터링 (Metric Filtering)  
+  - 통계적 필터링 (Statistic Filtering)  
+  - 키워드 필터링 (Keyword Filtering)  
+
+- **중복 제거 (De-duplication)**  
+  - 문장 단위 (Sentence-level)  
+  - 문서 단위 (Document-level)  
+  - 데이터셋 단위 (Set-level)  
+
+- **개인정보 축소 (Privacy Reduction)**  
+  - 개인식별정보 탐지 (Detect Personally Identifiable Information, PII)  
+  - 개인식별정보 제거 (Remove PII)  
+
+- **토크나이즈 (Tokenization)**  
+  - 기존 토크나이저 재사용 (Reuse Existing Tokenizer)  
+  - 센텐스피스 (SentencePiece)  
+  - 바이트 단위 BPE (Byte-level BPE)  
+
+- **사전학습 준비 완료 (Ready to Pre-train!)**  
+  - 정제, 중복 제거, 개인정보 제거, 토큰화 과정을 거쳐 학습 가능한 데이터로 변환됨  
+
+---
+
+### 보충 설명  
+
+#### 1. **데이터 전처리의 중요성**  
+- LLM 학습의 성능은 모델 구조뿐만 아니라 **데이터 품질**에 크게 좌우된다.  
+- 노이즈 제거, 중복 문서 제거, 개인정보 보호 같은 과정은 모델이 불필요하거나 잘못된 패턴을 학습하는 것을 방지한다.  
+- 따라서 전처리는 단순한 준비 작업이 아니라 **모델의 안전성과 신뢰성을 보장하는 핵심 단계**이다.  
+
+#### 2. **중복 제거(De-duplication)의 필요성**  
+- 동일한 문장이 여러 번 학습 데이터에 포함되면, 모델이 해당 데이터를 과도하게 학습(overfitting)할 수 있다.  
+- Sentence-level, Document-level, Set-level 중복 제거는 다양한 수준에서 데이터의 **다양성과 균형**을 확보하기 위한 전략이다.  
+
+#### 3. **개인정보 보호(Privacy Reduction)**  
+- LLM은 웹 데이터 등 공개 자료에서 학습하기 때문에 개인정보(PII, Personally Identifiable Information)가 포함될 수 있다.  
+- 학습 과정에서 PII가 그대로 포함되면 모델이 **민감한 정보를 출력**할 위험이 있다.  
+- 이를 방지하기 위해 탐지(detect) → 제거(remove) 단계를 거쳐 **안전한 학습 데이터셋**을 만든다.  
+
+#### 4. **토크나이즈(Tokenization)의 역할**  
+- LLM은 텍스트를 그대로 이해하지 않고, **토큰 단위**로 분리해 학습한다.  
+- SentencePiece, Byte-level BPE 같은 기법은 희귀 단어나 다국어 데이터를 처리하는 데 강력하다.  
+- 즉, 토크나이즈는 인간 언어를 모델이 이해할 수 있는 **벡터 표현**으로 바꾸는 다리 역할을 한다.  
+
+#### 5. **최종 단계: Ready to Pre-train**  
+- 데이터 전처리 과정을 모두 거친 후, 모델은 대규모 사전학습(pre-training)을 시작할 수 있다.  
+- 이 데이터는 이미 **노이즈 제거 → 중복 제거 → 개인정보 보호 → 토큰화** 단계를 거쳤기 때문에 학습 효율성과 안정성이 높다.  
+
+---
+
+## p33. LLM의 Capabilities  
+
+<img src="/assets/img/bigdatasearch/5/image_29.png" alt="image" width="720px">  
+
+- **기초 기능 (Basic)**  
+  - *이해 (Comprehension)*: 요약(Summarization), 객관식 질의응답(Multi choice QA), 참/거짓 질의응답(Boolean QA), 단순화(Simplification), 독해(Reading Comprehension)  
+  - *세계 지식 (World knowledge)*: 위키피디아 질의응답(Wikipedia QA), 객관식 질의응답(Multi choice QA)  
+  - *코딩 (Coding)*: API 호출(API calling), 함수 호출(Function Calling)  
+  - *다국어 (Multilingual)*: 번역(Translation), XNLI, 교차 언어 질의응답(Crosslingual QA), 교차 언어 작업(Crosslingual Tasks)  
+
+- **발현 기능 (Emerging)**  
+  - *지시 따르기 (Instruction following)*: 작업 정의(Task definition), 완성(Completion), 퓨샷(Few-shot), 턴 기반(Turn based)  
+  - *추론 (Reasoning)*: 상징적(Symbolic), 상식(Common Sense), 산술(Arithmetic), 논리(Logical)  
+  - *맥락 내 학습 (In-context learning)*: 단계별 해결(Step by step solving), 상징적 참조(Symbolic reference), 과제 계획(Assignment planning), 긍/부정 예시(Pos/Neg example)  
+
+- **증강 기능 (Augmented)**  
+  - *사용자와 상호작용 (Interacting with users)*: 물리적 행동(Physical acting), 가상 행동(Virtual acting)  
+  - *도구 활용 (Tool utilization)*: 작업 분해(Task decomposition), 도구 계획(Tool planning), 지식 기반 활용(Knowledge base utilization)  
+  - *자기 개선 (Self-improvement)*: 자기 비판(Self-criticism), 자기 정제(Self-refinement)  
+
+---
+
+### 보충 설명  
+
+1. **기초 기능**  
+   - LLM이 기본적으로 수행할 수 있는 언어 처리 능력이다. 예를 들어 요약, 번역, 질문응답, 코드 실행 등이 있으며, 이는 사람이 추가적인 지시를 하지 않아도 가능한 범용 능력을 의미한다.  
+   - 특히 *이해*는 텍스트의 의미를 파악하고 질문에 답하는 능력을 포함하며, *다국어*는 다양한 언어 간 번역과 질의응답을 가능하게 한다.  
+
+2. **발현 기능**  
+   - 사전 학습되지 않은 새로운 작업을 예시 몇 개만 보고 수행하는 *퓨샷 학습(Few-shot learning)*이나, 입력 맥락만으로 새로운 작업을 학습하는 *맥락 내 학습(In-context learning)*을 포함한다.  
+   - 또한 상식적 추론과 논리적 추론을 통해 단순 텍스트 처리 이상의 고차원적 작업을 수행할 수 있다.  
+
+3. **증강 기능**  
+   - LLM이 단순한 대화형 모델을 넘어, 외부 도구를 활용하고 스스로 개선하는 능력을 갖추는 단계이다.  
+   - 예를 들어 외부 API를 호출하거나 데이터베이스를 검색하는 *도구 활용*과, 스스로 오류를 검토하고 수정하는 *자기 개선*은 LLM이 지능형 에이전트(Agent)로 발전하는 데 핵심적이다.  
+
+---
+
+## p34. 자연어처리 성능향상 기술요소  
+
+- **LLM 활용에 기반이 되는 Foundation Model**  
+  - *대규모 모델 학습을 위한 Mixture-of-Experts*  
+    - 적은 계산 비용으로 대규모 모델 학습을 가능하게 하는 효율적인 구조  
+    - 트랜스포머 모델의 Feed-Forward Network(FFN) 계층을 다수의 FFN으로 구성된 MoE Layer로 대체, 입력 토큰마다 선택적으로 특정 Expert들을 활성화해 연산을 수행하는 모델 구조  
+
+  - *빠르고 효율적인 학습을 위한 FP8 Training*  
+    - LLM의 학습 속도와 효율을 더 높이기 위한 낮은 정밀도 학습이 주목  
+    - 초기 32비트(Float32)에서 시작하여 Bf16과 같은 16비트 → 최근에는 8비트(FP8)  
+    - 메모리 사용량 감소와 함께 계산 속도 향상되는 이점  
+
+- **데이터 처리 및 품질 향상**  
+  - 라벨링 및 데이터 증강(Data Augmentation): 적은 데이터로 모델 성능을 높이는 기법  
+  - 노이즈 제거(Noise Reduction): 철자 오류 수정, 중복 데이터 제거  
+  - 멀티모달 데이터 활용(Multimodal Learning): 텍스트 뿐만 아니라 이미지, 음성을 함께 처리  
+  - 고품질의 Instruction Data 생성  
+
+---
+
+## p35. 자연어처리 성능향상 기술요소  
+
+- **모델 최적화 및 학습 기법**  
+  - Transfer Learning: 사전학습 된 모델을 활용하여 새로운 작업에 적은 데이터로 적용  
+  - In context Learning: 적은 학습 데이터로 성능을 유지하는 기법  
+  - Knowledge Distillation: 대형 모델의 지식을 작은 모델로 전이하여 경량화  
+  - 사람의 지시를 잘 따르기 위한 Instruction Tuning과 심층 추론을 위한 Reasoning Model  
+  - 사람의 선호를 학습하는 Preference Learning  
+
+- **하드웨어 및 시스템 지원**  
+  - GPU/TPU 가속 (Hardware Acceleration): 대규모 NLP 모델 학습 속도 향상  
+  - 분산 학습 (Distributed Training): 여러 장비에서 병렬 학습 수행  
+  - 경량화 모델 (Edge AI, Mobile AI): 모바일 및 임베디드 환경에서도 NLP 활용 가능  
+
+- **보안 및 윤리적 고려**  
+
+---
+
+## p36. LLM의 특징 및 장점  
+
+- **방대하고 광범위한 지식 활용**  
+  - 방대한 양의 텍스트 데이터를 학습하여 다양한 분야의 지식을 습득  
+  - 학습한 지식을 바탕으로 사용자의 질문에 폭넓고 심도 있는 답변 가능  
+
+- **뛰어난 언어 이해 및 생성 능력**  
+  - 단어 간의 관계와 문맥을 고려하여 자연스러운 언어 이해 가능  
+  - 문법적으로 정확하고 의미 있는 문장 생성 능력  
+
+- **전이학습 및 다양한 태스크 수행 능력**  
+  - 텍스트 분류, 질의응답, 요약, 번역, 문장 생성 등 다양한 NLP 태스크 처리 가능  
+  - 하나의 모델로 여러 태스크를 수행할 수 있어 범용성이 높음  
+  - 한 분야에서 학습한 지식을 다른 유사 태스크에 활용하는 등 전이 학습이 가능  
+
+- **사용자 친화적인 인터페이스**  
+  - 자연어로 된 사용자 입력을 이해하고 응답할 수 있어 접근성이 좋음  
+  - 챗봇, 가상 어시스턴트 등으로 활용되어 사용자 경험 향상  
+
+- **다양한 분야에서의 활용**  
+  - 고객 서비스, 콘텐츠 제작, 교육, 의료 등 다양한 산업 분야에서 활용 가능  
+  - 사람과 기계 간의 상호작용을 향상시키고 업무 효율성 증대에 기여  
+
+---
+
+## p37. LLM의 단점  
+
+- **편향성과 공정성 문제**  
+  - 학습 데이터에 내재된 편향성을 그대로 반영할 수 있음  
+  - 성별, 인종, 종교 등에 대한 고정관념이나 차별적 표현을 생성할 위험 존재  
+
+- **사실 관계 오류 가능성 (Hallucination)**  
+  - 방대한 데이터를 학습하지만, 항상 정확한 정보를 제공하지는 않음  
+  - 잘못된 정보나 허위 정보를 진실로 간주하고 전파할 수 있음  
+
+- **일관성 문제**  
+  - 동일한 입력에 대해 일관된 답변을 생성하지 않을 수 있음  
+  - 모델의 확률적 특성상 생성 결과가 매번 달라질 수 있어 신뢰성 저하  
+
+- **윤리적 문제**  
+  - 악용 가능성이 존재하며, 책임 소재 파악이 어려울 수 있음  
+  - 모델의 출력 결과에 대한 통제와 검증 체계 마련 필요  
+
+- **개인정보 보호 및 기업내 데이터 활용의 어려움**  
+
+- **새로운 정보의 반영 (실시간적 변화 등)**  
+
+---
+
+## p38. 프롬프트 엔지니어링  
+
+- **기본 프롬프트 엔지니어링 기법**  
+  - Few-shot prompting  
+  - 역할부여(Role Playing) prompting  
+  - 제약 조건 기반 prompting  
+  - 출력형식제어 prompting  
+
+- **고급 프롬프트 엔지니어링 기법**  
+  - Prompt Chaining  
+  - Chain-of-Thought (CoT), MultiModal CoT  
+  - Generate Knowledge Prompting  
+  - Automatic CoT (Auto-CoT)  
+  - Self-consistency CoT  
+  - Meta Prompt  
+  - AutomaicPromptEngineer (APE)  
+  - RAG (Retrieval Augmented Generation)  
+  - ReAct (Reason + Act)  
+  - Function Calling  
+
+---
+
+## p39. In-Context Learning  
+
+- 모델 파라미터를 업데이트하며 학습하는 것이 아니고,  
+  새로운 문제나 도메인에 모델을 적용할 때 (Inference 시) 잘 해보자는 접근방법으로,  
+  프롬프트를 잘 구성하여 원하는 Task를 수행하는 방법  
+
+- 즉, 프롬프트 내 맥락적 의미(in-context)를 모델이 이해하고(learning),  
+  이에 따라 답변을 생성하는 방법임.  
+
+---
+
+## p40. 기본 프롬프트 기법  
+
+- **기본 프롬프트 구조**  
+
+  - **지시 (Instruction)**  
+    - 모델에게 수행할 태스크를 명확히 알려주는 부분  
+      - "주어진 영화 리뷰의 감성을 긍정 또는 부정으로 분류하시오."  
+      - "당신은 영화 리뷰 분석 전문가입니다. 리뷰의 감성을 판단해주세요."  
+      - "다음 리뷰가 긍정적인지 부정적인지 결정하세요."  
+
+  - **컨텍스트 (Context)**  
+    - 태스크 수행에 필요한 배경 정보나 자료  
+      - "감성 분류는 '긍정' 또는 '부정' 둘 중 하나로만 응답해야 합니다." (규칙 제시)  
+      - "긍정적인 리뷰는 영화에 대한 만족감, 칭찬, 추천 등의 내용을 포함합니다. 부정적인 리뷰는 실망감, 비판, 불만족 등의 내용을 포함합니다." (개념 정의)  
+      - (Few-shot 예시 - 아래 '입력 데이터'와 '출력 형식 지시' 포함하여 구성)  
+
+  - **입력 데이터 (Input Data)**  
+    - 모델이 처리해야 할 실제 데이터  
+    - 간단한 텍스트 분류 또는 정보 추출 프롬프트 작성 및 모델 출력 확인 (예: 분석할 텍스트)  
+      - "리뷰: 영상미는 뛰어났지만 스토리가 좀 아쉬웠어요." (모델이 분류할 실제 리뷰)  
+      - "사용자 리뷰: 이 영화 정말 인생 영화입니다!"  
+
+  - **출력 형식 지시 (Output Indicator)**  
+    - 원하는 출력의 시작이나 형식을 알려주는 표시  
+      - "감성:"  
+      - "분류 결과:"  
+      - "판단:"  
+
+---
+
+## p41. 기본 프롬프트 예시  
+
+- **[지시]**  
+  아래의 문단을 읽은 뒤, 그 속에서 사실에 근거한 주장들을 뽑아내고,  
+  이후 해당 주장들의 사실 여부를 확인할 수 있도록 검색 엔진에 던질 질문들을 만들어줘.  
+
+- **[문단]**  
+  톰 크루즈는 니콜 키드먼과 재혼했다. 그들에게 3명의 자녀가 있으며,  
+  그는 현재 니콜 키드먼과 이혼한 상태이다.  
+  나는 여기서 검색 엔진에 어떤 질문을 검색해야 사실 여부를 확인할 수 있을까?  
+
+- **[요청]**  
+  여기서 사실에 근거한 주장들을 뽑아주고, 사실 여부 확인할 수 있는 질문들을 만들되,  
+  질문을 만들 때에는 SEARCH("query") 형식으로 만들어줘.  
+
+---
+
+- **추출된 주장들**  
+  1. 톰 크루즈는 니콜 키드먼과 재혼했다.  
+  2. 그들에게 3명의 자녀가 있다.  
+  3. 그는 현재 니콜 키드먼과 이혼한 상태이다.  
+
+- **검색 질문들**  
+
+  1. **톰 크루즈와 니콜 키드먼의 재혼 여부 확인**  
+     - SEARCH("Tom Cruise remarried Nicole Kidman")  
+     - SEARCH("Tom Cruise Nicole Kidman remarriage")  
+
+  2. **톰 크루즈와 니콜 키드먼의 자녀 수 확인**  
+     - SEARCH("Tom Cruise Nicole Kidman three children")  
+     - SEARCH("Tom Cruise Nicole Kidman children")  
+     - SEARCH("Tom Cruise Nicole Kidman family")  
+
+  3. **톰 크루즈와 니콜 키드먼의 이혼 상태 확인**  
+     - SEARCH("Tom Cruise Nicole Kidman divorce")  
+     - SEARCH("Tom Cruise Nicole Kidman current relationship status")  
+     - SEARCH("Tom Cruise Nicole Kidman divorced")  
+
+이러한 질문들을 검색 엔진에 입력하면, 해당 주장들의 사실 여부를 확인할 수 있는 정보를 찾을 수 있습니다.  
+
+---
+
+## p42. 프롬프트 엔지니어링 기법  
+
+- **Few-Shot Prompting**  
+  - 문맥 내 학습(In Context Learning)을 사용한 프롬프트팅 기법  
+  - 새로운 문제나 도메인에서 원하는 작업의 성공적인 작업 수행 예시를 제공하여  
+    새로운 문제에 대해 원하는 수행결과를 생성하는 기법  
+
+---
+
+- **예시 (한국어)**  
+  - 다음의 예시에서와 같이 주어진 텍스트에서 속성과 속성에 대한 의견을 추출해줘  
+
+    예시1: 내 두피 상태에 맞춤형으로 원하는 향과 헤어케어에 도움이 되었다.  
+    → `<두피, 맞춤형이다>, <향, 원한다>, <헤어케어, 도움된다>`  
+
+    예시2: 브랜드 이미지가 좋고 아파트 주변 조경이 맘에 든다.  
+    → `<브랜드 이미지, 좋다>, <주변 조경, 좋다>`  
+
+    텍스트: 롯데캐슬이란 상호가 왠지 고급스럽게 느껴짐  
+    → `<상호, 고급스럽다>`  
+
+---
+
+- **예시 (영어)**  
+  - *Your task is to answer in a consistent style.*  
+
+    **<child>**: Teach me about patience.  
+    **<grandparent>**: The river that carves the deepest valley flows from a modest spring;  
+    the grandest symphony originates from a single note;  
+    the most intricate tapestry begins with a solitary thread.  
+
+    **<child>**: Teach me about resilience.  
+    **<grandparent>**: The mighty bamboo bends but does not break under the fiercest winds;  
+    the persistent water erodes even the hardest stone over time;  
+    the small seedling that pushes through the concrete crack reaches for the sun.  
+
+---
+
+## p43. 기본 프롬프트 엔지니어링 기법  
+
+- **역할 부여 (Role Playing) 프롬프트**  
+  - 모델에게 특정 역할(예: 전문 연구원, 비평가, 요약 전문가)을 부여하는 기법  
+  - 역할 부여를 통해 모델의 응답 스타일과 내용 제어  
+
+- **주요목적**  
+  - 모델 응답의 스타일과 톤을 특정 역할에 맞게 조정  
+  - 특정 역할의 전문성이나 관점을 반영한 정보를 획득  
+  - 사용자의 의도를 모델에게 더 명확하게 전달  
+
+- **예시**  
+  - “블록체인 기술에 대해 설명해 줘.” vs.  
+  - “당신은 블록체인 기술 전문가입니다. 블록체인 기술의 핵심 원리를 비전공자도 이해할 수 있도록 쉽게 설명해주세요. 설명 대상: 블록체인 기술”  
+  - “당신은 전통적인 금융 시장의 분석가입니다. 블록체인 기술이 기존 금융 시스템에 미칠 잠재적 영향을 대해 분석해 주세요. 분석 대상: 블록체인 기술과 기존 금융 시스템의 관계”  
+
+- **실습**  
+
+---
+
+## p44. 기본 프롬프트 엔지니어링 기법  
+
+- **제약 조건 기반 프롬프트**  
+  - 모델의 응답을 사용자의 의도에 더욱 정확하게 맞추고 통제하기 위한 기법 중 하나  
+    - 출력의 길이, 스타일, 포함/제외해야 할 내용 등 구체적인 제약 조건 명시  
+    - 부정적 제약 (Negative Constraints): 모델이 하지 말아야 할 것을 명시  
+    - 제약 조건 충돌 관리  
+  - LLM은  
+    - 생성될 응답의 형태, 내용, 길이에 대한 구체적인 제한을 설정  
+
+- **제약 조건 기반 프롬프트 작성 방법**  
+  **모델이 명확하게 인식하고 따를 수 있도록 지시를 구체적으로 작성**  
+  - **명확한 지시**: 제약 조건을 포함하는 지시사항을 프롬프트의 시작 부분이나 모델이 태스크를 수행하기 직전에 명확하게 제시  
+  - **구체적인 수치/기준 제시**: 길이 제한이라면 몇 글자/단어/문장인지, 키워드인지 등을 정확하게 명시  
+  - **강조 표현 (선택 사항)**: 중요한 제약 조건의 경우, 대문자 사용, 볼드체(마크다운 환경), 특정 기호 등을 사용  
+  - **부정적 제약 활용**: "무엇을 하지 마세요"라는 형태의 부정적 제약도 유용  
+  - **예시 활용 (Few-shot)**: 제약 조건을 따르는 예시를 함께 제공  
+
+---
+
+## p45. 기본 프롬프트 엔지니어링 기법  
+
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글은 반드시 50자 이상 100자 이하로 작성해야 해.  
+  제품: 최신 스마트 워치 "TechTime Pro"  
+
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"혁신적인 디자인"**과 **"오래가는 배터리"**라는 키워드를 반드시 포함해야 해.  
+  제품: 최신 스마트 워치 "TechTime Pro"  
+
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"방수 기능"** 또는 **"운동 추적"** 기능에 대한 내용은 절대 언급하지 않아야 해.  
+  제품: 최신 스마트 워치 "TechTime Pro"  
+
+- 당신은 제품 마케터입니다. 다음 제품에 대한 짧은 홍보 문구를 작성해 주세요. 홍보 문구는 **"30자 이내"**여야 하며, **"스마트"**, **"시간"**, **"디자인"** 이 세 단어를 모두 포함해야 합니다. 또한, 가격에 대한 언급은 절대 하지 마세요.  
+  제품: 최신 스마트 워치 "TechTime Pro"  
+
+  홍보 문구:  
+
+---
+
+## p46. 기본 프롬프트 엔지니어링 기법  
+
+- **출력 형식 제어 기법**  
+  - 모델이 생성하는 응답이 특정 구조나 포맷을 따르도록 유도  
+
+- **출력 형식 제어 기법**  
+  - 명확한 지시: 원하는 출력 형식을 텍스트로 명확하게 설명 (예: "응답은 JSON 형식으로 작성해 줘.")  
+  - 출력형식 지시어 사용 (예: "결과:", "JSON Output:")  
+  - Few-shot 예시  
+  - 구조화된 템플릿 제공 (구조화된 출력 요구: JSON, XML, 마크다운 테이블 등)  
+
+- **단계별 사고 과정 유도 (Chain-of-Thought Prompting, CoT)와 출력형식 제어 결합**  
+  - 모델이 특정 정보를 추출하거나 결론을 내리기까지의 추론 과정을 보여주고, 최종 결과를 특정형식으로 요약하여 제공  
+
+**예시:**  
+
+>당신은 문서 분석 전문가입니다. 다음 문단에서 보고서의 발행 연도와 프로젝트 비용을 추출하세요.
+>
+>정보 추출 과정을 단계별로 설명해주세요. 각 단계는 짧은 문장으로 작성합니다.
+>모든 추출 과정 설명이 끝난 후, 추출된 최종 정보를 마크다운 테이블 형식으로 요약해서 보여주세요.
+>
+>--- 문단: 최근 발행된 보고서에 따르면, 2023년에 착수된 이 프로젝트의 총 비용은 150만 달러였습니다. 연구 결과는 긍정적이며, 향후 추가 투자가 기대됩니다.
+>--- 단계별 추출 과정:
+
+---
+
+## p47. 고급 프롬프트 엔지니어링 – Prompt Chaining  
+
+- **Prompt Chaining**:  
+  복잡한 문제를 해결하거나 분석할 때 사용하는 방법으로  
+  작업을 하위 작업으로 분할하여 이전 단계의 결과를 다음 단계의 입력으로 연속적으로 사용하여  
+  프롬프트 작업의 연쇄를 만드는 기법  
+
+<img src="/assets/img/bigdatasearch/5/image_30.png" alt="image" width="720px">  
+
+---
+
+## p48. 고급 프롬프트 엔지니어링 - CoT  
+
+- **복잡한 문제 해결 과정에서 단계별 추론을 사용하여 답변 퀄리티를 높이는 기법**  
+- 모델이 sufficiently large LLM(충분히 큰 LLM)에서만 작동하며,  
+  CoT 설계 시 질문을 단계별로 분해하고, 각 단계에서 필요한 정보와 추론 과정을 명시하는 것이 핵심임  
+
+---
+
+**Standard Prompting**  
+
+- *Model Input*  
+  Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?  
+  A: The answer is 11.  
+
+  Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?  
+
+- *Model Output*  
+  ❌ **잘못된 답변:** A: The answer is 27.  
+
+---
+
+**Chain-of-Thought Prompting**  
+
+- *Model Input*  
+  Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?  
+  A: Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls. 5 + 6 = 11. The answer is 11.  
+
+  Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?  
+
+- *Model Output*  
+  ✅ **올바른 답변:** A: The cafeteria had 23 apples originally. They used 20 to make lunch. So they had 23 - 20 = 3. They bought 6 more apples, so they have 3 + 6 = 9. The answer is 9.  
+
+---
+
+## p49. Multi-Modal CoT  
+
+- **텍스트와 비전을 2단계 프레임워크로 통합**  
+  - **첫 번째 단계: 다중 모드 정보를 기반으로 한 이론적 근거 생성 단계**  
+    모델에 텍스트와 이미지를 모두 제공, 텍스트와 이미지가 어떻게 관련되어 있는지 설명하는 근거 생성  
+  - **두 번째 단계: 답변 추론**  
+    첫 번째 단계에서 생성한 정보적 근거를 사용하여 질문에 대한 정답을 추론  
+
+<img src="/assets/img/bigdatasearch/5/image_31.png" alt="image" width="720px">  
+
+---
+
+### 보충 설명  
+
+1. **멀티모달 추론의 필요성**  
+   - 전통적인 LLM은 주로 텍스트 기반 입력에 의존한다.  
+   - 그러나 실제 문제 해결에서는 시각 정보(이미지)와 언어 정보(텍스트)가 함께 주어지는 경우가 많다.  
+   - Multi-Modal CoT는 이러한 다중 모드 입력을 동시에 처리하여 더 정교한 추론을 가능하게 한다.  
+
+2. **2단계 프레임워크의 의미**  
+   - **근거 생성 단계**에서는 텍스트와 이미지 간의 관계를 명시적으로 해석한다.  
+     예: 감자튀김과 크래커가 모두 짠 음식이라는 점을 설명.  
+   - **추론 단계**에서는 앞에서 생성된 근거를 바탕으로 최종 답을 도출한다.  
+     예: "둘 다 짠 음식이므로 정답은 salty"라는 결론.  
+
+3. **장점과 응용**  
+   - 단순히 정답만 내는 것이 아니라, **추론 과정(reasoning process)**을 투명하게 보여준다.  
+   - 이를 통해 모델의 **설명가능성(Explainability)**이 향상되고, 교육, 의료 영상 분석, 멀티모달 질의응답 등 다양한 분야에 응용할 수 있다.  
+
+---
+
+## p50. Generate Knowledge Prompting
+
+- **Generate Knowledge Prompting ?**  
+  - 모델로부터 답을 얻기 전에 **Few-shot Prompting**으로 모델이 직접 관련 정보를 가져오도록 한 다음,  
+    이를 질문과 함께 활용해서 답을 생성하는 방법  
+
+<img src="/assets/img/bigdatasearch/5/image_32.png" alt="image" width="720px">  
+
+---
+
+### 보충 설명  
+
+1. **지식 생성 단계 (Knowledge Generation)**  
+   - 질문을 입력하기 전에 모델이 먼저 관련된 지식을 스스로 생성한다.  
+   - 예를 들어, "태양계의 가장 큰 행성은 무엇인가?"라는 질문이 주어지면,  
+     모델은 사전에 "목성은 태양계에서 가장 큰 행성이다"라는 지식을 생성할 수 있다.  
+
+2. **지식 통합 단계 (Knowledge Integration)**  
+   - 생성된 지식들을 질문과 함께 결합하여 최종 답변을 산출한다.  
+   - 즉, 단순히 질문만 이해하는 것이 아니라, 사전 지식을 적극적으로 활용해  
+     답변의 정확도를 높이는 방식이다.  
+
+3. **Few-shot Prompting과의 관계**  
+   - Few-shot 예시들은 모델이 어떤 방식으로 지식을 생성하고 답변해야 하는지  
+     참고할 수 있는 가이드라인 역할을 한다.  
+   - 이를 통해 모델은 전혀 학습하지 않은 새로운 질문에도 더 합리적인 답변을 생성할 수 있다.  
+
+4. **활용 의의**  
+   - 지식이 부족한 질문에도 대응할 수 있어 **추론 능력 강화**에 효과적이다.  
+   - 단순 정보 검색을 넘어서, **맥락적 이해와 지식 확장**이 필요한 상황에서 특히 유용하다.  
+
+---
+
+## p51. 고급 프롬프트 엔지니어링 - Meta Prompt
+
+- **Meta Prompt 정의**  
+  - 일반적인 프롬프트가 LLM에게 "이것을 번역해 줘", "이 질문에 답해 줘"와 같이 특정 작업을 직접 수행하도록 지시하는 것이라면,  
+    **메타 프롬프트(Meta Prompt)** 는 LLM에게 *프롬프트 자체*에 대한 작업을 수행하거나, 모델의 전반적인 행동 방식/규칙을 정의하도록 지시하는 프롬프트  
+  - 즉, 모델의 **'사고(思考)'** 나 **'프롬프트 처리 방식'**, **'역할'** 등에 대한 지시를 담고 있으며,  
+    사용자의 최종 태스크를 직접적으로 수행하는 것이 아니라 **다른 프롬프트의 생성이나 모델의 상위 레벨 행동을 제어하는 데 관여**  
+
+- **주요 목적 및 사용 사례**  
+  - **프롬프트 생성 (Prompt Generation)**  
+    - 특정 태스크에 대한 다양한 프롬프트 후보를 만들도록 모델에게 요청할 때 사용  
+
+  - **모델 행동 방식 정의 및 제어 (Controlling Model Behavior)**  
+    - 모델에게 특정 역할(페르소나)을 부여하거나, 안전 지침, 응답 규칙 등 대화 전반에 걸쳐 지켜야 할 사항들을 설정할 때 사용  
+
+  - **태스크 수행 방식 지시 (Instructing Task Approach)**  
+    - 복잡한 태스크를 해결하기 위해 모델에게 *"정보를 이렇게 분석하고, 저렇게 종합하여 결론을 내려라"*는 식으로 문제 해결 접근 방식을 지시할 때 사용  
+
+---
+
+## p52. 고급 프롬프트 엔지니어링
+
+- **meta_prompt_system_message = """**  
+  You are a helpful and friendly AI assistant. However, you are not a medical professional.  
+  Whenever the user asks about health issues, medical conditions, symptoms, or treatments,  
+  you must first state clearly that **"I am an AI and cannot provide medical advice. Please consult a qualified healthcare professional for any health concerns."**  
+  Before providing any general information, start your response with this exact sentence.  
+  For other types of questions, answer normally.  
+  **"""**
+
+- **사용자 질문 예시**  
+  - user_question_health = "요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?"  
+  - user_question_other = "오늘 날씨는 어떤가요?"
+
+- **응답 예시**  
+  - 사용자 질문: 요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?  
+    모델 응답: 저는 AI이며 의료 조언을 제공할 수 없습니다. 건강 문제에 대해서는 자격을 갖춘 의료 전문가와 상담하시기 바랍니다.  
+    일반적으로 피곤함과 두통은 다양한 원인으로 인해 발생할 수 있습니다. 스트레스, 수면 부족, 탈수, 과도한 카페인 섭취 또는  
+    심지어 감기와 같은 감염이 원인일 수 있습니다. 하지만 정확한 원인은 전문가의 진단이 필요합니다. 건강을 잘 챙기세요!  
+
+  - 사용자 질문: 오늘 날씨는 어떤가요?  
+    모델 응답: 오늘의 날씨는 지역에 따라 다를 수 있습니다. 구체적인 지역을 알려주시면 더 정확한 정보를 제공해드릴 수 있습니다.  
+    또는, 기상청 웹사이트나 날씨 앱을 통해 최신 날씨 정보를 확인하시는 것도 좋은 방법입니다!  
+
+---
+
+### 보충 설명  
+
+1. **메타 프롬프트(Meta Prompt)의 의미**  
+   - 일반적인 프롬프트는 모델에게 “번역해 줘”, “요약해 줘” 등 특정 작업을 직접 수행하라고 지시한다.  
+   - 그러나 **메타 프롬프트**는 모델에게 작업 수행 방식, 규칙, 행동 원칙을 정의하도록 지시하는 상위 레벨의 프롬프트다.  
+   - 즉, 사용자의 질문에 바로 답하는 것이 아니라, 모델이 앞으로 어떤 태도로 답해야 하는지를 설정하는 역할을 한다.  
+
+2. **안전성과 일관성 확보**  
+   - 슬라이드의 예시처럼, 건강 문제와 같은 민감한 주제에서는 모델이 직접 의료 조언을 제공하는 것이 위험하다.  
+   - 따라서 “AI는 의료 전문가가 아니며, 의료 조언을 줄 수 없다”라는 문장을 반드시 먼저 출력하게 하여 **안전한 응답**을 보장한다.  
+   - 이런 방식은 모델이 민감한 질문에 일관되게 반응하도록 만들며, 사용자 신뢰성을 높인다.  
+
+3. **응답 차별화의 효과**  
+   - 건강 관련 질문에는 사전 정의된 경고 문구를 반드시 포함시켜야 하며, 이후 일반적인 설명을 제공한다.  
+   - 반면, 건강과 무관한 일반적인 질문(예: 날씨)에는 평소처럼 정상적인 답변을 제공한다.  
+   - 이를 통해 **상황별 응답 차별화**가 가능해지고, 모델의 응답 품질과 책임성을 동시에 강화할 수 있다.  
+
+---
+
+## p53. 고급 프롬프트 엔지니어링  
+
+- **메타 프롬프트 작성**  
+
+  # --- 메타 프롬프트 작성 ---  
+
+  # 프롬프트 생성 대상 태스크 정의  
+  target_task_description = "주어진 영화 리뷰의 감성을 '긍정' 또는 '부정'으로 분류하시오."  
+
+  # 프롬프트 후보 생성을 요청하는 메타 프롬프트  
+  meta_prompt_for_prompt_generation = """  
+  당신은 대규모 언어 모델을 위한 프롬프트 작성 전문가입니다. 다음 태스크를 가장 잘 수행할 수 있는  
+  다양하고 효과적인 한국어 프롬프트들을 5개 생성해주세요. 각 프롬프트는 사용자가 영화 리뷰 텍스트 뒤에 붙여  
+  모델에게 감성 분류를 요청할 때 사용될 것입니다.  
+
+  태스크: {target_task_description}  
+
+  생성해야 할 프롬프트의 특징:  
+  - 간결하고 명확해야 합니다.  
+  - 다양한 표현 방식을 사용해주세요.  
+  - 결과는 '긍정' 또는 '부정'으로 명확히 분류되도록 유도해야 합니다.  
+
+  ---  
+  생성된 프롬프트들:  
+  """  
+
+---
+
+- **메타 프롬프트 실행 결과 (프롬프트 후보 생성)**  
+
+  --- LLM이 생성한 프롬프트 후보:  
+  1. 이 영화 리뷰의 감정을 판단해 주세요. 감정이 긍정적이면 '긍정', 부정적이면 '부정'으로 분류해 주세요: [리뷰 텍스트]  
+  2. 다음 영화 리뷰를 바탕으로 감성을 분석해 주세요. 결과는 '긍정' 또는 '부정' 중 하나로 명시해 주세요: [리뷰 텍스트]  
+  3. 주어진 영화 리뷰에 대한 감정이 어떤지 평가해 주세요. 긍정적인 느낌이면 '긍정', 부정적인 느낌이면 '부정'으로 표시해 주세요: [리뷰 텍스트]  
+  4. 이 영화 리뷰를 읽고 감정을 분류해 주시기 바랍니다. 긍정적이면 '긍정', 부정적이면 '부정'으로 답변해 주세요: [리뷰 텍스트]  
+  5. 다음 영화 리뷰에 대해 감성을 결정해주세요. 긍정적일 경우 '긍정', 부정적일 경우 '부정'이라고 적어주세요: [리뷰 텍스트]  
+
+---
+
+## p54. RAG (Retrieval Augmented Generation)
+
+- **RAG (Retrieval Augmented Generation) ?**  
+  - 언어모델 외부에서 가져온 정보로 모델의 정확성과 신뢰성을 향상시키는 기술  
+  - 작업과 관련된 데이터/문서를 **외부 지식베이스를 연결하여 검색한 결과를 LLM의 문맥으로 Prompt에 제공**,  
+    모델의 정확성과 신뢰성 향상시키는 기법  
+
+<img src="/assets/img/bigdatasearch/5/image_33.png" alt="image" width="720px">  
+
+---
+
+## p55. ReAct (Reason + Act)
+
+- **ReAct (Reason + Act) ?**  
+  - 언어모델이 문제를 해결하는 과정에서 **추론과 행동을 결합하는 기법**  
+  - 작업을 위해 언어모델이 추론 추적과 행동을 생성함으로써 **행동계획을 생성, 유지 및 조정**하는 동시에  
+    외부 환경과의 상호작용을 통해 사실적 응답으로 이어지는 정보검색으로 추론에 추가 정보를 통합  
+  - **질의응답과 사실검증 (FEVER) 등의 언어이해 작업에서 뛰어난 성능**을 보임  
+
+- **구성 요소**  
+  - **질문 (Question)** : 사용자가 요청한 작업이나 해결해야 할 문제  
+  - **사고 (Thought)** : 취할 행동 식별, 행동 계획의 생성/유지/조정 방법을 언어모델에 제시  
+  - **행동 (Action)** : 사전 허용/정의된 API 등 외부 환경(예: 검색 엔진)과 모델의 실시간 상호 작용  
+  - **관찰 (Observation)** : 행동을 수행한 결과 출력  
+
+<img src="/assets/img/bigdatasearch/5/image_34.png" alt="image" width="600px">  
+
+---
+
+### 보충 설명
+
+1. **ReAct의 핵심 아이디어**  
+   - 전통적인 언어모델은 단순히 입력된 질문에 대한 답변을 생성하는 데 그쳤다.  
+   - 그러나 **ReAct**는 "추론(Reasoning)"과 "행동(Action)"을 결합하여, 모델이 스스로 생각한 계획(Thought)을 실행(Action)하고 그 결과를 다시 반영(Observation)하는 **순환 구조**를 만든다.  
+   - 이를 통해 모델은 단순한 텍스트 생성기를 넘어 **능동적으로 환경과 상호작용하며 문제를 해결하는 에이전트** 역할을 수행할 수 있다.  
+
+2. **작동 방식**  
+   - **질문(Question)** 단계에서 사용자가 해결하고자 하는 문제를 입력한다.  
+   - 모델은 이를 기반으로 **사고(Thought)** 단계를 거쳐 어떤 행동을 취할지 결정한다.  
+   - 이후 **행동(Action)** 단계에서 외부 도구(API, 검색 엔진 등)를 사용해 필요한 정보를 수집하거나 계산을 수행한다.  
+   - 마지막으로 **관찰(Observation)** 단계에서 실행 결과를 받아들여 이를 다시 추론에 반영한다.  
+   - 이러한 순환 과정을 통해 모델은 **점진적으로 문제를 해결**하며, 단순히 지식을 출력하는 것을 넘어 **사실 확인(fact-checking)**과 **실제 응용**이 가능해진다.  
+
+3. **응용 분야**  
+   - **질의응답(QA)와 사실 검증(Fact Verification)**: 모델이 검색 엔진과 같은 외부 환경을 활용하여 사실성을 보완하고, 잘못된 정보를 줄인다.  
+   - **복잡한 의사결정 문제 해결**: 단순한 답변 생성이 아니라 여러 단계의 행동과 추론을 결합하여 최적의 결론을 도출한다.  
+   - **지능형 에이전트**: 일정 관리, 웹 브라우징, 데이터 수집 등 다양한 실세계 작업을 수행할 수 있는 기반을 제공한다.  
+
+---
+
+## p56. ReAct 예시
+
+<img src="/assets/img/bigdatasearch/5/image_35.png" alt="image" width="720px">  
+
+- **User 요청**  
+  - 세계의 음식 문화에 대해 알려주는 책을 추천해줘  
+
+- **Thought (1차 사고)**  
+  - The user is asking for a book recommendation about world food culture in Korean.  
+  - I should use the SearchEngine to retrieve some relevant books, and to evaluate & rerank for recommendation.  
+
+- **Action (행동)**  
+  - SearchEngine  
+  - Action Input: ("세계 음식 문화", 3)  
+
+- **Observation (관찰)**  
+  - [{'author': '전통문화연구소 온지음 맛공방', 'publisher': '중앙북스', 'title': '온지음이 차리는 맛: 뿌리와 날개', 'isbn': 9791197415722}, …]  
+
+- **Thought (2차 사고)**  
+  - These are the book recommendations about world food culture in Korean:  
+    1. *온지음이 차리는 맛: 뿌리와 날개*  
+       - Author: 전통문화연구소 온지음 맛공방  
+       - Publisher: 중앙북스  
+    2. *서울의 전통음식(반양장)*  
+       - Author: 이규전  
+       - Publisher: 고려대학교출판부  
+    3. *한국퓨전요리*  
+       - Author: 이우철  
+       - Publisher: 지식인  
+
+- **Final Answer (최종 답변)**  
+  - 세계의 음식 문화에 대해 알려주는 책으로는  
+    - *온지음이 차리는 맛: 뿌리와 날개* (전통문화연구소 온지음 맛공방, 중앙북스),  
+    - *서울의 전통음식(반양장)* (이규전, 고려대학교출판부),  
+    - *한국퓨전요리* (이우철, 지식인)  
+    을 추천합니다.  
+
+---
+
+## p57. Function Calling
+
+- **정의**  
+  - LLM API가 제공하는 기능으로 코드에 정의된 함수(Function)들의 설명을 LLM에게 제공하면,  
+    LLM은 사용자의 질의를 분석하여 **어떤 함수가 사용자의 의도에 가장 적합한지 판단하고,  
+    해당 함수를 호출하는 데 필요한 인자(Arguments)를 구조화된 형식(일반적으로 JSON)으로 생성해 주는 기능**  
+
+- **목표**  
+  - **LLM의 정적 지식 한계 극복**: LLM의 학습 시점 이후의 실시간 정보, 개인화된 정보,  
+    또는 방대한 외부 데이터베이스에 접근 가능  
+  - **외부 시스템과의 상호작용**: 이메일 보내기, 알림 설정, 데이터베이스 수정 등 실제 환경에서 ‘행동’을 수행할 수 있는 기반을 마련  
+  - **안정적인 도구 사용 인터페이스**: ReAct의 텍스트 파싱 기반 Action 식별보다 훨씬 안정적이고 오류 발생 가능성이 낮은  
+    구조화된 인터페이스(JSON)를 통해 도구 사용을 지시  
+
+- **작동 원리 (구현 관점)**  
+  - 실제 함수를 프로그램 내에 정의하고 구현  
+  - **함수 설명 (Schema) 생성**: 정의한 실제 함수의 이름, 기능 설명,  
+    그리고 함수가 필요로 하는 인자들의 이름과 데이터 타입, 설명 등을 JSON Schema 형태로 정의  
+  - **LLM 호출 (User Query + Function Schemas)**: 사용자의 질의와 함께 2단계에서 준비한 함수 설명 리스트를 LLM API에 전달  
+  - **모델의 판단 및 함수 호출 결정**: LLM은 사용자의 질의와 함수 설명을 모두 검토  
+  - 개발자의 코드에서 함수 호출 실행  
+    - 실행된 함수의 결과를 다시 LLM에게 전달하기 위해 **새로운 API 호출**을 수행  
+    - 이때 이전 대화 기록과 함께 **‘함수 호출 결과를 나타내는 특별한 메시지 타입’**으로 함수의 반환값을 전달  
+  - 함수 실행 결과를 LLM에 전달  
+  - **LLM의 최종 응답 생성**  
+
+- **실습**: 코드 참조  
+
+---
+
+## p58. OpenAI 에서의 Function Calling
+
+<img src="/assets/img/bigdatasearch/5/image_36.png" alt="image" width="600px">  
+
+- **OpenAI 에서의 Function Calling ?**  
+  - OpenAI의 Function Calling은 모델이 **사용자의 질문을 분석**하여 적절한 함수를 선택하고,  
+    **필요한 인자(argument)**를 구조화된 형식으로 생성해 실행한 뒤, 그 결과를 다시 종합하여  
+    **최종 응답**을 반환하는 과정으로 동작  
+
+- **절차**  
+  1. **Tool Definitions + Messages**  
+     - 예: `get_weather(location)`  
+     - 사용자 질문: *"What's the weather in Paris?"*  
+  2. **Tool Calls**  
+     - 모델이 생성: `get_weather("paris")`  
+  3. **Execute Function Code**  
+     - 함수 실행: `get_weather("paris")`  
+     - 반환: `{"temperature": 14}`  
+  4. **Results**  
+     - 모든 이전 메시지와 함께 결과 전달: `{"temperature": 14}`  
+  5. **Final Response**  
+     - 최종 응답: *"It's currently 14°C in Paris."*  
+
+---
+
+## p59. ReAct vs. Function Calling
+
+| 구분       | ReAct                                                        | Function Calling                                                                 |
+|------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|
+| 유형       | 프롬프트 엔지니어링 기법 (패턴)                              | 모델의 기능/API                                                                  |
+| 작동 방식  | 사고-행동-관찰 사이클 반복을 프롬프트로 유도                 | 사용자의 의도 파악 → 정의된 함수 호출 JSON 생성                                   |
+| 투명성     | 높음 (Thought 단계 명시적)                                   | 낮음 (함수 호출 결정 내부 과정 불투명)                                           |
+| 출력 형식  | 자유로운 텍스트 (Thought, Action, Observation)               | 구조화된 형식 (주로 JSON)                                                        |
+| 유연성     | 프롬프트 내에서 다양한 액션 정의 가능                        | 미리 정의된 함수 목록 내에서만 호출 가능                                          |
+| 주요 용도  | 복잡한 추론, 다단계 문제 해결, 사고 과정 분석                 | 외부 시스템(API, 데이터베이스) 연동, 특정 기능 호출                               |
+| 구현 복잡성| 프롬프트 설계 복잡성, 출력 파싱 필요                         | 모델 설정 및 함수 정의 필요, 출력 파싱 및 실행 로직 구현 필요                     |
