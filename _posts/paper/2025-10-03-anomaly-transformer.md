@@ -248,3 +248,220 @@ Transformer의 강력한 능력에 기인한다.
 
 이는 Transformer를 통해 원시 시계열(raw series)로부터  
 발견될 수 있다.  
+
+더 나아가 우리는, 이상(anomalies)은 드물고 정상 패턴(normal patterns)이 지배적이기 때문에  
+이상(anomalies)이 전체 시계열(whole series)과 강한 연관성(strong associations)을  
+형성하기 어렵다는 것을 관찰하였다.  
+
+이상(anomalies)의 연관성은 인접한 시점(adjacent time points)에 집중되는데,  
+이는 시계열의 연속성(continuity)으로 인해  
+이웃한 시점들이 유사한 비정상 패턴(abnormal patterns)을  
+포함할 가능성이 더 높기 때문이다.  
+
+이러한 인접 집중(adjacent-concentration) 귀납적 편향(inductive bias)을  
+**사전 연관성(prior-association)** 이라고 한다.  
+
+대조적으로, 지배적인 정상 시점(normal time points)은  
+인접한 영역에 국한되지 않고,  
+전체 시계열(whole series)과의 유의미한 연관성(informative associations)을  
+발견할 수 있다.  
+
+이러한 관찰에 기반하여, 우리는 연관성 분포(association distribution)가 지니는  
+정상(normal)과 이상(abnormal)의 고유한 구별 가능성(distinguishability)을  
+활용하고자 한다.  
+
+이로부터 각 시점(time point)에 대해 새로운 이상 기준(anomaly criterion)을 정의할 수 있는데,  
+이는 각 시점의 **사전 연관성(prior-association)** 과  
+**시리즈 연관성(series-association)** 사이의 거리를 정량화하여 얻어진다.  
+
+우리는 이를 **연관성 불일치(Association Discrepancy)** 라고 명명한다.  
+
+앞서 언급했듯이, 이상(anomalies)의 연관성은  
+인접 집중(adjacent-concentrating)될 가능성이 더 크기 때문에,  
+이상은 정상 시점(normal time points)보다  
+더 작은 연관성 불일치(association discrepancy)를 보이게 된다.  
+
+이전 방법들을 넘어, 우리는 Transformer를  
+비지도 시계열 이상 탐지(unsupervised time series anomaly detection)에 도입하고,  
+연관성 학습(association learning)을 위한 **Anomaly Transformer** 를 제안한다.  
+
+연관성 불일치(Association Discrepancy)를 계산하기 위해,  
+우리는 셀프 어텐션(self-attention) 메커니즘을  
+**어노말리 어텐션(Anomaly-Attention)** 으로 새롭게 설계하였다.  
+
+이 메커니즘은 **이중 분기(two-branch) 구조**를 가지며,  
+각 시점(time point)의 **사전 연관성(prior-association)** 과  
+**시리즈 연관성(series-association)** 을 각각 모델링한다.  
+
+사전 연관성(prior-association)은 학습 가능한 가우시안 커널(learnable Gaussian kernel)을 사용하여  
+각 시점(time point)의 인접 집중(adjacent-concentration) 귀납적 편향(inductive bias)을 표현한다.  
+
+반면 시리즈 연관성(series-association)은  
+원시 시계열(raw series)로부터 학습된  
+셀프 어텐션 가중치(self-attention weights)에 해당한다.  
+
+또한 두 분기(branch) 사이에는 **미니맥스 전략(minimax strategy)** 이 적용되며,  
+이를 통해 연관성 불일치(Association Discrepancy)의  
+정상(normal)과 이상(abnormal) 간 구별 가능성(distinguishability)을 증폭시킨다.  
+
+나아가 이를 기반으로 새로운 **연관성 기반 기준(association-based criterion)** 을 도출할 수 있다.  
+
+Anomaly Transformer는 세 가지 실제 응용(real applications)을 포함한  
+여섯 가지 벤치마크(benchmarks)에서  
+강력한 성능(strong results)을 달성하였다.  
+
+본 논문의 기여(contributions)는 다음과 같이 요약된다:  
+
+- 연관성 불일치(Association Discrepancy)에 대한 핵심 관찰에 기반하여,  
+  우리는 **Anomaly-Attention 메커니즘**을 갖춘 **Anomaly Transformer** 를 제안한다.  
+  이 모델은 사전 연관성(prior-association)과 시리즈 연관성(series-association)을  
+  동시에 모델링하여 연관성 불일치(Association Discrepancy)를 구현할 수 있다.  
+
+- 우리는 연관성 불일치(Association Discrepancy)의  
+  정상(normal)과 이상(abnormal) 간 구별 가능성(distinguishability)을 강화하기 위해  
+  **미니맥스 전략(minimax strategy)** 을 제안한다.  
+  이를 바탕으로 새로운 **연관성 기반 탐지 기준(association-based detection criterion)** 을  
+  추가적으로 도출한다.  
+
+- Anomaly Transformer는 세 가지 실제 응용(real applications)에 대한  
+  여섯 가지 벤치마크(benchmarks)에서  
+  **최첨단(state-of-the-art) 이상 탐지 성능**을 달성하였다.  
+  이는 광범위한 제거 실험(extensive ablations)과  
+  통찰력 있는 사례 연구(insightful case studies)를 통해 입증되었다.  
+
+---
+
+## 2 관련 연구 (Related Work)  
+
+### 2.1 비지도 시계열 이상 탐지 (Unsupervised Time Series Anomaly Detection)  
+
+중요한 실제 문제(real-world problem)로서,  
+비지도 시계열 이상 탐지(unsupervised time series anomaly detection)는  
+광범위하게 연구되어 왔다.  
+
+이상(anomaly) 판별 기준(determination criterion)에 따라 분류하면,  
+해당 패러다임(paradigms)은 대체로  
+**밀도 추정(density-estimation)**,  
+**클러스터링 기반(clustering-based)**,  
+**재구성 기반(reconstruction-based)**,  
+**자기회귀 기반(autoregression-based)** 방법들을 포함한다.  
+
+밀도 추정(density-estimation) 기반 방법에서는,  
+대표적인 고전적 기법인 **지역 이상치 요인(Local Outlier Factor, LOF, Breunig et al., 2000)** 과  
+**연결성 이상치 요인(Connectivity Outlier Factor, COF, Tang et al., 2002)** 이 있다.  
+
+이들은 각각 **지역 밀도(local density)** 와  
+**지역 연결성(local connectivity)** 을 계산하여  
+이상치(outlier)를 판별한다.  
+
+**DAGMM (Zong et al., 2018)** 과 **MPPCACD (Yairi et al., 2017)** 는  
+가우시안 혼합 모델(Gaussian Mixture Model, GMM)을 결합하여  
+표현(representations)의 밀도(density)를 추정한다.  
+
+클러스터링 기반(clustering-based) 방법에서는,  
+이상 점수(anomaly score)가 항상 **클러스터 중심(cluster center)까지의 거리(distance)** 로  
+정식화된다.  
+
+**SVDD (Tax & Duin, 2004)** 와 **Deep SVDD (Ruff et al., 2018)** 는  
+정상 데이터에서 얻어진 표현들(representations)을  
+하나의 밀집된 클러스터(compact cluster)로 모은다.  
+
+**THOC (Shen et al., 2020)** 는  
+계층적 클러스터링 메커니즘(hierarchical clustering mechanism)을 통해  
+중간 층(intermediate layers)에서의 다중 스케일 시간적 특징(multi-scale temporal features)을 융합(fuse)한다.  
+
+그리고 다층 거리(multi-layer distances)를 이용하여  
+이상을 탐지한다.  
+
+**ITAD (Shin et al., 2020)** 는  
+분해된 텐서(decomposed tensors)에 대해  
+클러스터링(clustering)을 수행한다.  
+
+재구성 기반(reconstruction-based) 모델들은  
+재구성 오차(reconstruction error)를 통해  
+이상을 탐지하려고 시도한다.  
+
+**Park et al. (2018)** 은 **LSTM-VAE 모델**을 제안했는데,  
+이는 시간적 모델링(temporal modeling)을 위해 LSTM을 기반(backbone)으로 사용하고,  
+재구성을 위해 변분 오토인코더(Variational AutoEncoder, VAE)를 활용한다.  
+
+**OmniAnomaly (Su et al., 2019)** 는  
+LSTM-VAE 모델을 정규화 흐름(normalizing flow)으로 확장하고,  
+재구성 확률(reconstruction probabilities)을 이용하여  
+이상을 탐지한다.  
+
+**InterFusion (Li et al., 2021)** 은  
+백본(backbone)을 **계층적 VAE(hierarchical VAE)** 로 새롭게 설계하여,  
+여러 시계열(multiple series) 간의 **상호 의존성(inter-dependency)** 과  
+내부 의존성(intra-dependency)을 동시에 모델링한다.  
+
+**GANs (Goodfellow et al., 2014)** 역시  
+재구성 기반 이상 탐지(reconstruction-based anomaly detection)에 활용되며  
+(Schlegl et al., 2019; Li et al., 2019a; Zhou et al., 2019),  
+적대적 정규화(adversarial regularization)로 작동한다.  
+
+자기회귀 기반(autoregression-based) 모델들은  
+예측 오차(prediction error)를 통해  
+이상을 탐지한다.  
+
+**VAR** 는 **ARIMA (Anderson & Kendall, 1976)** 를 확장한 모델로,  
+시차 의존 공분산(lag-dependent covariance)에 기반하여  
+미래를 예측한다.  
+
+자기회귀 모델(autoregressive model)은  
+LSTM으로 대체될 수도 있다 (Hundman et al., 2018; Tariq et al., 2019).  
+
+본 논문의 특징은 새로운 **연관성 기반 기준(association-based criterion)** 에 있다.  
+
+랜덤 워크(random walk)나 부분 시퀀스(subsequence) 기반 방법들  
+(Cheng et al., 2008; Boniol & Palpanas, 2020)과 달리,  
+우리의 기준(criterion)은 보다 유의미한 시점 간 연관성(time-point associations)을 학습하기 위해  
+시간적 모델(temporal models)의 **공동 설계(co-design)** 를 통해 구현된다.  
+
+---
+
+---
+
+> **(블로그 추가 설명) 시간적 모델의 공동 설계 (Co-design of Temporal Models)**  
+> "공동 설계(co-design)"란 단일한 모델을 사용하는 대신,  
+> 서로 다른 특성을 가진 두 개 이상의 모델을 **함께 설계하고 상호 보완적으로 학습**시키는 방법을 의미한다.  
+> 
+> Anomaly Transformer에서는  
+> - **사전 연관성(prior-association)** 을 표현하는 모델 → 인접 시점(adjacent points)에 집중하도록 설계  
+> - **시리즈 연관성(series-association)** 을 표현하는 모델 → 전체 시계열(global context)과의 연관성을 학습하도록 설계  
+> 
+> 이렇게 두 가지 관점을 **동시에 학습(co-design)** 함으로써,  
+> 단일 모델로는 잡아내기 어려운 **세밀하고 풍부한 시점 간 연관성**을 포착할 수 있다.  
+> 
+> 즉, 공동 설계는 "지역적 패턴(local patterns)"과 "전역적 패턴(global patterns)"을  
+> 함께 반영하도록 모델 구조를 설계하는 접근이다.  
+
+---
+
+### 2.2 시계열 분석을 위한 Transformer (Transformers for Time Series Analysis)  
+
+최근 Transformer (Vaswani et al., 2017)는  
+자연어 처리(natural language processing, Devlin et al., 2019; Brown et al., 2020),  
+오디오 처리(audio processing, Huang et al., 2019),  
+컴퓨터 비전(computer vision, Dosovitskiy et al., 2021; Liu et al., 2021) 등  
+순차 데이터(sequential data) 처리에서 강력한 성능을 보여주었다.  
+
+시계열 분석(time series analysis)에서는  
+셀프 어텐션(self-attention) 메커니즘의 장점에 힘입어,  
+Transformer가 신뢰할 수 있는 장기 시간 의존성(long-range temporal dependencies)을  
+발견하는 데 사용되고 있다  
+(Kitaev et al., 2020; Li et al., 2019b; Zhou et al., 2021; Wu et al., 2021).  
+
+특히 시계열 이상 탐지(time series anomaly detection)에서는,  
+**GTA (Chen et al., 2021)** 가 제안되었는데,  
+이는 그래프 구조(graph structure)를 활용하여  
+여러 IoT 센서 간의 관계를 학습하고,  
+
+Transformer를 사용하여 시간적 모델링(temporal modeling)을 수행하며,  
+재구성 기준(reconstruction criterion)을 통해  
+이상을 탐지한다.  
+
+기존 Transformer 활용 방식과 달리,  
+**Anomaly Transformer** 는 연관성 불일치(association discrepancy)에 대한 핵심 관찰에 기반하여  
+셀프 어텐션(self-attention) 메커니즘을  
+**어노말리 어텐션(Anomaly-Attention)** 으로 새롭게 설계하였다.  
