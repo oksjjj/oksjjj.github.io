@@ -236,3 +236,15 @@ Transformer는 다양한 분야에서 큰 진전을 이루어왔다.
 이러한 성공은 전역 표현(global representation)과  
 장기 관계(long-range relation)를 통합적으로 모델링하는  
 Transformer의 강력한 능력에 기인한다.  
+
+각 시점(time point)의 연관성 분포(association distribution)는  
+시간적 맥락(temporal context)에 대해 더 유의미한 설명을 제공할 수 있다.  
+
+이는 시계열(time series)의 주기(period)나 추세(trend)와 같은  
+동적 패턴(dynamic patterns)을 드러낸다.  
+
+우리는 위에서 설명한 연관성 분포(association distribution)를  
+**시리즈-연관성(series-association)** 이라고 명명한다.  
+
+이는 Transformer를 통해 원시 시계열(raw series)로부터  
+발견될 수 있다.  
