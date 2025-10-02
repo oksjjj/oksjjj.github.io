@@ -146,3 +146,93 @@ Anomaly Transformer는 세 가지 응용 분야, 즉 **서비스 모니터링(se
 또한 재구성 오차(reconstruction error)나 예측 오차(prediction error)는  
 포인트 단위(point by point)로 계산되기 때문에,  
 시간적 맥락(temporal context)에 대한 포괄적인 설명을 제공할 수 없다.  
+
+또 다른 주요 방법 범주는  
+명시적 연관성 모델링(explicit association modeling)에 기반하여  
+이상을 탐지하는 것이다.  
+
+벡터 자기회귀(vector autoregression)와  
+상태 공간 모델(state space models)이  
+이 범주에 속한다.  
+
+그래프(graph) 또한 명시적으로 연관성을 포착하는 데 사용되었다.  
+
+즉, 서로 다른 시점(time points)을 정점(vertices)으로 하여  
+시계열(time series)을 표현하고,  
+랜덤 워크(random walk)를 통해 이상을 탐지하는 방식이다  
+(Cheng et al., 2008; 2009).  
+
+---
+
+---
+
+> **(블로그 추가 설명) 그래프 기반 이상 탐지 (Graph-based Anomaly Detection)**  
+> 
+> **1. 그래프 구성하기 (How to build the graph)**  
+> - 시계열(time series)의 각 시점(time point)을 **정점(vertex)** 으로 둔다.  
+> - 두 시점 사이의 **간선(edge)** 은 연관성(association)이나 유사성(similarity)으로 정의한다.  
+>   - **시간 인접 기반(Local adjacency)**: $t$ 시점은 보통 $t-1$, $t+1$과 연결.  
+>   - **K-최근접 이웃(K-NN) 기반**: 각 시점을 가장 유사한 K개의 시점과 연결.  
+>   - **완전 연결(Fully connected)**: 모든 시점을 연결하되, 간선 가중치(weight)는 거리/유사도 함수로 조정.  
+> - 간선의 가중치 $w_{ij}$ 는 예를 들어 다음과 같이 정의할 수 있다:  
+>   $$
+>   w_{ij} = \exp\!\left(-\|x_i - x_j\|^2\right)
+>   $$  
+>   여기서 $x_i$는 $i$번째 시점의 관측값(feature)이다.  
+> 
+> **2. 랜덤 워크(Random Walk)로 정상/이상 구분하기**  
+> - 전이 확률(transition probability)은 간선 가중치에 비례한다:  
+>   $$
+>   P_{ij} = \frac{w_{ij}}{\sum_k w_{ik}}
+>   $$  
+>   즉, $i$ 시점에서 $j$ 시점으로 이동할 확률은 두 점의 유사성이 클수록 높다.  
+> - **정상(normal) 시점**:  
+>   - 여러 다른 시점과 강하게 연결되어 있음.  
+>   - 랜덤 워크가 이 정점을 방문할 확률이 안정적이고, 주변 정점들로 분포가 균일하게 퍼진다.  
+>   - 따라서 분포 $\pi_t$는 시간이 지나며 **안정적으로 수렴**한다.  
+> - **이상(anomaly) 시점**:  
+>   - 다른 시점들과의 연결이 약하거나 특정한 방향으로만 치우침.  
+>   - 랜덤 워크가 이 정점을 거의 방문하지 않거나, 머물지 못하고 곧 이탈한다.  
+>   - 결과적으로 $\pi_t$ 분포가 **불균형하게 왜곡**되어 정상 패턴과 확연히 구분된다.  
+> 
+> **3. 요약**  
+> 그래프는 시계열 데이터의 "연결 구조"를 제공하고,  
+> 랜덤 워크는 그 구조 위에서 정상과 이상을 구분하는 "탐색 절차" 역할을 한다.  
+> 이 조합 덕분에 단순한 포인트 단위 오차 계산보다  
+> 더 **구조적이고 전역적인 관점(global perspective)** 에서 이상 탐지가 가능하다.  
+
+---
+
+일반적으로 이러한 고전적 방법들은  
+유의미한 표현(informative representations)을 학습하고  
+세밀한 연관성(fine-grained associations)을 모델링하기 어렵다.  
+
+최근에는 그래프 신경망(Graph Neural Network, GNN)이  
+다변량 시계열(multivariate time series)에서  
+여러 변수들 간의 동적 그래프(dynamic graph)를 학습하는 데 적용되었다  
+(Zhao et al., 2020; Deng & Hooi, 2021).  
+
+더 풍부한 표현력을 가지기는 하지만,  
+이렇게 학습된 그래프는 여전히 **단일 시점(single time point)** 에 한정되어 있으며,  
+이는 복잡한 시간적 패턴(complex temporal patterns)을 다루기에는 불충분하다.  
+
+또한 부분 시퀀스(subsequence) 기반 방법들은  
+부분 시퀀스들 간의 유사성(similarity)을 계산하여  
+이상을 탐지한다 (Boniol & Palpanas, 2020).  
+
+이러한 방법들은 더 넓은 시간적 맥락(wider temporal context)을 탐색할 수는 있지만,  
+각 시점(time point)과 전체 시계열(whole series) 간의  
+세밀한 시간적 연관성(fine-grained temporal association)은 포착하지 못한다.  
+
+본 논문에서는 Transformer (Vaswani et al., 2017)를  
+비지도 환경(unsupervised regime)에서의  
+시계열 이상 탐지(time series anomaly detection)에 적용하였다.  
+
+Transformer는 다양한 분야에서 큰 진전을 이루어왔다.  
+예를 들어, 자연어 처리(natural language processing, Brown et al., 2020),  
+컴퓨터 비전(machine vision, Liu et al., 2021),  
+그리고 시계열(time series, Zhou et al., 2021) 등이 있다.  
+
+이러한 성공은 전역 표현(global representation)과  
+장기 관계(long-range relation)를 통합적으로 모델링하는  
+Transformer의 강력한 능력에 기인한다.  
