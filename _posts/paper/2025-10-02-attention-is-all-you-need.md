@@ -181,7 +181,7 @@ ConvS2S의 경우 선형적으로(linearly), ByteNet의 경우 로그(logarithmi
 
 이로 인해 먼 위치들 사이의 의존성을 학습하는 것이 더욱 어려워진다 [11].  
 
-Transformer에서는 이러한 연산이 **상수 개수의 연산(a constant number of operations)ㄴ**으로 줄어든다.  
+Transformer에서는 이러한 연산이 **상수 개수의 연산(a constant number of operations)**으로 줄어든다.  
 다만 어텐션 가중치가 적용된 위치들을 평균하기 때문에 **표현의 세밀함(정밀도)**이 줄어드는 비용이 따른다.  
 우리는 이를 3.2절에서 설명하는 **멀티-헤드 어텐션(Multi-Head Attention)**으로 보완한다.
 
