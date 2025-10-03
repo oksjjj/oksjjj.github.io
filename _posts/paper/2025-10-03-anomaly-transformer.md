@@ -61,3 +61,38 @@ tags: []
 > 이보다 더 정교한, 다중 시점(multi-point) 수준의 연관성 학습이 필요하다.  
 
 ---
+
+최근 Transformer는 포인트 단위 표현(pointwise representation)과  
+쌍별 연관성(pairwise association)을 통합적으로 모델링하는 데에  
+뛰어난 성능을 보여주었다.  
+
+그리고 우리는 각 시점(time point)의 **셀프 어텐션 가중치 분포(self-attention weight distribution)** 가  
+전체 시계열(whole series)과의 풍부한 연관성(rich association)을  
+내포할 수 있음을 발견하였다.  
+
+우리의 핵심 관찰은, 이상 지점(anomalies)들이 드물기 때문에  
+이상 지점에서 전체 시계열(whole series)로의  
+**자명하지 않은 연관성(nontrivial associations)** 을 형성하는 것이 극도로 어렵다는 것이다.  
+
+따라서 이상 지점들의 연관성은 주로 인접한 시점(adjacent time points)에  
+집중하게 된다.  
+
+이웃한 시점에 연관성이 집중되는 경향(adjacent-concentration bias)은  
+정상(normal) 지점과 이상(abnormal) 지점을 본질적으로 구별할 수 있는  
+**연관성 기반 기준(association-based criterion)** 을 의미한다.  
+
+우리는 이를 **연관성 불일치(Association Discrepancy)** 를 통해 강조한다.  
+
+기술적으로, 우리는 연관성 불일치(association discrepancy)를 계산하기 위한  
+새로운 Anomaly-Attention 메커니즘을 갖춘 Anomaly Transformer를 제안한다.  
+
+연관성 불일치(association discrepancy)의  
+정상(normal)과 이상(abnormal) 간 구별 가능성을 강화하기 위해  
+미니맥스 전략(minimax strategy)이 고안되었다.  
+
+Anomaly Transformer는 세 가지 응용 분야, 즉 서비스 모니터링(service monitoring),  
+우주 및 지구 탐사(space & earth exploration), 수자원 관리(water treatment)에서의  
+여섯 가지 비지도 시계열 이상 탐지 벤치마크에서  
+최첨단(state-of-the-art) 성능을 달성하였다.  
+
+---
