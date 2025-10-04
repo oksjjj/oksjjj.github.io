@@ -135,7 +135,7 @@ BLEU 점수 41.0을 달성했다. 이는 8개의 GPU에서 3.5일간 훈련한 �
 ## 1 서론 (Introduction)  
 
 순환 신경망(Recurrent Neural Networks, RNN), 장단기 메모리(Long Short-Term Memory, LSTM) [12],  
-그리고 게이트 순환 신경망(Gated Recurrent Neural Networks) [7]은  
+그리고 게이티드 순환 신경망(Gated Recurrent Neural Networks) [7]은  
 언어 모델링, 기계 번역 [29, 2, 5] 등과 같은 시퀀스 모델링과 변환(transduction) 문제에서  
 확고하게 최첨단(state-of-the-art) 접근법으로 자리 잡아왔다.  
 
@@ -216,7 +216,7 @@ Transformer에서는 이러한 연산이 **상수 개수의 연산(a constant nu
 ---
 
 > **(블로그 추가 설명) Extended Neural GPU**  
-> Extended Neural GPU는 2015년 발표된 모델로, **게이트드 순환 유닛(GRU)**와 **합성곱(convolution)**을 결합한 아키텍처이다.  
+> Extended Neural GPU는 2015년 발표된 모델로, **게이티드 순환 유닛(GRU)**와 **합성곱(convolution)**을 결합한 아키텍처이다.  
 > 이 모델은 입력 시퀀스를 2차원 격자 구조로 표현하고, 합성곱 연산을 통해 병렬적으로 처리함으로써  
 > 전통적인 RNN보다 더 효율적으로 긴 시퀀스를 학습할 수 있도록 설계되었다.  
 > Transformer로 가는 중간 단계의 아이디어 중 하나로 평가된다.  

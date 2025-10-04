@@ -660,3 +660,913 @@ Anomaly Transformer는 세 가지 실제 응용 분야(real applications)에 걸
 >      **비선형적이고 전역적인 연관성(global association)** 을 학습할 수 있는 접근이 주목받고 있다.  
 
 ---
+
+재구성 기반(reconstruction-based) 모델들은  
+재구성 오차(reconstruction error)를 통해 이상을 탐지하려고 시도한다.  
+
+**Park et al. (2018)** 은  
+시간적 모델링(temporal modeling)을 위해 **LSTM** 백본(backbone)을 사용하고,  
+재구성을 위해 **변분 오토인코더(Variational AutoEncoder, VAE)** 를 사용하는  
+**LSTM-VAE 모델**을 제시하였다.  
+
+---
+
+> **(블로그 추가 설명) LSTM-VAE 모델의 구조와 동작 원리**  
+> **LSTM-VAE (Long Short-Term Memory – Variational AutoEncoder)** 는  
+> 시계열 데이터의 시간적 의존성(temporal dependency)과  
+> 데이터 분포의 잠재 구조(latent structure)를 동시에 학습하기 위해  
+> LSTM과 VAE를 결합한 모델이다.  
+> 
+> 1. **구조 개요**  
+>    - **LSTM 인코더(encoder)**: 입력 시계열 데이터를 순차적으로 처리하여  
+>      시간적 패턴(temporal pattern)을 포착하고,  
+>      이를 잠재 공간(latent space)의 확률 분포로 매핑한다.  
+>    - **VAE의 잠재 변수(latent variables)**:  
+>      인코더가 출력한 분포(평균과 분산)를 사용해 잠재 변수 $z$를 샘플링한다.  
+>      이때, VAE의 핵심인 **재매개변수화 기법(reparameterization trick)**  
+>      $z = \mu + \sigma \odot \epsilon$  
+>      ($\epsilon \sim \mathcal{N}(0, 1)$)을 이용한다.  
+>    - **LSTM 디코더(decoder)**: 잠재 변수 $z$를 입력받아  
+>      원래의 시계열을 재구성(reconstruct)한다.  
+> 
+> 2. **학습 목적 함수(Objective Function)**  
+>    LSTM-VAE는 다음 손실 함수를 최소화하며 학습된다.  
+>    $$
+>    \mathcal{L} = \text{Reconstruction Loss} + \text{KL Divergence}
+>    $$  
+>    - **Reconstruction Loss**: 입력 시계열과 복원된 시계열 간의 차이.  
+>    - **KL Divergence**: 잠재 분포가 표준 정규분포에 가깝도록 제약하는 항.  
+> 
+> 3. **이상 탐지 메커니즘**  
+>    - 모델이 정상(normal) 시계열 패턴에 맞춰 학습되면,  
+>      정상 데이터는 낮은 재구성 오차를 보인다.  
+>    - 반면, 이상(anomalous) 패턴은 잠재 분포에 적합하지 않아  
+>      **높은 재구성 오차(reconstruction error)** 를 보이게 된다.  
+>    - 이 오차를 이상 점수(anomaly score)로 사용하여  
+>      이상 여부를 판단한다.  
+> 
+> 4. **핵심 의의**  
+>    - LSTM은 시계열의 **시간적 구조(temporal structure)** 를,  
+>      VAE는 데이터의 **확률적 표현(probabilistic representation)** 을 담당하여  
+>      두 기법의 장점을 결합한다.  
+>    - 따라서 LSTM-VAE는  
+>      “시간적 패턴 + 확률적 이상성”을 모두 반영하는  
+>      강력한 비지도 이상 탐지 모델이다.  
+
+---
+
+**OmniAnomaly (Su et al., 2019)** 는  
+정규화 흐름(normalizing flow)을 통해 **LSTM-VAE 모델**을 더욱 확장하였으며,  
+탐지를 위해 재구성 확률(reconstruction probabilities)을 사용한다.  
+
+---
+
+> **(블로그 추가 설명) OmniAnomaly의 구조와 핵심 개념**  
+> **OmniAnomaly (Su et al., 2019)** 는  
+> 기존 **LSTM-VAE** 구조를 기반으로 하지만,  
+> **정규화 흐름(normalizing flow)** 을 도입하여  
+> 잠재 공간(latent space)의 확률 분포를 보다 유연하게 모델링한  
+> 고도화된 시계열 이상 탐지 모델이다.  
+> 
+> 1. **핵심 아이디어**  
+>    - 기존 LSTM-VAE는 잠재 변수가 정규분포 $\mathcal{N}(0, I)$ 를 따른다고 가정하지만,  
+>      실제 시계열 데이터의 잠재 분포는 훨씬 복잡하다.  
+>    - OmniAnomaly는 **정규화 흐름(normalizing flow)** 을 사용하여  
+>      단순한 분포를 점진적으로 변환(transform)함으로써  
+>      복잡한 분포를 정밀하게 표현할 수 있다.  
+> 
+> 2. **정규화 흐름(Normalizing Flow)의 개념**  
+>    - 잠재 변수 $z_0$를 여러 개의 가역 변환 함수(invertible transformation) $f_i$를 통해  
+>      다음과 같이 변환한다:  
+>      $$
+>      z_K = f_K \circ f_{K-1} \circ \cdots \circ f_1 (z_0)
+>      $$  
+>    - 이러한 변환 과정을 통해 단순한 분포(예: 정규분포)를  
+>      실제 데이터의 복잡한 분포 형태로 정밀하게 매핑할 수 있다.  
+> 
+> 3. **모델 구성**  
+>    - **LSTM 인코더**: 시계열의 시간적 의존성을 학습하고,  
+>      입력 데이터를 잠재 변수 $z_0$로 압축한다.  
+>    - **Normalizing Flow 변환**: $z_0$를 여러 단계의 비선형 변환을 거쳐  
+>      더 복잡한 잠재 변수 $z_K$로 변환한다.  
+>    - **LSTM 디코더**: $z_K$로부터 원래 시계열을 재구성(reconstruct)한다.  
+> 
+> 4. **이상 탐지 방식**  
+>    - **OmniAnomaly**는 단순한 재구성 오차 대신,  
+>      각 시점의 **재구성 확률(reconstruction probability)** 을 사용한다.  
+>    - 즉, 데이터가 학습된 잠재 분포에서 발생할 확률이 낮을수록  
+>      그 데이터가 이상일 가능성이 높다고 판단한다.  
+> 
+> 5. **특징 및 장점**  
+>    - 복잡한 데이터 분포를 정밀하게 추정할 수 있어  
+>      비선형적이고 비정상적인 시계열(anomalous time series)에 강하다.  
+>    - 확률 기반(probabilistic) 탐지 방식을 사용하므로  
+>      이상 여부를 더 안정적으로 평가할 수 있다.  
+> 
+> 6. **요약**  
+>    - **LSTM** → 시간적 패턴 학습  
+>    - **VAE** → 잠재 공간 확률 모델링  
+>    - **Normalizing Flow** → 복잡한 분포 표현 강화  
+>    - 이 세 요소가 결합되어, OmniAnomaly는  
+>      “정확한 확률적 이상 탐지(probabilistic anomaly detection)” 를 실현한다.  
+
+---
+
+**InterFusion (Li et al., 2021)** 은  
+백본(backbone)을 **계층적 VAE(hierarchical VAE)** 로 새롭게 설계하여,  
+다중 시계열(multiple series) 간의  
+상호 의존성(inter-dependency)과 내부 의존성(intra-dependency)을  
+동시에 모델링한다.  
+
+---
+
+> **(블로그 추가 설명) InterFusion의 계층적 VAE 구조와 이상 탐지 원리**  
+> **InterFusion (Li et al., 2021)** 은  
+> 복수의 시계열(multivariate time series)에서 발생하는  
+> 변수 간 상호 작용(interaction)과  
+> 내부 패턴(internal temporal structure)을 동시에 학습하기 위해  
+> **계층적 변분 오토인코더(Hierarchical Variational AutoEncoder, HVAE)** 를 적용한 모델이다.  
+> 
+> 1. **기본 아이디어**  
+>    - 기존 VAE는 모든 입력을 하나의 잠재 변수(latent variable)로 요약하지만,  
+>      InterFusion은 두 단계의 잠재 구조(latent hierarchy)를 도입한다.  
+>      - **전역 잠재 변수(global latent variable)**:  
+>        여러 시계열 간의 **공통 패턴(inter-dependency)** 을 학습.  
+>      - **국소 잠재 변수(local latent variable)**:  
+>        각 시계열 내부의 **개별 패턴(intra-dependency)** 을 학습.  
+>    - 이를 통해 모델은 “각 변수 내부의 변화”와 “변수 간의 관계”를  
+>      동시에 이해할 수 있게 된다.  
+> 
+> 2. **모델 구조**  
+>    - **인코더(encoder)**:  
+>      입력 시계열 데이터를 두 수준의 잠재 변수 $(z_g, z_l)$ 로 인코딩한다.  
+>      - $z_g$: 여러 시계열 간의 전역 패턴(global dependencies).  
+>      - $z_l$: 개별 시계열의 지역적 패턴(local dependencies).  
+>    - **디코더(decoder)**:  
+>      두 잠재 변수에서 다시 전체 시계열을 재구성(reconstruct)한다.  
+>      이때 전역 정보와 지역 정보가 결합되어  
+>      복합적 시계열 패턴을 복원한다.  
+> 
+> 3. **이상 탐지 메커니즘**  
+>    - 학습 과정에서 모델은 정상(normal) 시계열의 전역–지역 패턴을 학습한다.  
+>    - 새로운 입력이 주어졌을 때,  
+>      복원된 시계열과의 **재구성 오차(reconstruction error)** 또는  
+>      **잠재 확률(likelihood)** 을 측정한다.  
+>    - 전역/지역 수준에서 어느 한쪽이라도 큰 불일치(discrepancy)가 발생하면,  
+>      해당 시점은 이상(anomaly)으로 간주된다.  
+> 
+> 4. **의의와 장점**  
+>    - InterFusion은 단순히 한 시계열 내의 이상만 보는 것이 아니라,  
+>      **여러 시계열 간의 상호 의존성(inter-series dependency)** 까지 함께 분석한다.  
+>    - 따라서 산업 설비, 센서 네트워크, 금융 데이터 등  
+>      복수 변수 간 관계가 중요한 환경에서 특히 효과적이다.  
+> 
+> 5. **한계점 및 발전 방향**  
+>    - HVAE 구조는 복잡하고 계산량이 많으며,  
+>      긴 시계열에서 전역적 관계(global temporal association)를  
+>      완전히 포착하기는 어렵다.  
+>    - 이런 한계를 극복하기 위해 Transformer 기반 접근법에서는  
+>      **어텐션(attention)** 을 통해 전 시점 간의 연관성을 직접 학습하도록 설계한다.  
+
+---
+
+**GANs (Generative Adversarial Networks, Goodfellow et al., 2014)** 또한  
+재구성 기반 이상 탐지(reconstruction-based anomaly detection)에 사용된다.  
+
+자기회귀(autoregression) 기반 모델들은  
+예측 오차(prediction error)를 통해 이상을 탐지한다.  
+
+**VAR** 는 **ARIMA (Anderson & Kendall, 1976)** 를 확장한 것으로,  
+시차 의존 공분산(lag-dependent covariance)에 기반하여  
+미래를 예측한다.  
+
+자기회귀 모델은 또한 **LSTM (Hundman et al., 2018; Tariq et al., 2019)** 으로  
+대체될 수도 있다.  
+
+이 논문은 새로운 연관성 기반 기준(association-based criterion)을 특징으로 한다.  
+
+랜덤 워크(random walk)와 부분 시퀀스(subsequence)-기반 방법들  
+(Cheng et al., 2008; Boniol & Palpanas, 2020)과는 달리,  
+우리의 기준은 더 유의미한 시점 간 연관성(time-point associations)을 학습하기 위해  
+시간적 모델(temporal models)의 공동 설계(co-design)에 의해 구현된다.  
+
+### 2.2 시계열 분석을 위한 Transformer (Transformers for Time Series Analysis)  
+
+최근 **Transformer (Vaswani et al., 2017)** 는  
+자연어 처리(natural language processing, Devlin et al., 2019; Brown et al., 2020),  
+오디오 처리(audio processing, Huang et al., 2019),  
+컴퓨터 비전(computer vision, Dosovitskiy et al., 2021; Liu et al., 2021) 등  
+순차 데이터(sequential data) 처리에서 강력한 성능을 보여주었다.  
+
+시계열 분석(time series analysis)의 경우,  
+Transformer는 **셀프 어텐션(self-attention)** 메커니즘의 장점을 활용하여  
+신뢰할 수 있는 장기 시간 의존성(long-range temporal dependencies)을  
+발견하는 데 사용되고 있다 (Kitaev et al., 2020; Li et al., 2019b; Zhou et al., 2021; Wu et al., 2021).  
+
+특히 시계열 이상 탐지(time series anomaly detection)를 위해,  
+**GTA (Chen et al., 2021)** 는 그래프 구조(graph structure)를 사용하여  
+여러 IoT 센서 간의 관계를 학습하고,  
+Transformer를 통해 시간적 모델링(temporal modeling)을 수행하며,  
+재구성 기준(reconstruction criterion)을 기반으로 이상을 탐지한다.  
+
+기존 Transformer의 사용 방식과 달리,  
+**Anomaly Transformer** 는 연관성 불일치(association discrepancy)에 대한  
+핵심 관찰(key observation)에 기반하여  
+셀프 어텐션 메커니즘(self-attention mechanism)을  
+**어노말리 어텐션(Anomaly-Attention)** 으로 새롭게 설계하였다.  
+
+## 3 방법 (Method)  
+
+시스템이 $d$개의 연속적인 측정값(successive measurements)을 모니터링하고,  
+시간에 따라 일정한 간격으로 관측값(observations)을 기록한다고 가정하자.  
+
+관측된 시계열(time series) $X$는  
+시간 지점들의 집합 $\{x_1, x_2, \dots, x_N\}$ 으로 표현되며,  
+각 시점의 관측값 $x_t \in \mathbb{R}^d$ 는  
+시간 $t$에서의 측정값을 나타낸다.  
+
+비지도 시계열 이상 탐지(unsupervised time series anomaly detection)의 목표는  
+라벨(labels) 없이도 각 시점 $x_t$ 가  
+이상(anomalous)인지 아닌지를 판별하는 것이다.  
+
+앞서 언급했듯이,  
+비지도 시계열 이상 탐지의 핵심은  
+**유의미한 표현(informative representations)** 을 학습하고,  
+**구별 가능한 기준(distinguishable criterion)** 을 찾는 데 있다.  
+
+이를 위해 우리는 **Anomaly Transformer** 를 제안한다.  
+이 모델은 더 유의미한 연관성(informative associations)을 학습하고,  
+본질적으로 정상(normal)과 이상(abnormal)을 구별할 수 있는  
+**연관성 불일치(Association Discrepancy)** 를 학습함으로써  
+이 문제를 해결한다.  
+
+기술적으로는,  
+각 시점의 **사전 연관성(prior-association)** 과  
+**시리즈 연관성(series-association)** 을 표현하기 위해  
+새로운 **어노말리 어텐션(Anomaly-Attention)** 메커니즘을 제안하며,  
+보다 구별력 있는 연관성 불일치를 얻기 위해  
+**미니맥스 최적화 전략(minimax optimization strategy)** 을 함께 사용한다.  
+
+이러한 구조적 설계와 결합하여,  
+학습된 연관성 불일치(association discrepancy)에 기반한  
+**연관성 기반 기준(association-based criterion)** 을 도출한다.  
+
+### 3.1 어노말리 트랜스포머 (Anomaly Transformer)  
+
+이상 탐지를 위한 Transformer (Vaswani et al., 2017)의 한계로 인해,  
+우리는 기본 구조(vanilla architecture)를  
+**어노말리 트랜스포머(Anomaly Transformer)** 로 새롭게 설계하였다 (그림 1).  
+이 모델은 **어노말리 어텐션(Anomaly-Attention)** 메커니즘을 포함한다.  
+
+---
+
+#### **전체 구조 (Overall Architecture)**  
+
+---
+
+**그림 1: 어노말리 트랜스포머 (Anomaly Transformer)**
+
+어노말리 어텐션(Anomaly-Attention, 왼쪽)은  
+사전 연관성(prior-association)과 시리즈 연관성(series-association)을 동시에 모델링한다.  
+
+재구성 손실(reconstruction loss) 외에도,  
+우리의 모델은 특별히 설계된 **정지-그래디언트(stop-gradient)** 메커니즘(회색 화살표)을 포함한  
+**미니맥스 전략(minimax strategy)** 을 통해 최적화된다.  
+이 메커니즘은 사전 연관성과 시리즈 연관성을 제약하여,  
+더 구별 가능한 연관성 불일치(distinguishable association discrepancy)를 학습하도록 돕는다.  
+
+<img src="/assets/img/paper/anomaly-transformer/image_1.png" alt="image" width="720px"> 
+
+---
+
+Anomaly Transformer는  
+어노말리 어텐션 블록(Anomaly-Attention blocks)과  
+피드포워드(feed-forward) 계층을 번갈아 쌓은 구조를 가진다.  
+이러한 적층 구조(stacking structure)는  
+깊은 다단계 특징(deep multi-level features)으로부터  
+기저 연관성(underlying associations)을 학습하는 데 도움이 된다.  
+
+모델이 $L$개의 계층을 가지고 있고,  
+길이가 $N$인 입력 시계열 $X \in \mathbb{R}^{N \times d}$ 를 가진다고 가정하자.  
+$l$번째 계층의 전체 방정식(overall equations)은 다음과 같이 형식화된다:  
+
+$$
+Z^{(l)} = \text{Layer-Norm}(\text{Anomaly-Attention}(X^{(l-1)})) + X^{(l-1)} \tag{1}
+$$
+
+$$
+X^{(l)} = \text{Layer-Norm}(\text{Feed-Forward}(Z^{(l)})) + Z^{(l)}
+$$  
+
+여기서  
+$X^{(l)} \in \mathbb{R}^{N \times d_{\text{model}}}$, $l \in \{1, \dots, L\}$ 은  
+$d_{\text{model}}$ 개의 채널을 가진 $l$번째 계층의 출력을 나타낸다.  
+초기 입력 $X^{(0)} = \text{Embedding}(X)$ 는  
+임베딩된 원시 시계열(embedded raw series)을 나타낸다.  
+$Z^{(l)} \in \mathbb{R}^{N \times d_{\text{model}}}$ 은  
+$l$번째 계층의 은닉 표현(hidden representation)이다.  
+$\text{Anomaly-Attention}(\cdot)$ 은  
+연관성 불일치(association discrepancy)를 계산하기 위한 것이다.  
+
+#### **어노말리 어텐션 (Anomaly-Attention)**  
+
+단일 분기(single-branch) 구조의 셀프 어텐션 메커니즘(Self-Attention mechanism, Vaswani et al., 2017)은  
+**사전 연관성(prior-association)** 과 **시리즈 연관성(series-association)** 을  
+동시에 모델링할 수 없다.  
+
+이에 우리는 **이중 분기(two-branch) 구조**를 가진 **어노말리 어텐션(Anomaly-Attention)** 을 제안한다 (그림 1).  
+
+사전 연관성(prior-association)의 경우,  
+상대적인 시간 거리(relative temporal distance)에 따라  
+사전 확률(prior)을 계산하기 위해  
+**학습 가능한 가우시안 커널(learnable Gaussian kernel)** 을 사용한다.  
+가우시안 커널의 단봉(unimodal) 특성 덕분에,  
+이 설계는 구조적으로 인접한 시점(adjacent horizon)에  
+더 많은 주의를 기울일 수 있다.  
+
+또한 우리는 가우시안 커널에 대해  
+**학습 가능한 스케일 파라미터(learnable scale parameter)** $\sigma$ 를 도입하여,  
+이 사전 연관성이 시계열의 다양한 패턴,  
+예를 들어 이상 구간(anomaly segments)의 길이가 다른 경우 등에  
+적응할 수 있도록 한다.  
+
+시리즈 연관성(series-association) 분기는  
+원시 시계열(raw series)로부터 연관성을 학습하며,  
+이를 통해 가장 효과적인 연관성(effective associations)을  
+적응적으로 찾아낼 수 있다.  
+
+이 두 형태는 모두 각 시점의 시간적 의존성(temporal dependencies)을 유지하며,  
+이는 단순한 포인트 단위 표현(point-wise representation)보다  
+더 유의미하다(informative).  
+
+또한, 이 두 연관성은 각각  
+**인접 집중 사전(adjacent-concentration prior)** 과  
+**학습된 연관성(learned associations)** 을 반영하며,  
+그 불일치(discrepancy)는 정상(normal)과 이상(abnormal)을  
+구별할 수 있는 특성을 가진다.  
+
+$l$번째 계층(layer)에서의 어노말리 어텐션은 다음과 같다:  
+
+**초기화 (Initialization)**  
+
+$$
+Q, K, V, \sigma = X^{(l-1)} W_Q^{(l)}, \;
+X^{(l-1)} W_K^{(l)}, \;
+X^{(l-1)} W_V^{(l)}, \;
+X^{(l-1)} W_\sigma^{(l)}
+$$  
+
+**사전 연관성 (Prior-Association)** 
+상대적 시간 거리(relative temporal distance)에 대한 학습 가능한 가우시안 커널을 사용한다.
+가우시안의 단봉(unimodal) 성질로 인해 인접 구간에 헌법적으로(본질적으로) 더 많은 주의가 간다.
+또한 가우시안 커널의 학습 가능한 스케일 파라미터 $\sigma$ 를 사용하여,
+서로 다른 길이의 이상 구간 등 다양한 시계열 패턴에 적응하도록 한다.  
+
+$$
+P^{(l)} = \mathrm{Rescale}\!\left(
+\left[
+\frac{1}{\sqrt{2\pi}\,\sigma_i}\,
+\exp\!\left(-\frac{|j-i|^2}{2\sigma_i^2}\right)
+\right]_{i,j=1}^N
+\right) \tag{2}
+$$
+
+**시리즈 연관성 (Series-Association)**  
+
+$$
+S^{(l)} = \text{Softmax}\left( \frac{Q K^T}{\sqrt{d_{\text{model}}}} \right)
+$$  
+
+**재구성 (Reconstruction)**  
+
+$$
+Z^{(l)} = S^{(l)} V
+$$  
+
+여기서  
+$Q, K, V \in \mathbb{R}^{N \times d_{\text{model}}}$,  
+$\sigma \in \mathbb{R}^{N \times 1}$ 은 각각  
+셀프 어텐션의 쿼리(query), 키(key), 값(value),  
+그리고 학습된 스케일(learned scale)을 나타낸다.  
+
+또한  
+$W_Q^{(l)}, W_K^{(l)}, W_V^{(l)} \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$,  
+$W_\sigma^{(l)} \in \mathbb{R}^{d_{\text{model}} \times 1}$ 은  
+$l$번째 계층에서 각각 $Q, K, V, \sigma$ 를 위한 파라미터 행렬(parameter matrices)이다.  
+
+사전 연관성(prior-association) $P^{(l)} \in \mathbb{R}^{N \times N}$ 은  
+학습된 스케일(learned scale) $\sigma \in \mathbb{R}^{N \times 1}$ 에 기반하여 생성된다.  
+여기서 $i$번째 원소 $\sigma_i$ 는 $i$번째 시점(time point)에 해당한다.  
+
+구체적으로, $i$번째 시점이 $j$번째 시점과 맺는 연관성 가중치(association weight)는  
+거리 $|j - i|$ 에 대해 다음의 **가우시안 커널(Gaussian kernel)** 로 계산된다:
+
+$$
+G(|j - i|; \sigma_i)
+= \frac{1}{\sqrt{2\pi}\,\sigma_i}
+  \exp\!\left(-\frac{|j - i|^2}{2\sigma_i^2}\right)
+$$
+
+---
+
+> **(블로그 추가 설명) 가우시안 커널(Gaussian Kernel)의 의미와 역할**  
+>
+> **1) 정의 (Definition)**  
+> 가우시안 커널은 두 시점 간의 거리를 확률적 유사도로 변환하는 함수로,  
+> 시점 간의 **연관성(association)** 을 연속적이고 부드럽게 측정할 수 있게 해준다.  
+>  
+> 수식으로는 다음과 같이 표현된다:
+> $$
+> G(|j - i|; \sigma_i)
+> = \frac{1}{\sqrt{2\pi}\,\sigma_i}
+>   \exp\!\left(-\frac{|j - i|^2}{2\sigma_i^2}\right)
+> $$
+> 여기서  
+> - $\mid j - i\mid$ : 두 시점 간의 거리(시간 간격)  
+> - $\sigma_i$ : $i$번째 시점의 분산(또는 스케일) 파라미터  
+> - $\frac{1}{\sqrt{2\pi}\sigma_i}$ : 확률 밀도 정규화 항  
+>
+> ---
+>
+> **2) 직관적 해석 (Intuition)**  
+> - $i$번째 시점과 가까운 시점($j \approx i$)일수록  
+>   $\exp(-|j-i|^2 / 2\sigma_i^2)$ 값이 커져, 연관성이 높게 계산된다.  
+> - 반대로 거리가 멀어질수록($|j-i|$ 증가)  
+>   지수항이 급격히 감소하여 연관성이 낮아진다.  
+> - 즉, **시간적으로 인접한 지점일수록 서로 밀접한 관계를 갖는다.**  
+>
+> ---
+>
+> **3) $\sigma_i$ (스케일 파라미터)의 역할**  
+> - $\sigma_i$는 **커널의 폭(kernel width)** 을 조절한다.  
+>   - $\sigma_i$가 작을수록 → 좁고 뾰족한 커널 → 근처 시점에만 주의 집중.  
+>   - $\sigma_i$가 클수록 → 넓고 완만한 커널 → 먼 시점까지 주의 확장.  
+> - Anomaly Transformer에서는 $\sigma_i$를 **학습 가능한 파라미터(learnable parameter)** 로 두어,  
+>   데이터의 시간적 특성에 따라 각 시점마다 다른 “연관성 범위”를 학습하도록 설계했다.  
+>
+> ---
+>
+> **4) 이상 탐지에서의 의미 (In Anomaly Detection)**  
+> - 정상(normal) 시점은 일반적으로 주위 시점들과 유사한 패턴을 가지므로,  
+>   가우시안 커널의 **인접 중심 구조(unimodal local focus)** 와 잘 맞는다.  
+> - 반면 이상(anomalous) 시점은 주변과의 관계가 약해,  
+>   가우시안 커널 기반의 prior-association을 형성하기 어렵다.  
+> - 따라서 모델은 **사전 연관성(Prior)** 과 **학습된 시리즈 연관성(Series)** 간의  
+>   불일치(discrepancy)를 통해 이상을 구별할 수 있다.  
+>
+> ---
+>
+> **5) 요약**  
+> 가우시안 커널은 시간축 상의 “거리”를 “연관성 강도”로 변환하는 핵심 도구이다.  
+> 각 시점은 자신의 σ를 학습함으로써,  
+> **얼마나 넓은 시간 구간에 주의를 기울일지(adaptive attention range)** 를 스스로 조절한다.  
+> 이로써 모델은 데이터의 시간적 구조를 부드럽게 반영하면서  
+> 정상과 이상 간의 연관성 패턴 차이를 명확히 포착할 수 있다.
+
+---
+
+그 후, 각 시점별 연관성 가중치를 정규화(normalization)하기 위해  
+$\text{Rescale}(\cdot)$ 함수를 사용하여  
+행(row) 합으로 나누어 이산 확률 분포(discrete distribution) $P^{(l)}$ 로 변환한다.  
+
+시리즈 연관성(series-association)은  
+$S^{(l)} \in \mathbb{R}^{N \times N}$ 으로 표현된다.  
+$\text{Softmax}(\cdot)$ 는 마지막 차원(last dimension)을 따라  
+어텐션 맵(attention map)을 정규화하며,  
+$S^{(l)}$의 각 행은 하나의 **이산 확률 분포(discrete distribution)** 를 형성한다.  
+
+$\widehat{Z}^{(l)} \in \mathbb{R}^{N \times d_{\text{model}}}$ 은  
+$l$번째 계층의 어노말리 어텐션(Anomaly-Attention)을 거친 후의  
+**은닉 표현(hidden representation)** 이다.  
+우리는 이러한 전체 과정을 **Anomaly-Attention(·)** 으로 요약하여  
+식 (2)에 대응시킨다.  
+
+멀티헤드 버전에서는,  
+학습된 스케일이 $\sigma \in \mathbb{R}^{N \times h}$ 로 확장되며,  
+여기서 $h$는 헤드(head)의 개수를 나타낸다.  
+
+$m$번째 헤드의 쿼리(query), 키(key), 값(value)은  
+각각 $Q_m, K_m, V_m \in \mathbb{R}^{N \times \frac{d_{\text{model}}}{h}}$ 로 정의된다.  
+
+모듈은 여러 헤드에서 얻은 출력  
+$$\{\widehat{Z}^{(l)}_m \in \mathbb{R}^{N \times \frac{d_{\text{model}}}{h}}\}_{1 \leq m \leq h}$$  
+을 연결(concatenate)하여,  
+최종 결과인  
+$$
+\widehat{Z}^{(l)} \in \mathbb{R}^{N \times d_{\text{model}}}
+$$  
+을 얻는다.  
+
+#### **연관성 불일치 (Association Discrepancy)**
+
+우리는 **연관성 불일치(Association Discrepancy)** 를  
+**사전 연관성(prior-association)** 과 **시리즈 연관성(series-association)** 간의  
+**대칭화된 KL 발산(ㄴsymmetrized KL divergence)** 으로 공식화(formalize)한다.  
+이는 두 확률 분포 사이의 **정보 이득(information gain)** 을 나타낸다 (Neal, 2007).  
+
+다층 특징(multi-level features)에서 얻은 연관성들을  
+보다 유의미한 척도(informative measure)로 결합하기 위해,  
+여러 계층에서의 연관성 불일치를 평균한다. 그 정의는 다음과 같다:  
+
+$$
+\text{AssDis}(P, S; X)
+= \frac{1}{L} \sum_{l=1}^{L}
+\left[
+\text{KL}(P^{(l)}_{i,:} \,\|\, S^{(l)}_{i,:})
++ \text{KL}(S^{(l)}_{i,:} \,\|\, P^{(l)}_{i,:})
+\right],
+\quad i = 1, \dots, N
+$$
+
+여기서 $\text{KL}(\cdot \| \cdot)$ 은  
+$P^{(l)}$ 과 $S^{(l)}$ 의 각 행(row)에 해당하는  
+두 개의 이산 확률 분포(discrete distributions) 간의  
+**KL 발산(Kullback–Leibler divergence)** 을 계산한 것이다.  
+
+---
+
+> **(블로그 추가 설명) KL 발산(Kullback–Leibler Divergence)의 의미**  
+>
+> **1) 정의 (Definition)**  
+> 두 확률 분포 $P$와 $Q$ 사이의 **KL 발산**은  
+> 한 분포가 다른 분포와 얼마나 “다른지”를 측정하는 비대칭적 거리 척도이다.  
+> 수식으로는 다음과 같이 정의된다:
+> $$
+> \text{KL}(P \| Q)
+> = \sum_i P(i) \log \frac{P(i)}{Q(i)}
+> $$
+> 여기서  
+> - $P(i)$ : 실제(참) 분포에서의 확률  
+> - $Q(i)$ : 근사(모델) 분포에서의 확률  
+>
+> 즉, $P$를 참 분포(ground truth)로,  
+> $Q$를 $P$를 근사하려는 모델 분포로 볼 때,  
+> $Q$가 $P$를 얼마나 “잘 따라가는지”를 측정한다.  
+>
+> ---
+>
+> **2) 직관 (Intuition)**  
+> - 만약 $P$와 $Q$가 완전히 동일하면,  
+>   $\text{KL}(P \| Q) = 0$  
+>   (즉, 두 분포 간 정보 손실이 없음).  
+> - 반대로, $Q$가 $P$와 매우 다를수록 KL 발산 값은 커진다.  
+>   이는 $Q$가 $P$의 확률 질량(probability mass)을  
+>   잘못된 위치에 두고 있음을 의미한다.  
+>
+> ---
+>
+> **3) 본 논문에서의 의미 (In the Anomaly Transformer)**  
+> 위 식에서 KL 발산은  
+> **사전 연관성(Prior-Association)** 과  
+> **시리즈 연관성(Series-Association)** 간의 차이를 정량화한다:
+> $$
+> \text{KL}(P^{(l)}_{i,:} \| S^{(l)}_{i,:})
+> $$
+> - $P^{(l)}_{i,:}$ : 시점 $i$의 **사전 연관성 분포**  
+> - $S^{(l)}_{i,:}$ : 시점 $i$의 **시리즈 연관성 분포**  
+>
+> 즉, 시점 $i$에서 “모델이 학습한 실제 연관성($S$)”이  
+> “가우시안 형태의 사전적 연관성($P$)”과 얼마나 다른지를 측정한다.  
+>
+> ---
+>
+> **4) 대칭화 (Symmetrization)**  
+> KL 발산은 일반적으로 비대칭이므로,  
+> 본 논문에서는 이를 대칭화(symmetrization)하여 다음과 같이 정의하였다:
+> $$
+> \text{Sym-KL}(P, S)
+> = \text{KL}(P \| S) + \text{KL}(S \| P)
+> $$
+> 이를 통해 “한쪽 기준으로 본 차이”가 아니라  
+> 양쪽 기준에서의 **정보 차이(Information Discrepancy)** 를 동시에 반영한다.  
+>
+> ---
+>
+> **5) 결과적 해석 (Interpretation)**  
+> - $\text{AssDis}(P, S; X)$ 가 **작다** → 두 분포가 유사함 (즉, 정상 시점)  
+> - $\text{AssDis}(P, S; X)$ 가 **크다** → 두 분포가 상이함 (즉, 이상 시점 가능성)  
+>
+> 따라서 KL 발산은  
+> “시점별로 연관성 분포가 사전적 기대(Prior)와 얼마나 다른가?”를  
+> 수치적으로 나타내며,  
+> Anomaly Transformer가 이상을 구별하는 핵심 지표로 사용된다.
+
+---
+
+$\text{AssDis}(P, S; X) \in \mathbb{R}^{N \times 1}$ 은  
+시계열 $X$의 각 시점(time point)에 대한  
+포인트 단위(point-wise) 연관성 불일치를 나타낸다.  
+즉, $i$번째 원소는 $X$의 $i$번째 시점에 해당한다.  
+
+이전의 관찰에서,  
+이상(anomalies)은 정상(normal) 시점보다  
+더 작은 $\text{AssDis}(P, S; X)$ 값을 보이는 경향이 있다.  
+따라서 $\text{AssDis}$ 는  
+본질적으로(normal-abnormal) 구별 가능한 지표(distinguishable measure)가 된다.  
+
+### 3.2 미니맥스 연관성 학습 (Minimax Association Learning)
+
+비지도 학습(unsupervised task) 설정에서,  
+우리 모델은 **재구성 손실(reconstruction loss)** 을 사용하여 최적화된다.  
+이 재구성 손실은 **시리즈 연관성(series-association)** 이  
+가장 유의미한 연관성(informative associations)을 찾도록 유도한다.  
+
+정상(normal)과 이상(abnormal) 시점 간의 차이를 더욱 확대하기 위해,  
+우리는 추가적인 손실 항(additional loss)을 도입하여  
+**연관성 불일치(association discrepancy)** 를 더 크게 만든다.  
+
+사전 연관성(prior-association)은 단봉(unimodal) 특성을 가지므로,  
+**불일치 손실(discrepancy loss)** 은  
+시리즈 연관성(series-association)이  
+인접 영역(adjacent area) 이외의 부분에  
+더 많은 주의를 기울이도록 유도한다.  
+
+---
+
+> **(블로그 추가 설명) 왜 불일치 손실이 시리즈 연관성을 비인접 영역으로 확장시키는가?**  
+>
+> 1) **사전 연관성은 가우시안(단봉) 분포**  
+>    - 사전 연관성(Prior)은 가우시안 커널로 정의된다:  
+>
+>      $$
+>      P_{i,j} \propto \exp\!\left(-\frac{|i-j|^2}{2\sigma_i^2}\right)
+>      $$
+>
+>    - 중심 시점 $i$ 주변(인접 시점)에 값이 크고, 멀수록 급감 → **인접 집중 성향**을 가짐.  
+>
+> 2) **시리즈 연관성은 학습적으로 자유롭게 형성됨**  
+>    - 시리즈 연관성 $S$ 는 데이터로부터 학습된 어텐션(attention) 분포로,  
+>      시점 $i$가 모든 시점 $j$와 맺는 **실제 관계 강도**를 나타낸다.  
+>
+> 3) **불일치 손실(discrepancy loss)은 $P$와 $S$의 차이를 키움**  
+>    - 총손실은 다음과 같이 정의된다:  
+>
+>      $$
+>      \mathcal{L}_{\text{Total}} = \|X - \hat{X}\|_F^2 - \lambda \, \|\text{AssDis}(P, S; X)\|_1
+>      $$
+>
+>    - 두 번째 항의 $-\lambda$ 항은 $\text{AssDis}$ 값을 **크게 만드는 방향으로** 학습을 유도한다.  
+>      즉, $P$와 $S$가 **서로 더 달라지도록** 유도한다.  
+>
+> 4) **결과적으로 $S$는 비인접 영역으로 확장됨**  
+>    - $P$는 이미 **인접(local)** 시점에 집중되어 있으므로,  
+>      $S$가 $P$와 달라지기 위해서는 **멀리 떨어진 시점(비인접, global)** 에  
+>      더 많은 가중치를 부여해야 한다.  
+>    - 따라서 $S$는 전역적(global) 관계를 더 적극적으로 학습하게 되고,  
+>      정상(normal)과 이상(abnormal)의 구조적 차이를 더 뚜렷하게 만든다.  
+>
+> 5) **이상 탐지 관점에서의 효과**  
+>    - 정상 시점: 전 구간에 걸쳐 안정적인 연관성을 형성할 수 있음 →  
+>      $S$가 전역으로 확장되어도 일관된 패턴 유지.  
+>    - 이상 시점: 주변 외에는 연관성이 약함 →  
+>      $S$가 비인접 영역으로 확장될수록  
+>      $P$와 $S$의 불일치 $\text{AssDis}(P, S; X)$ 가 상대적으로 작게 나타남 →  
+>      **이상이 명확히 구분됨.**  
+>
+> **요약**  
+> 불일치 손실은 $S$를 $P$와 다르게 만들며,  
+> $P$가 인접 시점에 집중하기 때문에 $S$는 자연스럽게 **비인접(전역) 관계로 확장**된다.  
+> 이로써 정상과 이상 간의 **구조적 구분(structural distinguishability)** 이 강화된다.
+
+---
+
+이로 인해 **이상 시점(anomalies)** 의 재구성이 더 어려워지고,  
+결과적으로 이상이 더 명확히 식별될 수 있게 된다.  
+
+입력 시계열 $X \in \mathbb{R}^{N \times d}$ 에 대한  
+손실 함수(loss function)는 다음과 같이 정의된다:
+
+$$
+\mathcal{L}_{\text{Total}}(X, P, S, \lambda; \hat{X})
+= \| X - \hat{X} \|_F^2
+- \lambda \times \| \text{AssDis}(P, S; X) \|_1
+\tag{4}
+$$
+
+여기서,  
+- $\hat{X} \in \mathbb{R}^{N \times d}$ : 입력 $X$의 재구성(reconstruction)  
+- $\| \cdot \|_F$ : 프로베니우스 놈(Frobenius norm)  
+- $\| \cdot \|_k$ : $k$-놈($k$-norm)  
+- $\lambda$ : 두 손실 항의 균형을 조절하는 하이퍼파라미터(trade-off parameter)  
+
+---
+
+> **(블로그 추가 설명) 프로베니우스 놈(Frobenius Norm)과 $k$-놈($k$-Norm)의 의미**  
+>
+> **1) 프로베니우스 놈 (Frobenius Norm)**  
+> - 행렬 $A \in \mathbb{R}^{m \times n}$ 의 모든 원소를 제곱한 뒤 더하고,  
+>   그 제곱근을 취한 값이다.  
+> - 즉, 행렬의 “전체 크기(energy)” 또는 “유클리드 거리(Euclidean length)”를 측정한다.  
+> $$
+> \|A\|_F
+> = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |A_{ij}|^2}
+> = \sqrt{\mathrm{trace}(A^\top A)}
+> $$
+> - **직관적 의미:**  
+>   행렬을 하나의 벡터로 펼쳤을 때, 그 벡터의 $L_2$-노름(L2 norm)과 동일하다.  
+> - **Anomaly Transformer에서의 역할:**  
+>   재구성 손실 $\|X - \hat{X}\|_F^2$ 은  
+>   원본 시계열 $X$와 복원된 시계열 $\hat{X}$ 간의 **전체 오차 에너지**를 측정한다.  
+>   이 값이 작을수록 모델이 원본 패턴을 잘 복원하고 있음을 의미한다.  
+>
+> **2) $k$-놈 ($k$-Norm)**  
+> - 벡터 $x = [x_1, x_2, \dots, x_n]$ 의 $k$-놈은 다음과 같이 정의된다:
+> $$
+> \|x\|_k = \left( \sum_{i=1}^{n} |x_i|^k \right)^{1/k}
+> $$
+> - $k$ 값에 따라 다른 성질을 가진다:  
+>   - $k = 1$ → **L1 놈:** 절댓값의 합 → 희소성(sparsity)을 유도.  
+>   - $k = 2$ → **L2 놈:** 제곱합의 제곱근 → 거리 기반 유사도에 적합.  
+>   - $k = \infty$ → **최대 놈(Max Norm):** 벡터 내 절댓값의 최댓값.  
+> - **Anomaly Transformer에서의 사용:**  
+>   $\|\text{AssDis}(P, S; X)\|_1$ 은  
+>   각 시점의 연관성 불일치를 **절댓값 기준으로 합산**하여,  
+>   전체적으로 얼마나 큰 차이가 존재하는지를 평가한다.  
+>   즉, **이상 정도의 전역 척도(global measure)** 로 사용된다.  
+>
+> **3) 요약 비교**
+
+| 구분 | 정의 | 주요 특징 | 본 논문에서의 역할 |
+|:--|:--|:--|:--|
+| 프로베니우스 놈 $\| \cdot \|_F$ | 행렬 원소 제곱합의 제곱근 | 전체 오차의 크기(에너지) 측정 | 재구성 손실 계산 |
+| $k$-놈 $\| \cdot \|_k$ | 벡터 원소의 $k$제곱합의 $1/k$ 제곱 | $k$에 따라 거리 또는 희소성 측정 | 연관성 불일치(AssDis) 크기 평가 |
+
+>
+> **핵심 요약:**  
+> $\| \cdot \|_F$ 는 “**얼마나 잘 복원했는가**”를,  
+> $\| \cdot \|_k$ 는 “**얼마나 다르게 연관되었는가**”를 측정하는 척도이다.  
+> 두 놈의 조합을 통해 모델은 **정확한 복원 + 명확한 구별성** 을 동시에 달성하도록 학습된다.
+
+---
+
+$\lambda > 0$ 일 때,  
+최적화 과정은 연관성 불일치(association discrepancy)를  
+확대(enlarge)하도록 유도된다.  
+
+또한,  
+연관성 불일치를 더욱 구별 가능하게(distinguishable) 만들기 위해  
+**미니맥스 전략(minimax strategy)** 이 제안된다.  
+
+#### **미니맥스 전략 (Minimax Strategy)**
+
+연관성 불일치(association discrepancy)를 직접적으로 최대화하면,  
+가우시안 커널(Gaussian kernel)의 스케일 파라미터(scale parameter)가 극단적으로 감소하여 (Neal, 2007),  
+사전 연관성(prior-association)을 무의미하게 만든다.  
+
+연관성 학습(association learning)을 더 잘 제어하기 위해,  
+우리는 **미니맥스 전략(minimax strategy)** 을 제안한다 (그림 2).  
+
+---
+
+**그림 2. 미니맥스 연관성 학습 (Minimax Association Learning)**  
+
+최소화 단계(minimize phase)에서는,  
+사전 연관성(prior-association)이 **가우시안 커널(Gaussian kernel)** 에 의해  
+유도된 분포 계열(distribution family) 내에서  
+**연관성 불일치(Association Discrepancy)** 를 최소화한다.  
+
+최대화 단계(maximize phase)에서는,  
+시리즈 연관성(series-association)이  
+**재구성 손실(reconstruction loss)** 하에서  
+연관성 불일치(Association Discrepancy)를 최대화한다.  
+
+<img src="/assets/img/paper/anomaly-transformer/image_2.png" alt="image" width="720px"> 
+
+---
+
+구체적으로, **최소화 단계(minimize phase)** 에서는  
+원시 시계열(raw series)로부터 학습된 시리즈 연관성(series-association) $S^{(l)}$ 를  
+사전 연관성 $P^{(l)}$ 이 근사하도록 유도한다.  
+이 과정은 사전 연관성이 다양한 시간적 패턴(temporal patterns)에  
+적응할 수 있도록 만든다.  
+
+**최대화 단계(maximize phase)** 에서는  
+시리즈 연관성을 최적화하여 연관성 불일치(association discrepancy)를 확대(enlarge)한다.  
+이 과정은 시리즈 연관성이 **비인접 영역(non-adjacent horizon)** 에  
+더 많은 주의를 기울이도록 만든다.  
+
+따라서 재구성 손실(reconstruction loss)을 통합하면,  
+두 단계의 손실 함수는 다음과 같다:
+
+**최소화 단계 (Minimize Phase):**
+$$
+\mathcal{L}_{\text{Total}}(X, P, S_{\text{detach}}, -\lambda; X)
+\tag{5}
+$$
+
+**최대화 단계 (Maximize Phase):**
+$$
+\mathcal{L}_{\text{Total}}(X, P_{\text{detach}}, S, \lambda; X)
+$$
+
+여기서 $\lambda > 0$ 이고,  
+$^*$detach는 연관성의 그래디언트 역전파(gradient backpropagation)를 중지(stop)함을 의미한다 (그림 1).  
+
+---
+
+> **(블로그 추가 설명) 미니맥스 손실의 의미**  
+> 위의 두 식은 **미니맥스 학습 전략(minimax learning strategy)** 을 수식으로 표현한 것이다.  
+> 
+> - **최소화 단계(Minimize Phase)** 에서는  
+>   사전 연관성 $P$ 이 시리즈 연관성 $S$ 를 **따라가도록(approximate)** 학습된다.  
+>   이때 $S_{\text{detach}}$ 는 그래디언트 전파가 차단되어(backpropagation detached)  
+>   $S$ 는 고정된 기준(reference) 역할만 수행한다.  
+>   즉, **$P$ → $S$ 로 수렴하도록** 만드는 단계이다.  
+> 
+> - **최대화 단계(Maximize Phase)** 에서는  
+>   반대로 시리즈 연관성 $S$ 가 고정된 $P_{\text{detach}}$ 를 기준으로  
+>   **연관성 불일치(Association Discrepancy)** 를 확대(enlarge)하도록 학습된다.  
+>   이 과정은 $S$ 가 **비인접 영역(non-adjacent area)** 에  
+>   더 많은 주의를 기울이게 만들어,  
+>   이상(anomalies)과 정상(normals)을 더 명확히 구분할 수 있도록 돕는다.  
+> 
+> 결과적으로,  
+> 두 단계는 다음과 같은 **상반된 목적(opposing objectives)** 을 갖는다:  
+> 
+> - Minimize Phase → “$P$가 $S$를 따라가도록!”  
+> - Maximize Phase → “$S$가 $P$로부터 멀어지도록!”  
+> 
+> 이렇게 상호 경쟁적인(minimax) 학습 과정을 통해  
+> 모델은 정상과 이상 간의 연관성 패턴 차이를  
+> **더 뚜렷하고 안정적으로 구별(distinguishable)** 할 수 있게 된다.  
+
+---
+
+$P$가 최소화 단계에서 $S_{\text{detach}}$ 를 근사하므로,  
+최대화 단계에서는 시리즈 연관성(series-association)에  
+더 강한 제약(stronger constraint)을 적용하게 된다.  
+이는 시점(time points)들이 **비인접 영역(non-adjacent area)** 에  
+더 많은 주의를 기울이도록 강제한다.  
+
+재구성 손실 하에서,  
+이러한 과정은 정상(normal) 시점에 비해  
+이상(anomalies) 시점이 달성하기 훨씬 더 어렵다.  
+따라서 연관성 불일치(association discrepancy)의  
+정상-이상(normal-abnormal) 구별 가능성(distinguishability)을  
+증폭(amplify)시킨다.  
+
+### **연관성 기반 이상 판단 기준 (Association-based Anomaly Criterion)**
+
+우리는 **정규화된 연관성 불일치(normalized association discrepancy)** 를  
+**재구성 기준(reconstruction criterion)** 과 결합하여,  
+시간적 표현(temporal representation)과  
+구별 가능한 연관성 불일치(distinguishable association discrepancy)  
+양쪽의 이점을 모두 활용하도록 한다.  
+
+입력 시계열 $X \in \mathbb{R}^{N \times d}$ 의  
+최종 이상 점수(anomaly score)는 다음과 같이 정의된다:
+
+$$
+\text{AnomalyScore}(X)
+= \text{Softmax} \big(-\text{AssDis}(P, S; X)\big)
+  \odot \| X_{i,:} - \hat{X}_{i,:} \|_2^2,
+  \quad i = 1, \dots, N
+\tag{6}
+$$
+
+여기서,  
+- $\odot$ : 원소별(element-wise) 곱(element-wise multiplication)  
+- $\text{AnomalyScore}(X) \in \mathbb{R}^{N \times 1}$ :  
+  시계열 $X$의 각 시점별(point-wise) 이상 기준(anomaly criterion)  
+
+더 나은 재구성을 위해,  
+이상(anomalies)은 일반적으로 연관성 불일치(association discrepancy)를  
+감소시키는 경향이 있다.  
+그러나 이러한 경우에도,  
+이 식은 여전히 높은 이상 점수(higher anomaly score)를 유도한다.  
+
+---
+
+> **(블로그 추가 설명) 이상 점수(Anomaly Score)의 구성 원리**  
+> 위 식은 **재구성 오차(reconstruction error)** 와  
+> **연관성 불일치(association discrepancy)** 를 결합하여  
+> 각 시점별로 이상 여부를 정량화하는 기준을 정의한다.  
+> 
+> - 먼저, $\text{AssDis}(P, S; X)$ 는 각 시점의  
+>   **사전 연관성(prior-association)** 과 **시리즈 연관성(series-association)** 간의  
+>   불일치를 측정한다.  
+>   이 값이 작을수록(즉, $-\text{AssDis}$ 가 클수록)  
+>   해당 시점이 이상일 가능성이 높다는 것을 의미한다.  
+>   이를 **Softmax** 로 정규화하여  
+>   “연관성 기반 가중치(association-based weight)” 로 변환한다.  
+> 
+> - 다음으로, $\| X_{i,:} - \hat{X}_{i,:} \|_2^2$ 는  
+>   원본 시계열과 재구성된 시계열 간의  
+>   **2-노름 제곱(Euclidean squared distance)**, 즉 **재구성 오차**를 나타낸다.  
+>   이 값이 클수록 해당 시점이 재구성하기 어려운(즉, 비정상적인) 지점이다.  
+> 
+> 두 요소를 원소별 곱($\odot$)으로 결합함으로써,  
+> 모델은 “**재구성이 어렵고**, 동시에 **연관성 패턴이 비정상적인 지점**”을  
+> 더 높은 이상 점수로 평가하게 된다.  
+> 
+> 따라서, $\text{AnomalyScore}(X)$ 는  
+> 단순한 오차 기반 기준보다 더 **정교하고 해석 가능한(an interpretable)**  
+> 이상 탐지 지표로 작동한다.  
+
+---
+
+따라서,  
+이 설계는 **재구성 오차(reconstruction error)** 와  
+**연관성 불일치(association discrepancy)** 가  
+서로 협력(collaborate)하여  
+이상 탐지 성능(detection performance)을 향상시키도록 만든다.  
