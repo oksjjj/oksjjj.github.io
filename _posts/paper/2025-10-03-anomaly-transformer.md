@@ -70,6 +70,29 @@ tags: []
 전체 시계열(whole series)과의 풍부한 연관성(rich association)을  
 내포할 수 있음을 발견하였다.  
 
+---
+
+> **(블로그 보충 설명) 셀프 어텐션 가중치 분포와 시계열의 연관성**  
+> 셀프 어텐션(self-attention)은 입력 시퀀스 내의 각 시점(time point)이  
+> 다른 모든 시점들과 얼마나 관련되어 있는지를 학습하는 메커니즘이다.  
+> 
+> 구체적으로, 한 시점의 **가중치 분포(weight distribution)** 는  
+> 그 시점이 전체 시계열(whole series)의 어느 부분에 주의를 기울이고 있는지를 보여준다.  
+> - 예를 들어, 주기적인 패턴(periodic pattern)이 있는 시계열에서는  
+>   어텐션이 일정한 간격의 시점들에 반복적으로 집중하는 경향을 보인다.  
+> - 반대로, 이상(anomaly)이 있는 구간에서는  
+>   특정 시점의 어텐션 가중치가 불균형하게 쏠리거나 급격히 변한다.  
+> 
+> 이러한 이유로, **셀프 어텐션 가중치 분포**는  
+> 단순히 값의 크기뿐만 아니라 시계열 내의 **구조적 관계(temporal structure)** 와  
+> **패턴 간 상호작용(interactions among patterns)** 을 함께 반영한다.  
+> 
+> 따라서 Transformer를 활용하면  
+> 포인트 단위 표현(pointwise representation)을 넘어  
+> 시계열 전체의 전역적 연관성(global association)을 학습할 수 있다.  
+
+---
+
 우리의 핵심 관찰은, 이상 지점(anomalies)들이 드물기 때문에  
 이상 지점에서 전체 시계열(whole series)로의  
 **자명하지 않은 연관성(nontrivial associations)** 을 형성하는 것이 극도로 어렵다는 것이다.  
