@@ -419,9 +419,12 @@ $$
 
 - **요약 (Summary):**
 
-1. 선형 예측기 $f_{\mathbf{w}}(x)$는 비선형 함수(non-linear functions)를 모델링할 수 있으며, $x$에 대한 비선형 결정 경계(non-linear decision boundaries)를 만들 수 있다.  
-2. 점수(score) $\mathbf{w} \cdot \varphi(x)$는 $\mathbf{w}$에 대한 선형 함수(linear function)이므로 효율적인 학습이 가능하다.  
-3. 선형 예측기(linear predictors)는 도메인 지식(domain knowledge)에 기반한 잘 설계된 특성과 결합될 때 여전히 매우 효과적이다.  
+1. 선형 예측기 $f_{\mathbf{w}}(x)$는 비선형 함수(non-linear functions)를 모델링할 수 있으며,  
+   $x$에 대한 비선형 결정 경계(non-linear decision boundaries)를 만들 수 있다.  
+2. 점수(score) $\mathbf{w} \cdot \varphi(x)$는  
+   $\mathbf{w}$에 대한 선형 함수(linear function)이므로 효율적인 학습이 가능하다.  
+3. 선형 예측기(linear predictors)는 도메인 지식(domain knowledge)에  
+   기반한 잘 설계된 특성과 결합될 때 여전히 매우 효과적이다.  
 
 ---
 
@@ -509,7 +512,7 @@ $$
 - **[예측]** 둘 중 하나라도 참이면 안전(safe):  
 
   $$
-  f(x) = \text{sign}(h_1(x) - h_2(x))
+  f(x) = \text{sign}(h_1(x) + h_2(x))
   $$  
 
 <img src="/assets/img/lecture/textmining/3/image_8.png" alt="image" width="240px">
@@ -853,7 +856,7 @@ $$
 
 ---
 
-<img src="/assets/img/lecture/textmining/3/image_20.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/textmining/3/image_20.png" alt="image" width="800px">  
 
 ---
 
@@ -934,7 +937,7 @@ $$
 \mathbf{w} \leftarrow \mathbf{w} - \eta \nabla_{\mathbf{w}} \, \text{Loss}(x, y, \mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, \mathbf{w})
 $$  
 
-- 이것은 가능하지만, **수작업 계산량이 너무 많다**는 문제가 있다.  
+- 이것은 가능하지만, **수작업 계산량(manual computation)이 너무 많다**는 문제가 있다.  
 
 ---
 
