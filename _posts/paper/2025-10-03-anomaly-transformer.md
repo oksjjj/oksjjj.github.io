@@ -1777,12 +1777,12 @@ $\{0.5\%, 1.0\%, 1.5\%, 2.0\%, 10\%, 20\%, 30\%\}$ 로 설정되었다.
 
 ---
 
-#### **절제 실험 (Ablation Study)**
+#### **제거 실험 (Ablation Study)**
 
 ---
 
-> **(블로그 추가 설명) 절제 실험 (Ablation Study)이란?**  
-> **절제 실험(Ablation Study)** 은 모델을 구성하는 여러 요소 중  
+> **(블로그 추가 설명) 제거 실험 (Ablation Study)이란?**  
+> **제거 실험(Ablation Study)** 은 모델을 구성하는 여러 요소 중  
 > **특정 구성 요소(component)** 를 제거하거나 변경했을 때  
 > 성능이 어떻게 변하는지를 분석하는 실험이다.  
 > 
@@ -1793,12 +1793,12 @@ $\{0.5\%, 1.0\%, 1.5\%, 2.0\%, 10\%, 20\%, 30\%\}$ 로 설정되었다.
 > 이 방식은 마치 “조직 절제(ablation)”처럼  
 > **하나의 부분을 제거하고 그 영향을 관찰한다는 점**에서 이름이 유래되었다.  
 > 
-> 절제 실험은 다음과 같은 목적을 가진다:  
+> 제거 실험은 다음과 같은 목적을 가진다:  
 > - 모델의 **각 구성 요소의 중요성**을 검증한다.  
 > - **불필요하거나 중복된 부분**을 식별하여 모델을 단순화할 수 있다.  
 > - 제안된 **새로운 기법의 실제 효과**를 명확히 입증할 수 있다.  
 > 
-> 따라서, 논문에서 절제 실험은  
+> 따라서, 논문에서 제거 실험은  
 > “이 설계가 정말 필요한가?”  
 > “이 모듈이 성능을 실제로 향상시키는가?”  
 > 와 같은 질문에 대한 **객관적 근거**를 제공하는 핵심 분석 과정이다.  
@@ -1811,7 +1811,7 @@ $\{0.5\%, 1.0\%, 1.5\%, 2.0\%, 10\%, 20\%, 30\%\}$ 로 설정되었다.
 ---
 
 **표 2.** 이상 기준(anomaly criterion), 사전 연관성(prior-association),  
-그리고 최적화 전략(optimization strategy)에 대한 절제 실험 결과(F1-score).  
+그리고 최적화 전략(optimization strategy)에 대한 제거 실험 결과(F1-score).  
 
 **Recon**, **AssDis**, **Assoc** 은 각각  
 순수한 **재구성 성능(pure reconstruction performance)**,  
@@ -1860,7 +1860,7 @@ $\{0.5\%, 1.0\%, 1.5\%, 2.0\%, 10\%, 20\%, 30\%\}$ 로 설정되었다.
 **효과적이며 필수적임(effective and necessary)** 을 검증한다.  
 
 연관성 불일치(association discrepancy)에 대한  
-추가적인 절제 실험 결과는 **부록 D(Appendix D)** 에 제시되어 있다.  
+추가적인 제거 실험 결과는 **부록 D(Appendix D)** 에 제시되어 있다.  
 
 ### 4.2 모델 분석 (Model Analysis)
 
@@ -2265,14 +2265,14 @@ $\lambda$ 값을 사용하였다.
 
 ---
 
-## D 연관성 불일치 절제 실험 (Ablation of Association Discrepancy)
+## D 연관성 불일치 제거 실험 (Ablation of Association Discrepancy)
 
 우리는 **알고리즘 2(Algorithm 2)** 에서  
 연관성 불일치(association discrepancy) 계산의 의사코드(pseudo-code)를 제시한다.  
 
 ---
 
-### D.1 다중 계층 정량화 절제 실험 (Ablation of Multi-level Quantification)
+### D.1 다중 계층 정량화 제거 실험 (Ablation of Multi-level Quantification)
 
 최종 결과(식 (6))를 위해,  
 우리는 여러 계층(multiple layers)에서의 **연관성 불일치(association discrepancy)** 를 평균화하였다.  
@@ -2294,7 +2294,7 @@ $\lambda$ 값을 사용하였다.
 
 ---
 
-### D.2 통계적 거리 절제 실험 (Ablation of Statistical Distance)
+### D.2 통계적 거리 제거 실험 (Ablation of Statistical Distance)
 
 우리는 **연관성 불일치(association discrepancy)** 를 계산하기 위해  
 다음과 같은 널리 사용되는 **통계적 거리(statistical distances)** 들을 선택하였다:
@@ -2358,7 +2358,7 @@ $\lambda$ 값을 사용하였다.
 | 4 | $\mathcal{R} = \mathrm{Mean}(\mathcal{R}', \mathrm{dim}=0)$ | $\mathcal{R} \in \mathbb{R}^{N \times 1}$ |
 | 5 | **Return** $\mathcal{R}$ | 각 시점별 연관성 불일치<br>(association discrepancy) 결과를 반환 |
 
-### **D.3 사전 연관성에 대한 절제 실험 (Ablation of Prior-Association)**  
+### **D.3 사전 연관성에 대한 제거 실험 (Ablation of Prior-Association)**  
 
 학습 가능한 스케일 파라미터(scale parameter)를 갖는 **가우시안 커널(Gaussian kernel)** 외에도,  
 우리는 사전 연관성(prior-association)을 위해  
@@ -2387,7 +2387,7 @@ $P(x; \alpha) = x^{-\alpha}$ 을 적용해 보았다.
 
 ---
 
-## **E. 연관성 기반 기준(Association-based Criterion)에 대한 절제 실험**
+## **E. 연관성 기반 기준(Association-based Criterion)에 대한 제거 실험**
 
 ### **E.1 계산 (Calculation)**  
 
@@ -2410,7 +2410,7 @@ $P(x; \alpha) = x^{-\alpha}$ 을 적용해 보았다.
 | 4 | **Return** $C$ | 각 시점별 이상 점수(anomaly score) |
 
 
-### **E.2 기준 정의에 대한 절제 실험 (Ablation of Criterion Definition)**  
+### **E.2 기준 정의에 대한 제거 실험 (Ablation of Criterion Definition)**  
 
 우리는 **이상 기준(anomaly criterion)** 을 정의하는 다양한 방식에 따라  
 모델의 성능 변화를 탐구하였다.  
@@ -2466,7 +2466,7 @@ $P(x; \alpha) = x^{-\alpha}$ 을 적용해 보았다.
 
 ---
 
-**표 7. 기준 정의에 대한 절제 실험 (Ablation of Criterion Definition)**  
+**표 7. 기준 정의에 대한 제거 실험 (Ablation of Criterion Definition)**  
 
 비교를 위해 **최첨단(state-of-the-art)** 딥러닝 모델인  
 **THOC (Shen et al., 2020)** 을 함께 포함하였다.  
