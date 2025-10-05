@@ -13,8 +13,6 @@ tags: []
 > Advances in Neural Information Processing Systems (NeurIPS 2017).  
 > <a href="https://arxiv.org/abs/1706.03762" target="_blank">🔗 원문 링크 (arXiv:1706.03762)</a>
 
-# Attention Is All You Need  
-
 **저자**  
 - Ashish Vaswani (Google Brain) - avaswani@google.com  
 - Noam Shazeer (Google Brain) - noam@google.com  

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[논문] Anomaly Transformer"
+title: "[논문] ANOMALY TRANSFORMER: TIME SERIES ANOMALY DETECTION WITH ASSOCIATION DISCREPANCY"
 date: 2025-10-03 05:00:00 +0900
 categories:
   - "논문"
@@ -12,8 +12,6 @@ tags: []
 > *Anomaly Transformer: Time Series Anomaly Detection with Association Discrepancy*.  
 > International Conference on Learning Representations (ICLR 2022).  
 > <a href="https://arxiv.org/abs/2110.02642" target="_blank">🔗 원문 링크 (arXiv:2110.02642)</a>
-
-# ANOMALY TRANSFORMER: TIME SERIES ANOMALY DETECTION WITH ASSOCIATION DISCREPANCY  
 
 **저자**  
 - Jiehui Xu (Tsinghua University, BNRist, School of Software) - xjh20@mails.tsinghua.edu.cn  
