@@ -1444,91 +1444,6 @@ $$
 
 ---
 
-### 보충 설명
-
-- **TF–IDF 수식 (강의 슬라이드 기준)**  
-
-  $$
-  w_{t,d} = \log_2(1+tf_{t,d}) \cdot \log_2 \frac{N}{df_t}
-  $$  
-
-  - $tf_{t,d}$ : 문서 $d$에서 term $t$가 등장한 횟수  
-  - $N$ : 전체 문서 수  
-  - $df_t$ : term $t$가 등장한 문서 수  
-
-- **계산 과정 (Doc1: "learning 1024, machine 1")**  
-
-  1. **TF 변환**  
-     - learning: $\log_2(1+1024) = \log_2(1025) \approx 10$  
-     - machine: $\log_2(1+1) = \log_2 2 = 1$  
-
-  2. **IDF 계산 (슬라이드 제시값 사용)**  
-     - $\log_2 \frac{N}{df_{learning}} = 7$  
-     - $\log_2 \frac{N}{df_{machine}} = 10$  
-
-  3. **최종 가중치 합산**  
-     - learning: $10 \times 7 = 70$  
-     - machine: $1 \times 10 = 10$  
-     - 합: $70 + 10 = 87$  
-
-- **계산 과정 (Doc2: "learning 16, machine 8")**  
-
-  1. **TF 변환**  
-     - learning: $\log_2(1+16) = \log_2 17 \approx 4$  
-     - machine: $\log_2(1+8) = \log_2 9 \approx 3$  
-
-  2. **IDF 계산 (슬라이드 제시값 사용)**  
-     - $\log_2 \frac{N}{df_{learning}} = 7$  
-     - $\log_2 \frac{N}{df_{machine}} = 10$  
-
-  3. **최종 가중치 합산**  
-     - learning: $4 \times 7 = 28$  
-     - machine: $3 \times 10 = 30$  
-     - 합: $28 + 30 = 75$  
-
-- **BM25 수식 (강의 슬라이드 기준, $k_1 = 2$ 가정)**  
-
-  $$
-  w_{t,d} = \frac{(k_1+1) \cdot tf_{t,d}}{k_1 + tf_{t,d}} \cdot idf_t
-  $$  
-
-  - $tf_{t,d}$ : 문서 $d$에서 term $t$의 빈도  
-  - $idf_t$ : 슬라이드에서 제시된 IDF 값 사용  
-  - $k_1 = 2$  
-
-- **계산 과정 (Doc1: "learning 1024, machine 1")**  
-
-  1. **TF 보정**  
-     - learning: $\frac{(2+1)\cdot 1024}{2+1024} \approx 3$  
-     - machine: $\frac{(2+1)\cdot 1}{2+1} = 1$  
-
-  2. **IDF 적용 (슬라이드 값 사용)**  
-     - learning: $3 \times 7 = 21$  
-     - machine: $1 \times 10 = 10$  
-
-  3. **최종 합산**  
-     - $21 + 10 = 31$  
-
-- **계산 과정 (Doc2: "learning 16, machine 8")**  
-
-  1. **TF 보정**  
-     - learning: $\frac{(2+1)\cdot 16}{2+16} = \frac{48}{18} \approx 2.67$  
-     - machine: $\frac{(2+1)\cdot 8}{2+8} = \frac{24}{10} = 2.4$  
-
-  2. **IDF 적용 (슬라이드 값 사용)**  
-     - learning: $2.67 \times 7 \approx 18.7$  
-     - machine: $2.4 \times 10 = 24$  
-
-  3. **최종 합산**  
-     - $18.7 + 24 \approx 42.7$  
-
-- **의의**  
-  - TF–IDF는 단어 빈도를 로그 변환으로 완화하고 희귀 단어에 높은 가중치를 준다.  
-  - BM25는 추가적으로 **TF 포화**를 반영하여 특정 단어가 지나치게 많이 등장해도 점수가 무한정 커지지 않게 한다.  
-  - 이 예제에서 TF–IDF는 Doc1이 훨씬 큰 점수를 얻었지만, BM25는 TF 포화 덕분에 Doc2가 더 높은 점수를 받아 **짧지만 중요한 단어가 집중된 문서**를 더 잘 반영한다.  
-
----
-
 ## p37. BM25
 
 **BM25 vs. TF-IDF 요약**
@@ -1708,7 +1623,10 @@ RSV = \sum_{i \in q} c_i(tf_i) + \sum_{j=1}^{F} \lambda_j V_j(f_j)
 $$  
 
 - $\lambda_j$: rescaling을 위해 사용하는 하이퍼파라미터  
-- $V_j(f_j) = \log \frac{p(F_j = f_j \mid R=1)}{p(F_j = f_j \mid R=0)}$  
+
+$$
+V_j(f_j) = \log \frac{p(F_j = f_j \mid R=1)}{p(F_j = f_j \mid R=0)}
+$$  
 
 ---
 
