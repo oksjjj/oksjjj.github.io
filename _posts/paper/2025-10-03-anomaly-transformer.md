@@ -21,9 +21,9 @@ tags: []
 
 ---
 
-**주석**  
-  
-∗ 공동 기여(Equal contribution).
+>**주석**  
+>  
+>∗ 공동 기여(Equal contribution).
 
 ---
 

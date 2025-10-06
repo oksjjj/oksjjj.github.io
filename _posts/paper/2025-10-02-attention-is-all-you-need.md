@@ -25,21 +25,21 @@ tags: []
 
 ---
 
-**주석**  
-  
-∗ 공동 기여(Equal contribution). 저자 순서는 무작위이다.  
-  
-- Jakob은 RNN을 셀프-어텐션으로 대체하자는 아이디어를 제안하고, 이를 검증하기 위한 연구를 시작했다.  
-- Ashish는, Illia와 함께 최초의 Transformer 모델을 설계하고 구현했으며, 이 연구의 모든 측면에 핵심적으로 관여했다.  
-- Noam은 Scaled Dot-Product Attention, Multi-Head Attention, 학습 파라미터가 아닌 위치 표현(parameter-free position representation)을 제안했으며, 연구의 거의 모든 세부 사항에 깊이 참여했다.  
-- Niki는 우리의 오리지널 코드베이스와 **tensor2tensor**에서 수많은 모델 변형을 설계, 구현, 튜닝, 평가하였다.  
-- Llion은 새로운 모델 변형을 실험했을 뿐만 아니라, 초기 코드베이스와 효율적인 추론 및 시각화를 맡았다.  
-- Lukasz와 Aidan은 tensor2tensor의 다양한 부분을 설계하고 구현하는 데 수많은 시간을 투자하여, 초기 코드베이스를 대체하고 결과를 크게 개선했으며 연구 속도를 비약적으로 가속시켰다.  
- 
-† Google Brain에서 수행한 연구 결과임.  
-‡ Google Research에서 수행한 연구 결과임.  
- 
-*본 논문은 31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA에서 발표되었다.*. 
+>**주석**  
+>  
+>∗ 공동 기여(Equal contribution). 저자 순서는 무작위이다.  
+>  
+>- Jakob은 RNN을 셀프-어텐션으로 대체하자는 아이디어를 제안하고, 이를 검증하기 위한 연구를 시작했다.  
+>- Ashish는, Illia와 함께 최초의 Transformer 모델을 설계하고 구현했으며, 이 연구의 모든 측면에 핵심적으로 관여했다.  
+>- Noam은 Scaled Dot-Product Attention, Multi-Head Attention, 학습 파라미터가 아닌 위치 표현(parameter-free position representation)을 제안했으며, 연구의 거의 모든 세부 사항에 깊이 참여했다.  
+>- Niki는 우리의 오리지널 코드베이스와 **tensor2tensor**에서 수많은 모델 변형을 설계, 구현, 튜닝, 평가하였다.  
+>- Llion은 새로운 모델 변형을 실험했을 뿐만 아니라, 초기 코드베이스와 효율적인 추론 및 시각화를 맡았다.  
+>- Lukasz와 Aidan은 tensor2tensor의 다양한 부분을 설계하고 구현하는 데 수많은 시간을 투자하여, 초기 코드베이스를 대체하고 결과를 크게 개선했으며 연구 속도를 비약적으로 가속시켰다.  
+> 
+>† Google Brain에서 수행한 연구 결과임.  
+>‡ Google Research에서 수행한 연구 결과임.  
+> 
+>*본 논문은 31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA에서 발표되었다.*. 
   
 ---
 
@@ -425,17 +425,17 @@ $d_k$가 큰 경우에는 스케일링을 적용하지 않은 내적 어텐션(d
 가산적 어텐션(additive attention)이 더 나은 성능을 보인다 [3].
 
 우리는 $d_k$가 큰 경우, 내적(dot product) 값의 크기가 커져  
-소프트맥스(softmax) 함수가 기울기(gradient)가 극도로 작은 영역에 놓이게 된다고 추측한다 [4].
+소프트맥스(softmax) 함수가 기울기(gradient)가 극도로 작은 영역에 놓이게 된다<sup>4</sup>고 추측한다 [4].
 
 이러한 효과를 상쇄하기 위해, 우리는 내적(dot product)을 $\tfrac{1}{\sqrt{d_k}}$로 스케일링한다.
 
 ---
 
-**주석**  
-
-[4] 왜 내적(dot product)이 커지는지를 설명하기 위해,  
-$q$와 $k$의 성분들이 평균 0, 분산 1을 갖는 서로 독립인 확률 변수라고 가정하자.  
-그렇다면 내적 $q \cdot k = \sum_{i=1}^{d_k} q_i k_i$는 평균 0, 분산 $d_k$를 갖게 된다.  
+>**주석**  
+>
+><sup>4</sup>왜 내적(dot product)이 커지는지를 설명하기 위해,  
+>$q$와 $k$의 성분들이 평균 0, 분산 1을 갖는 서로 독립인 확률 변수라고 가정하자.  
+>그렇다면 내적 $q \cdot k = \sum_{i=1}^{d_k} q_i k_i$는 평균 0, 분산 $d_k$를 갖게 된다.  
 
 ---
 
@@ -1104,17 +1104,17 @@ $$
 
 우리는 모델 학습에 사용된 **부동소수점 연산(floating point operations, FLOPs)** 수를  
 학습 시간(training time), 사용된 GPU 수,  
-그리고 각 GPU의 지속적인(single-precision) 부동소수점 처리 성능 추정치의 곱으로 추정하였다. ⁵
+그리고 각 GPU의 지속적인(single-precision) 부동소수점 처리 성능 추정치의 곱으로 추정하였다.<sup>5</sup>
 
 ---
 
-**주석**  
-
-우리는 각각의 GPU에 대해 다음과 같은 연산 성능 값을 사용하였다:  
-- K80 : **2.8 TFLOPS**  
-- K40 : **3.7 TFLOPS**  
-- M40 : **6.0 TFLOPS**  
-- P100 : **9.5 TFLOPS**
+>**주석**  
+>
+><sup>5</sup>우리는 각각의 GPU에 대해 다음과 같은 연산 성능 값을 사용하였다:  
+>- K80 : **2.8 TFLOPS**  
+>- K40 : **3.7 TFLOPS**  
+>- M40 : **6.0 TFLOPS**  
+>- P100 : **9.5 TFLOPS**
 
 ---
 
