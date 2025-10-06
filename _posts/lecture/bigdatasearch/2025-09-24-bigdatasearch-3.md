@@ -216,19 +216,9 @@ Count vector(dictionary size N)
 
 ### 보충 설명
 
-#### 1. **log의 역할**  
+#### **log의 역할**  
 - 단어의 빈도 $tf_{t,d}$가 너무 커질 경우, 해당 단어가 과도하게 중요하게 평가되는 것을 방지한다.  
 - 로그 함수를 적용하면 빈도의 증가 효과가 점점 완만해져, 자주 등장하는 단어라 하더라도 영향력이 **포화(saturation)**되어 균형 잡힌 가중치를 부여할 수 있다.  
-
-#### 2. **$1+$가 log 바깥쪽에 있는 이유**  
-- **표준 TF–IDF**에서는 $w_{t,d} = \log(1+tf_{t,d})$를 사용한다.  
-  - $tf_{t,d}=1$일 때 → $w_{t,d} = \log 2$ (밑 10 기준 약 0.301, 밑 e 기준 약 0.693)  
-  - 즉, 한 번 등장한 단어라도 가중치는 **0과 1 사이의 작은 값**으로 부여된다.  
-- **슬라이드 변형**에서는 $w_{t,d} = 1 + \log(tf_{t,d})$를 사용한다.  
-  - $tf_{t,d}=1$일 때 → $w_{t,d} = 1 + \log 1 = 1$  
-  - 즉, 한 번이라도 등장한 단어는 가중치가 **확실히 1 이상**으로 보장된다.  
-- 이런 방식은 **Bag of Words(BOW) 기반 단순 가중치 모델**에서 가끔 쓰이는 변형으로,  
-  문서 내 최소 등장 단어라도 “존재한다”는 의미를 더 분명하게 반영하려는 목적이 있다.  
 
 ---
 
@@ -321,7 +311,7 @@ Weight Vector (dictionary size V):
 ## p14. Vector Space Model
 
 1. **Document Vectors**  
-   - $|V|$-dimensional vector space  
+   - $\mid V \mid$-dimensional vector space  
    - 고차원 벡터, but 희소벡터  
 
 2. **Query Vectors**  
@@ -345,7 +335,8 @@ Weight Vector (dictionary size V):
 
 #### 1. **벡터 공간의 의미**  
 - 문서와 질의를 같은 차원의 벡터로 표현하면, 이들을 동일한 공간에서 비교할 수 있다.  
-- 차원 수는 전체 **vocabulary(용어집)** 크기와 동일하다. 예를 들어 단어가 10,000개라면 각 문서와 질의는 10,000차원 벡터로 표현된다.  
+- 차원 수는 전체 **vocabulary(용어집)** 크기와 동일하다.  
+  예를 들어 단어가 10,000개라면 각 문서와 질의는 10,000차원 벡터로 표현된다.  
 
 #### 2. **왜 희소 벡터인가?**  
 - 실제로 한 문서가 모든 단어를 포함하는 경우는 거의 없다.  
@@ -353,7 +344,8 @@ Weight Vector (dictionary size V):
 
 #### 3. **근접성(Proximity)과 유사성(Similarity)**  
 - 벡터 간의 유사성은 보통 **각도(코사인 유사도)**로 측정한다.  
-- 유클리드 거리만 보면 질의와 멀리 떨어진 것처럼 보일 수 있으나, **각도는 방향성을 반영하기 때문에** 실제 의미적 유사성을 더 잘 잡아낼 수 있다.  
+- 유클리드 거리만 보면 질의와 멀리 떨어진 것처럼 보일 수 있으나,  
+  **각도는 방향성을 반영하기 때문에** 실제 의미적 유사성을 더 잘 잡아낼 수 있다.  
 
 #### 4. **예시 설명 (장표 그림)**  
 - 질의 $q$와 문서 $d2$ 사이:  
@@ -381,10 +373,13 @@ Weight Vector (dictionary size V):
 
 - **코사인 유사도**
   - 벡터 크기 정규화  
+
     $$
     \| \vec{x} \|_2 = \sqrt{\sum_i x_i^2}
     $$
+
   - 정의  
+
     $$
     \cos(\vec{q}, \vec{d}) = 
     \frac{\vec{q} \cdot \vec{d}}{\|\vec{q}\|\|\vec{d}\|}
@@ -392,6 +387,7 @@ Weight Vector (dictionary size V):
     $$
 
   - 벡터 크기 정규화 코사인 유사도  
+
     $$
     \cos(\vec{q}, \vec{d}) = \vec{q} \cdot \vec{d} = \sum_{i=1}^{|V|} q_i d_i
     $$
@@ -408,7 +404,7 @@ Weight Vector (dictionary size V):
 
 - **코사인 유사도 계산**
   
-```python
+```pseudo
 COSINESCORE(q)
 1  float Scores[N] = 0
 2  float Length[N]
@@ -564,7 +560,7 @@ $$
   \end{cases}
   $$  
 
-  - **L (log ave)**: $\dfrac{1 + \log(tf_{t,d})}{1 + \log(\text{ave}_{t \in d}(tf_{t,d}))}$  
+  - **L (log ave)**: $$\dfrac{1 + \log(tf_{t,d})}{1 + \log(\text{ave}_{t \in d}(tf_{t,d}))}$$  
 
 ---
 
@@ -635,7 +631,7 @@ $$
 
 - **Why Probabilistic IR**
 
-<img src="/assets/img/lecture/bigdatasearch/3/image_4.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/3/image_4.png" alt="image" width="720px">
 
 > - **Hard 방식**: 문서가 질의 조건을 만족하면 1, 만족하지 않으면 0으로 처리한다.  
 >   - 예: Boolean Retrieval (AND, OR 연산으로만 결과 결정)  
@@ -672,10 +668,10 @@ p(R=0|x) + p(R=1|x) = 1
 $$
 
 - 여기서:
-  - \(x\): document  
-  - \(R\): query에 대한 문서의 적합성 (relevance)  
-    - \(R=1\): 적합  
-    - \(R=0\): 부적합  
+  - $x$: document  
+  - $R$: query에 대한 문서의 적합성 (relevance)  
+    - $(R=1)$: 적합  
+    - $(R=0)$: 부적합  
 
 ---
 
@@ -1084,11 +1080,9 @@ O(R|q,\vec{x})
    \cdot \prod_{q_i=1} \frac{1-p_i}{1-r_i}
 $$  
 
-- $O(R|q)$는 **쿼리마다 고정되는 값**으로, 순위 계산에서는 상수 역할을 한다.  
+- $O(R \mid q)$는 **쿼리마다 고정되는 값**으로, 순위 계산에서는 상수 역할을 한다.  
 - 첫 번째 곱($\prod_{x_i = q_i = 1}$)은 **쿼리와 문서 모두에 등장하는 단어(매칭 term)**들의 기여도를 의미한다.  
 - 두 번째 곱($\prod_{q_i=1}$)은 **쿼리에는 포함되지만 문서에는 등장하지 않는 단어(비매칭 term)**들의 기여도를 의미한다.  
-
----
 
 - 2단계: Retrieval Status Value(RSV) 정의  
 
@@ -1102,6 +1096,35 @@ $$
 - **RSV(Retrieval Status Value)**는 문서가 쿼리와 얼마나 관련 있는지를 점수로 나타낸다.  
 - 각 매칭 term마다 $\frac{p_i(1-r_i)}{r_i(1-p_i)}$라는 비율을 계산하여 로그 합으로 표현한다.  
 - 이 값이 클수록 해당 문서가 쿼리와 더 관련성이 크다고 판단된다.  
+
+---
+
+### 보충 설명: BIM(이진 독립 모형)의 역사와 활용도
+
+#### 1. 정립(1960년대 초반)
+- 1960년 Maron과 Kuhns가 확률적 색인·관련성 개념을 제시하면서 이후 BIM으로 정식화될 토대를 마련한다.
+- 기관: M. E. Maron(캘리포니아대학교 버클리), J. L. Kuhns(공저 연구자; 고전 문헌에서 기관 표기가 일관되게 남아 있지 않음).
+
+#### 2. 체계화(1970년대)
+- Robertson과 Spärck Jones가 확률적 관련성 프레임워크를 정립하고 RSJ 가중치를 제안하여 BIM을 실용적 랭킹 모형으로 체계화한다.
+- 기관: Stephen E. Robertson(시티 유니버시티 런던; 이후 Microsoft Research Cambridge), Karen Spärck Jones(케임브리지 대학교 컴퓨터 연구소), C. J. van Rijsbergen(글래스고 대학교).
+
+#### 3. 적용 확대(1980년대)
+- Cranfield 계열 컬렉션을 포함한 전통 IR 실험에서 BIM/RSJ 가중치가 널리 시험·적용된다. 관련 피드백(흑백 관련성 판단 기반)의 가중치 갱신과 결합해 고전 문헌 검색·엔터프라이즈 검색에서 실증 연구가 축적된다.
+
+#### 4. 실전 전성기(1990년대)
+- 시티 유니버시티 런던의 Okapi 시스템이 BIM을 실전 검색에 적용하고 BM11/BM15를 거쳐 BM25로 정착시킨다. 
+- NIST가 주관한 TREC(Ad-hoc/Filtering 등)에서 Okapi/BIM 계열이 대표적 베이스라인으로 자리 잡아, 웹 전·초기 대규모 컬렉션에서도 견고한 성능을 보인다.
+- 기관: Okapi 팀(시티 유니버시티 런던, Centre for Interactive Systems Research), TREC(미국 NIST).
+
+#### 5. 파생과 표준화(2000년대 이후)
+- 언어모형(LM), 학습기반 랭킹(LTR), 신경 랭킹이 확산되면서 “직접형 BIM”의 독자 사용은 감소한다.
+- 그러나 BIM의 확장형인 BM25는 사실상 업계 표준 가중치로 자리 잡아, 오픈소스·상용 검색엔진의 기본 랭커로 채택된다. (예: Lucene/Elasticsearch 기본 스코어러로 BM25를 채택)
+- 분야: 웹 검색, 기업/사이트 내 검색, 디지털 라이브러리, 전자증거개시(e-discovery) 등에서 기본 베이스라인·백업 랭커로 지속 활용한다.
+
+#### 6. 현재적 위상과 활용 방식
+- 현재 BIM 그 자체는 교육·연구에서 “설명 가능하고 가벼운 확률적 베이스라인”으로 쓰이며, 실무에서는 BM25(=BIM의 계열 확장)가 1차 베이스라인으로 광범위하게 사용된다.
+- 또한 LTR/신경 랭킹 파이프라인에서 **피처(예: RSJ/BM25 점수)**, **프라이어(초기 후보군 선별용)**, **피드백 가중치의 출발점**으로 결합해 쓰는 방식이 일반화된다.
 
 ---
 
