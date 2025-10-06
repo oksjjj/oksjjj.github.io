@@ -801,7 +801,9 @@ $$
 \Bigg( \mathbf{v}_c \cdot \mathbf{v}_w \;-\; \log \sum_{c' \in |\mathcal{V}|} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w) \Bigg)
 $$  
 
-⬇️  
+$$
+\Downarrow
+$$ 
 
 $$
 \min_{\theta} \ \mathcal{L}(\theta) \;=\; - \sum_{(w,c) \in D} 
