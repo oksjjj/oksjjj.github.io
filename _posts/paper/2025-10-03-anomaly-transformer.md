@@ -1101,7 +1101,7 @@ $$
 
 우리는 **연관성 불일치(Association Discrepancy)** 를  
 **사전 연관성(prior-association)** 과 **시리즈 연관성(series-association)** 간의  
-**대칭화된 KL 발산(ㄴsymmetrized KL divergence)** 으로 공식화(formalize)한다.  
+**대칭화된 KL 발산(symmetrized KL divergence)** 으로 공식화(formalize)한다.  
 이는 두 확률 분포 사이의 **정보 이득(information gain)** 을 나타낸다 (Neal, 2007).  
 
 다층 특징(multi-level features)에서 얻은 연관성들을  
@@ -1130,11 +1130,13 @@ $P^{(l)}$ 과 $S^{(l)}$ 의 각 행(row)에 해당하는
 > **1) 정의 (Definition)**  
 > 두 확률 분포 $P$와 $Q$ 사이의 **KL 발산**은  
 > 한 분포가 다른 분포와 얼마나 “다른지”를 측정하는 비대칭적 거리 척도이다.  
-> 수식으로는 다음과 같이 정의된다:
+> 수식으로는 다음과 같이 정의된다:  
+>  
 > $$
 > \text{KL}(P \| Q)
 > = \sum_i P(i) \log \frac{P(i)}{Q(i)}
 > $$
+>  
 > 여기서  
 > - $P(i)$ : 실제(참) 분포에서의 확률  
 > - $Q(i)$ : 근사(모델) 분포에서의 확률  
@@ -1142,8 +1144,6 @@ $P^{(l)}$ 과 $S^{(l)}$ 의 각 행(row)에 해당하는
 > 즉, $P$를 참 분포(ground truth)로,  
 > $Q$를 $P$를 근사하려는 모델 분포로 볼 때,  
 > $Q$가 $P$를 얼마나 “잘 따라가는지”를 측정한다.  
->
-> ---
 >
 > **2) 직관 (Intuition)**  
 > - 만약 $P$와 $Q$가 완전히 동일하면,  
@@ -1153,43 +1153,17 @@ $P^{(l)}$ 과 $S^{(l)}$ 의 각 행(row)에 해당하는
 >   이는 $Q$가 $P$의 확률 질량(probability mass)을  
 >   잘못된 위치에 두고 있음을 의미한다.  
 >
-> ---
->
-> **3) 본 논문에서의 의미 (In the Anomaly Transformer)**  
-> 위 식에서 KL 발산은  
-> **사전 연관성(Prior-Association)** 과  
-> **시리즈 연관성(Series-Association)** 간의 차이를 정량화한다:
-> $$
-> \text{KL}(P^{(l)}_{i,:} \| S^{(l)}_{i,:})
-> $$
-> - $P^{(l)}_{i,:}$ : 시점 $i$의 **사전 연관성 분포**  
-> - $S^{(l)}_{i,:}$ : 시점 $i$의 **시리즈 연관성 분포**  
->
-> 즉, 시점 $i$에서 “모델이 학습한 실제 연관성($S$)”이  
-> “가우시안 형태의 사전적 연관성($P$)”과 얼마나 다른지를 측정한다.  
->
-> ---
->
-> **4) 대칭화 (Symmetrization)**  
+> **3) 대칭화 (Symmetrization)**  
 > KL 발산은 일반적으로 비대칭이므로,  
 > 본 논문에서는 이를 대칭화(symmetrization)하여 다음과 같이 정의하였다:
+>
 > $$
 > \text{Sym-KL}(P, S)
 > = \text{KL}(P \| S) + \text{KL}(S \| P)
 > $$
+>
 > 이를 통해 “한쪽 기준으로 본 차이”가 아니라  
 > 양쪽 기준에서의 **정보 차이(Information Discrepancy)** 를 동시에 반영한다.  
->
-> ---
->
-> **5) 결과적 해석 (Interpretation)**  
-> - $\text{AssDis}(P, S; X)$ 가 **작다** → 두 분포가 유사함 (즉, 정상 시점)  
-> - $\text{AssDis}(P, S; X)$ 가 **크다** → 두 분포가 상이함 (즉, 이상 시점 가능성)  
->
-> 따라서 KL 발산은  
-> “시점별로 연관성 분포가 사전적 기대(Prior)와 얼마나 다른가?”를  
-> 수치적으로 나타내며,  
-> Anomaly Transformer가 이상을 구별하는 핵심 지표로 사용된다.
 
 ---
 
