@@ -1058,10 +1058,10 @@ POST my-index/_doc
 >
 >- Kibana 좌측 메뉴 → Management → Stack Management  
 >- Kibana 메뉴 → Data Views → Create data view
->Name에 아무 이름 입력 (`my-index` 등)
->Index pattern에 `my-index*` 입력
->Timestamp field에 `date` 선택
->**Save data view to Kibana** 클릭
+>- Name에 아무 이름 입력 (`my-index` 등)  
+>- Index pattern에 `my-index*` 입력  
+>- Timestamp field에 `date` 선택  
+>- **Save data view to Kibana** 클릭  
 
 ---
 
@@ -1075,10 +1075,10 @@ POST my-index/_doc
 
 >- 좌측 메뉴 → Analytics → Discover  
 >- Kibana 메뉴 → Data Views → Create data view
->- Data view 우측에서 Name에 아무 이름 입력
->Index pattern에 `my-index` (좀 전에 입력한 data view 이름) 선택
->검색창에 쿼리 입력: `content : "검색"`
->하단의 파란색 버튼 (**Search entire time range**) 클릭하면 검색 결과 나옴
+>- Data view 우측에서 Name에 아무 이름 입력  
+>- Index pattern에 `my-index` (좀 전에 입력한 data view 이름) 선택  
+>- 검색창에 쿼리 입력: `content : "검색"`  
+>- 하단의 파란색 버튼 (**Search entire time range**) 클릭하면 검색 결과 나옴
 
 ---
 
