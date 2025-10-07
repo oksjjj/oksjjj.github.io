@@ -118,7 +118,7 @@ $$
 
 ## p5. 언어모델의 발전과정
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_1.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_1.png" alt="image" width="800px">
 
 - **특정 작업 보조기 (Specific task helper)**  
   - **n-그램 모델 (n-gram models)**  
