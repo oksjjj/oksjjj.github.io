@@ -611,3 +611,358 @@ $$
   이 방법은 **낭포성 섬유증(Cystic Fibrosis, CF)** 환자 데이터를 대상으로 적용되었다.  
   CF는 **땀샘(sweat gland)** 과 기타 **분비샘(exocrine glands)** 에 영향을 미치는  
   심각한 **유전성 질환(genetic disorder)** 이다.  
+
+---
+
+요즘 들어 **통계 정보(statistical information)** 는  
+대중 매체(popular media)에 점점 더 자주 등장하고 있으며,  
+때로는 그 초점이 **통계학자(statisticians)** 들 자신에게 향하기도 한다.  
+
+예를 들어,  
+**2009년 11월 23일자 *뉴욕타임스(The New York Times)*** 는  
+*“Behind Cancer Guidelines, Quest for Data”* 라는 제목의 기사에서  
+다음과 같은 내용을 보도하였다.  
+
+새로운 **암 연구 과학(cancer science)** 과  
+점점 더 정교해진 **데이터 분석 기법(sophisticated data analysis methods)** 이  
+미국 **예방 서비스 실무 그룹(U.S. Preventive Services Task Force)** 으로 하여금  
+**중년 및 노년 여성의 유방촬영(mammogram) 검사 주기**에 대한  
+기존 지침(guidelines)을 재검토하도록 자극했다는 것이다.  
+
+이 위원회(panel)는  
+**6개의 독립적인 연구팀(independent groups)** 에게  
+**통계 모델링(statistical modeling)** 을 의뢰하였으며,  
+그 결과 새로운 결론들이 도출되었다.  
+
+그 중 핵심 주장은 다음과 같다.  
+- **2년에 한 번 시행하는 유방촬영검사**는  
+  매년 시행하는 경우에 비해 **효과는 거의 동일하지만**,  
+  **잠재적 부작용(risk of harms)** 은 절반 수준으로 낮다.  
+
+유명한 생물통계학자(biostatistician) **도널드 베리(Donald Berry)** 는  
+이 연구 결과를 인용하며  
+“실무 그룹이 새로운 연구 결과를 진지하게 반영했다는 점이 놀랍고도 반갑다”고 말했다.  
+
+그러나 이 위원회의 보고서는  
+**암 관련 단체(cancer organizations)**,  
+**정치인(politicians)**,  
+그리고 **여성들(women themselves)** 사이에서  
+큰 논란(controversy)을 불러일으켰다.  
+
+---
+
+이 책과 함께 통계학(statistics)을 더 깊이 탐구해 나가면서,  
+여러분이 점점 더 **이 학문이 지닌 중요성과 실질적 관련성(importance and relevance)** 을  
+실감하게 되기를 바란다.  
+
+그리고 나아가,  
+이 과정이 여러분이 통계학에 더욱 흥미를 느끼고(**turned on**),  
+현재의 과정을 넘어 **통계학적 배움(statistical education)** 을  
+계속 이어가고자 하는 계기가 되기를 희망한다.  
+
+---
+
+### 열거적 연구(Enumerative Studies)와 분석적 연구(Analytic Studies)
+
+미국의 저명한 통계학자 **W. E. 데밍(W. E. Deming)** 은  
+1950~1960년대 일본의 **품질 혁신(quality revolution)** 을 주도한 인물로,  
+그는 통계학에서 **열거적 연구(enumerative studies)** 와 **분석적 연구(analytic studies)** 의 구분을 제시하였다.  
+
+**열거적 연구(enumerative study)** 에서는  
+관심의 초점이 **유한하고(finite), 명확하게 식별 가능하며(identifiable), 변하지 않는(unchanging)**  
+특정 집합 — 즉, 모집단(population)을 구성하는 개인(individuals)이나 객체(objects) — 에 맞춰진다.  
+
+이 경우, **표본틀(sampling frame)**,  
+즉 표본 추출 대상이 되는 개인이나 객체의 목록(listing)은  
+연구자가 이미 가지고 있거나, 필요시 새로 구성할 수 있다.  
+
+예를 들어,  
+
+- 특정 선거에서 **청원서(petition)** 에 서명한 모든 사람들의 명단이 표본틀이 될 수 있다.  
+  표본은 **유효한 서명(valid signatures)** 의 수가  
+  특정 기준을 초과하는지 여부를 판단하기 위해 선택될 수 있다.  
+
+- 또 다른 예로,  
+  특정 회사에서 일정 기간 동안 제조한 **난방로(furnace)** 의 **일련번호(serial number)** 목록이  
+  표본틀이 될 수 있으며,  
+  이 표본을 통해 해당 제품들의 **평균 수명(average lifetime)** 에 대해 추론할 수 있다.  
+
+이와 같은 **열거적 연구의 맥락**에서는,  
+이 책에서 다루게 될 **통계적 추론 기법(inferential methods)** 의 사용이  
+대체로 논쟁의 여지가 없다.  
+(물론, 어떤 특정 방법을 적용할 것인가에 대해서는 통계학자들 간의 의견 차이가 있을 수 있다.)  
+
+---
+
+**분석적 연구(Analytic Study)** 는  
+그 성격상 **열거적(enumerative)** 이지 않은 연구로 넓게 정의된다.  
+
+이러한 연구는 주로 **미래의 제품(future product)** 을 개선하기 위해  
+현재의 **공정(process)** 에 어떤 조치를 취하는 것을 목적으로 수행된다.  
+예를 들어,  
+- 장비의 **재보정(recalibration)** 이나,  
+- **촉매(catalyst)** 투입량과 같은 입력 수준의 **조정(adjustment)** 등이 그 예이다.  
+
+이 경우, 데이터(data)는  
+**현재 존재하는 공정(existing process)** 에서만 얻을 수 있으며,  
+이 공정은 미래의 공정과 여러 중요한 측면에서 다를 수 있다.  
+따라서 관심 있는 개체(individuals)나 물체(objects)를 나열한  
+**표본틀(sampling frame)** 은 존재하지 않는다.  
+
+예를 들어,  
+새로운 설계(new design)를 적용한 **5개의 터빈(turbines)** 을  
+실험적으로 제작하여 효율(efficiency)을 평가한다고 하자.  
+이 5개의 터빈은  
+**유사한 조건에서 제조될 수 있는 모든 시제품(prototypes)** 의  
+**개념적 모집단(conceptual population)** 에서 추출된 표본으로 볼 수는 있지만,  
+**정식 생산(regular production)** 이 시작된 이후 제조될 터빈 모집단을  
+대표한다고 보기는 어렵다.  
+
+따라서, 이러한 표본 정보를 이용해  
+**미래 생산 단위(future production units)** 에 대해 결론을 내리는 것은  
+문제가 될 수 있다.  
+이러한 **외삽(extrapolation)** 이 합리적인지 판단하기 위해서는,  
+해당 분야(예: 터빈 설계 및 공학)에 대한 전문 지식을 가진 사람의  
+판단이 필요하다.  
+
+이와 같은 문제들에 대한 훌륭한 논의는  
+**Gerald Hahn** 과 **William Meeker** 의 논문  
+*“Assumptions for Statistical Inference”*  
+(*The American Statistician*, 1993: 1–11) 에 자세히 제시되어 있다.  
+
+---
+
+### 데이터 수집 (Collecting Data)
+
+통계학(statistics)은  
+이미 수집된 데이터(data)의 **정리(organization)** 와 **분석(analysis)** 만을 다루는 것이 아니라,  
+그 데이터를 **어떻게 수집할 것인가(data collection)** 에 대한  
+기법의 개발(development of techniques)도 포함한다.  
+
+데이터가 적절히 수집되지 않으면,  
+연구자(investigator)는 자신이 다루고자 하는 문제에 대해  
+**합리적인 수준의 신뢰(confidence)** 를 가지고  
+질문에 답할 수 없게 된다.  
+
+데이터 수집 과정에서 흔히 발생하는 문제 중 하나는,  
+**결론을 내리려는 대상 모집단(target population)** 과  
+**실제로 표본이 추출된 모집단(actually sampled population)** 이  
+서로 다를 수 있다는 점이다.  
+
+예를 들어,  
+광고주(advertisers)는  
+잠재 고객(potential customers)의 **TV 시청 습관(viewing habits)** 에 대해  
+다양한 정보를 알고 싶어 한다.  
+
+이와 같은 체계적(systematic) 정보는  
+미국 전역의 일부 가정에 **시청 모니터링 장치(monitoring devices)** 를 설치하여 얻는다.  
+그러나 연구자들은  
+이 장치의 설치 자체가 **시청 행동(viewing behavior)** 에 영향을 미쳐,  
+결국 **표본의 특성(sample characteristics)** 이  
+**대상 모집단(target population)** 의 특성과 달라질 수 있다고 추정하였다.  
+
+---
+
+데이터 수집(data collection)이  
+표본틀(frame)로부터 개인(individuals)이나 객체(objects)를 선택하는 과정을 포함할 때,  
+**대표성 있는 표본(representative selection)** 을 확보하는 가장 단순한 방법은  
+**단순 무작위 표본추출(simple random sampling)** 을 사용하는 것이다.  
+
+단순 무작위 표본이란,  
+예를 들어 표본 크기가 100이라면,  
+**가능한 모든 100개 표본 조합이 동일한 확률로 선택될 수 있는 표본**을 말한다.  
+
+예를 들어,  
+표본틀이 **1,000,000개의 일련번호(serial numbers)** 로 구성되어 있다면,  
+1부터 1,000,000까지의 번호를 각각  
+동일한 종이조각에 적어 상자(box)에 넣고,  
+충분히 섞은 뒤 하나씩 꺼내어  
+원하는 표본 크기만큼 뽑을 수 있다.  
+
+그러나 실제로는 이러한 수작업 방식보다는,  
+**난수표(table of random numbers)** 나  
+**컴퓨터의 난수 생성기(random number generator)** 를 이용하는 것이  
+훨씬 효율적이며 일반적으로 권장된다.  
+
+---
+
+경우에 따라서는,  
+표본을 단순 무작위로 추출하는 대신  
+**표본 추출 과정을 더 용이하게 하거나(selection process easier)**,  
+**추가 정보를 얻거나(extra information)**,  
+**결론의 신뢰 수준(confidence in conclusions)** 을 높이기 위해  
+다른 표본추출 방법(alternative sampling methods)을 사용할 수도 있다.  
+
+그중 하나가 **층화표본추출(stratified sampling)** 이다.  
+
+층화표본추출이란,  
+모집단(population)을 **서로 겹치지 않는(nonoverlapping)** 여러 **집단(strata)** 으로 구분하고,  
+각 층(stratum)에서 **별도의 표본(sample)** 을 추출하는 방법이다.  
+
+예를 들어,  
+한 **DVD 플레이어 제조업체(manufacturer)** 가  
+지난 1년 동안 생산된 제품에 대한 **고객 만족도(customer satisfaction)** 를 알고자 한다고 하자.  
+
+만약 그 기간 동안 **3가지 모델(models)** 이 생산·판매되었다면,  
+각 모델에 해당하는 층(stratum)에서 **별도의 표본**을 추출할 수 있다.  
+
+이 방법을 사용하면  
+세 모델 각각에 대한 정보를 모두 얻을 수 있으며,  
+특정 모델이 전체 표본에서 **과대표집(overrepresented)** 되거나  
+**과소대표집(underrepresented)** 되는 문제를 방지할 수 있다.  
+
+---
+
+종종 **편의표본(convenience sample)** 은  
+체계적인 무작위화(systematic randomization) 없이  
+개인(individuals)이나 객체(objects)를 **편의상 선택(conveniently selected)** 하여 얻어진다.  
+
+예를 들어,  
+벽돌(bricks) 더미에서 표본을 추출한다고 하자.  
+만약 벽돌이 쌓인 구조상 **중앙의 벽돌은 꺼내기 어렵고**,  
+**위쪽이나 옆쪽의 벽돌만 선택할 수 있다면**,  
+추출된 표본은 모집단 전체를 대표하지 못할 수 있다.  
+
+즉,  
+만약 쌓인 벽돌의 위치(상단·측면·중앙)에 따라  
+벽돌의 특성이 다르다면,  
+결과적으로 얻어진 표본 데이터(sample data)는  
+**대표성(representativeness)** 을 잃게 된다.  
+
+연구자(investigator)는 종종  
+이러한 편의표본이 **무작위표본(random sample)** 에  
+가까운 근사값(approximation)을 제공한다고 가정하고,  
+그 위에서 **통계적 추론(inferential methods)** 을 수행하려 한다.  
+그러나 이는 **연구자의 판단(judgment call)** 에 의존하는 부분이다.  
+
+이 책에서 다루는 대부분의 통계적 방법들은  
+제5장에서 설명할 **단순 무작위표본추출(simple random sampling)** 의  
+변형된 형태를 기반으로 한다.  
+
+---
+
+공학자(engineers)와 과학자(scientists)들은  
+종종 **설계된 실험(designed experiment)** 을 수행하여 데이터를 수집한다.  
+
+이러한 실험은 여러 가지 **처리(treatments)** —  
+예를 들어 **비료(fertilizer)**, **부식 방지 코팅(coating for corrosion protection)** 등 — 를  
+여러 **실험 단위(experimental units)** —  
+예: **토지 구획(plots of land)**, **파이프 조각(pieces of pipe)** — 에  
+**어떻게 배정할 것인가(allocation)** 를 결정하는 과정을 포함할 수 있다.  
+
+또는, 연구자(investigator)는  
+특정 요인(factors)의 수준(levels)이나 범주(categories)를  
+체계적으로 변화시키고(systematically vary),  
+그 결과가 **반응변수(response variable)** 에 미치는 영향을 관찰할 수도 있다.  
+
+예를 들어,  
+- **압력(pressure)** 이나  
+- **절연 재료의 종류(type of insulating material)**  
+을 변화시키면서,  
+**생산 공정에서의 산출량(yield)** 이 어떻게 변하는지를 살펴보는 것이다.  
+
+---
+
+**예제 1.4 (Example 1.4)**  
+
+1987년 1월 27일자 *뉴욕타임스(The New York Times)* 에 실린 한 기사에서는  
+**아스피린(aspirin)** 복용이 **심장마비(heart attack)** 위험을 줄일 수 있다는  
+연구 결과가 보도되었다.  
+
+이 결론은 **설계된 실험(designed experiment)** 에 근거한 것으로,  
+두 그룹을 대상으로 비교가 이루어졌다.  
+
+- **대조군(control group)** :  
+  아스피린과 외형은 같지만 실제로는 약효가 없는  
+  **위약(placebo)** 을 복용한 그룹  
+- **처치군(treatment group)** :  
+  정해진 복용 지침(specified regimen)에 따라  
+  **아스피린** 을 복용한 그룹  
+
+연구 참여자(subjects)들은  
+**편향(bias)** 을 방지하고,  
+**확률 기반(probability-based)** 분석 방법을 적용할 수 있도록  
+**무작위로(randomly assigned)** 두 그룹에 배정되었다.  
+
+실험 결과는 다음과 같다.  
+
+| 구분 | 대상자 수 | 심장마비 발생자 수 |
+|:--:|:--:|:--:|
+| 대조군 (placebo) | 11,034명 | 189명 |
+| 처치군 (aspirin) | 11,037명 | 104명 |
+
+처치군에서의 **심장마비 발생률(incidence rate)** 은  
+대조군의 약 **절반 수준(about half)** 에 불과했다.  
+
+이러한 결과에 대한 한 가지 가능한 설명은  
+**우연 변동(chance variation)** 일 수 있다.  
+즉, 실제로는 아스피린이 효과가 없지만,  
+두 동전(two identical coins)을 던졌을 때  
+앞면이 나오는 횟수가 달라지는 것처럼  
+관찰된 차이가 단순한 **표본의 우연한 변동(typical sample variation)**  
+일 수 있다는 것이다.  
+
+그러나 이 경우,  
+**통계적 추론 방법(inferential methods)** 은  
+단순한 우연 변동만으로는  
+이러한 큰 차이(magnitude of the observed difference)를  
+**충분히 설명할 수 없음을 시사한다.**  
+
+---
+
+**예제 1.5 (Example 1.5)**  
+
+한 엔지니어(engineer)가  
+특정 기판(substrate)에 **집적회로(IC, integrated circuit)** 를 장착할 때,  
+**접착제의 종류(adhesive type)** 와 **도체 재료(conductor material)** 가  
+**결합 강도(bond strength)** 에 미치는 영향을 조사하고자 한다.  
+
+두 가지 접착제와 두 가지 도체 재료가 고려되고 있으며,  
+각 조합(adhesive-type / conductor-material)마다  
+두 번의 측정(observations)이 이루어졌다.  
+
+그 결과 데이터는 다음과 같다.  
+
+| 접착제 종류<br>(Adhesive Type) | 도체 재료<br>(Conductor Material) | 관측된 결합 강도<br>(Observed Bond Strength) | 평균<br>(Average) |
+|:--:|:--:|:--:|:--:|
+| 1 | 1 | 82, 77 | 79.5 |
+| 1 | 2 | 75, 87 | 81.0 |
+| 2 | 1 | 84, 80 | 82.0 |
+| 2 | 2 | 78, 90 | 84.0 |
+
+이 데이터를 기반으로 한 평균 결합 강도는 **그림 1.3(Figure 1.3)** 에 시각화되어 있다.  
+
+---
+
+**그림 1.3**  
+
+*예제 1.5의 평균 결합 강도 (Average Bond Strengths in Example 1.5)*  
+
+<img src="/assets/img/books/prob-stat-eng/1-1/image_3.png" alt="image" width="480px"> 
+
+---
+
+이를 보면,  
+**접착제 2번(adhesive type 2)** 은  
+어떤 도체 재료를 사용하든 **접착제 1번보다 결합 강도가 높으며**,  
+**(2, 2)** 조합이 가장 높은 결합 강도를 보인다.  
+
+이러한 차이가 실제로 존재하는 효과(real effect)인지,  
+아니면 단순한 **우연 변동(chance variation)** 에 의한 것인지를 판단하기 위해  
+다시 한 번 **통계적 추론 방법(inferential methods)** 을 사용할 수 있다.  
+
+추가로,  
+만약 여기에 두 가지 **경화 시간(cure time)** 과  
+두 가지 **IC 포스트 코팅(post coating)** 유형이 고려된다면,  
+총 가능한 조합의 수는 다음과 같다.
+
+$$
+2 \times 2 \times 2 \times 2 = 16
+$$
+
+이 경우,  
+엔지니어는 **모든 조합에 대해 단 하나의 측정조차 수행하기 어려울** 수 있다.  
+
+**11장(Chapter 11)** 에서는  
+이와 같은 상황에서 **가능한 조합의 일부만 신중하게 선택(fractional selection)** 하여도  
+필요한 정보를 효율적으로 얻을 수 있는 방법을 다룬다.  
