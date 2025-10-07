@@ -249,7 +249,7 @@ M A A A M A A M A A
 *Minitab 줄기-잎 그림(stem-and-leaf display, 소수점 첫째 자리 절삭)과  
 자선단체 모금비율 데이터의 히스토그램(histogram)*  
 
-<img src="/assets/img/books/prob-stat-eng/1-1/image_1.png" alt="image" width="720px"> 
+<img src="/assets/img/books/prob-stat-eng/1/image_1.png" alt="image" width="720px"> 
 
 ---
 
@@ -398,7 +398,7 @@ $$
 
 *확률(probability)과 추론통계(inferential statistics) 간의 관계*  
 
-<img src="/assets/img/books/prob-stat-eng/1-1/image_2.png" alt="image" width="480px"> 
+<img src="/assets/img/books/prob-stat-eng/1/image_2.png" alt="image" width="480px"> 
 
 ---
 
@@ -938,7 +938,7 @@ $$
 
 *예제 1.5의 평균 결합 강도 (Average Bond Strengths in Example 1.5)*  
 
-<img src="/assets/img/books/prob-stat-eng/1-1/image_3.png" alt="image" width="480px"> 
+<img src="/assets/img/books/prob-stat-eng/1/image_3.png" alt="image" width="480px"> 
 
 ---
 
