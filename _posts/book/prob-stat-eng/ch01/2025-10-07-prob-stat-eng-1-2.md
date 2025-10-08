@@ -388,3 +388,21 @@ $$
 이 두 경우(세는 데이터 vs. 측정 데이터)에 따라  
 **히스토그램(histogram)** 을 그리는 방법(prescription for drawing)이  
 일반적으로 다르게 적용된다.  
+
+---
+
+>**정의 (DEFINITION)**  
+>
+>어떤 **수치형 변수(numerical variable)** 가 가질 수 있는 값들의 집합이  
+>유한(finite)하거나, 혹은  
+>**순서 있게 나열 가능한 무한 수열(infinite sequence)** —  
+>즉, 첫 번째 값, 두 번째 값, 세 번째 값처럼  
+>차례로 셀 수 있는 경우 — 이면  
+>그 변수를 **이산형(discrete)** 변수라 한다.  
+>
+>반면,  
+>가능한 값들이 **수직선(number line)** 위의 **하나의 구간(entire interval)** 전체를 이루는 경우,  
+>그 변수를 **연속형(continuous)** 변수라 한다.  
+
+---
+
