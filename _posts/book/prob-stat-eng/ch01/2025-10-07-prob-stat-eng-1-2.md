@@ -300,3 +300,91 @@ $$
 각 관측값(observation)의 **일의 자리(ones digit)** 를 **잘라내어(truncate)**  
 표현한 결과이다.  
 
+---
+
+### 점도표 (Dotplots)
+
+**점도표(dotplot)** 는  
+데이터의 크기가 비교적 작거나,  
+서로 다른 **고유한 값(distinct data values)** 이 많지 않을 때  
+수치형 데이터를 요약하기 위한 시각적으로 매력적인 방법이다.  
+
+각 관측값(observation)은  
+수평 측정축(horizontal measurement scale)의 해당 위치 위에  
+하나의 **점(dot)** 으로 표시된다.  
+
+같은 값이 여러 번 등장하면,  
+그 횟수만큼 점을 **수직으로 쌓아 올린다(stack vertically)**.  
+
+줄기-잎 그림(stem-and-leaf display)과 마찬가지로,  
+점도표(dotplot)는 다음과 같은 정보를 제공한다.  
+
+- 데이터의 **대표적 위치(location)**  
+- 값들의 **산포 정도(spread)**  
+- **극단값(extremes)** 의 존재 여부  
+- **빈 구간(gaps)** 의 존재 여부  
+
+---
+
+**예제 1.8 (Example 1.8)**  
+
+다음은 **2006–2007 회계연도(fiscal year)** 에 대한  
+**주별 고등교육 예산 비율(appropriations for higher education as a percentage of state and local tax revenue)** 데이터이다.  
+출처는 *Statistical Abstract of the United States* 이며,  
+값들은 주의 약어(state abbreviations)에 따라  
+알라바마(AL)부터 와이오밍(WY) 순으로 나열되어 있다.  
+
+| 10.8 | 6.9 | 8.0 | 8.8 | 7.3 | 3.6 | 4.1 | 6.0 | 4.4 | 8.3 |
+| 8.1 | 8.0 | 5.9 | 5.9 | 7.6 | 8.9 | 8.5 | 8.1 | 4.2 | 5.7 |
+| 4.0 | 6.7 | 5.8 | 9.9 | 5.6 | 5.8 | 9.3 | 6.2 | 2.5 | 4.5 |
+| 12.8 | 3.5 | 10.0 | 9.1 | 5.0 | 8.1 | 5.3 | 3.9 | 4.0 | 8.0 |
+| 7.4 | 7.5 | 8.4 | 8.3 | 2.6 | 5.1 | 6.0 | 7.0 | 6.5 | 10.3 |
+
+**그림 1.6(Figure 1.6)** 은  
+이 데이터를 이용해 작성된 **점도표(dotplot)** 를 보여준다.  
+
+가장 눈에 띄는 특징은  
+주별(state-to-state)로 나타나는 **큰 변동성(substantial variability)** 이다.  
+
+가장 큰 값(뉴멕시코, New Mexico)과  
+가장 작은 두 값(뉴햄프셔, New Hampshire / 버몬트, Vermont)은  
+데이터의 주된 분포(bulk of the data)로부터 다소 떨어져 있지만,  
+그 차이가 **이상치(outlier)** 로 간주될 만큼 크지는 않다.  
+
+---
+
+**그림 1.6**  
+
+*예제 1.8의 데이터에 대한 점도표*  
+
+<img src="/assets/img/books/prob-stat-eng/1/image_6.png" alt="image" width="720px"> 
+
+---
+
+만약 **예제 1.2** 에서의 **압축 강도(compressive strength)** 관측값의 개수 $n=27$ 이  
+실제로 얻어진 것보다 훨씬 더 많았다면,  
+**점도표(dotplot)** 를 작성하는 것은 매우 번거로운 일이 되었을 것이다.  
+
+이제 소개할 **다음 기법(next technique)** 은  
+이러한 상황에 특히 적합하다.  
+
+---
+
+### 히스토그램 (Histograms)
+
+일부 **수치형 데이터(numerical data)** 는  
+변수(variable)의 값을 **세어(counting)** 얻는다.  
+예를 들어,  
+- 지난 1년 동안 한 사람이 받은 **교통 위반 딱지의 수(number of traffic citations)**,  
+- 특정 기간 동안 서비스 센터에 도착한 **고객 수(number of customers)**  
+등이 이에 해당한다.  
+
+반면 다른 데이터들은 **측정(measurement)** 을 통해 얻어진다.  
+예를 들어,  
+- 개인의 **체중(weight)**,  
+- 특정 자극(stimulus)에 대한 **반응 시간(reaction time)**  
+등이 이에 해당한다.  
+
+이 두 경우(세는 데이터 vs. 측정 데이터)에 따라  
+**히스토그램(histogram)** 을 그리는 방법(prescription for drawing)이  
+일반적으로 다르게 적용된다.  
