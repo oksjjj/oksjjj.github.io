@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 
-# 1. 개요와 기술통계 (Overview and Descriptive Statistics)
+# 1. 개요 및 기술 통계 (Overview and Descriptive Statistics)
 
 ---
 
