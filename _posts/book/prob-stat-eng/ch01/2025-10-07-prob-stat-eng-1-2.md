@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[1-2] Probability and Statistics for Engineering and the Sciences"
+title: "[1-2] 공학 및 과학을 위한 확률과 통계"
 date: 2025-10-07 19:00:00 +0900
 categories:
   - "Books"
@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 
-# 1. 개요 및 기술 통계 (Overview and Descriptive Statistics)
+# 1. 개요 및 기술통계(Descriptive Statistics)  
 
 ---
 

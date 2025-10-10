@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[1-Intro] Probability and Statistics for Engineering and the Sciences"
+title: "[1-서론] 공학 및 과학을 위한 확률과 통계"
 date: 2025-10-07 18:00:00 +0900
 categories:
   - "Books"
@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 
-# 1. 개요 및 기술 통계 (Overview and Descriptive Statistics)
+# 1. 개요 및 기술통계(Descriptive Statistics)  
 
 > “나는 후회를 잘 하지 않는 편이지만, 이번에는 꽤 오래 고민했다.  
 > 대학 때 통계를 훨씬 더 많이 배웠어야 했던 것 같다.”  
@@ -24,7 +24,7 @@ tags: []
 
 ---
 
-## 서론 (Introduction)
+## 서론
 
 통계학의 개념과 방법은 유용할 뿐만 아니라, 우리 주변의 세상을 이해하는 데 있어 대체 불가능할 정도로 필수적이다.  
 
