@@ -833,7 +833,7 @@ $$
   - 트랜스포머 아키텍처 기반으로 Decoder 구조만을 사용하는 Autoregressive Language 모델  
   - 한번에 한 토큰을 예측하고, 이를 다시 입력에 추가하여 계속 다음 텍스트를 예측하는 모델  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_19.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_19.png" alt="image" width="800px"> 
 
 ---
 
@@ -1592,7 +1592,7 @@ $$
   - **두 번째 단계: 답변 추론**  
     첫 번째 단계에서 생성한 정보적 근거를 사용하여 질문에 대한 정답을 추론  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_31.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_31.png" alt="image" width="800px">  
 
 ---
 
@@ -1759,7 +1759,7 @@ $$
   - 작업과 관련된 데이터/문서를 **외부 지식베이스를 연결하여 검색한 결과를 LLM의 문맥으로 Prompt에 제공**,  
     모델의 정확성과 신뢰성 향상시키는 기법  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_33.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_33.png" alt="image" width="800px">  
 
 ---
 
@@ -1804,7 +1804,7 @@ $$
 
 ## p56. ReAct 예시
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_35.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_35.png" alt="image" width="800px">  
 
 - **User 요청**  
   - 세계의 음식 문화에 대해 알려주는 책을 추천해줘  

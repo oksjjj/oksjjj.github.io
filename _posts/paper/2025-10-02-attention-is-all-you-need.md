@@ -27,11 +27,11 @@ tags: []
 
 >**주석**  
 >  
->∗ 공동 기여(Equal contribution). 저자 순서는 무작위이다.  
+>∗ 공동 기여. 저자 순서는 무작위이다.  
 >  
 >- Jakob은 RNN을 셀프-어텐션으로 대체하자는 아이디어를 제안하고, 이를 검증하기 위한 연구를 시작했다.  
 >- Ashish는, Illia와 함께 최초의 Transformer 모델을 설계하고 구현했으며, 이 연구의 모든 측면에 핵심적으로 관여했다.  
->- Noam은 Scaled Dot-Product Attention, Multi-Head Attention, 학습 파라미터가 아닌 위치 표현(parameter-free position representation)을 제안했으며, 연구의 거의 모든 세부 사항에 깊이 참여했다.  
+>- Noam은 scaled dot-product attention, multi-head attention, parameter-free position representation을 제안했으며, 연구의 거의 모든 세부 사항에 깊이 참여했다.  
 >- Niki는 우리의 오리지널 코드베이스와 **tensor2tensor**에서 수많은 모델 변형을 설계, 구현, 튜닝, 평가하였다.  
 >- Llion은 새로운 모델 변형을 실험했을 뿐만 아니라, 초기 코드베이스와 효율적인 추론 및 시각화를 맡았다.  
 >- Lukasz와 Aidan은 tensor2tensor의 다양한 부분을 설계하고 구현하는 데 수많은 시간을 투자하여, 초기 코드베이스를 대체하고 결과를 크게 개선했으며 연구 속도를 비약적으로 가속시켰다.  
@@ -44,8 +44,8 @@ tags: []
 ---
 
 > **(블로그 추가 설명) Tensor2Tensor란?**  
-> Tensor2Tensor(T2T)는 구글 브레인 팀이 공개한 **오픈소스 딥러닝 라이브러리**로,  
-> 주로 **시퀀스-투-시퀀스(Sequence-to-Sequence)** 작업(기계 번역, 요약, 언어 모델링 등)을 쉽게 실험할 수 있도록 설계되었다.  
+> Tensor2Tensor(T2T)는 구글 브레인 팀이 공개한 오픈소스 딥러닝 라이브러리로,  
+> 주로 시퀀스-투-시퀀스(Sequence-to-Sequence) 작업(기계 번역, 요약, 언어 모델링 등)을 쉽게 실험할 수 있도록 설계되었다.  
 > 
 > 주요 특징:  
 > - **TensorFlow 기반**으로 구현됨  
@@ -53,7 +53,7 @@ tags: []
 > - GPU/TPU 병렬 학습 지원으로 대규모 실험이 용이  
 > 
 > Transformer 논문 역시 초기에는 Tensor2Tensor 코드베이스 안에서 개발되고 검증되었으며,  
-> 이 때문에 저자 기여 부분에서 여러 연구자들이 **tensor2tensor의 설계·구현·개선**을 언급하고 있다.  
+> 이 때문에 저자 기여 부분에서 여러 연구자들이 tensor2tensor의 설계·구현·개선을 언급하고 있다.  
 
 ---
 
@@ -63,8 +63,7 @@ tags: []
 인코더와 디코더를 포함하는 복잡한 순환 신경망(recurrent neural networks) 또는  
 합성곱 신경망(convolutional neural networks)을 기반으로 한다.  
 
-가장 성능이 좋은 모델들은 **어텐션 메커니즘(attention mechanism)**을 통해  
-인코더와 디코더를 연결한다.  
+가장 성능이 좋은 모델들은 **어텐션(attention) 메커니즘**을 통해 인코더와 디코더를 연결한다.  
 
 ---
 
