@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 
-# 1. 개요 및 기술통계(Descriptive Statistics)  
+# 1. 개요 및 기술(Descriptive) 통계  
 
 > “나는 후회를 잘 하지 않는 편이지만, 이번에는 꽤 오래 고민했다.  
 > 대학 때 통계를 훨씬 더 많이 배웠어야 했던 것 같다.”  

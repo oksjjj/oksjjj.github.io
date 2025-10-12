@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 
-# 1. 개요 및 기술통계(Descriptive Statistics)  
+# 1. 개요 및 기술(Descriptive) 통계   
 
 # 1.1 모집단, 표본, 그리고 프로세스
 
