@@ -10,39 +10,32 @@ tags: []
 
 # 1. 개요 및 기술통계(Descriptive Statistics)  
 
----
-
-## 1.2 기술통계에서의 그림과 표를 통한 표현 (Pictorial and Tabular Methods in Descriptive Statistics)
-
-**기술통계(descriptive statistics)** 는 일반적으로  
-두 가지 큰 영역으로 나눌 수 있다.  
-
-이 절에서는  
-데이터 집합(data set)을 **시각적 기법(visual techniques)** 으로 표현하는 방법을 다룬다.  
-이후 **1.3절**과 **1.4절**에서는  
-데이터 집합을 요약하는 **수치적 요약값(numerical summary measures)** 들을 살펴볼 것이다.  
-
-여러분이 이미 익숙할 수 있는 시각적 표현 기법에는  
-다음과 같은 것들이 있다.  
-
-- **도수표(frequency table)**  
-- **눈금표(tally sheet)**  
-- **히스토그램(histogram)**  
-- **원형 그래프(pie chart)**  
-- **막대 그래프(bar graph)**  
-- **산점도(scatter diagram)**  
-
-이 절에서는  
-이들 중에서도 특히 **확률(probability)** 과 **추론통계(inferential statistics)** 에서  
-가장 **유용하고 관련성 높은 기법들**에 초점을 맞추어 다룬다.  
+# 1.2 기술통계에서의 그림과 표를 통한 표현
 
 ---
 
-### 표기법 (Notation)
+기술통계는 두 개의 일반적인 주제 영역으로 나눌 수 있다.
 
-일반적인 **표기법(notation)** 을 미리 정의해 두면,  
-다양한 실제 문제(practical problems)에  
-우리의 통계적 방법과 공식을 더 쉽게 적용할 수 있다.  
+이 절에서는 데이터 집합을 시각적 기법을 사용하여 표현하는 방법을 다룬다.
+
+1.3절과 1.4절에서는 데이터 집합을 위한 몇 가지 수치적 요약 척도들을 다루게 될 것이다.
+
+많은 시각적 기법들은 이미 여러분에게 익숙할 것이다 —  
+도수분포표(frequency table), 기록표(tally sheet), 히스토그램(histogram),  
+원형 차트(pie chart), 막대 그래프(bar graph), 산점도(scatter diagram) 등이 그 예이다.
+
+여기에서는 이러한 기법들 중에서 확률과 추론통계에 가장 유용하고 관련성 있는 
+
+---
+
+## 표기법
+
+몇 가지 일반적인 표기법을 사용하면  
+우리의 방법들과 공식을 다양한 실제 문제들에 더 쉽게 적용할 수 있을 것이다.
+
+
+
+
 
 하나의 표본(sample)에 포함된 **관측값(observations)** 의 개수,  
 즉 **표본 크기(sample size)** 는 보통 $n$ 으로 표시한다.  
@@ -95,7 +88,7 @@ $x_2$ 는 **두 번째 관측값(second observation)**,
 
 ---
 
-### 줄기-잎 그림 (Stem-and-Leaf Displays)
+## 줄기-잎 그림 (Stem-and-Leaf Displays)
 
 각 관측값 $x_1, x_2, \dots, x_n$ 이 최소 두 자리 숫자로 이루어진  
 **수치형 데이터 집합(numerical data set)** 을 생각해 보자.  
@@ -104,7 +97,7 @@ $x_2$ 는 **두 번째 관측값(second observation)**,
 
 ---
 
-> #### 줄기-잎 그림 구성 방법 (Constructing a Stem-and-Leaf Display)
+> **줄기-잎 그림 구성 방법 (Constructing a Stem-and-Leaf Display)**
 >
 > 1. **줄기(stem)** 값으로 사용할 한 자리 또는 여러 자리의 **선행 숫자(leading digits)** 를 선택한다.  
 >    나머지 **뒤쪽 숫자(trailing digits)** 들은 **잎(leaf)** 으로 사용한다.  
@@ -302,7 +295,7 @@ $$
 
 ---
 
-### 점도표 (Dotplots)
+## 점도표 (Dotplots)
 
 **점도표(dotplot)** 는  
 데이터의 크기가 비교적 작거나,  
@@ -370,7 +363,7 @@ $$
 
 ---
 
-### 히스토그램 (Histograms)
+## 히스토그램 (Histograms)
 
 일부 **수치형 데이터(numerical data)** 는  
 변수(variable)의 값을 **세어(counting)** 얻는다.  
