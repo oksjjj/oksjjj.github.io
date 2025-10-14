@@ -264,7 +264,7 @@ $$
 
 ---
 
-## p27. 요약: 모델, 손실 함수, 최적화
+## p27. 복습: 모델, 손실 함수, 최적화
 
 <img src="/assets/img/lecture/textmining/6/image_12.png" alt="image" width="720px">
 
@@ -827,7 +827,7 @@ $$
 
 ---
 
-## p42. 요약: 밀집 고정 표현 (Dense static representation)
+## p42. 복습: 밀집 고정 표현 (Dense static representation)
 
 - **분포 가설 (Distributional hypothesis)**  
   - 유사한 문맥(context)에서 나타나는 단어들은 유사한 의미를 가지는 경향이 있다.  

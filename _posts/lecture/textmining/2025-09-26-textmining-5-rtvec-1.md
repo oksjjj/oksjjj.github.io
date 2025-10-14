@@ -461,7 +461,7 @@ $$
 
 ---
 
-## p35. 요약: 희소 표현(Sparse representations)
+## p35. 복습: 희소 표현(Sparse representations)
 
 - **BoW 표현**  
   문서(Document)와 단어(Term) 출현 빈도를 행렬로 표현한다.  
@@ -480,7 +480,7 @@ $$
 
 ---
 
-## p37. 요약: 희소 표현(Sparse representations)
+## p37. 복습: 희소 표현(Sparse representations)
 
 - 우리는 문서를 희소 벡터(sparse vectors)로 표현하는 방법과, 이들의 유사도를 계산하는 방법을 학습했다.  
 
