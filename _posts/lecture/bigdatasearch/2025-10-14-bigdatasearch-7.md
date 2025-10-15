@@ -321,3 +321,58 @@ tags: []
 
 ---
 
+## p15. RAG의 구조적 패러다임  
+
+- 전통적 검색과 생성  
+
+<img src="/assets/img/lecture/bigdatasearch/7/image_8.png" alt="image" width="240px"> 
+
+- 검색 품질 향상  
+
+<img src="/assets/img/lecture/bigdatasearch/7/image_9.png" alt="image" width="240px"> 
+
+- 유사도 검색 모듈화, 패턴화  
+
+<img src="/assets/img/lecture/bigdatasearch/7/image_10.png" alt="image" width="480px"> 
+
+---
+
+## p16. RAG의 구조적 패러다임 변화  
+
+- **Naïve RAG**  
+  - 전통적 “Retrieve-Read” 구조 (인덱싱 → 검색 → 생성)  
+  - **Augmentation**: 검색된 단일 청크/문서를 프롬프트에 직접 추가  
+  - **장점**: 구현이 간단하고 비용 효율적  
+  - **한계**: 검색 정확도·재현율(Recall) 부족, 환각·중복 발생, 맥락 통합 어려움  
+
+- **Advanced RAG**  
+  - 검색 대상, 검색 방법, 사전/사후 최적화 도입  
+    - **인덱싱**: 슬라이딩 윈도우, 세분화, 메타데이터 활용  
+    - **쿼리 최적화**: 쿼리 변환, 확장, 재작성  
+    - **검색 후 처리**: 검색 결과 재순위화(rerank), 컨텍스트 압축  
+  - **장점**  
+    - 정보 과부하 방지, 핵심 정보 강조, 프롬프트 길이 제약 극복  
+    - **정확도(Precision)** 와 **재현율(Recall)** 을 향상시켜 LLM 출력 품질 개선  
+  - **Augmentation**: 최적화된 청크를 여러 소스의 정보로 정제하여 프롬프트에 추가  
+
+- **Modular RAG**  
+  - LLM 에이전트, 라우터 등 동적 모듈 사용  
+  - **모듈화 및 유연성 강화**  
+    - 검색, 생성, 필터링, 평가 등 다양한 기능 모듈 결합 가능  
+    - 반복적/적응적 검색 및 End-to-End 통합 학습 지원  
+    - 특정 도메인·작업에 맞춤화 용이  
+  - **Augmentation**: 작업 흐름을 제어하며  
+    필요한 정보 검색·검증 및 복합적 증강 수행  
+
+---
+
+## p17. RAG의 구조적 패러다임  
+
+**주요 Advanced RAG 유형**
+
+| 유형 | 검색 단계의 개선 | 증강 프로세스에서의 차이점 |
+|:--|:--|:--|
+| **Pre-Retrieval<br>(Index)** | 데이터 전처리(청크 크기, 메타데이터 추가),<br>인덱스 구조 최적화 | 청크 자체의 품질을 높여 더 정확하고 관련성<br>높은 컨텍스트를 검색 |
+| **Post-Retrieval<br>(Reranking)** | 검색된 상위 k개의 문서에 대해 Reranker 모델을<br>사용해 재순위 지정 | 가장 관련성 높은 문서만 선별하여<br>프롬프트에 포함<br>불필요한 노이즈(Noise) 감소 |
+| **Query<br>Transformation** | 원래 쿼리를 LLM을 이용해 여러 쿼리로 확장<br>또는 HyDE(Hypothetical Document Embedding)<br>방식으로 변환 | 사용자의 의도를 더 잘 포착하는 다양한<br>컨텍스트를 검색하여 Recall(재현율) 향상 |
+| **Multi-Hop RAG** | 한 번의 검색으로 답을 찾기 어려울 때, LLM이<br>여러 번의 검색·생성을 반복하여 정보를 결합 | 복합적인 추론이 필요한 경우, 단계별 중간 결과를<br>컨텍스트로 활용하여 최종 답변을 증강 |
