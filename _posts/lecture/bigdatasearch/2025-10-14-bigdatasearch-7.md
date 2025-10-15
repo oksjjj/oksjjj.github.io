@@ -301,21 +301,21 @@ tags: []
 
 ## p14. RAG 아키텍처  
 
-- **Retriever Types**
+**Retriever Types**
 
-  - **일반 검색: Sparse Retrievers (SR)**  
-    - 적용 용이  
-    - 높은 효율성  
-    - 우수한 성능  
-    - 예: TF-IDF, BM25  
+- **일반 검색: Sparse Retrievers (SR)**  
+  - 적용 용이  
+  - 높은 효율성  
+  - 우수한 성능  
+  - 예: TF-IDF, BM25  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_6.png" alt="image" width="600px"> 
 
-  - **Dense Retrievers (DR)**  
-    - 파인튜닝 허용  
-    - 더 나은 적응력  
-    - 다양한 검색 목적에 맞게 맞춤화 가능  
-    - 예: DPR, Contriever  
+- **Dense Retrievers (DR)**  
+  - 파인튜닝 허용  
+  - 더 나은 적응력  
+  - 다양한 검색 목적에 맞게 맞춤화 가능  
+  - 예: DPR, Contriever  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_7.png" alt="image" width="600px"> 
 
