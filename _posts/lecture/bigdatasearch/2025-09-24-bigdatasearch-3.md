@@ -404,19 +404,7 @@ Weight Vector (dictionary size V):
 
 - **코사인 유사도 계산**
   
-```pseudo
-COSINESCORE(q)
-1  float Scores[N] = 0
-2  float Length[N]
-3  for each query term t
-4      do calculate wt,q, and fetch postings list for t
-5      for each pair (d, tf,t,d) in postings list
-6          do Scores[d] += wt,d × wt,q
-7  Read the array Length
-8  for each d
-9      do Scores[d] = Scores[d]/Length[d]
-10 return Top K components of Scores
-```
+<img src="/assets/img/lecture/bigdatasearch/3/image_8.png" alt="image" width="500px">
 
 ---
 
