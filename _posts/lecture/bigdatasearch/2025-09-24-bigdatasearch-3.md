@@ -25,6 +25,7 @@ tags: []
   - 대다수 사용자는 불리언 질의를 작성하는 데 어려움을 느끼거나, 작성하는 것을 번거로워함  
   - 대부분의 사용자는 수천 개의 결과 목록을 일일이 확인하는 것을 원하지 않음  
   - 결과 수의 불균형: 결과의 수가 너무 적거나(0개) 혹은 너무 많은(수천 개) 극단적 상황 초래  
+  <br>
   → 적절한 수의 결과를 얻기 위해서는 상당한 수준의 질의 작성 기술이 필요  
    (AND: 종종 너무 적은 결과, OR: 종종 너무 많은 결과)  
 
@@ -57,7 +58,7 @@ tags: []
 
 ## p7. 랭킹 기반 검색 (Ranked Retrieval)
 
-**랭킹 기반 검색 시스템**  
+**랭킹 기반 검색** 시스템  
 
 - 질의에 대한 **상위(top) 문서들에 순위**를 매겨 반환  
 
@@ -65,9 +66,10 @@ tags: []
   - 연산자나 표현식 대신, 사용자가 **자연어**로 하나 또는 그 이상의 단어를 입력하는 방식  
 
 - 랭킹 기반 검색의 장점: 대량 결과 처리  
-  - 사실상 결과 집합의 크기는 중요하지 않아, **대량의 검색 결과**가 나와도 문제 없음  
+  - 사실상 결과 집합의 크기는 중요하지 않아, 대량의 검색 결과가 나와도 문제 없음  
   - 상위 k개(약 10개)의 결과만 사용자에게 제시  
-  ← **랭킹 알고리즘이 효과적으로 작동한다는 전제 하에 유효**
+  <br>
+  ← **랭킹 알고리즘이 효과적으로 작동한다**는 전제 하에 유효
 
 ---
 
@@ -77,7 +79,7 @@ tags: []
   - 검색 사용자에게 가장 유용할 가능성이 높은 문서들을 **순서대로** 제시  
 
 - **어떻게 문서를 순위화 하나?**  
-  - 각 문서에 대해 **0과 1 사이의 점수**를 부여  
+  - 각 문서에 대해 0과 1 사이의 점수를 부여  
   - 점수: 문서와 질의가 얼마나 잘 일치하는지를 측정한 결과  
 
 ---
@@ -89,21 +91,18 @@ tags: []
 
 ## p9. 유사도 측정 방법
 
-### Jaccard coefficient
+- **Jaccard coefficient**
 
-  **개요**
-  - 두 집합 A, B의 중복의 정도를 측정. 
+  - **개요**
+    - 두 집합 A, B의 중복의 정도를 측정 
+    - $jaccard(A, B) = \mid A ∩ B \mid / \mid A ∪ B \mid $
+    - $jaccard(A, A) = 1$
+    - $jaccard(A, B) = 0 \quad if A ∩ B = 0$
 
-    $$jaccard(A, B) = |A ∩ B| / |A ∪ B|$$
-
-    $$jaccard(A, A) = 1$$
-
-    $$jaccard(A, B) = 0 \quad if A ∩ B = 0$$
-
-  **한계점**
-  - 단어 빈도(term frequency)를 고려하지 않음
-  - 문서 집합 내에서 **드문 단어**가 자주 등장하는 단어보다 더 많은 정보를 담고 있지만, 이러한 정보를 고려하지 않음
-  - 문서 길이에 대한 정규화 방식이 필요
+  - **한계점**
+    - 단어 빈도(term frequency)를 고려하지 않음
+    - 문서 집합 내에서 **드문 단어**가 자주 등장하는 단어보다 더 많은 정보를 담고 있지만, 이러한 정보를 고려하지 않음
+    - 문서 길이에 대한 정규화 방식이 필요
 
 ---
 
@@ -143,19 +142,9 @@ tags: []
 
 - Dictionary와 Term의 문서별 출현빈도 테이블  
 
-Count vector(dictionary size N)
+<img src="/assets/img/lecture/bigdatasearch/3/image_9.png" alt="image" width="720px">
 
-| term       | Antony and Cleopatra | Julius Caesar | The Tempest | Hamlet | Othello | Macbeth |
-|------------|-----------------------|---------------|-------------|--------|---------|---------|
-| **Antony**     | 157                   | 73            | 0           | 0      | 0       | 0       |
-| **Brutus**     | 4                     | 157           | 0           | 1      | 0       | 0       |
-| **Caesar**     | 232                   | 227           | 0           | 2      | 1       | 1       |
-| **Calpurnia**  | 0                     | 10            | 0           | 0      | 0       | 0       |
-| **Cleopatra**  | 57                    | 0             | 0           | 0      | 0       | 0       |
-| **mercy**      | 2                     | 0             | 3           | 5      | 5       | 1       |
-| **worser**     | 2                     | 0             | 1           | 1      | 1       | 0       |
-
-- Bag of Words model : 출현 단어들의 순서관계를 고려하지 않음
+Bag of Words model : 출현 단어들의 순서관계를 고려하지 않음
 
 ---
 
@@ -181,13 +170,17 @@ Count vector(dictionary size N)
   - 문서 d에 t가 나타나는 횟수: $tf_{t,d}$
   - Log frequency weight  
 
-    $$
-    w_{t,d} =
-    \begin{cases}
-    1 + \log tf_{t,d}, & \text{if } tf_{t,d} > 0 \\
-    0, & \text{otherwise}
-    \end{cases}
-    $$
+  $$
+  w_{t,d} =
+  \begin{cases}
+  1 + \log tf_{t,d}, & \text{if } tf_{t,d} > 0 \\
+  0, & \text{otherwise}
+  \end{cases}
+  $$
+
+  $$
+  score = \sum_{t \in q \cap d} (1 + \log tf_{t,d})
+  $$
 
 - **Idf**
   - T의 문서 빈도(t를 포함하는 문서의 수): $df_t$
@@ -197,20 +190,7 @@ Count vector(dictionary size N)
     idf_t = \log \left(\frac{N}{df_t}\right)
     $$
 
-- **score**  
-
-  $$
-  score = \sum_{t \in q \cap d} (1 + \log tf_{t,d})
-  $$
-
-| term      | $df_t$    | $idf_t$ |
-|-----------|-----------|---------|
-| calpurnia | 1         | 6       |
-| animal    | 100       | 4       |
-| sunday    | 1,000     | 3       |
-| fly       | 10,000    | 2       |
-| under     | 100,000   | 1       |
-| the       | 1,000,000 | 0       |
+<img src="/assets/img/lecture/bigdatasearch/3/image_10.png" alt="image" width="400px">
 
 ---
 
@@ -229,10 +209,17 @@ Count vector(dictionary size N)
   - 예) 질의 *“carpricious perspn”* 에서 *“carpricious”* 가 *“person”* 보다 최종 문서 랭킹에 더 큰 비중
 
 - **정보검색의 가중치 부여방식**
-  - $w_{t,d} = \log(1+tf_{t,d}) \times \log_{10}\left(\frac{N}{df_t}\right)$  
-    - 문서 내에서 해당 용어가 출현하는 횟수가 많을수록 값이 커지고  
-    - 전체 문서 집합에서 해당 용어가 희귀할수록 값이 커진다.
-  - $Score(q,d) = \sum_{t \in q \cap d} tf \cdot idf_{t,d}$
+
+  $$
+  w_{t,d} = \log(1+tf_{t,d}) \times \log_{10}\left(\frac{N}{df_t}\right)
+  $$  
+
+    - 문서 내에서 **해당 용어가 출현하는 횟수**가 많을수록 값이 커지고,  
+      전체 문서 집합에서 **해당 용어가 희귀할수록** 값이 커진다.
+  
+  $$
+  Score(q,d) = \sum_{t \in q \cap d} tf \cdot idf_{t,d}
+  $$
 
 ---
 
@@ -271,34 +258,12 @@ Count vector(dictionary size N)
 
 - **Count**
 
-Count vector (dictionary size V):
-
-| term       | Antony and Cleopatra | **Julius Caesar** | The Tempest | Hamlet | Othello | Macbeth |
-|------------|-----------------------|------------------|-------------|--------|---------|---------|
-| Antony     | 157                   | **73**           | 0           | 0      | 0       | 0       |
-| Brutus     | 4                     | **157**          | 0           | 1      | 0       | 0       |
-| Caesar     | 232                   | **227**          | 0           | 2      | 1       | 1       |
-| Calpurnia  | 0                     | **10**           | 0           | 0      | 0       | 0       |
-| Cleopatra  | 57                    | **0**            | 0           | 0      | 0       | 0       |
-| mercy      | 2                     | **0**            | 3           | 5      | 5       | 1       |
-| worser     | 2                     | **0**            | 1           | 1      | 1       | 0       |
-
----
+<img src="/assets/img/lecture/bigdatasearch/3/image_11.png" alt="image" width="720px">
 
 - **WeightMatrix**
   - tf-idf weights
 
-Weight Vector (dictionary size V):
-
-| term       | Antony and Cleopatra | **Julius Caesar** | The Tempest | Hamlet | Othello | Macbeth |
-|------------|-----------------------|------------------|-------------|--------|---------|---------|
-| Antony     | 5.25                  | **3.18**         | 0           | 0      | 0       | 0.35    |
-| Brutus     | 1.21                  | **6.1**          | 0           | 1      | 0       | 0       |
-| Caesar     | 8.59                  | **2.54**         | 0           | 1.51   | 0.25    | 0       |
-| Calpurnia  | 0                     | **1.54**         | 0           | 0      | 0       | 0       |
-| Cleopatra  | 2.85                  | **0**            | 0           | 0      | 0       | 0       |
-| mercy      | 1.51                  | **0**            | 1.9         | 0.12   | 5.25    | 0.88    |
-| worser     | 1.37                  | **0**            | 0.11        | 4.15   | 0.25    | 1.95    |
+<img src="/assets/img/lecture/bigdatasearch/3/image_12.png" alt="image" width="720px">
 
 ---
 
@@ -316,7 +281,7 @@ Weight Vector (dictionary size V):
 
 2. **Query Vectors**  
    - 질의도 문서와 동일하게 **벡터 공간**에 벡터로 표현  
-   - 벡터 공간에서 질의와의 **근접성(proximity)**에 따라 문서의 순위를 매김  
+   - 벡터 공간에서 질의와의 근접성(proximity)에 따라 문서의 순위를 매김  
 
    - **근접성(Proximity)?**  
      - 벡터들의 **유사성**과 동일  
@@ -394,7 +359,6 @@ Weight Vector (dictionary size V):
 
 <img src="/assets/img/lecture/bigdatasearch/3/image_3.png" alt="image" width="400px">
 
-- **$q_i$, $d_i$의 의미**
   - $q_i$: **질의(query)에서 용어 $i$의 가중치**  
   - $d_i$: **문서(document)에서 용어 $i$의 가중치**
 
@@ -602,7 +566,7 @@ $$
   - 점수를 기준으로 질의에 대한 문서들의 순위 결정  
 
 - **결과 반환**
-  - 가장 높은 순위를 가진 **상위 K개의 문서**(예: $K=10$)를 사용자에게 반환  
+  - 가장 높은 순위를 가진 상위 K개의 문서(예: K=10)를 사용자에게 반환  
 
 ---
 
@@ -614,7 +578,7 @@ $$
     - AND 연산이 늘어나면 결과의 수는 줄어듦  
     - OR 연산이 늘어나면 결과의 수는 급격히 증가  
 
-➡ 따라서 **좋은 문서를 랭킹하는 Soft한 방법**이 필요  
+  ➡ 따라서 좋은 문서를 랭킹하는 Soft한 방법이 필요  
 
 
 - **Why Probabilistic IR**
@@ -633,15 +597,16 @@ $$
 
 ## p21. Probabilistic IR
 
-**고전적 확률 기반 정보 검색 모델**
-- **Probability Ranking Principle (PRP)**: 확률 순위 결정 원칙  
-- **이진 독립 모델 (≈ Naïve Bayes 텍스트 분류 모델)**  
-  - *Independence*: terms occur in documents independently (단순화를 위해 용어 간 독립 가정)  
-- (Okapi) **BM25**  
+- **고전적 확률 기반 정보 검색 모델**
+  - Probability Ranking Principle (PRP): 확률 순위 결정 원칙  
+  - 이진 독립 모델 (≈ Naïve Bayes 텍스트 분류 모델)  
+    - *Independence*: terms occur in documents independently (단순화를 위해 용어 간 독립 가정)  
+  - (Okapi) BM25  
 
-**확률론적 방법**
-- 정보 검색 분야에서 오래되었지만 현재에도 많이 사용되는 방법  
-- **문서와 정보 요구 간의 관련성 확률**에 따라 순위를 매기는 방식  
+- **확률론적 방법**
+  - 정보 검색 분야에서 오래되었지만 현재에도 많이 사용되는 방법  
+  - 문서와 정보 요구 간의 관련성 확률에 따라 순위를 매기는 방식  
+    - $P(R=1 \mid document_i, query)$
 
 $$
 p(R=1|x) = \frac{p(x|R=1)p(R=1)}{p(x)}
@@ -655,11 +620,9 @@ $$
 p(R=0|x) + p(R=1|x) = 1
 $$
 
-- 여기서:
-  - $x$: document  
-  - $R$: query에 대한 문서의 적합성 (relevance)  
-    - $(R=1)$: 적합  
-    - $(R=0)$: 부적합  
+- $x$: document  
+- $R$: query에 대한 문서의 적합성(relevance)으로  
+       $R=1$이면 적합, $R=0$이면 부적합  
 
 ---
 
@@ -689,7 +652,8 @@ $$
 - [1960s/1970s] S. Robertson, W.S. Cooper, M.E. Maron;  
   van Rijsbergen (1979:113); Manning & Schütze (1999:538)  
 
-- **검색 시스템이 각 문서의 관련성 확률을 정확히 추정하여 내림차순으로 순위화할 때 최적의 검색 성능을 달성할 수 있다는 이론적 기반을 제시**  
+- **검색 시스템이 각 문서의 관련성 확률을 정확히 추정하여 내림차순으로 순위화할 때**  
+    **최적의 검색 성능을 달성할 수 있다는 이론적 기반을 제시**  
 
 ---
 
@@ -709,7 +673,7 @@ $$
 - Odds: 어떤 사건이 발생할 확률과 발생하지 않을 확률의 비율  
 
 $$
-O(A) = \frac{p(A)}{1-p(A)}
+O(A) = \frac{p(A)}{p(\bar{A})} = \frac{p(A)}{1-p(A)}
 $$  
 
 ---
@@ -762,17 +726,16 @@ $$
 - 문서의 관련성 확률을 찾기 위해 결합  
 - 확률이 감소하는 순서로 문서를 정렬  
 
-- 정리(Theorem): PRP를 사용하는 것은 최적이다.  
-  이는 1/0 손실 하에서 베이즈 위험(Bayes risk)을 최소화한다는 의미이다.  
+- 정리: 1/0 손실 하에서 손실(베이즈 위험)을 최소화한다는 점에서, PRP를 사용하는 것은 최적이다.   
 
-  - 1/0 손실 (1/0 loss): 이진 손실 함수로, 결과가 '올바른 경우(0)'와 '잘못된 경우(1)' 두 가지로만 구분된다.  
+  - **1/0 손실 (1/0 loss):** 이진 손실 함수로, 결과가 '올바른 경우(0)'와 '잘못된 경우(1)' 두 가지로만 구분된다.  
   검색에서는 관련 있는 문서를 놓치거나, 관련 없는 문서를 제시할 때 손실이 발생한다고 본다.  
 
-  - 베이즈 위험 (Bayes risk): 어떤 결정 규칙(문서 순위 결정)을 사용했을 때 예상되는 평균 손실을 의미한다.  
+  - **베이즈 위험 (Bayes risk):** 어떤 결정 규칙(문서 순위 결정)을 사용했을 때 예상되는 평균 손실을 의미한다.  
   PRP를 따르면 이 평균 손실이 가장 낮아진다는 것을 뜻한다.  
 
   - 가장 관련성이 높은 문서들을 우선적으로 보여주는 것이 이론적으로 가장 좋은 결과를 보장한다는 정리로,  
-  확률에 기반해 순위를 매기는 방식이 사용자의 정보 요구를 가장 효과적으로 충족시킨다는 뜻이다.  
+    확률에 기반해 순위를 매기는 방식이 사용자의 정보 요구를 가장 효과적으로 충족시킨다는 뜻이다.  
 
 ---
 
@@ -820,46 +783,18 @@ $$
 - 쿼리: 이진 단어 출현 벡터  
 
 - 주어진 쿼리 $q$  
-  • 각 문서 $d$에 대해 $p(R|q,d)$ 계산  
-  • $x$는 문서 $d$를 표현하는 이진 단어 출현 벡터일 때 $p(R|q,x)$로 대체  
+  • 각 문서 $d$에 대해 다음을 계산: $p(R|q,d)$   
+  • $x$는 문서 $d$를 표현하는 이진 단어 출현 벡터일 때, $p(R|q,x)$를 계산하는 것으로 대체  
 
-- Odds와 **베이즈 룰**을 이용하여 정리  
-  먼저, 베이즈 룰에 따라  
+- Odds와 베이즈 룰을 사용하여 정리  
 
-  $$
-  p(R|q,\vec{x}) = \frac{p(R|q) \, p(\vec{x}|R,q)}{p(\vec{x}|q)}
-  $$  
+<img src="/assets/img/lecture/bigdatasearch/3/image_14.png" alt="image" width="480px">
 
-  따라서 odds는  
-
-  $$
-  O(R|q,\vec{x}) 
-   = \frac{p(R=1|q,\vec{x})}{p(R=0|q,\vec{x})}
-   = \frac{\frac{p(R=1|q)\,p(\vec{x}|R=1,q)}{p(\vec{x}|q)}}
-          {\frac{p(R=0|q)\,p(\vec{x}|R=0,q)}{p(\vec{x}|q)}}
-  $$  
-
-  분모 $p(\vec{x} \mid q)$는 약분되어  
-
-  $$
-  O(R|q,\vec{x}) = \frac{p(R=1|q)}{p(R=0|q)} \cdot \frac{p(\vec{x}|R=1,q)}{p(\vec{x}|R=0,q)}
-  $$  
-
-  - $\frac{p(R=1 \mid q)}{p(R=0 \mid q)}$: **상수(constant)**  
-  - $\frac{p(\vec{x} \mid R=1,q)}{p(\vec{x} \mid R=0,q)}$: **추정해야 할 값(estimable)**  
+<img src="/assets/img/lecture/bigdatasearch/3/image_13.png" alt="image" width="480px">
 
 - Independence 가정 적용  
 
-  $$
-  \frac{p(\vec{x}|R=1,q)}{p(\vec{x}|R=0,q)}
-   = \prod_{i=1}^n \frac{p(x_i|R=1,q)}{p(x_i|R=0,q)}
-  $$  
-
-  따라서  
-
-  $$
-  O(R|q,\vec{x}) = O(R|q) \cdot \prod_{i=1}^n \frac{p(x_i|R=1,q)}{p(x_i|R=0,q)}
-  $$  
+<img src="/assets/img/lecture/bigdatasearch/3/image_15.png" alt="image" width="720px">
 
 ---
 
@@ -897,44 +832,13 @@ $$
 
 ## p26. Binary Independence Model
 
-- 기본 식  
+<img src="/assets/img/lecture/bigdatasearch/3/image_16.png" alt="image" width="600px">
 
-  $$
-  O(R|q,\vec{x}) = O(R|q) \cdot \prod_{i=1}^n \frac{p(x_i \mid R=1,q)}{p(x_i \mid R=0,q)}
-  $$  
+- 모든 term이 쿼리에 나타나지 않는 경우($q_i=0$)라고 가정하면 $p_i = r_i$  
 
-- $x_i$가 0 또는 1일 때 분리하여 곱으로 표현 가능  
+<img src="/assets/img/lecture/bigdatasearch/3/image_17.png" alt="image" width="400px">
 
-  $$
-  O(R|q,\vec{x}) 
-   = O(R|q) \cdot 
-     \prod_{x_i=1} \frac{p(x_i=1 \mid R=1,q)}{p(x_i=1 \mid R=0,q)} \cdot
-     \prod_{x_i=0} \frac{p(x_i=0 \mid R=1,q)}{p(x_i=0 \mid R=0,q)}
-  $$  
-
-- 정의  
-  - $p_i = p(x_i=1 \mid R=1,q)$  
-  - $r_i = p(x_i=1 \mid R=0,q)$  
-
-- 모든 term이 쿼리에 나타나지 않는 경우($q_i=0$이라고 가정)  
-
-  $$
-  p_i = r_i
-  $$  
-
-- 최종 정리식  
-
-  $$
-  O(R|q,\vec{x})
-   = O(R|q) \cdot 
-     \prod_{x_i=1,\, q_i=1} \frac{p_i}{r_i} \cdot
-     \prod_{x_i=0,\, q_i=1} \frac{1-p_i}{1-r_i}
-  $$   
-
-| document 상태 | relevant (R=1) | not relevant (R=0) |
-|---------------|----------------|---------------------|
-| term present ($x_i=1$) | $p_i$ | $r_i$ |
-| term absent ($x_i=0$)  | $1-p_i$ | $1-r_i$ |
+<img src="/assets/img/lecture/bigdatasearch/3/image_18.png" alt="image" width="720px">
 
 ---
 
@@ -993,97 +897,13 @@ $$
 
 ## p27. Binary Independence Model
 
-- 1단계: 쿼리 term($q_i=1$) 기준으로 odds 표현  
-
-  $$
-  O(R|q,\vec{x})
-   = O(R|q) \cdot 
-     \underbrace{\prod_{x_i=1,\, q_i=1} \frac{p_i}{r_i}}_{\text{All matching terms}}
-     \cdot 
-     \underbrace{\prod_{x_i=0,\, q_i=1} \frac{1-p_i}{1-r_i}}_{\text{Non-matching query terms}}
-  $$  
-
----
-
-- 2단계: 트릭을 이용한 전개  
-
-  위 식에서 **All matching terms** 부분을 다음과 같이 변형한다.  
-
-  $$
-  \frac{p_i}{r_i}
-  = \frac{p_i}{r_i} \cdot \frac{1-r_i}{1-p_i} \cdot \frac{1-p_i}{1-r_i}
-  $$  
-
-  여기서 $\frac{1-r_i}{1-p_i} \cdot \frac{1-p_i}{1-r_i} = 1$ 이므로,  
-  새로운 항을 곱해도 식의 값은 변하지 않는다.  
-
-  따라서  
-
-  $$
-  \prod_{x_i=1,\, q_i=1} \frac{p_i}{r_i}
-  = \prod_{x_i=1,\, q_i=1} \frac{p_i}{r_i} \cdot \prod_{x_i=1,\, q_i=1} \frac{1-r_i}{1-p_i} \cdot \prod_{x_i=1,\, q_i=1} \frac{1-p_i}{1-r_i}
-  $$  
-
-  이를 전체 식에 대입하면,  
-
-  $$
-  O(R|q,\vec{x})
-   = O(R|q) \cdot 
-     \underbrace{\prod_{x_i=1,\, q_i=1} \frac{p_i}{r_i}}_{\text{원래 All matching terms}}
-     \cdot 
-     \underbrace{\prod_{x_i=1,\, q_i=1} \frac{1-r_i}{1-p_i}}_{\text{보정 항}}
-     \cdot 
-     \underbrace{\prod_{x_i=1,\, q_i=1} \frac{1-p_i}{1-r_i} \cdot \prod_{x_i=0,\, q_i=1} \frac{1-p_i}{1-r_i}}_{\text{Non-matching query terms와 합쳐짐}}
-  $$  
-
----
-
-- 3단계: 최종 단순화  
-
-  이제 $x_i=1, q_i=1$인 경우와 $x_i=0, q_i=1$인 경우의 항들을 묶어 정리하면,  
-
-  $$
-  O(R|q,\vec{x})
-   = O(R|q) \cdot 
-     \underbrace{\prod_{x_i=q_i=1} \frac{p_i (1-r_i)}{r_i (1-p_i)}}_{\text{All matching terms}}
-     \cdot 
-     \underbrace{\prod_{q_i=1} \frac{1-p_i}{1-r_i}}_{\text{All query terms}}
-  $$  
-
-- **정리**  
-  - 2단계의 트릭: $\frac{1-r_i}{1-p_i} \cdot \frac{1-p_i}{1-r_i} = 1$을 곱해 넣어 항을 분리.  
-  - 이렇게 해서 All matching terms와 Non-matching query terms가 정리되어,  
-    최종적으로 쿼리 term 전체에 대한 odds 공식을 얻는다.  
+<img src="/assets/img/lecture/bigdatasearch/3/image_19.png" alt="image" width="640px">
 
 ---
 
 ## p28. Binary Independence Model
 
-- 1단계: 쿼리 term($q_i=1$) 기준으로 odds 표현  
-
-$$
-O(R|q,\vec{x})
- = O(R|q) \cdot 
-   \prod_{x_i = q_i = 1} \frac{p_i(1-r_i)}{r_i(1-p_i)} 
-   \cdot \prod_{q_i=1} \frac{1-p_i}{1-r_i}
-$$  
-
-- $O(R \mid q)$는 **쿼리마다 고정되는 값**으로, 순위 계산에서는 상수 역할을 한다.  
-- 첫 번째 곱($\prod_{x_i = q_i = 1}$)은 **쿼리와 문서 모두에 등장하는 단어(매칭 term)**들의 기여도를 의미한다.  
-- 두 번째 곱($\prod_{q_i=1}$)은 **쿼리에는 포함되지만 문서에는 등장하지 않는 단어(비매칭 term)**들의 기여도를 의미한다.  
-
-- 2단계: Retrieval Status Value(RSV) 정의  
-
-위 식에서 랭킹에 필요한 부분만 로그를 취해 정의하면,  
-
-$$
-RSV = \log \prod_{x_i = q_i = 1} \frac{p_i(1-r_i)}{r_i(1-p_i)}
-    = \sum_{x_i = q_i = 1} \log \frac{p_i(1-r_i)}{r_i(1-p_i)}
-$$  
-
-- **RSV(Retrieval Status Value)**는 문서가 쿼리와 얼마나 관련 있는지를 점수로 나타낸다.  
-- 각 매칭 term마다 $\frac{p_i(1-r_i)}{r_i(1-p_i)}$라는 비율을 계산하여 로그 합으로 표현한다.  
-- 이 값이 클수록 해당 문서가 쿼리와 더 관련성이 크다고 판단된다.  
+<img src="/assets/img/lecture/bigdatasearch/3/image_20.png" alt="image" width="600px">
 
 ---
 
@@ -1119,8 +939,8 @@ $$
 ## p29. BM25 모델
 
 - **BM25 (Okapi BM25) ?**  
-  - 확률적 정보검색 모델의 대표적 알고리즘  
-  - TF-IDF 모델을 개선한 확률적 정보 검색 랭킹 함수  
+  - **확률적 정보검색 모델**의 대표적 알고리즘  
+  - TF-IDF 모델을 개선한 **확률적 정보 검색 랭킹 함수**  
     - TF-IDF의 한계점을 보완하여 **문서의 길이와 단어 빈도수**를 더욱 정교하게 반영  
     - 문서와 질의(쿼리) 간의 관련성을 점수화하여 검색 결과를 순위 매기는 데 사용  
   - **Best Matching 25**의 약자로, 25는 이 모델의 25번째 버전이라는 의미  
@@ -1177,7 +997,7 @@ $$
   - 예) “친구”, “동무”, “프렌드” : 동일 의미의 동의어이지만 다르게 취급  
 
 - 문맥(context) 정보 손실  
-  - 단어의 순서, 문법적 관계, 위치 정보를 반영하지 않음  
+  - 단어의 **순서, 문법적 관계, 위치 정보**를 반영하지 않음  
   - 예) “dog bites man”, “man bites dog” → tf-idf 값 동일  
 
 - 문서길이 문제  
@@ -1190,7 +1010,7 @@ $$
 
 - 비선형 관계나 주제 모델링 불가  
   - 단어 간 관계, 주제(topic) 구조, 잠재 의미(latent semantic)를 반영하지 못함.  
-  - LSA, LDA, Word2Vec, BERT 등 더 발전된 기법들이 등장
+  - **LSA, LDA, Word2Vec, BERT** 등 더 발전된 기법들이 등장
 
 ---
 
@@ -1198,10 +1018,10 @@ $$
 
 | **TF-IDF의 한계** | **BM25의 개선 방식** |
 |-------------------|-----------------------|
-| ① **단순 TF 비례 문제**<br>단어가 많이 나올수록 점수가 무한히 커짐<br>→ 긴 문서가 유리 | **TF Saturation (포화 함수) 적용**<br>→ 단어 빈도가 증가할수록 점수가 점점 줄어드는<br> (log-like) 형태로 제한 $\frac{f}{f+k_1}$ 형태 |
+| ① **단순 TF 비례 문제**<br>단어가 많이 나올수록 점수가 무한히 커짐<br>→ 긴 문서가 유리 | **TF Saturation (포화 함수) 적용**<br>→ 단어 빈도가 증가할수록 점수가 점점 줄어드는<br> (log-like) 형태로 제한<br> $\frac{f}{f+k_1}$ 형태 |
 | ② **문서 길이 문제**<br>긴 문서는 단어가 더 많이 등장할 확률이 높아 점수 왜곡 | **길이 정규화(length normalization) 적용**<br>→ 문서 길이를 평균 문서 길이(avgdl)과 비교해 보정 |
-| ③ **IDF 계산의 극단성**<br>아주 희귀한 단어가 과도하게 높은 가중치 | **부드럽게 조정된 IDF 사용**<br>$$\log \frac{N - df(q) + 0.5}{df(q) + 0.5}$$<br>→ 0.5 smoothing을 적용해 희귀 단어에 대한 과도한 점수 상승을<br> 억제하고, 동시에 너무 흔한 단어는 음수 처리하여<br> "무시"가 아니라 "불리하게 반영" |
-| ④ **단순 선형 모델**<br>사용자 질의와 문서의 관련성을 잘 반영 못함 | **확률적 모델 기반으로 설계**<br>→ 관련성(relevance) 점수를 더 현실적으로 계산 |
+| ③ **IDF 계산의 극단성**<br>아주 희귀한 단어가 과도하게 높은 가중치 | BM25는 **부드럽게 조정된 IDF 사용**<br>$$\log \frac{N - df(q) + 0.5}{df(q) + 0.5}$$<br>→ 0.5 smoothing을 적용해 **희귀 단어에 대한 과도한 점수 상승을<br> 억제**하고, 동시에 **너무 흔한 단어는 음수 처리**하여<br> "무시"가 아니라 "불리하게 반영" |
+| ④ **단순 선형 모델**<br>사용자 질의와 문서의 관련성을 잘 반영 못함 | 확률적 모델 기반으로 설계<br> **관련성(relevance)** 점수를 더 현실적으로 계산 |
 
 ---
 
@@ -1209,13 +1029,15 @@ $$
 
 **BM25의 주요 개선점**
 
-- **TF 포화 (TF Saturation)**  
+- **TF 포화 (TF Saturation) 적용**  
   - TF-IDF는 단어 빈도수(TF)가 높을수록 점수가 선형적으로 증가  
   - 한 문서에 특정 단어가 아무리 많이 나와도 문서의 관련성 점수가 무한히 커지는 것은 비합리적  
   - BM25는 TF가 일정 수준 이상이 되면 증가율을 둔화시키는 **포화 개념**을 도입  
   - 문서에 단어가 너무 많이 등장하는 경우를 제어하여, 특정 키워드를 반복적으로 사용해 검색 결과를 조작하는 것을 방지하는 효과  
 
----
+- **부드럽게 조정된 IDF 사용**  
+  - TF-IDF는 희귀 단어들이 과도하게 높은 IDF(가중치) 값을 갖는 경향  
+  - BM25는 IDF 계산 시 분자와 분모에 각각 0.5를 더해 극단적인 희귀 단어들의 IDF 값을 완화시킴  
 
 - **문서 길이 정규화 (Document Length Normalization)**  
   - TF-IDF는 문서의 길이가 길수록 TF 값이 높아져 짧은 문서보다 높은 점수를 받는 경향  
@@ -1232,13 +1054,13 @@ $$
 \frac{tf}{k_1 + tf}
 $$  
 
+<img src="/assets/img/lecture/bigdatasearch/3/image_5.png" alt="image" width="600px">
+
 - **k1은 문서 내 단어 빈도에 얼마나 가중치를 둘 것인지를 결정하는 중요한 요소**  
   - **높은 k1 값**: tf가 증가할수록 점수도 계속해서 거의 선형적으로 증가.  
     - 단어가 많이 나올수록 문서의 관련성이 계속해서 커진다고 판단  
   - **낮은 k1 값**: tf가 어느 정도 증가하면 점수 증가율이 급격히 둔화.  
     - 일정 횟수 이상 등장하는 단어는 더 이상 점수에 큰 영향을 주지 않는다고 판단  
-    
-<img src="/assets/img/lecture/bigdatasearch/3/image_5.png" alt="image" width="600px">
 
 ---
 
@@ -1289,10 +1111,8 @@ $$
   B = \left( (1-b) + b \cdot \frac{dl}{avdl} \right), \quad 0 \leq b \leq 1
   $$
 
-  - $b = 1$: full document length normalization  
-    → 문서 길이를 **완전히 보정**  
-  - $b = 0$: no document length normalization  
-    → 문서 길이에 대해 **보정하지 않음**  
+  - $b = 1$: 문서 길이를 **완전히 보정**  
+  - $b = 0$: 문서 길이에 대해 **보정하지 않음**  
 
 <img src="/assets/img/lecture/bigdatasearch/3/image_6.png" alt="image" width="600px">
 
@@ -1324,14 +1144,21 @@ $$
 - **BM25의 핵심 수식과 구성 요소**
 
 $$
-RSV^{BM25} = \sum_{i \in q} \log \left( \frac{N - df_i + 0.5}{df_i + 0.5} \right) \cdot 
+Score(D, Q) = \sum_{i=1}^{n} \log \left( 1 + \frac{N - df_i + 0.5}{df_i + 0.5} \right) \cdot 
 \frac{(k_1+1)tf_i}{k_1 \left( (1-b) + b \frac{dl}{avdl} \right) + tf_i}
 $$
 
 - 질의에 포함된 모든 단어에 대해 계산  
 - idf가 높은 희귀 단어일수록 최종 점수에 더 큰 영향을 줌  
 
----
+>
+>$$
+>\frac{(k_1+1)tf_i}{k_1 \left( (1-b) + b \frac{dl}{avdl} \right) + tf_i}
+>$$
+>
+>**TF 포화와 문서 길이 정규화를 동시에 처리**하는 핵심 부분
+>- TF가 커질수록 (k1+1)에 수렴하게 되며, dl이 avdl 보다
+>  크면 분모가 커져 점수가 낮아짐
 
 - **N:** 총 문서의 수  
 - **dfᵢ:** 쿼리 q가 출현한 문서의 수  
@@ -1484,7 +1311,8 @@ $$
 
 - 각 zone에 ranking function BM25를 적용  
 - 전체 term frequency에 대해 weighted combination 기법을 적용하여 zone scores를 계산  
-- 먼저 각 단어에 대한 evidence를 각 zone별로 결합하고, 이후 단어별 evidence를 결합  
+  - 먼저 각 단어에 대한 evidence를 각 zone별로 결합하고,  
+  - 이후 단어별 evidence를 결합  
 
 $$
 \tilde{tf_i} = \sum_{z=1}^{Z} v_z tf_{zi}, \quad 

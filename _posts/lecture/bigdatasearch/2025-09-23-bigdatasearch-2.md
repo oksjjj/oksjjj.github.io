@@ -80,20 +80,20 @@ User task → Info need → Query → Search engine → Results → Query refine
 
 - **정확성(Relevance)**: 검색된 문서가 사용자의 질의와 얼마나 관련 있는지를 판단하는 주관적인 기준으로 전문가 그룹이 판단  
 
-- **정밀도(Precision)**: 검색된 문서 중 실제로 관련 있는 문서의 비율  
+- **정밀도(Precision)**: 검색된 문서 중 **실제로 관련 있는 문서의 비율**  
 
 $$
 정밀도 = \frac{|\{관련\ 있는\ 문서들\} \cap \{검색된\ 문서들\}|}{|\{검색된\ 문서들\}|}
 $$  
  
 
-- **재현율(Recall)**: 전체 관련 문서 중 실제로 검색된 문서의 비율  
+- **재현율(Recall)**: 전체 관련 문서 중 **실제로 검색된 문서의 비율**  
 
 $$
 재현율 = \frac{|\{관련\ 있는\ 문서들\} \cap \{검색된\ 문서들\}|}{|\{괸련\ 있는\ 문서들\}|}
 $$  
 
-• **F1-점수(F1-score)**: 정밀도와 재현율의 조화 평균  
+• **F1-점수(F1-score)**: 정밀도와 재현율의 **조화 평균**  
 
 $$
 F1 = 2 \times \frac{정밀도 \times 재현율}{정밀도 + 재현율}
@@ -140,19 +140,19 @@ $$
 - **엄청난 양의 정보**  
     - **2025년 웹 데이터 총량?**  
         - 전 세계적으로 웹에 존재하는 데이터는 181~182 ZB  
+    >**참고) 데이터 단위**  
+    >  • 1 MB = 1,000 KB  
+    >  • 1 GB = 1,000 MB  
+    >  • 1 TB = 1,000 GB  
+    >  • 1 PB = 1,000 TB  
+    >  • 1 EB = 1,000 PB  
+    >  • **1 ZB = 1,000 EB**  
     - **하루 또는 매월 생성되는 웹 데이터?**  
         - 약 0.4 ZB /일, 약 12 ZB /월  
     - **빅데이터**  
         - 구글, 페이스북, 아마존 같은 글로벌 기업들은 PB 또는 EB 단위의 데이터를 저장  
     - **미래기술**  
         - 인공지능(AI), 사물 인터넷(IoT), 자율 주행차 등은 막대한 양의 데이터를 끊임없이 생성하고 처리  
-    - **참고) 데이터 단위**  
-        • 1 MB = 1,000 KB  
-        • 1 GB = 1,000 MB  
-        • 1 TB = 1,000 GB  
-        • 1 PB = 1,000 TB  
-        • 1 EB = 1,000 PB  
-        • **1 ZB = 1,000 EB**  
 
 - **정확한 검색의 어려움**  
     - **Efficiency is not a bottleneck**  
@@ -339,6 +339,7 @@ $$
 
 - 기존 색인에서는 각 단어에 대해 **등장한 문서 목록**(docID 리스트)만 관리했다.  
 - 이번 장표에서는 여기에 더해, **해당 단어와 관련된 전체 문서의 개수** 정보를 함께 저장한다.  
+  - **문서 수가 적은 단어가 더 중요한 단어**
 - 예: “인공지능” → 관련 문서 수 = 3 (Doc#1, Doc#2, Doc#3)  
 - 이 정보는 특정 단어가 **얼마나 널리 분포되어 있는지**를 보여주며,  
   검색 결과의 **랭킹을 조정**하는 데 활용된다.  
@@ -353,16 +354,14 @@ $$
   - 출현빈도가 아주 낮은 용어는 거의 사용되지 않는 용어로 부적합  
 
 - **Zipf의 법칙**  
-
-<img src="/assets/img/lecture/bigdatasearch/2/image_4.png" alt="image" width="480px">
-
   - 대량의 텍스트에 사용된 어구의 빈출 순위와 빈도를 집계하면,  
     빈출 순위가 r번째인 빈도는 빈출 순위 첫 번째 빈도를 1/r한 값이 되는 법칙(제타 분포)  
   - 자연어 텍스트에서 단어의 빈도가 그 순위에 반비례한다는 것을 의미  
   - $frequency(rank \ r) \propto \frac{1}{rank \ r}$  
 
-- **정리**  
-  - 순위 × 출현 빈도 = 상수
+  - **순위 × 출현 빈도 = 상수**
+
+<img src="/assets/img/lecture/bigdatasearch/2/image_4.png" alt="image" width="480px">
 
 ---
 
@@ -378,16 +377,15 @@ $$
   - Query 처리의 최적 순서는 ?  
   - 여러 개의 질의어를 포함한 Query의 경우 어떤 순서로 ?  
     - 가장 작은 집합에서 시작해서, 계속해서 잘라내기  
-    - “Start with smallest set, then keey cutting further”  
+      “Start with smallest set, then keep cutting further”  
 
 - **예) Query**: “인공지능” and “기술” and “전망”  
 
+>Dictionary에 문서 빈도를 유지함으로써 처리 효율 도모
+
 <img src="/assets/img/lecture/bigdatasearch/2/image_5.png" alt="image" width="540px">
 
-
-- (인공지능 and 전망) and 기술  
-
-- Dictionary에 문서 빈도를 유지함으로써 처리 효율 도모
+  (인공지능 and 전망) and 기술  
 
 ---
 
@@ -415,7 +413,7 @@ $$
 
 - **“합성 데이터”와 같이 Query가 구문으로 주어진 경우**  
   - 다음의 문장들이 검색될까?  
-    - “합성한 데이터로 학습하기”, “데이터를 합성하여 학습하였다”  
+  - “합성한 데이터로 학습하기”, “데이터를 합성하여 학습하였다”  
   - <term: docs> 형식의 색인만으로는 충분하지 않음  
 
 - **Biword Index 구성하기**  
@@ -549,15 +547,15 @@ $$
     doc2: position1, position2, ...;  
     etc.>  
 
-  - <인공지능: 9934;  
-    1: 7, 18, 72, 84, 231;  
-    2: 3, 149;  
-    3: 17, 190, 430, 544;  
-    5: 1, 25, 39, ...?>  
+  > <인공지능: 9934;  
+  >  1: 7, 18, 72, 84, 231;  
+  >  2: 3, 149;  
+  >  3: 17, 190, 430, 544;  
+  >  5: 1, 25, 39, ...?>  
 
 - **Phrase query 프로세싱**  
   - doc:position lists를 모아서 **근접검색(Proximity Search)**  
-    - 근접검색: 단어들간의 상대적 거리나 순서를 고려하여 검색하는 방법  
+    - **근접검색**: 단어들간의 상대적 거리나 순서를 고려하여 검색하는 방법  
 
 - **위치색인 크기**  
   - 위치 색인을 하지 않는 대비 2~4배  
@@ -685,24 +683,7 @@ $$
 
 ## p22. 색인 – Scalable Index 구성
 
-**Single-pass in-memory indexing**
-
-```pseudo
-SPIMI-INVERT(token_stream)
-1   output_file = NEWFILE()                       // 새로운 출력 파일 생성
-2   dictionary = NEWHASH()                        // 해시 기반의 빈 dictionary 초기화
-3   while (free memory available)                 // 메모리가 허용되는 동안 반복
-4       do token ← next(token_stream)             // 다음 토큰을 읽어옴
-5       if term(token) ∉ dictionary               // 토큰의 term이 dictionary에 없다면
-6           then postings_list = ADDTODICTIONARY(dictionary, term(token))  // 새 term 추가
-7           else postings_list = GETPOSTINGSLIST(dictionary, term(token))  // 있다면, 기존 postings list 가져옴
-8       if full(postings_list)                    // postings list가 꽉 찼다면
-9           then postings_list = DOUBLEPOSTINGSLIST(dictionary, term(token)) // 크기를 2배로 확장
-10      ADDTOPOSTINGSLIST(postings_list, docID(token)) // postings list에 해당 문서 ID 추가
-11  sorted_terms ← SORTTERMS(dictionary)          // dictionary의 term들을 정렬
-12  WRITEBLOCKTODISK(sorted_terms, dictionary, output_file) // 정렬된 결과를 디스크에 기록
-13  return output_file                            // 출력 파일 반환
-```
+<img src="/assets/img/lecture/bigdatasearch/2/image_10.png" alt="image" width="720px">
 
 ---
 
