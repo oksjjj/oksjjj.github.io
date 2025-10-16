@@ -555,7 +555,7 @@ $$
 - **Document frequency (DF)**  
   - **n (no)**: $1$  
   - **t (idf)**: $\log \dfrac{N}{df_t}$  
-  - **p (prob idf)**: $\max\{0, \log \dfrac{N - df_t}{df_t}\}$  
+  - **p (prob idf)**: $\max\\{0, \log \dfrac{N - df_t}{df_t}\\}$
 
 ---
 
