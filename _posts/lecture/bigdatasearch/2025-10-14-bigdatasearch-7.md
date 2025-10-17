@@ -30,73 +30,73 @@ tags: []
 
 ## p3. 생성형 AI 검색의 정의와 특징  
 
-- **생성형 AI 검색의 특징**
+**생성형 AI 검색의 특징**
 
-  - **자연어 이해 및 생성**  
-    - 복잡한 질문처리  
-    - 맥락기반 해석: 이전 대화 맥락을 고려한 답변 생성  
-    - 자연스러운 표현: 검색결과를 사람이 말하듯 자연스럽게 구성  
+- **자연어 이해 및 생성**  
+  - 복잡한 질문처리  
+  - 맥락기반 해석: 이전 대화 맥락을 고려한 답변 생성  
+  - 자연스러운 표현: 검색결과를 사람이 말하듯 자연스럽게 구성  
 
-  - **정보 통합 및 종합**  
-    - 다중 출처 결합: 여러 웹페이지, 문서의 정보를 하나의 답변으로 통합  
-    - 요약 및 정리: 방대한 정보 중 핵심만 추출하여 제공  
-    - 비교분석: 서로 다른 관점이나 데이터를 비교하여 제시  
+- **정보 통합 및 종합**  
+  - 다중 출처 결합: 여러 웹페이지, 문서의 정보를 하나의 답변으로 통합  
+  - 요약 및 정리: 방대한 정보 중 핵심만 추출하여 제공  
+  - 비교분석: 서로 다른 관점이나 데이터를 비교하여 제시  
 
-  - **대화형 인터페이스**  
-    - 연속적 질문: 추가 질문을 통해 정보를 점진적으로 탐색  
-    - 질문정제: 모호한 질문을 명확히 하거나 추가정보 요청  
-    - 맞춤형 응답: 사용자의 전문성 수준에 맞춘 설명  
+- **대화형 인터페이스**  
+  - 연속적 질문: 추가 질문을 통해 정보를 점진적으로 탐색  
+  - 질문정제: 모호한 질문을 명확히 하거나 추가정보 요청  
+  - 맞춤형 응답: 사용자의 전문성 수준에 맞춘 설명  
 
-  - **실시간 정보 접근**  
-    - 최신 정보 검색: 웹크롤링을 통한 실시간 데이터 확보  
-    - 동적 업데이트: 빠르게 변하는 정보 반영  
-    - 시점인식: 질문의 시간적 맥락 이해  
+- **실시간 정보 접근**  
+  - 최신 정보 검색: 웹크롤링을 통한 실시간 데이터 확보  
+  - 동적 업데이트: 빠르게 변하는 정보 반영  
+  - 시점인식: 질문의 시간적 맥락 이해  
 
 ---
 
 ## p4. 생성형 AI 검색의 정의와 특징  
 
-- **주요 기술 요소**
+**주요 기술 요소**
 
-  - **LLM (Large Language Model)** : 생성형 AI 검색의 핵심 기술  
-    - 질문의 의도 파악  
-    - 검색 쿼리 최적화  
-    - 정보 종합 및 답변 생성  
-    - 자연스러운 문장 구성  
+- **LLM** : 생성형 AI 검색의 핵심 기술  
+  - 질문의 의도 파악  
+  - 검색 쿼리 최적화  
+  - 정보 종합 및 답변 생성  
+  - 자연스러운 문장 구성  
 
-  - **검색 증강 생성 (RAG: Retrieval Augmented Generation)**  
-    - 외부 지식을 검색하여 LLM의 답변을 보강하는 기술  
-    - **프로세스**  
-      - 사용자 질문 분석  
-      - 관련 문서/정보 검색  
-      - 검색된 정보를 컨텍스트로 제공  
-      - LLM이 컨텍스트 기반 답변 생성  
+- **검색 증강 생성 (RAG: Retrieval Augmented Generation)**  
+  - 외부 지식을 검색하여 LLM의 답변을 보강하는 기술  
+  - 프로세스  
+    - 사용자 질문 분석  
+    - 관련 문서/정보 검색  
+    - 검색된 정보를 컨텍스트로 제공  
+    - LLM이 컨텍스트 기반 답변 생성  
 
-  - **의미기반 검색 (Semantic Search)**  
-    - 단순 키워드 매칭이 아닌 의미기반 검색 수행  
-    - **기술 요소**  
-      - 벡터 임베딩  
-      - 유사도 계산: 질문과 문서 간 의미적 거리 측정  
-      - 밀집 검색(Dense Retrieval)을 통한 정확도 향상  
+- **의미기반 검색**  
+  - 단순 키워드 매칭이 아닌 의미기반 검색 수행  
+  - 기술  
+    - 벡터 임베딩  
+    - 유사도 계산: 질문과 문서 간 의미적 거리 측정  
+    - 밀집 검색(Dense Retrieval)을 통한 정확도 향상  
 
 ---
 
 ## p5. 검색증강생성 (RAG: Retrieval Augmented Generation)  
 
-- **LLM의 근본적 한계**
+**LLM의 근본적 한계**
 
-  - **지식의 시점 고정 (Knowledge Cutoff)**  
-    - LLM은 학습 시점까지의 데이터만 알고 있음  
-    - 실시간 정보, 최신 뉴스, 업데이트된 데이터 접근 불가  
+- **지식의 시점 고정 (Knowledge Cutoff)**  
+  - LLM은 학습 시점까지의 데이터만 알고 있음  
+  - 실시간 정보, 최신 뉴스, 업데이트된 데이터 접근 불가  
 
-  - **환각 현상 (Hallucination)**  
-    - 학습되지 않은 정보에 대해 그럴듯하지만 거짓인 답변을 생성  
+- **환각 현상 (Hallucination)**  
+  - 학습되지 않은 정보에 대해 그럴듯하지만 거짓인 답변을 생성  
 
-  - **도메인 특화 지식 부족**  
-    - 일반적 학습 데이터로는 특정 기업, 산업, 기술의 전문 지식이 부족  
+- **도메인 특화 지식 부족**  
+  - 일반적 학습 데이터로는 특정 기업, 산업, 기술의 전문 지식이 부족  
 
-  - **출처 검증 불가**  
-    - 생성된 답변의 근거를 확인할 방법이 없음  
+- **출처 검증 불가**  
+  - 생성된 답변의 근거를 확인할 방법이 없음  
 
 ---
 
@@ -124,7 +124,7 @@ tags: []
 
 ---
 
-## p8. RAG (Retrieval Augmented Generation)
+## p8. RAG
 
 - **RAG의 정의와 원리**  
   - **RAG = Retrieval (검색) + Augmented (증강) + Generation (생성)**  
@@ -194,7 +194,7 @@ tags: []
 
 ## p11. RAG
 
-- RAG 시스템 아키텍처  
+**RAG 시스템 아키텍처**  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_3.png" alt="image" width="800px">  
 
@@ -276,7 +276,7 @@ tags: []
 
 ## p12. RAG
 
-- RAG 시스템 아키텍처  
+**RAG 시스템 아키텍처**  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_4.png" alt="image" width="800px">  
 
@@ -286,12 +286,10 @@ tags: []
 
 ## p13. RAG 작동과정  
 
-1. 사용자의 쿼리가 주어지면 **쿼리 인코더(Query Encoder)** 가 이를 **벡터 형태**로 변환한다.  
-2. **지식 검색기(Retriever)** 가 인코딩된 쿼리를 바탕으로  
-   **외부 지식 베이스(Vector Store)** 에서 관련 정보를 검색한다.  
-3. 검색된 지식은 **지식 증강 생성기(Augmented Generator)** 의 입력으로 전달된다.  
-4. 지식 증강 생성기는 검색된 지식을 활용하여  
-   **사용자 쿼리에 대한 자연어 답변**을 생성한다.  
+1. 사용자의 쿼리가 주어지면 쿼리 인코더가 이를 벡터 형태로 변환한다.  
+2. 지식 검색기가 인코딩된 쿼리를 바탕으로 외부 지식 베이스에서 관련 정보를 검색한다.  
+3. 검색된 지식은 지식 증강 생성기의 입력으로 전달된다.  
+4. 지식 증강 생성기는 검색된 지식을 활용하여 사용자 쿼리에 대한 자연어 답변을 생성한다.  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_5.png" alt="image" width="800px">  
 
@@ -343,7 +341,7 @@ tags: []
 
 - **Naïve RAG**  
   - 전통적 “Retrieve-Read” 구조 (인덱싱 → 검색 → 생성)  
-  - **Augmentation**: 검색된 단일 청크/문서를 프롬프트에 직접 추가  
+  - **Augmentation**: 검색된 **단일 청크/문서**를 프롬프트에 직접 추가  
   - **장점**: 구현이 간단하고 비용 효율적  
   - **한계**: 검색 정확도·재현율(Recall) 부족, 환각·중복 발생, 맥락 통합 어려움  
 
@@ -354,8 +352,8 @@ tags: []
     - **검색 후 처리**: 검색 결과 재순위화(rerank), 컨텍스트 압축  
   - **장점**  
     - 정보 과부하 방지, 핵심 정보 강조, 프롬프트 길이 제약 극복  
-    - **정확도(Precision)** 와 **재현율(Recall)** 을 향상시켜 LLM 출력 품질 개선  
-  - **Augmentation**: 최적화된 청크를 여러 소스의 정보로 정제하여 프롬프트에 추가  
+    - 정확도(Precision)와 재현율(Recall)을 향상시켜 LLM 출력 품질 개선  
+  - **Augmentation**: **최적화된 청크**를 **여러 소스의 정보**로 정제하여 프롬프트에 추가  
 
 - **Modular RAG**  
   - LLM 에이전트, 라우터 등 동적 모듈 사용  
@@ -363,8 +361,7 @@ tags: []
     - 검색, 생성, 필터링, 평가 등 다양한 기능 모듈 결합 가능  
     - 반복적/적응적 검색 및 End-to-End 통합 학습 지원  
     - 특정 도메인·작업에 맞춤화 용이  
-  - **Augmentation**: 작업 흐름을 제어하며  
-    필요한 정보 검색·검증 및 복합적 증강 수행  
+  - **Augmentation**: **작업 흐름을 제어**하며 필요한 정보 검색·검증 및 복합적 증강 수행  
 
 ---
 
@@ -391,7 +388,7 @@ tags: []
 | **Agentic RAG** | LLM이 에이전트 역할,<br>쿼리 분석 후 적절한 도구(검색, 코드 실행 등) 호출,<br>그 결과를 증강에 사용 | 단순 검색을 넘어 문제 해결 프로세스 전체를<br>증강된 컨텍스트로 활용, 복잡한 태스크에 적합 |
 | **Corrective RAG** | LLM 생성 응답을 검증(Validation) 모듈로 평가,<br>필요하면 재검색을 수행하거나 응답을 수정 | 응답의 신뢰도와 정확성을 높이기 위해 피드백<br>루프를 통해 증강 과정을 반복 및 개선 |
 
-**Naive/Advanced RAG보다 유연하고 지능적인 증강을 제공**
+Naive/Advanced RAG보다 **유연하고 지능적**인 증강을 제공
 
 ---
 
@@ -499,46 +496,37 @@ tags: []
 
 === 참고 문서 ===
 {context}
+===============
 
 질문: {query}
 
 답변 시 다음을 준수하세요:
-
 제공된 문서의 정보만 사용하세요
-
 정보가 없으면 "문서에서 찾을 수 없습니다"라고 답하세요
-
 각 정보의 출처 번호를 명시하세요
 
 답변:
-
 ```
 
 ---
 
 ## p21. RAG 구현 과정  
 
-- **RAG (Retrieval-Augmented Generation) 파이프라인**  
-  - 기존의 언어 모델에 검색 기능을 추가  
-  - 주어진 질문이나 문제에 대해 더 정확하고 풍부한 정보를 기반으로 답변 생성 가능  
+**RAG (Retrieval-Augmented Generation) 파이프라인**  
+- 기존의 언어 모델에 검색 기능을 추가  
+- 주어진 질문이나 문제에 대해 더 정확하고 풍부한 정보를 기반으로 답변 생성 가능  
 
 - **파이프라인은 크게 5단계로 구성**
 
-① **데이터 로드**  
-   - RAG에 사용할 **외부 데이터**를 필요한 형식으로 변환하여 불러오는 단계  
+  ① **데이터 로드**: RAG에 사용할 **외부 데이터**를 필요한 형식으로 변환하여 불러오는 단계  
 
-② **텍스트 분할**  
-   - 불러온 데이터를 작은 크기의 단위(**chunk**)로 분할하는 과정  
+  ② **텍스트 분할**: 불러온 데이터를 작은 크기의 단위(**chunk**)로 분할하는 과정  
 
-③ **인덱싱**  
-   - 분할된 텍스트를 **벡터 형태로 임베딩**하고 색인하는 단계  
-   - (검색 정확도와 효율을 고려)  
+  ③ **인덱싱**: 분할된 텍스트를 **벡터 형태로 임베딩**하고 색인하는 단계 (검색 정확도와 효율을 고려)  
 
-④ **검색**  
-   - 사용자의 질문이나 주어진 **context**에 가장 적합한 정보를 찾아내는 과정  
+  ④ **검색**: 사용자의 질문이나 주어진 **context**에 가장 적합한 정보를 찾아내는 과정  
 
-⑤ **생성**  
-   - 검색된 정보를 바탕으로 사용자의 **질문에 최적 답변을 생성**하는 최종 단계  
+  ⑤ **생성**: 검색된 정보를 바탕으로 사용자의 **질문에 최적 답변을 생성**하는 최종 단계  
 
 ---
 
@@ -625,18 +613,18 @@ tags: []
 
 ## p27. PDF Loader  
 
-- [**PyPDFLoader**](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html){:target="_blank"}  
-  - PDF 문서 페이지별로 로드, 텍스트를 추출하여 **documents list 객체로 반환**  
+- [PyPDFLoader](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html){:target="_blank"}  
+  - PDF 문서 페이지별로 로드, 텍스트를 추출하여 documents list 객체로 반환  
 
-- [**PyMuPDFLoader**](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyMuPDFLoader.html#langchain_community.document_loaders.pdf.PyMuPDFLoader){:target="_blank"}  
-  - PDF 파일의 페이지를 로드하고, 각 페이지를 개별 **document 객체로 추출**  
-  - **자세한 메타데이터 추출도 가능**  
+- [PyMuPDFLoader](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyMuPDFLoader.html#langchain_community.document_loaders.pdf.PyMuPDFLoader){:target="_blank"}  
+  - PDF 파일의 페이지를 로드하고, 각 페이지를 개별 document 객체로 추출  
+  - 자세한 메타데이터 추출도 가능  
 
-- [**PyPDFDirectoryLoader**](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyPDFDirectoryLoader.html#langchain_community.document_loaders.pdf.PyPDFDirectoryLoader){:target="_blank"}  
-  - **특정 폴더에 있는 모든 PDF 파일을 가져옴**  
+- [PyPDFDirectoryLoader](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.PyPDFDirectoryLoader.html#langchain_community.document_loaders.pdf.PyPDFDirectoryLoader){:target="_blank"}  
+  - 특정 폴더에 있는 모든 PDF 파일을 가져옴  
 
-- [**OnlinePDFLoader**](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.OnlinePDFLoader.html#langchain-community-document-loaders-pdf-onlinepdfloader){:target="_blank"}  
-  - **온라인 PDF 파일 데이터를 가져옴**  
+- [OnlinePDFLoader](https://api.python.langchain.com/en/latest/document_loaders/langchain_community.document_loaders.pdf.OnlinePDFLoader.html#langchain-community-document-loaders-pdf-onlinepdfloader){:target="_blank"}  
+  - 온라인 PDF 파일 데이터를 가져옴  
 
 ---
 
@@ -645,8 +633,6 @@ tags: []
 <img src="/assets/img/lecture/bigdatasearch/7/image_15.png" alt="image" width="800px">  
 
 **주로 PDF의 메타데이터를 추출하고 관리하는 영역에서 차이가 있음**
-
----
 
 ---
 
@@ -684,36 +670,26 @@ tags: []
 
 - **분할의 필요성**  
   - **관련성 높은 정보 검색으로 정확성 향상**  
-    - 문서를 세분화함으로써 **Query와 연관성이 있는 정보만** 가져와  
-      특정 주제나 내용에 초점을 맞춤  
+    - 문서를 세분화함으로써 **Query와 연관성이 있는 정보만** 가져와 특정 주제나 내용에 초점을 맞춤  
   - **리소스 최적화(효율성)**  
-    - **LLM의 입력 토큰 개수가 제한**되어 있으므로  
-      전체 문서를 입력하면 **비용이 많이 발생**  
-    - 많은 정보 속에서 발췌하다 보면 **Hallucination 문제를 유발**하므로  
-      **답변에 필요한 정보만 효율적으로 발췌**  
+    - **LLM의 입력 토큰 개수가 제한**되어 있으므로 전체 문서를 입력하면 **비용이 많이 발생**  
+    - 많은 정보 속에서 발췌하다 보면 **Hallucination 문제를 유발하므로 답변에 필요한 정보만 효율적으로 발췌**  
 
 - **고려사항**  
-  - 텍스트 분리 시 **독립적으로 의미를 지닌 단위**로 분리  
-    (문장, 구절, 단락 등)  
-  - **청크 크기**  
-    - LLM 모델의 입력 크기 및 비용 등을 고려하여 **최적 크기를 결정**  
-    - **단어 수, 문자 수** 등을 기준으로 크기를 측정  
+  - 텍스트 분리 시 독립적으로 의미를 지닌 단위로 분리: 문장, 구절, 단락 등  
+  - 청크 크기  
+    - LLM 모델의 입력 크기 및 비용 등을 고려하여 최적 크기를 결정  
+    - 단어 수, 문자 수 등을 기준으로 크기를 측정  
 
 ---
 
 ## p30. TextSplitter  
 
 - **CharacterTextSplitter**  
-  - 텍스트를 **문자 단위(character level)** 로 나누는 기본적인 분할 방식  
-  - 구분자(delimiter)로 줄바꿈(`\n`), 문장 부호 등을 지정할 수 있음  
 
 - **RecursiveCharacterTextSplitter**  
-  - 텍스트를 재귀적으로 분할하여 **큰 단락 → 문장 → 단어** 순으로 세밀하게 쪼갬  
-  - 단락 구조를 최대한 보존하면서 **문맥 손실을 최소화**  
 
 - **tiktoken (token-based chunking)**  
-  - OpenAI의 **토큰 단위 기반 분할기**  
-  - LLM의 실제 토큰 계산 기준에 맞추어 **효율적인 청크 크기 관리**가 가능  
 
 ---
 
@@ -748,16 +724,15 @@ tags: []
 ## p33. tiktoken(token-based chunking)
 
 - **텍스트를 토큰 수 기준으로 청크를 나눔**  
-  - LLM에 적용된 **Tokenizer**를 사용하면 모델 입력 토큰 수 조절이 가능  
+  - LLM에 적용된 Tokenizer를 사용하면 모델 입력 토큰 수 조절이 가능  
   - OpenAI API의 경우, **BPE 토크나이저로 만들어진 tiktoken** 라이브러리를 지원  
-  - open-source model의 경우 **model별 tokenizer** 적용  
+  - open-source model의 경우 model별 tokenizer 적용  
 
 - **OpenAI의 tiktoken API 사용**  
   - **Parameters**  
-    - `chunk_size` : 각 청크의 최대 길이  
-    - `chunk_overlap` : 분할된 텍스트 조각들 사이에서 중복으로 포함될 문자 수  
-    - `encoding_name` : 텍스트를 토큰으로 변환하는 인코딩 방식  
-      (예: `'cl100k_base'`: `ada-002` model 사용)
+    - chunk_size: 각 청크의 최대 길이  
+    - chunk_overlap: 분할된 텍스트 조각들 사이에서 중복으로 포함될 문자 수  
+    - encoding_name: 텍스트를 토큰으로 변환하는 인코딩 방식 (cl100k_base: ada-002 model 사용)
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_20.png" alt="image" width="800px"> 
 
@@ -775,17 +750,13 @@ tags: []
 ```
 
 - **임베딩 모델**  
-  - 트랜스포머(BERT, RoBERTa 등) 아키텍처 기반,  
-    특히 검색 작업에 특화된 **이중 인코더 구조**를 사용  
-  - **이중 인코더 구조**를 사용  
-    - 쿼리(Q)를 벡터 $v_Q$로 변환하는 **Query Encoder**와  
-      문서 청크(D)를 벡터 $v_D$로 변환하는 **문서 인코더**로  
-      Q와 D를 개별적으로 인코딩하고, 벡터 DB에 미리 저장하므로  
-      **검색 속도가 빠름**
+  - 트랜스포머(BERT, RoBERTa 등) 아키텍처 기반, 특히 검색 작업에 특화된 **이중 인코더 구조**를 사용  
+  - 이중 인코더 구조를 사용  
+    - 쿼리(Q)를 벡터 $v_Q$로 변환하는 Query Encoder와 문서 청크(D)를 벡터 $v_D$로 변환하는 문서 인코더로  
+      Q와 D를 개별적으로 인코딩하고, 벡터 DB에 미리 저장하므로 검색 속도가 빠름
 
-  - **임베딩 모델의 학습: Contrastive Learning**  
-    - “**유사한 것은 가깝게, 유사하지 않은 것은 멀리**”  
-      벡터 공간에 배치하도록 모델을 학습  
+  - 임베딩 모델의 학습: Contrastive Learning  
+    - “**유사한 것은 가깝게, 유사하지 않은 것은 멀리**” 벡터 공간에 배치하도록 모델을 학습  
     - 모델이 쿼리(Q)와 **정답 문서(D⁺)** 쌍에 대해서는 높은 유사도를,  
       쿼리와 **오답 문서(D⁻)** 쌍에 대해서는 낮은 유사도를 출력하도록 학습  
 
@@ -793,9 +764,8 @@ tags: []
 
 ## p35. 임베딩 모델  
 
-RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용하여 후보군을 빠르게 검색한 후,  
-정확도를 위해 **크로스 인코더(Cross-Encoder)** 를 사용하여 순위를 재조정하는  
-**하이브리드 파이프라인**을 주로 사용  
+RAG 시스템은 속도를 위해 이중 인코더를 사용하여 후보군을 빠르게 검색한 후,  
+정확도를 위해 크로스 인코더를 사용하여 순위를 재조정하는 **하이브리드 파이프라인**을 주로 사용  
 
 | **특징** | **이중 인코더 (Dual-Encoder)** | **크로스 인코더 (Cross-Encoder)** |
 |-----------|-----------------------------|----------------------------------|
@@ -833,8 +803,8 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
   - 모델마다 지원 언어가 다름  
   - GPU 없을 시 임베딩 속도 느림  
 
-> **임베딩 모델에 따라 임베딩 벡터의 값과 차원이 다르게 표현되므로,  
-> 용도에 맞는 임베딩 모델 선택이 중요!**
+> 임베딩 모델에 따라 **임베딩 벡터의 값과 차원**이 다르게 표현되므로,  
+> **용도에 맞는 임베딩 모델** 선택이 중요!
 
 ---
 
@@ -858,16 +828,15 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
 ## p39. 임베딩 모델  
 
 - **임베딩 모델 선택**  
-  - **오픈소스:** 비용 절감, 데이터 프라이버시,  
-    모델 커스터마이징 측면에서 큰 이점  
+  - **오픈소스:** 비용 절감, 데이터 프라이버시, 모델 커스터마이징 측면에서 큰 이점  
 
 | 구분 | 모델 예시 | 임베딩 차원 | 특징 및 장점 | 주요 사용 사례 |
 |------|------------|--------------|----------------|----------------|
-| **상용 (API)** | **OpenAI<br>text-embedding-3-large** | 3072<br>(API로 축소 가능) | - **최상위 성능**, 다국어 능력 우수<br>- 차원축소 기능으로 비용/속도 최적화<br>- 관리 용이 | - 고정밀이 요구되는 전문 지식 기반 RAG<br>- 초기 프로토타이핑, API 종량제 모델에 적합 |
-| | **Cohere Embed v3/v4** | 주로 1024 | - **긴 컨텍스트(최대 128K)** 처리 강점<br>- 다국어 및 멀티모달 지원 | - 긴 법률 문서, 연구 논문 등<br>**장문 검색이 필수인 분야**<br>- 긴 텍스트 청크 기반의 RAG |
-| **오픈소스** | **BAAI BGE-M3** | 1024 | - **다기능성 (Dense + Sparse)** 지원<br>- 다국어 성능 우수<br>- **하이브리드 검색**에 최적화<br>- 커스터마이징 용이 | - 고성능/하이브리드 검색이 필요한 복합 RAG<br>- 사내 보안 및 통제 환경 |
-| | **e5 계열**<br>(e5-large, multilingual-e5) | 768 / 1024 | - **균형 잡힌 성능과 효율성**<br>- SOTA에 근접한 성능을 제공하는 대표적 오픈소스 모델 | - **리소스 효율**이 중요한 대규모 인덱싱<br>- 일반적인 RAG |
-| | **MiniLM 계열**<br>(all-MiniLM-L6-v2) | 384 | - **초경량, 고속 추론**<br>- 낮은 차원으로 벡터 DB 저장 공간 및 검색 속도 최적화<br>- CPU 환경 적합 | - 낮은 지연 시간(**Low Latency**)이 요구되는 애플리케이션<br>- 리소스 제한적 환경 |
+| 상용 (API) | OpenAI<br>text-embedding-3-large | 3072<br>(API로 축소 가능) | **최상위 성능**, 다국어 능력 우수,<br>차원축소 기능으로 비용/속도 최적화 가능,<br>관리 용이 | 고정밀이 요구되는 전문 지식 기반 RAG,<br>초기 프로토타이핑, API 종량제 모델에 적합 |
+| | Cohere Embed v3/v4 | 주로 1024 | **긴 컨텍스트(최대 128K)** 처리 강점,<br>**다국어 및 멀티모달 지원** | 긴 법률 문서, 연구 논문 등 **장문 검색이 필수인 분야**,<br>**긴 텍스트 청크**를 기반으로 하는 RAG |
+| 오픈소스 | BAAI BGE-M3 | 1024 | **다기능성 (Dense + Sparse)** 지원,<br>다국어 성능 우수, **하이브리드 검색**에 최적화,<br>커스터마이징 용이 | 고성능/하이브리드 검색이 필요한 복합 RAG,<br> 사내 보안 및 통제 환경 |
+| | e5 계열<br>(e5-large, multilingual-e5) | 768 / 1024 | **균형 잡힌 성능과 효율성**, **SOTA에 근접한 성능**을<br>제공하는 대표적 오픈소스 모델 | 준수한 성능 대비 **리소스 효율**이 중요한<br>대규모 인덱싱, 일반적인 RAG |
+| | MiniLM 계열<br>(all-MiniLM-L6-v2) | 384 | **초경량, 고속 추론**, 낮은 차원으로<br>벡터 DB 저장 공간 및 **검색 속도 최적화**,<br>CPU 환경 적합 | 낮은 지연 시간(Low Latency)이 요구되는<br>애플리케이션, 리소스 제한적인 환경 |
 
 ---
 
@@ -876,20 +845,19 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
 **RAG 개발 시 임베딩 모델 선택 가이드**  
 
 - **정확도 최우선**  
-  - OpenAI / Cohere 같은 상용 API 사용하거나 BGE-M3와 같은 최신 고성능 오픈소스 모델을 선택  
+  - **OpenAI / Cohere** 같은 상용 API 사용하거나 **BGE-M3**와 같은 최신 고성능 오픈소스 모델을 선택  
   - Reranker(재순위 모델)을 추가하여 성능 향상  
 
 - **비용/효율성 최우선**  
-  - all-MiniLM-L6-v2 또는 e5-base와 같은 경량 모델을 선택  
+  - **all-MiniLM-L6-v2** 또는 e5-base와 같은 경량 모델을 선택  
   - 낮은 차원(384d, 768d)을 사용하면 인프라 비용을 크게 절감  
 
 - **데이터 프라이버시 / 커스터마이징**  
-  - BGE-M3 또는 E5 같은 오픈소스 모델을 자체 서버에 배포  
-  - 자체 도메인 데이터로 파인튜닝(fine-tuning)하여 보안 및 성능을 확보  
+  - **BGE-M3 또는 E5** 같은 오픈소스 모델을 자체 서버에 배포  
+  - **자체 도메인 데이터로 파인튜닝**하여 보안 및 성능을 확보  
 
 - **긴 문서 처리**  
-  - Cohere나 컨텍스트 길이가 긴 오픈소스 모델  
-    (예: Qwen3-Embedding)을 고려  
+  - **Cohere**나 컨텍스트 길이가 긴 오픈소스 모델(예: **Qwen3-Embedding**)을 고려  
 
 ---
 
@@ -934,39 +902,39 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
 
 - **벡터 데이터베이스(Vector Database, Vector DB)**  
   - RAG(검색 증강 생성) 시스템에서 외부 지식을 저장하고 검색하는 핵심 인프라  
-  - 고차원 벡터의 저장, 인덱싱 및 유사도 검색에 최적화  
+  - **고차원 벡터**의 저장, 인덱싱 및 유사도 검색에 최적화  
 
 | 특징 | 설명 |
 |------|------|
-| **벡터 스토리지** | 텍스트, 이미지, 오디오 등 복잡한 데이터를 수치화한 임베딩 벡터와<br>해당 벡터의 메타데이터를 함께 저장 |
-| **유사도 검색 (ANN)** | 모든 벡터와의 비교 검색(O(N))이 아닌<br>**Approximate Nearest Neighbor(근사 최근접 이웃)** 알고리즘(예: HNSW, IVF)을 사용하여<br>수십억 개의 벡터 중 가장 유사한 벡터를 **초고속**으로 검색 |
-| **확장성** | 대규모 데이터셋과 쿼리 부하에 대응하기 위해 **수평 확장(Horizontal Scaling)** 을<br>기본적으로 지원 |
+| **벡터 스토리지** | 텍스트, 이미지, 오디오 등 복잡한 데이터를 수치화한 **임베딩 벡터**와<br>해당 벡터의 **메타데이터**를 함께 저장 |
+| **유사도 검색 (ANN)** | **모든 벡터와의 비교 검색(O(N))이 아닌**<br>**Approximate Nearest Neighbor(근사 최근접 이웃)** 알고리즘(예: HNSW, IVF)을 사용하여<br>수십억 개의 벡터 중 가장 유사한 벡터를 **초고속**으로 검색 |
+| **확장성** | 대규모 데이터셋과 쿼리 부하에 대응하기 위해 수평 확장(Horizontal Scaling)을<br>기본적으로 지원 |
 | **필터링** | 벡터 검색과 함께 메타데이터(예: 작성자, 날짜, 카테고리) 기반으로 **필터링**이 가능 |
 
 ---
 
 ## p43. 벡터 데이터베이스  
 
-- **상용 vs. 오픈소스 벡터 DB**  
-  - **상용 벡터DB**  
-    - Pinecone, Vertex AI Vector Search (Google), Azure AI Search (Microsoft),  
-      Amazon OpenSearch Service (w/ k-NN) (AWS)  
-    - **특징:** 완전 관리형(Fully Managed), 클라우드 기반 서비스  
+**상용 vs. 오픈소스 벡터 DB**  
 
-    - **장점**  
-      - 인프라 관리 부담 해소: 설치 확장, 백업, 모니터링 등 운영 오버헤드가 없음  
-      - 고가용성 및 성능 보장: 안정적인 서비스 가능  
-      - 전문지원: SLA(서비스 수준 계약) 기반의 기술지원  
-      - Time-to-Market  
+- **상용 벡터DB**  
+  - Pinecone, Vertex AI Vector Search (Google), Azure AI Search (Microsoft),  
+    Amazon OpenSearch Service (w/ k-NN) (AWS)  
+  - **특징:** 완전 관리형(Fully Managed), 클라우드 기반 서비스  
 
-    - **단점**  
-      - 비용: 벡터수, 차원, 쿼리량에 따라 비용 증가  
-      - 벤더 종속성  
-      - 커스터마이징 제한: 인덱싱 알고리즘, 하부 인프라 등의 세부적인 제어 불가능  
-      - 데이터 주권/보안 우려  
+  - **장점**  
+    - 인프라 관리 부담 해소: 설치 확장, 백업, 모니터링 등 운영 오버헤드가 없음  
+    - 고가용성 및 성능 보장: 안정적인 서비스 가능  
+    - 전문지원: SLA(서비스 수준 계약) 기반의 기술지원  
+    - Time-to-Market  
 
-    - **주요 활용 예:**  
-      실시간성이 중요한 프로덕션 환경, 빠른 Prototyping, 인프라 운영 인력 부족 시  
+  - **단점**  
+    - 비용: 벡터수, 차원, 쿼리량에 따라 비용 증가  
+    - 벤더 종속성  
+    - 커스터마이징 제한: 인덱싱 알고리즘, 하부 인프라 등의 세부적인 제어 불가능  
+    - 데이터 주권/보안 우려  
+
+  - **주요 활용 예:** 실시간성이 중요한 프로덕션 환경, 빠른 Prototyping, 인프라 운영 인력 부족 시  
 
 ---
 
@@ -976,18 +944,17 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
 
 | 구분 | 주요 서비스 | 핵심 특징 | 하이브리드 검색 | 적합한 사용자 |
 |------|--------------|-------------|------------------|----------------|
-| **전용 벡터 DB** | Pinecone (대표적) | 벡터 검색에 최적화된 아키텍처. <br> 다양한 LLM/임베딩 API와 연동용이. <br> 클라우드 agnostic (AWS, GCP 등 선택 가능) | 메타데이터 필터링 및 희소 벡터(Sparse) 지원 | 고성능 및 낮은 지연 시간이 필수적인 RAG 개발자, <br> 자체 DB 운영을 원치 않는 기업 |
-| **클라우드 통합** | Vertex AI Vector Search (Google) | Google Cloud 서비스와 긴밀한 통합. <br> 강력한 ML 플랫폼(Vertex AI)의 일부 | 메타데이터 필터링 지원 | Google Cloud를 주력으로 사용. <br> ML Ops 환경을 통합하려는 기업 |
-|  | Azure AI Search (Microsoft) | 기존 Full-Text Search 기능과의 강력한 결합. <br> Microsoft 생태계(Azure, OpenAI) 통합 | **네이티브 하이브리드 검색** <br>(Full-Text + Vector) 강력 지원 | Microsoft Azure를 사용하거나, <br> 하이브리드 검색을 중요하게 생각하는 기업 |
-|  | Amazon OpenSearch Service (w/ k-NN) (AWS) | 로그 및 검색 기능 중심. <br> 벡터 검색을 기존 검색 엔진 기능에 추가 통합 | - | AWS를 사용하며, <br> 기존 OpenSearch 클러스터에 벡터 기능을 추가하려는 기업 |
+| **전용 벡터 DB** | Pinecone (대표적) | 벡터 검색에 최적화된 아키텍처<br> 다양한 LLM/임베딩 API와 연동용이<br> 클라우드 agnostic (AWS, GCP 등 선택 가능) | 메타데이터 필터링 및 희소 벡터(Sparse) 지원 | 고성능 및 낮은 지연 시간이 필수적인 RAG 개발자, <br> 자체 DB 운영을 원치 않는 기업 |
+| **클라우드 통합** | Vertex AI Vector Search<br>(Google) | Google Cloud 서비스와 긴밀한 통합 <br> 강력한 ML 플랫폼(Vertex AI)의 일부 | 메타데이터 필터링 지원 | Google Cloud를 주력으로 사용. <br> ML Ops 환경을 통합하려는 기업 |
+|  | Azure AI Search<br>(Microsoft) | 기존 Full-Text Search 기능과의 강력한 결합. <br> Microsoft 생태계(Azure, OpenAI) 통합 | **네이티브 하이브리드 검색** <br>(Full-Text + Vector) 강력 지원 | Microsoft Azure를 사용하거나, <br> 하이브리드 검색을 중요하게 생각하는 기업 |
+|  | Amazon OpenSearch<br>Service (w/ k-NN)<br>(AWS) | 로그 및 검색 기능 중심. <br> 벡터 검색을 기존 검색 엔진 기능에 추가 통합 | - | AWS를 사용하며, <br> 기존 OpenSearch 클러스터에 벡터 기능을 추가하려는 기업 |
 
 ---
 
 ## p45. 벡터 데이터베이스  
 
 - **오픈소스 벡터 DB**  
-  - Milvus, Qdrant, Weaviate, Chroma, pgvector (PostgreSQL 확장),  
-    FAISS, ElasticSearch  
+  - Milvus, Qdrant, Weaviate, Chroma, pgvector (PostgreSQL 확장), FAISS, ElasticSearch  
 
   - **특징**  
     - **자유로운 라이선스**, 자체 구축 및 운영 필요 (Self-hosted)  
@@ -1002,94 +969,87 @@ RAG 시스템은 속도를 위해 **이중 인코더(Dual-Encoder)** 를 사용�
     - 기술지원  
 
   - **활용사례**  
-    - **대규모 데이터 인프라를 이미 보유한 기업**  
-    - **높은 수준의 데이터 보안이 요구되는 금융/공공 기관**  
-    - **도메인 특화된 기능을 개발해야 하는 경우**  
+    - **대규모 데이터 인프라를 이미 보유**한 기업  
+    - **높은 수준의 데이터 보안**이 요구되는 금융/공공 기관  
+    - **도메인 특화된 기능**을 개발해야 하는 경우  
 
 ---
 
 ## p46. 벡터 데이터베이스  
 
-- **Indexing 알고리즘**  
+**Indexing 알고리즘**  
 
-  - **Flat Index (No optimization)**  
-    - Indexing 기법 없이 벡터를 저장하는 방법  
-    - 저장된 모든 벡터들과 유사도를 계산, 가장 높은 유사도를 지닌 벡터를 찾는 방법  
-    - 10000~50000개 정도의 벡터에서 적당한 성능과 높은 확장성  
+- **Flat Index (No optimization)**  
+  - Indexing 기법 없이 벡터를 저장하는 방법  
+  - 저장된 모든 벡터들과 유사도를 계산, 가장 높은 유사도를 지닌 벡터를 찾는 방법  
+  - 10000~50000개 정도의 벡터에서 적당한 성능과 높은 확장성  
 
-  - **PQ (Product Quantization)**  
-    - 원벡터를 균등하게 몇 개의 서브 벡터로 쪼개고,  
-      각 서브 벡터들을 Quantization하여 크기를 줄임  
-    - 빠르고 정확도가 높고, 큰 데이터 셋에서 사용하기 좋은 기법  
+- **PQ (Product Quantization)**  
+  - 원벡터를 균등하게 몇 개의 서브 벡터로 쪼개고,  
+    각 서브 벡터들을 Quantization하여 크기를 줄임  
+  - 빠르고 정확도가 높고, 큰 데이터 셋에서 사용하기 좋은 기법  
 
-  - **LSH (Locality-Sensitive Hashing)**  
-    - 벡터들을 Hashing 함수를 이용해 Bucket에 매핑하는 방법  
-    - 유사도 검색과 색인을 모두 동일한 Hashing 함수를 사용하여  
-      같은 Bucket에 있는 벡터들과 비교 및 탐색  
-    - Bucket에 있는 데이터들 사이에서만 유사도 검색을 하므로 검색속도가 빠름  
+- **LSH (Locality-Sensitive Hashing)**  
+  - 벡터들을 Hashing 함수를 이용해 Bucket에 매핑하는 방법  
+  - 유사도 검색과 색인을 모두 동일한 Hashing 함수를 사용하여  
+    같은 Bucket에 있는 벡터들과 비교 및 탐색  
+  - Bucket에 있는 데이터들 사이에서만 유사도 검색을 하므로 검색속도가 빠름  
 
 ---
 
 ## p47. 벡터 데이터베이스  
 
-- **HNSW (Hierarchical Navigable Small World graph)**  
+**HNSW (Hierarchical Navigable Small World graph)**  
 
-  - **탐색 가능한 작은 세계(NSW)** 그래프 구조를 **계층적으로** 구성하여,  
-    방대한 데이터셋에서 쿼리 벡터와 가장 유사한 벡터를 **빠르게** 찾아내는 것을 목표로 함  
+- **탐색 가능한 작은 세계(NSW)** 그래프 구조를 **계층적으로** 구성하여,  
+  방대한 데이터셋에서 쿼리 벡터와 가장 유사한 벡터를 **빠르게** 찾아내는 것을 목표로 함  
 
-    - **작은 세계 (Small World)**:  
-      임의의 두 노드 사이의 거리가 매우 짧은 그래프를 의미  
+  - **작은 세계 (Small World)**: 임의의 두 노드 사이의 거리가 매우 짧은 그래프를 의미  
 
-    - **계층 구조 (Hierarchy)**:  
-      그래프를 여러 레벨(층)으로 나누어 검색 속도와 정확도를 조절  
-        - 상위 레벨: 매우 희소한 그래프 → 전역 탐색 (빠르게 후보 집합을 찾음)  
-        - 하위 레벨: 상세(밀집) 그래프 → 지역적으로 정확한 최근접 탐색  
+  - **계층 구조 (Hierarchy)**: 그래프를 여러 레벨(층)으로 나누어 검색 속도와 정확도를 조절  
+    - 상위 레벨: 매우 희소한 그래프 → 전역 탐색 (빠르게 후보 집합을 찾음)  
+    - 하위 레벨: 상세(밀집) 그래프 → 지역적으로 정확한 최근접 탐색  
 
-  - **HNSW 그래프 구조**:  
-    HNSW 인덱스는 다중 레벨 그래프(Multilayer Graph)와 진입점(Entry Point)으로 구성  
+- **HNSW 그래프 구조**: HNSW 인덱스는 다중 레벨 그래프(Multilayer Graph)와 진입점(Entry Point)으로 구성  
 
-    - **다중 레벨 그래프 (Multilayer Graph)**  
-      새로운 벡터(v)가 인덱스에 삽입될 때, 무작위로 레벨 L이 할당  
+  - **다중 레벨 그래프 (Multilayer Graph)**  
+    새로운 벡터(v)가 인덱스에 삽입될 때, 무작위로 레벨 L이 할당  
 
-      - **레벨 0 (Base Layer)**  
-        - 모든 벡터 노드를 포함하며, 가장 촘촘하게 연결되어 **정확한 지역 검색** 수행  
-          모든 탐색은 최종적으로 이 레벨에서 마무리  
+    - **레벨 0 (Base Layer)**  
+      - 모든 벡터 노드를 포함하며, 가장 촘촘하게 연결되어 **정확한 지역 검색** 수행  
+        모든 탐색은 최종적으로 이 레벨에서 마무리  
 
-      - **상위 레벨 (L > 0)**  
-        - 벡터의 부분 집합만을 포함한 매우 희소한 그래프  
-          → 노드 수가 적고 연결이 성기기 때문에 **빠른 전역 탐색**을 위해 사용  
+    - **상위 레벨 (L > 0)**  
+      - 벡터의 부분 집합만을 포함한 매우 희소한 그래프  
+        → 노드 수가 적고 연결이 성기기 때문에 **빠른 전역 탐색**을 위해 사용  
 
-      - **연결 제한 (M)**  
-        - 각 노드가 갖는 최대 이웃의 개수로,  
-          M 값이 클수록 정확도는 높아지지만,  
-          메모리 사용량과 인덱스 구축 시간 증가  
+    - **연결 제한 (M)**  
+      - 각 노드가 갖는 최대 이웃의 개수로, M 값이 클수록 정확도는 높아지지만, 메모리 사용량과 인덱스 구축 시간 증가  
 
-    - **진입점 (Entry Point, E)**  
-      - 인덱스에서 **가장 높은 레벨**에 있는 임의의 노드를 **진입점으로 설정**  
-      - 모든 검색은 이 E 노드에서 시작  
+  - **진입점 (Entry Point, E)**  
+    - 인덱스에서 **가장 높은 레벨**에 있는 임의의 노드를 **진입점**으로 설정. 모든 검색은 이 E 노드에서 시작  
 
 ---
 
 ## p48. 벡터 데이터베이스  
 
-- **HNSW (Hierarchical Navigable Small World graph)**  
+**HNSW (Hierarchical Navigable Small World graph)**  
 
-  - **탐색 알고리즘**  
+- **탐색 알고리즘**  
 
-    - **시작**:  
-      entry_point와 현재 그래프의 최상위 레벨에서 시작  
+  - **시작**:  
+    entry_point와 현재 그래프의 최상위 레벨에서 시작  
 
-    - **상위 레벨에서 greedy search**  
-      - 현재 노드에서 인접 노드들 중 쿼리와 거리(또는 유사도)가 더 나은 노드가 있으면 그 쪽으로 이동  
-      - 더 이상 개선 불가할 때까지 반복 → 로컬 최적점 도달  
+  - **상위 레벨에서 greedy search**  
+    - 현재 노드에서 인접 노드들 중 쿼리와 거리(또는 유사도)가 더 나은 노드가 있으면 그 쪽으로 이동  
+    - 더 이상 개선 불가할 때까지 반복 → 로컬 최적점 도달  
 
-    - **하위 레벨로 내려가기**  
-      - 해당 레벨에서 탐색 후보 집합(efSearch)을 이용한 **beam-like search**  
-        (best-first 후보 유지)를 실행  
-      - 하위 레벨 시작점은 상위 레벨에서의 최종 노드(로컬 최적점)  
+  - **하위 레벨로 내려가기**  
+    - 해당 레벨에서 탐색 후보 집합(efSearch)을 이용한 **beam-like search**  
+      (best-first 후보 유지)를 실행  
+    - 하위 레벨 시작점은 상위 레벨에서의 최종 노드(로컬 최적점)  
 
-    - **최저 레벨 (0)** 에서 최종 Top-K 반환.  
-      선택적으로 **re-ranking** 수행  
+  - **최저 레벨 (0)** 에서 최종 Top-K 반환. 선택적으로 **re-ranking** 수행  
 
 ```
 function search(query, efSearch, entry_point, max_level):
@@ -1116,14 +1076,14 @@ function search(query, efSearch, entry_point, max_level):
 
 ## p49. 벡터 데이터베이스  
 
-- **IVF (Inverted File index)**  
-  - 클러스터링을 통해 검색 범위를 축소함으로써 검색 효율을 높이는 방법:  
-    **Clustering + Inverted File**  
-    - 대규모 벡터 집합의 ANN(근사 최근접 탐색)을 위해  
-      **데이터를 여러 버킷(list)으로 군집화**  
-      (e.g. k-means 등을 적용해 N개 클러스터 구성)  
-    - 검색 쿼리가 주어지면, 쿼리가 포함된 cluster를 찾고,  
-      해당 cluster의 inverted list 내 벡터들에 대해 유사도 검색 수행  
+**IVF (Inverted File index)**  
+- 클러스터링을 통해 검색 범위를 축소함으로써 검색 효율을 높이는 방법:  
+  **Clustering + Inverted File**  
+  - 대규모 벡터 집합의 ANN(근사 최근접 탐색)을 위해  
+    **데이터를 여러 버킷(list)으로 군집화**  
+    (e.g. k-means 등을 적용해 N개 클러스터 구성)  
+  - 검색 쿼리가 주어지면, 쿼리가 포함된 cluster를 찾고,  
+    해당 cluster의 inverted list 내 벡터들에 대해 유사도 검색 수행  
 
 - **IVFADC**  
   - IVF에 **Product Quantization (PQ)** 을 결합해  
@@ -1150,14 +1110,14 @@ function search(query, efSearch, entry_point, max_level):
 
 ## p51. 벡터 데이터베이스: Retrieval  
 
-- **Retrieval Algorithms**  
-  - **유사도 기반 검색**  
-    - **MMR (Maximal Marginal Relevance) 검색 기법**  
-      - 쿼리에 대한 적합한 항목을 검색하면서 동시에 **중복을 최소화** 하는 방법  
-      - **관련성과 다양성의 사이의 균형**을 맞추어 검색 결과의 품질을 향상하는 알고리즘  
-        - 검색 쿼리에 대한 문서들의 관련성은 최대화  
-        - 검색된 문서들 사이의 중복성은 최소화  
-          (매우 유사한 항목들만 검색되는 상황 방지)  
+**Retrieval Algorithms**  
+- **유사도 기반 검색**  
+- **MMR (Maximal Marginal Relevance) 검색 기법**  
+  - 쿼리에 대한 적합한 항목을 검색하면서 동시에 **중복을 최소화** 하는 방법  
+  - **관련성과 다양성의 사이의 균형**을 맞추어 검색 결과의 품질을 향상하는 알고리즘  
+    - 검색 쿼리에 대한 문서들의 관련성은 최대화  
+    - 검색된 문서들 사이의 중복성은 최소화  
+      (매우 유사한 항목들만 검색되는 상황 방지)  
 
   - **동작**  
     - **Greedy** 방식으로 하나씩 선택.  
@@ -1175,28 +1135,25 @@ function search(query, efSearch, entry_point, max_level):
       - $Sim(d_i, d_j)$: 문서 간 유사도 (예: cosine similarity)  
       - $S$: 이미 선택된 문서 집합  
 
-**MMR 선택 절차**  
-① 초기: $S = \{\}$  
-② 첫 항목은 보통 가장 관련도 높은 문서(또는 MMR 식으로 선택).  
-③ 반복: 남은 문서 중 MMR score 최대인 문서를 $S$에 추가.  
-④ 종료: $|S| = $ 원하는 개수 $K$.  
+  >**MMR 선택 절차**  
+  >① 초기: $S = \lbrace\rbrace$  
+  >② 첫 항목은 보통 가장 관련도 높은 문서(또는 MMR 식으로 선택).  
+  >③ 반복: 남은 문서 중 MMR score 최대인 문서를 $S$에 추가.  
+  >④ 종료: $|S| = $ 원하는 개수 $K$.  
 
 ---
 
 ## p52. 벡터 데이터베이스  
 
-- **Chroma**  
-  - 임베딩 벡터를 저장하기 위한 오픈소스 소프트웨어  
-    - **임베딩 및 메타데이터 저장**:  
-      임베딩 데이터뿐만 아니라 관련된 메타데이터를 효율적으로 저장  
-    - **문서 및 쿼리 임베딩**:  
-      텍스트 데이터를 벡터 공간에 매핑하여 임베딩 생성  
-    - **임베딩 검색**:  
-      사용자 쿼리에 기반하여 가장 관련성이 높은 임베딩을 검색할 수 있음  
+**Chroma**  
+- **임베딩 벡터를 저장하기 위한 오픈소스 소프트웨어**  
+  - 임베딩 및 메타데이터 저장: 임베딩 데이터뿐만 아니라 관련된 메타데이터를 효율적으로 저장  
+  - 문서 및 쿼리 임베딩: 텍스트 데이터를 벡터 공간에 매핑하여 임베딩 생성  
+  - 임베딩 검색: 사용자 쿼리에 기반하여 가장 관련성이 높은 임베딩을 검색할 수 있음  
 
 - **Chroma 벡터 저장소 생성 & 유사도 기반 검색**  
-  - `Chroma.from_texts`: 분할된 텍스트를 임베딩하고 벡터 저장소에 저장하는 메서드  
-  - `similarity_search()` 메서드  
+  - Chroma.from_texts: 분할된 텍스트를 임베딩하고 벡터 저장소에 저장하는 메서드  
+  - similarity_search() 메서드  
 
 ```python
 embeddings_model = OpenAIEmbeddings()
@@ -1278,9 +1235,8 @@ print(mmr_docs[0].page_content)
 ## p55~56. 벡터 데이터베이스  
 
 - **FAISS**  
-  - **Facebook AI Research**에서 개발  
-  - 벡터의 압축된 표현을 사용함으로써  
-    메모리 사용량을 최소화하고 검색 속도를 극대화  
+  - Facebook AI Research에서 개발  
+  - 벡터의 압축된 표현을 사용함으로써 메모리 사용량을 최소화하고 검색 속도를 극대화  
 
 ```python
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -1298,17 +1254,7 @@ vectorstore = FAISS.from_documents(
     embedding=embeddings_model,
     distance_strategy=DistanceStrategy.COSINE
 )
-```
 
-### MMR 작동 과정
-
-1. 주어진 쿼리에 대해 **유사도가 높은 문서들**을 `fetch_k` 만큼 검색  
-2. 해당 문서 집합에서 **첫 번째 문서를 선택**,  
-   나머지 문서들과의 **MMR 점수**를 계산  
-3. **MMR 점수가 가장 높은 문서**를 다음으로 선택하고  
-   `k`개의 문서를 선택할 때까지 반복
-
-```python
 docs = vectorstore.similarity_search(query)
 print(len(docs))
 print(docs[0].page_content)
@@ -1318,33 +1264,33 @@ print(len(mmr_docs))
 print(mmr_docs[0].page_content)
 ```
 
+**MMR 작동 과정**
+
+1. 주어진 쿼리에 대해 유사도가 높은 문서들을 fetch_k 만큼 검색  
+2. 해당 문서 집합에서 첫 번째 문서를 선택, 나머지 문서들과의 MMR 점수를 계산  
+3. MMR 점수가 가장 높은 문서를 다음으로 선택하고 k개의 문서를 선택할 때까지 반복
+
 ---
 
 ## p57. 벡터 데이터베이스: Retrieval  
 
-- **Retrieval Algorithms**  
-  - **유사도 기반 검색**  
-  - **RRF(Reciprocal Rank Fusion): 하이브리드 검색의 최종 순위 생성 알고리즘**  
-    - 여러 개의 **독립적인 검색기법**의 결과를 결합하여,  
-      각 방법의 장점을 살리고 단점을 보완하여 **단일한 최종 순위**를 생성  
-    - **하이브리드 검색의 문제점**  
-      - 각 검색 방법은 서로 **다른 점수와 순위**를 도출하는데,  
-        단순히 점수를 합치면 스케일이 달라 결과가 편향될 가능성이 존재  
-      - **RRF는 순위(Rank)** 를 기반으로 점수의 스케일 문제를 해결  
+**Retrieval Algorithms**  
+- **유사도 기반 검색**  
+- **RRF(Reciprocal Rank Fusion): 하이브리드 검색의 최종 순위 생성 알고리즘**  
+  - **여러 개의 독립적인 검색기법**의 결과를 결합하여,  
+    각 방법의 장점을 살리고 단점을 보완하여 **단일한 최종 순위**를 생성  
+  - **하이브리드 검색의 문제점**  
+    - 각 검색 방법은 서로 **다른 점수와 순위를 도출하는데**,  
+      단순히 점수를 합치면 스케일이 달라 결과가 편향될 가능성이 존재함  
+    - RRF는 순위(Rank)를 기반으로 점수의 스케일 문제를 해결  
 
-    - **동작**  
-      - 각 검색 방법에서 얻은 **순위(r)** 를 사용하여,  
-        최종적으로 각 문서(d)에 대한 **융합 점수(RRFscore)** 를 계산  
-
-      $$
-      RRFscore(d) = \sum_{i=1}^{N} \frac{1}{k + r_i(d)}
-      $$  
-
+  - **동작**  
+    - 각 검색 방법에서 얻은 순위(r)를 사용하여, 최종적으로 각 문서(d)에 대한 융합 점수(RRFscore)를 계산  
+    - $RRFscore(d) = \sum_{i=1}^{N} \frac{1}{k + r_i(d)}$  
       - **RRFscore(d)**: 문서 *d*의 최종 융합 점수  
       - **N**: 사용된 검색 방법의 총 개수 (예: 키워드 검색, 벡터 검색)  
-      - **rᵢ(d)**: 검색 방법 *i*에서 문서 *d*가 받은 **순위 (1부터 시작)**  
-      - **k**: **하이퍼파라미터** (일반적으로 60으로 설정)로  
-        **상위 순위의 영향력**을 조절하는 매개변수
+      - **rᵢ(d)**: 검색 방법 *i*에서 문서 *d*가 받은 **순위** (1부터 시작)  
+      - **k**: **하이퍼파라미터** (일반적으로 60으로 설정)로 **상위 순위의 영향력**을 조절하는 매개변수
 
 ---
 
@@ -1352,59 +1298,59 @@ print(mmr_docs[0].page_content)
 
 | 구분 | Pinecone | Milvus | Qdrant | Weaviate | Chroma | FAISS | Elasticsearch |
 |------|-----------|--------|---------|-----------|---------|--------|----------------|
-| **오픈소스 여부** | 상용 (클로즈드 소스) | 오픈소스 (Apache 2.0) | 오픈소스 (Apache 2.0) | 오픈소스 (BSD-3-Clause) | 오픈소스 (MIT) | 오픈소스 (MIT, 라이브러리) | 오픈소스 (Apache 2.0/Elastic License) |
-| **핵심 특징** | 완전 관리형, 벡터 검색 전용, 서버리스 | 클라우드 네이티브 분산 아키텍처, 대규모 처리 | Rust 기반, 고성능, 필터링 & 하이브리드 | 내장 벡터화, GraphQL API, 지식 그래프 지향 | Python 네이티브, 간편한 로컬 개발 및 프로토타이핑 | 순수 벡터 검색 라이브러리, GPU 가속 | 기존 검색 엔진, 벡터 검색 기능 통합 |
-| **하이브리드 검색 지원 방법** | Sparse-Dense 벡터 통합 (SDA), Metadata 필터링 | Sparse-Dense 통합, Metadata 필터링, RRF(ReciprocalRankFusion) | Vector + Payload 필터 (가장 강력), Sparse-Dense 통합 | Vector + Keyword (BM25) 통합, RRF | Metadata 필터링 (Keyword/Structured) | 외부 시스템 통합 필수 (자체 지원 X) | Native BM25 + HNSW 통합 (RRF 사용), 가장 성숙한 하이브리드 |
-| **주요 인덱싱 지원** | HNSW, IVF | HNSW, IVF_FLAT, ANNOY, DISKANN 등 다양 | HNSW (주력) | HNSW | HNSW (기본) | IVF, PQ, HNSW 등 매우 다양 (라이브러리) | HNSW (8.x 버전부터) |
-| **확장성** | 최고 수준 (완전 관리형, 수평 확장 유제한) | 최고 수준 (클라우드 네이티브, 분산형 아키텍처) | 매우 좋음 (클러스터 및 샤딩 지원) | 좋음 (모듈형 아키텍처, 수평 확장 지원) | 낮음 (주로 로컬/소규모 POC, 엔터프라이즈 기능 부족) | 높음 (대용량 데이터셋 처리 가능, 라이브러리 레벨) | 좋음 (Elasticsearch 클러스터 확장성 활용) |
-| **QPS (처리량)** | 매우 높음 (파드 추가로 확장 용이), 낮은 지연시간 | 매우 높음 (분산 구조, 고성능) | 높음 (Rust 기반, 메모리 효율) | 준수함 (대규모 시 성능 저하 가능성 있음) | 낮음 (단일 인스턴스 기준) | 매우 높음 (순수 검색, GPU 가속 시 극대화) | 준수함 (통합 검색 부하 고려) |
-| **장점** | 운영 오버헤드 無, 빠른 구축, 엔터프라이즈 기능, SLA 보장 | 유연한 배포(K8s), 다양한 인덱스 선택지, 대규모 데이터에 최적화 | 고성능 필터링, Rust 기반 안정성과 속도, 개발자 친화적 API | 내장 벡터화, 객체지향 API 지향, LLM 에코시스템 통합 용이 | 가장 쉬운 시작, LLM 프레임워크와의 긴밀한 통합, 경량 | 극도의 검색 속도, 메모리 효율성, 임베딩 모델 무관 | 기존 키워드 검색 통합, 성숙한 운영 인프라, 강력한 분석 기능 |
-| **단점** | 높은 비용, 벤더 종속성, 커스터마이징 제약 | 초기 설정 및 운영 복잡성, 학습 곡선 | 대규모 분산 환경에선 Milvus 대비 약간 열세 | 데이터 구조 변경 시 성능 영향 가능성, 재색인 필요 | 대규모 서비스 부족, 기본 기능만 제공 | DB 기능 부재 (CRUD, Metadata 관리 X), 검색 후 데이터 재구성 필요 | 순수 벡터 DB 대비 성능 최적화가 어려움, 리소스 소모가 큼 |
-| **주요 활용 사례** | 실시간 개인화, 엔터프라이즈 RAG 프로젝트, 보안 위협 탐지 | 초거대 이미지/비디오 분석, 대규모 분산 RAG, 계량 분석 | 고성능 추천 시스템, 복잡한 메타데이터 필터링 포함 RAG | 내장형 검색 엔진, 지식 그래프 기반 Q&A 시스템 | RAG 프로토타입, 로컬/테스트 환경의 실험 개발 및 실행 | 검색 엔진의 백엔드 라이브러리로 임베딩 검색 모듈 구현 | 통합 검색 플랫폼 (로그, 메타데이터, 벡터), 기존 Elastic 사용자 |
-| **커뮤니티 규모** | 중간~대형 (주로 상용 사용자) | 대형 (가장 활발한 오픈소스 커뮤니티 중 하나) | 중간~대형 (빠르게 성장 중) | 중간~대형 (활발한 개발 및 문서화) | 중간 (LLM 개발자에게 인기) | 매우 큼 (AI/ML 분야의 표준 라이브러리) | 매우 큼 (전통적인 검색 엔진 시장 주도) |
+| 오픈소스 여부 | 상용 (클로즈드 소스) | 오픈소스 (Apache 2.0) | 오픈소스 (Apache 2.0) | 오픈소스 (BSD-3-Clause) | 오픈소스 (MIT) | 오픈소스 (MIT, 라이브러리) | 오픈소스 (Apache 2.0/<br>Elastic License) |
+| 핵심 특징 | 완전 관리형,<br>벡터 검색 전용,<br>서버리스 | 클라우드 네이티브<br>분산 아키텍처, 대규모 처리 | Rust 기반,<br>고성능,<br>필터링 & 하이브리드 | 내장 벡터화,<br>GraphQL API,<br>지식 그래프 지향 | Python 네이티브,<br>간편한 로컬 개발 및<br>프로토타이핑 | 순수 벡터 검색<br>라이브러리, GPU 가속 | 기존 검색 엔진,<br>벡터 검색 기능 통합 |
+| 하이브리드<br>검색 지원 방법 | Sparse-Dense<br>벡터 통합 (SDA),<br>Metadata 필터링 | Sparse-Dense 통합,<br>Metadata 필터링,<br>RRF(ReciprocalRankFusion) | Vector + Payload 필터<br>(가장 강력),<br>Sparse-Dense 통합 | Vector +<br>Keyword (BM25)<br>통합, RRF | Metadata 필터링<br>(Keyword/Structured) | 외부 시스템 통합<br>필수 (자체 지원 X) | Native BM25 +<br>HNSW 통합 (RRF 사용),<br>가장 성숙한 하이브리드 |
+| 주요 인덱싱 지원 | HNSW, IVF | HNSW, IVF_FLAT,<br>ANNOY, DISKANN 등 다양 | HNSW (주력) | HNSW | HNSW (기본) | IVF, PQ, HNSW 등<br>매우 다양 (라이브러리) | HNSW (8.x 버전부터) |
+| 확장성 | 최고 수준<br>(완전 관리형,<br>수평 확장 유제한) | 최고 수준 (클라우드 네이티브,<br>분산형 아키텍처) | 매우 좋음<br>(클러스터 및 샤딩 지원) | 좋음 (모듈형 아키텍처,<br>수평 확장 지원) | 낮음<br>(주로 로컬/소규모 POC,<br>엔터프라이즈 기능 부족) | 높음 (대용량 데이터셋<br>처리 가능,<br>라이브러리 레벨) | 좋음 (Elasticsearch<br>클러스터 확장성 활용) |
+| QPS (처리량) | 매우 높음<br>(파드 추가로<br>확장 용이),<br>낮은 지연시간 | 매우 높음 (분산 구조),<br>고성능 | 높음 (Rust 기반,<br>메모리 효율) | 준수함 (대규모 시<br>성능 저하<br>가능성 있음) | 낮음 (단일 인스턴스 기준) | 매우 높음 (순수 검색,<br>GPU 가속 시 극대화) | 준수함<br>(통합 검색 부하 고려) |
+| 장점 | 운영 오버헤드 無,<br>빠른 구축,<br>엔터프라이즈 기능,<br>SLA 보장 | 유연한 배포(K8s),<br>다양한 인덱스 선택지,<br>대규모 데이터에 최적화 | 고성능 필터링,<br>Rust 기반 안정성과 속도,<br>개발자 친화적 API | 내장 벡터화,<br>객체지향 API 지향,<br>LLM 에코시스템<br>통합 용이 | 가장 쉬운 시작,<br>LLM 프레임워크와의<br>긴밀한 통합, 경량 | 극도의 검색 속도,<br>메모리 효율성,<br>임베딩 모델 무관 | 기존 키워드 검색 통합,<br>성숙한 운영 인프라,<br>강력한 분석 기능 |
+| 단점 | 높은 비용,<br>벤더 종속성,<br>커스터마이징 제약 | 초기 설정 및 운영 복잡성<br>학습 곡선 | 대규모 분산 환경에선<br>Milvus 대비 약간 열세 | 데이터 구조 변경 시<br>성능 영향 가능성,<br>재색인 필요 | 대규모 서비스 부족,<br>기본 기능만 제공 | DB 기능 부재(CRUD,<br>Metadata 관리 X),<br>검색 후 데이터<br>재구성 필요 | 순수 벡터 DB 대비<br>성능 최적화가 어려움,<br>리소스 소모가 큼 |
+| 주요 활용 사례 | 실시간 개인화,<br>엔터프라이즈<br>RAG 프로젝트,<br>보안 위협 탐지 | 초거대 이미지/비디오 분석,<br>대규모 분산 RAG,<br>계량 분석 | 고성능 추천 시스템,<br>복잡한 메타데이터<br>필터링이 필요한 RAG | 내장형 검색 엔진,<br>지식 그래프 기반<br>Q&A 시스템 | RAG 프로토타입,<br>로컬/테스트 환경의<br>실험 개발 및 실행 | 검색 엔진의 백엔드<br>라이브러리로 임베딩<br>검색 모듈 구현 | 통합 검색 플랫폼<br>(로그, 메타데이터, 벡터),<br>기존 Elastic 사용자 |
+| 커뮤니티 규모 | 중간~대형<br>(주로 상용 사용자) | 대형 (가장 활발한 오픈소스<br>커뮤니티 중 하나) | 중간~대형<br>(빠르게 성장 중) | 중간~대형<br>(활발한 개발 및 문서화) | 중간<br>(LLM 개발자에게 인기) | 매우 큼 (AI/ML 분야의<br>표준 라이브러리) | 매우 큼<br>(전통적인 검색 엔진<br>시장 주도) |
 
 ---
 
 ## p59. Retriever  
 
-- **벡터 저장소에서 문서를 검색하는 도구**  
-  - **Vector Store Retriever**  
-    - 대량의 텍스트 데이터에서 관련된 정보를 효율적으로 검색 가능  
+**벡터 저장소에서 문서를 검색하는 도구**  
+- **Vector Store Retriever**  
+  - 대량의 텍스트 데이터에서 관련된 정보를 효율적으로 검색 가능  
 
-  - **MultiQueryRetriever**  
-    - Vector Store Retriever의 한계를 극복하기 위해 고안된 방식  
-    - 쿼리의 의미를 다각도로 포착, 더욱더 관련성이 높고 정확한 정보를 제공  
-    - 사용자의 입력 문장을 다양한 관점으로 Paraphrasing함  
+- **MultiQueryRetriever**  
+  - Vector Store Retriever의 한계를 극복하기 위해 고안된 방식  
+  - 쿼리의 의미를 다각도로 포착, 더욱더 관련성이 높고 정확한 정보를 제공  
+  - 사용자의 입력 문장을 다양한 관점으로 Paraphrasing함  
 
-  - **ContextualCompression**  
-    - 검색된 문서 중에서 쿼리와 관련된 정보만을 추출하여 반환  
-    - 답변의 품질을 높이고 비용을 줄일 수 있음
+- **ContextualCompression**  
+  - 검색된 문서 중에서 쿼리와 관련된 정보만을 추출하여 반환  
+  - 답변의 품질을 높이고 비용을 줄일 수 있음
 
 ---
 
 ## p60. Retriever  
 
-- **Vector Store Retriever**  
-  - **사전 준비:** 문서 임베딩을 벡터스토어에 저장  
+**Vector Store Retriever**  
+- **사전 준비:** 문서 임베딩을 벡터스토어에 저장  
 
-  - **단일 문서 검색**  
-    → 유사도가 가장 높은 것  
+- **단일 문서 검색**  
+  → 유사도가 가장 높은 것  
 
-  - **MMR 검색**  
-    → `lambda_mult`: 유사도와 다양성 중요도 결정  
+- **MMR 검색**  
+  → lambda_mult: 유사도와 다양성 중요도 결정  
 
-  - **유사도 점수 임계값 기반 검색**  
-    → 유사도가 임계값 이상인 문서만을 대상으로 추출  
+- **유사도 점수 임계값 기반 검색**  
+  → 유사도가 임계값 이상인 문서만을 대상으로 추출  
 
-  - **메타데이터 필터링 사용한 검색**  
-    - 메타데이터의 특정 필드에 대해서 기준을 설정하여 필터링  
-    - 예: `'format': 'PDF 1.4'` 처럼 특정 형식이나 조건 만족 기준
+- **메타데이터 필터링 사용한 검색**  
+  - 메타데이터의 특정 필드에 대해서 기준을 설정하여 필터링  
+  - 예: 'format': 'PDF 1.4'처럼 특정 형식이나 조건 만족 기준
 
 ---
 
 ## p61. Retriever  
 
-- **Multi Query Retriever**  
+**Multi Query Retriever**  
 
 - **사용 방법**  
   1. **MultiQueryRetriever 설정**  
@@ -1420,7 +1366,7 @@ print(mmr_docs[0].page_content)
 
 ## p62. Retriever  
 
-- **Contextual compression**  
+**Contextual compression**  
 
 - **구성과 동작방식**  
   1. **LLMChainExtractor 설정**  
@@ -1443,19 +1389,19 @@ print(mmr_docs[0].page_content)
 
 ## p63. Generation  
 
-- **Generation의 단계**  
-  1. **Retrieval**  
-     - MRR을 사용하든, 일반적인 similarity search를 사용하든 문서를 검색  
-  2. **Prompt**  
-     - Context 부분에 문서를 넣어줌  
-  3. **Model**  
-     - Model을 초기화  
-  4. **Formatting Docs**  
-     - 검색된 문서를 포맷팅  
-  5. **Chain Execution**  
-     - LLM chain 구성 및 실행  
-  6. **Run**  
-     - Invoke를 사용하여 체인을 실행
+**Generation의 단계**  
+1. **Retrieval**  
+    - MRR을 사용하든, 일반적인 similarity search를 사용하든 문서를 검색  
+2. **Prompt**  
+    - Context 부분에 문서를 넣어줌  
+3. **Model**  
+    - Model을 초기화  
+4. **Formatting Docs**  
+    - 검색된 문서를 포맷팅  
+5. **Chain Execution**  
+    - LLM chain 구성 및 실행  
+6. **Run**  
+    - Invoke를 사용하여 체인을 실행
 
 ---
 

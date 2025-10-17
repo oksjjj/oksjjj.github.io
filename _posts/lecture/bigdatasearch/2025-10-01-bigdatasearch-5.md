@@ -12,7 +12,7 @@ tags: []
 
 ## p2. 강의 개요
 
-거대 언어 모델(Large Language Model, LLM)은 폭발적인 성장을 거듦…  
+**거대 언어 모델(Large Language Model, LLM)**은 폭발적인 성장을 거듦…  
 단순히 사용자의 간단한 질문에 답변하는 어시스턴트 수준을 넘어,  
 최근에는 **모델 스스로 생각하고 추론하는 능력까지 갖추어**….
 
@@ -192,7 +192,7 @@ $$
 
 ## p6. 트랜스포머 모델의 이해와 활용
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="360px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="480px">
 
 - **병렬처리와 모델 확장 가능한 트랜스포머**  
   - Encoder와 Decoder 연결 구조  
@@ -242,7 +242,7 @@ $$
 
 **동작 과정**
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_3.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_3.png" alt="image" width="800px">
 
 ---
 
@@ -272,7 +272,7 @@ $$
 
 ## p8. 트랜스포머 모델
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="360px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_2.png" alt="image" width="480px">
 
 **모델의 구조**  
 
@@ -334,7 +334,7 @@ $$
   - 각 토큰은 임베딩 모델을 사용하여 고정크기($d_{model}$)의 벡터로 임베딩 (논문에서는 $d_{model}=512$)  
   - 각 토큰의 임베딩 벡터와 토큰의 위치를 인코딩한 벡터를 더하여 입력 벡터를 구성  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_4.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_4.png" alt="image" width="800px">
 
 ---
 
@@ -389,7 +389,7 @@ $$
 - 논문에서의 설정:  
   $d_{model} = 512 \quad (i.e., i \in [0, 255])$  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_5.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_5.png" alt="image" width="800px">
 
 ---
 
@@ -447,15 +447,15 @@ $$
 
 - **Attention?**  
   - 입력 문장에서 **중요한 부분에 집중**하는 메커니즘  
-  - 입력문장의 각 단어 간 연관성을 수치화하고, 문장 내에서 중요한 단어들에게 가중치를 부여  
+  - **입력문장의 각 단어 간 연관성을 수치화하고**, 문장 내에서 중요한 단어들에게 가중치를 부여  
 
-- **Self-Attention의 장점**  
-  - 문장 내 단어 간 관계를 계산하여 의미적 연관성을 반영  
-  - 문장 내 **모든 단어 간 관계를 한 번에 학습**  
-  - **병렬 연산 가능** → 연산 속도 향상  
-  - 긴 문장에서도 효율적으로 문맥을 유지  
+  - Self-Attention의 장점  
+    - 문장 내 단어 간 관계를 계산하여 **의미적 연관성을 반영**  
+    - 문장 내 **모든 단어 간 관계를 한 번에 학습**  
+    - **병렬 연산 가능** → 연산 속도 향상  
+    - 긴 문장에서도 **효율적으로 문맥을 유지**  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_6.png" alt="image" width="600px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_6.png" alt="image" width="800px">
 
 ---
 
@@ -463,7 +463,7 @@ $$
 
 **Multi-Head Attention Block의 내부 구조**  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_7.png" alt="image" width="720px">
+<img src="/assets/img/lecture/bigdatasearch/5/image_7.png" alt="image" width="800px">
 
 ---
 
@@ -509,13 +509,13 @@ $$
 ## p14. 트랜스포머 모델
 
 - **Multi-Head Attention ?**  
-  - 단일 Attention만 사용하면 하나의 관계만 학습  
-  - 여러 개의 Attention Head를 사용하여 다양한 관계 및 언어 현상/패턴을 학습  
-  - h개의 서로 다른 Attention을 적용한 후 Concat  
+  - 단일 Attention만 사용하면 **하나의 관계만 학습**  
+  - 여러 개의 Attention Head를 사용하여 **다양한 관계 및 언어 현상/패턴을 학습**  
+  - h개의 서로 다른 Attention을 적용한 후 **Concat**  
 
 - **효과**  
-  - 여러 관점에서 단어 간 관계 학습 → 더 정밀한 문맥 이해  
-  - 병렬 연산 가능 → 학습 속도 증가  
+  - 여러 관점에서 단어 간 관계 학습 → **더 정밀한 문맥 이해**  
+  - 병렬 연산 가능 → **학습 속도 증가**  
 
 <img src="/assets/img/lecture/bigdatasearch/5/image_10.png" alt="image" width="600px">
 
@@ -566,19 +566,22 @@ $$
 
 ---
 
-## p16. Position-Wise FFNN (Feed-Forward Neural Network)  
+## p16. 트랜스포머 모델
 
-- 인코더와 디코더에서 공통적으로 갖는 서브층으로 완전 연결 FFNN(Fully-connected FFNN), 동일 가중치를 모든 토큰 위치에 적용  
+**Position-Wise FFNN (Feed-Forward Neural Network)**  
+
+- 인코더와 디코더에서 공통적으로 갖는 서브층으로 완전 연결 FFNN(Fully-connected FFNN),  
+  동일 가중치를 모든 토큰 위치에 적용  
 - Attention 가중합 결과를 비선형 연산을 통해 어텐션 결과를 고차원 공간으로 Projection → 추상화 수준 향상  
 - 개별 토큰의 특징을 심화 학습하는 "미세 조정 장치" 역할  
 - ReLU 활성화로 하위층에서는 복잡한 단어 내부 패턴 학습(형태소 규칙, 구문특성 등), 상위층에서는 의미론적 관계 등을 학습  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_14.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_14.png" alt="image" width="800px"> 
 
-- $X$: 멀티헤드 어텐션 결과 행렬, $(seq\_len, d_{model})$의 크기  
-- $W_1$: 가중치 행렬 $(d_{model}, d_{ff})$의 크기  
-- $W_2$: 가중치 행렬 $(d_{ff}, d_{model})$의 크기  
-- $d_{ff}$: 피드 포워드 신경망의 은닉층의 크기 (논문에서는 2048)  
+>- $X$: 멀티헤드 어텐션 결과 행렬, $(seq\_len, d_{model})$의 크기  
+>- $W_1$: 가중치 행렬 $(d_{model}, d_{ff})$의 크기  
+>- $W_2$: 가중치 행렬 $(d_{ff}, d_{model})$의 크기  
+>- $d_{ff}$: 피드 포워드 신경망의 은닉층의 크기 (논문에서는 2048)  
 
 ---
 
@@ -614,10 +617,9 @@ $$
 
 ## p17. 트랜스포머 모델  
 
-- **Decoder Block: Masked Self-Attention**  
-  - 셀프 어텐션을 통해 어텐션 스코어 행렬 도출 후, 미래에 있는 단어들은 참고하지 못하도록 마스킹  
+**Decoder Block: Masked Self-Attention**  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_15.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_15.png" alt="image" width="800px"> 
 
 ---
 
@@ -647,7 +649,7 @@ $$
 
 ## p18. 트랜스포머 모델  
 
-- **Decoder Encode-Decoder MSA**
+**Decoder Encode-Decoder MSA**
 
 <img src="/assets/img/lecture/bigdatasearch/5/image_16.png" alt="image" width="720px"> 
 
@@ -733,32 +735,32 @@ $$
 ## p20. 트랜스포머 기반 주요 언어모델 유형  
 
 - **Encoder-Only Transformer Model**  
-  - 대표모델  
-    - BERT (Bidirectional Encoder Representations from Transformers)  
-    - ELECTRA  
-  - 문장내에서 단어들의 **양방향 문맥을 이해**  
+  - **대표모델**  
+    - **BERT (Bidirectional Encoder Representations from Transformers)**  
+    - **ELECTRA**  
+  - 문장내에서 단어들의 양방향 문맥을 이해  
   - 주로 텍스트 분류, 질의응답, 검색 등에 사용  
 
 - **Decoder-Only Transformer Model**  
-  - 대표 모델  
-    - GPT Family  
-    - PaLM Family  
-    - LLaMA Family  
-  - Auto-Regressive Model로 **언어 생성에 강점**  
+  - **대표 모델**  
+    - **GPT Family**  
+    - **PaLM Family**  
+    - **LLaMA Family**  
+  - Auto-Regressive Model로 언어 생성에 강점  
   - GPT-3는 1750억 개의 파라미터를 사용  
 
 - **Encoder-Decoder Transformer Model**  
-  - 대표모델  
-    - T5 (Text-To-Text Transfer Transformer)  
-    - BART (Bidirectional and Auto-Regressive Transformers)  
-  - 모든 NLP 작업을 텍스트 **변환 문제**로 통합  
+  - **대표모델**  
+    - **T5 (Text-To-Text Transfer Transformer)**  
+    - **BART (Bidirectional and Auto-Regressive Transformers)**  
+  - 모든 NLP 작업을 텍스트 변환 문제로 통합  
   - 다양한 NLP 작업에서 높은 성능  
 
 ---
 
 ## p21. GPT 모델 시리즈 개요  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_18.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/5/image_18.png" alt="image" width="800px"> 
 
 - **GPT 모델의 발전과정**  
 
@@ -843,7 +845,7 @@ $$
   - 실제로 학습 가능한 파라미터 수가 증가할수록 모델 성능이 증가하고,  
   - LLM은 이제 몇 개의 예시를 주면 다양한 NLP task를 수행할 수 있음  
 
-- 그러나, public NLP datasets에 대한 객관적인 성능은 향상되었으나, 인간의 의도를 잘 반영하고 있지 못하고(misaligned), 다음의 문제점들이 드러남  
+- **그러나, public NLP datasets에 대한 객관적인 성능은 향상되었으나, 인간의 의도를 잘 반영하고 있지 못하고(misaligned), 다음의 문제점들이 드러남**  
   - Making up facts  
   - Generating biased or toxic text  
   - Simply not following user instructions  
@@ -872,25 +874,25 @@ $$
 
 ## p27. InstructGPT / ChatGPT 개요  
 
-- **RLHF (Reinforcement Learning from Human Feedback)**  
-  - 지시, 대화 데이터에 대한 지도학습과 강화학습으로 LLM을 추가학습함으로써  
-  - 사용자의 지시, 대화에 따라 사용자의 의도를 반영하여 응답할 수 있는 human-aligned LLM 도출  
+**RLHF (Reinforcement Learning from Human Feedback)**  
+- 지시, 대화 데이터에 대한 지도학습과 강화학습으로 LLM을 추가학습함으로써  
+- 사용자의 지시, 대화에 따라 사용자의 의도를 반영하여 응답할 수 있는 human-aligned LLM 도출  
 
-- **학습과정**  
-  - **Step1: supervised fine-tuning (SFT)**  
-    - 입력 prompt에 대한 답변을 human labeler 40명이 작성해 training dataset 구축 (데이터 13,000개)  
-      - 어떻게 답변하는 것이 바람직한지 모범 답안을 제시함 (demonstrations of the desired behavior)  
-    - Training dataset으로 GPT-3 (1750억 파라미터)를 지시문에 따라 생성할 수 있도록 supervised fine-tuning  
-    - 사람의 선호를 보상 신호로 활용해 모델을 사전학습  
+**학습과정**  
+- **Step1: supervised fine-tuning (SFT)**  
+  - 입력 prompt에 대한 답변을 human labeler 40명이 작성해 training dataset 구축 (데이터 13,000개)  
+    - 어떻게 답변하는 것이 바람직한지 모범 답안을 제시함 (demonstrations of the desired behavior)  
+  - Training dataset으로 GPT-3 (1750억 파라미터)를 지시문에 따라 생성할 수 있도록 supervised fine-tuning  
+  - 사람의 선호를 보상 신호로 활용해 모델을 사전학습  
 
-  - **Step2: reward model (RM) training**  
-    - 여러 버전의 model output (한 번에 4~6개)에 대해 human labeler가 선호도 순위를 매긴 preference dataset 구축 (데이터 33,000개)  
-    - Preference dataset으로 reward model 학습  
-    - Reward model은 사람이 선호하는 output을 예측해 점수(reward)를 출력함  
+- **Step2: reward model (RM) training**  
+  - 여러 버전의 model output (한 번에 4~6개)에 대해 human labeler가 선호도 순위를 매긴 preference dataset 구축 (데이터 33,000개)  
+  - Preference dataset으로 reward model 학습  
+  - Reward model은 사람이 선호하는 output을 예측해 점수(reward)를 출력함  
 
-  - **Step3: reinforcement learning via PPO algorithm on the reward model**  
-    - RM을 이용해 supervised policy (Step 1에서 학습시킨 모델)을 fine-tuning (데이터 31,000개)  
-    - 최종 모델로 fine-tuning 해가는 과정에서 Step1의 모델과 너무 다르지 않도록 penalty를 줌  
+- **Step3: reinforcement learning via PPO algorithm on the reward model**  
+  - RM을 이용해 supervised policy (Step 1에서 학습시킨 모델)을 fine-tuning (데이터 31,000개)  
+  - 최종 모델로 fine-tuning 해가는 과정에서 Step1의 모델과 너무 다르지 않도록 penalty를 줌  
 
 ---
 
@@ -941,43 +943,41 @@ $$
 
 ## p29. Instruction Following을 위한 데이터셋 구축 예시  
 
-- **그림 설명**  
-  - 인스턴스 포맷팅(instance formatting)과 지시문(instruction) 형식의 인스턴스를 구축하기 위한 세 가지 서로 다른 방법을 나타낸 그림.  
+**인스턴스 포맷팅(instance formatting)과, 지시문(instruction) 형식의 인스턴스를 구축하기 위한 세 가지 서로 다른 방법을 나타낸 그림**  
 
 - **(a) 작업(Task) 데이터셋 포맷팅**  
-  - 사람이 직접 작성한(Task description) 설명  
-    - 예: *이 질문에 답해주세요:*  
-  - 시연(Demonstrations) 예시  
-    - Q: 프랑스의 수도는 무엇입니까?  
-      A: 파리  
-    - Q: 브라질의 수도는 무엇입니까?  
-      A: 브라질리아  
-  - NLP 데이터셋 예시: 문장 구성(Sentence Composition), 질문 응답(Question Answering), 텍스트 함의(Textual Entailment), 패러프레이징(Paraphrasing), 감정 분석(Sentiment Analysis), 자연어 추론(NLI), 번역(Translation), 질문 생성(Question Generation) 등  
-  - 입력(Input) → 출력(Output) 쌍으로 변환  
-    - Q: 중국의 수도는 무엇입니까?  
-      A: 베이징  
-
-<img src="/assets/img/lecture/bigdatasearch/5/image_23.png" alt="image" width="600px">  
+  <img src="/assets/img/lecture/bigdatasearch/5/image_23.png" alt="image" width="600px">  
+  - **사람이 직접 작성 (Human-written)**
+    - 작업 설명(Task description)  
+      - *이 질문에 답해주세요:*  
+  - **NLP 데이터셋**
+    >문장 구성(Sentence Composition), 질문 응답(Question Answering), 텍스트 함의(Textual Entailment), 의역하기(Paraphrasing), 감정 분석(Sentiment Analysis), 자연어 추론(NLI), 번역(Translation), 질문 생성(Question Generation) 등  
+    - **시연(Demonstrations)**  
+      - Q: 프랑스의 수도는 무엇입니까?  
+        A: 파리  
+      - Q: 브라질의 수도는 무엇입니까?  
+        A: 브라질리아  
+    - **입력(Input), 출력(Output)**  
+      - Q: 중국의 수도는 무엇입니까?  
+        A: 베이징  
 
 - **(b) 일상 대화 데이터 포맷팅**  
-  - API 수집 & 사람이 직접 작성(Human-written)을 통해 작업 설명(Task description) 확보  
-    - 예: *다이어트를 할 수 있는 몇 가지 방법을 추천해줄 수 있나요?*  
-  - 사람이 작성한 원하는 출력(Desired output)  
-    - 출력:  
-      1. 건강한 식단을 유지하세요: ~에 집중  
-      2. 신체 활동을 늘리세요: ~에 참여  
-
-<img src="/assets/img/lecture/bigdatasearch/5/image_24.png" alt="image" width="400px">  
+  <img src="/assets/img/lecture/bigdatasearch/5/image_24.png" alt="image" width="400px">
+  - **API 수집** 또는 **사람이 직접 작성(Human-written)**  
+  - **작업 설명(Task description)**  
+    - *다이어트를 할 수 있는 몇 가지 방법을 추천해줄 수 있나요?*  
+  - **사람이 작성한 원하는 출력(Desired output)**  
+    1. 건강한 식단을 유지하세요: ~에 집중  
+    2. 신체 활동을 늘리세요: ~에 참여    
 
 - **(c) 합성(Synthetic) 데이터 포맷팅**  
+  <img src="/assets/img/lecture/bigdatasearch/5/image_25.png" alt="image" width="440px">  
   - 시드 인스턴스(Seed Instances)를 기반으로 LLM이 지시문(Instruction)을 생성  
   - 작업 설명(Task description) 예시: *이 주제에 대해 유명인의 명언을 알려주세요.*  
   - LLM이 입력-출력(Input-Output) 생성  
     - 입력: 정직함의 중요성  
     - 출력: 정직은 지혜의 책에서 첫 장이다.  
   - 인스턴스 풀(Instance Pool)에 저장된 후 필터(Filter) 과정을 거침  
-
-<img src="/assets/img/lecture/bigdatasearch/5/image_25.png" alt="image" width="440px">  
 
 ---
 
@@ -1004,7 +1004,7 @@ $$
 - **평가: Aligned Model 정의 요소**  
   - Likert, Helpful, Truthfulness, Harmlessness / Bias  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_26.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_26.png" alt="image" width="800px">  
 
 ---
 
@@ -1033,7 +1033,7 @@ $$
 
 ## p31. LLM 구축 방법  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_27.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_27.png" alt="image" width="800px">  
 
 - **데이터 정제 (Data Cleaning)**  
   - *데이터 필터링 (Data Filtering)*  
@@ -1130,7 +1130,7 @@ $$
 
 **Fig. 7**: 대규모 언어 모델(LLM, Large Language Models)의 사전학습을 위한 전형적인 데이터 전처리 파이프라인을 보여줌.
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_28.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_28.png" alt="image" width="800px">  
 
 - **원시 말뭉치 (Raw Corpus)**  
   - 인터넷, 논문, 코드 저장소 등에서 수집된 대규모 데이터  
@@ -1189,23 +1189,23 @@ $$
 
 ## p33. LLM의 Capabilities  
 
-<img src="/assets/img/lecture/bigdatasearch/5/image_29.png" alt="image" width="720px">  
+<img src="/assets/img/lecture/bigdatasearch/5/image_29.png" alt="image" width="800px">  
 
 - **기초 기능 (Basic)**  
-  - *이해 (Comprehension)*: 요약(Summarization), 객관식 질의응답(Multi choice QA), 참/거짓 질의응답(Boolean QA), 단순화(Simplification), 독해(Reading Comprehension)  
-  - *세계 지식 (World knowledge)*: 위키피디아 질의응답(Wikipedia QA), 객관식 질의응답(Multi choice QA)  
-  - *코딩 (Coding)*: API 호출(API calling), 함수 호출(Function Calling)  
-  - *다국어 (Multilingual)*: 번역(Translation), XNLI, 교차 언어 질의응답(Crosslingual QA), 교차 언어 작업(Crosslingual Tasks)  
+  - **이해 (Comprehension)**: 요약(Summarization), 객관식 질의응답(Multi choice QA), 참/거짓 질의응답(Boolean QA), 단순화(Simplification), 독해(Reading Comprehension)  
+  - **세계 지식 (World knowledge)**: 위키피디아 질의응답(Wikipedia QA), 객관식 질의응답(Multi choice QA)  
+  - **코딩 (Coding)**: API 호출(API calling), 함수 호출(Function Calling)  
+  - **다국어 (Multilingual)**: 번역(Translation), XNLI, 교차 언어 질의응답(Crosslingual QA), 교차 언어 작업(Crosslingual Tasks)  
 
 - **발현 기능 (Emerging)**  
-  - *지시 따르기 (Instruction following)*: 작업 정의(Task definition), 완성(Completion), 퓨샷(Few-shot), 턴 기반(Turn based)  
-  - *추론 (Reasoning)*: 상징적(Symbolic), 상식(Common Sense), 산술(Arithmetic), 논리(Logical)  
-  - *맥락 내 학습 (In-context learning)*: 단계별 해결(Step by step solving), 상징적 참조(Symbolic reference), 과제 계획(Assignment planning), 긍/부정 예시(Pos/Neg example)  
+  - **지시 따르기 (Instruction following)**: 작업 정의(Task definition), 완성(Completion), 퓨샷(Few-shot), 턴 기반(Turn based)  
+  - **추론 (Reasoning)**: 상징적(Symbolic), 상식(Common Sense), 산술(Arithmetic), 논리(Logical)  
+  - **맥락 내 학습 (In-context learning)**: 단계별 해결(Step by step solving), 상징적 참조(Symbolic reference), 과제 계획(Assignment planning), 긍/부정 예시(Pos/Neg example)  
 
 - **증강 기능 (Augmented)**  
-  - *사용자와 상호작용 (Interacting with users)*: 물리적 행동(Physical acting), 가상 행동(Virtual acting)  
-  - *도구 활용 (Tool utilization)*: 작업 분해(Task decomposition), 도구 계획(Tool planning), 지식 기반 활용(Knowledge base utilization)  
-  - *자기 개선 (Self-improvement)*: 자기 비판(Self-criticism), 자기 정제(Self-refinement)  
+  - **사용자와 상호작용 (Interacting with users)**: 물리적 행동(Physical acting), 가상 행동(Virtual acting)  
+  - **도구 활용 (Tool utilization)**: 작업 분해(Task decomposition), 도구 계획(Tool planning), 지식 기반 활용(Knowledge base utilization)  
+  - **자기 개선 (Self-improvement)**: 자기 비판(Self-criticism), 자기 정제(Self-refinement)  
 
 ---
 
@@ -1228,11 +1228,11 @@ $$
 ## p34. 자연어처리 성능향상 기술요소  
 
 - **LLM 활용에 기반이 되는 Foundation Model**  
-  - *대규모 모델 학습을 위한 Mixture-of-Experts*  
+  - **대규모 모델 학습을 위한 Mixture-of-Experts**  
     - 적은 계산 비용으로 대규모 모델 학습을 가능하게 하는 효율적인 구조  
     - 트랜스포머 모델의 Feed-Forward Network(FFN) 계층을 다수의 FFN으로 구성된 MoE Layer로 대체, 입력 토큰마다 선택적으로 특정 Expert들을 활성화해 연산을 수행하는 모델 구조  
 
-  - *빠르고 효율적인 학습을 위한 FP8 Training*  
+  - **빠르고 효율적인 학습을 위한 FP8 Training**  
     - LLM의 학습 속도와 효율을 더 높이기 위한 낮은 정밀도 학습이 주목  
     - 초기 32비트(Float32)에서 시작하여 Bf16과 같은 16비트 → 최근에는 8비트(FP8)  
     - 메모리 사용량 감소와 함께 계산 속도 향상되는 이점  
@@ -1241,7 +1241,7 @@ $$
   - 라벨링 및 데이터 증강(Data Augmentation): 적은 데이터로 모델 성능을 높이는 기법  
   - 노이즈 제거(Noise Reduction): 철자 오류 수정, 중복 데이터 제거  
   - 멀티모달 데이터 활용(Multimodal Learning): 텍스트 뿐만 아니라 이미지, 음성을 함께 처리  
-  - 고품질의 Instruction Data 생성  
+  - **고품질의 Instruction Data 생성**  
 
 ---
 
@@ -1251,8 +1251,8 @@ $$
   - Transfer Learning: 사전학습 된 모델을 활용하여 새로운 작업에 적은 데이터로 적용  
   - In context Learning: 적은 학습 데이터로 성능을 유지하는 기법  
   - Knowledge Distillation: 대형 모델의 지식을 작은 모델로 전이하여 경량화  
-  - 사람의 지시를 잘 따르기 위한 Instruction Tuning과 심층 추론을 위한 Reasoning Model  
-  - 사람의 선호를 학습하는 Preference Learning  
+  - **사람의 지시를 잘 따르기 위한 Instruction Tuning과 심층 추론을 위한 Reasoning Model**  
+  - **사람의 선호를 학습하는 Preference Learning**  
 
 - **하드웨어 및 시스템 지원**  
   - GPU/TPU 가속 (Hardware Acceleration): 대규모 NLP 모델 학습 속도 향상  
@@ -1334,7 +1334,9 @@ $$
 
 ---
 
-## p39. In-Context Learning  
+## p39. 프롬프트 엔지니어링
+
+**In-Context Learning**  
 
 - 모델 파라미터를 업데이트하며 학습하는 것이 아니고,  
   새로운 문제나 도메인에 모델을 적용할 때 (Inference 시) 잘 해보자는 접근방법으로,  
@@ -1347,31 +1349,31 @@ $$
 
 ## p40. 기본 프롬프트 기법  
 
-- **기본 프롬프트 구조**  
+**기본 프롬프트 구조**  
 
-  - **지시 (Instruction)**  
-    - 모델에게 수행할 태스크를 명확히 알려주는 부분  
-      - "주어진 영화 리뷰의 감성을 긍정 또는 부정으로 분류하시오."  
-      - "당신은 영화 리뷰 분석 전문가입니다. 리뷰의 감성을 판단해주세요."  
-      - "다음 리뷰가 긍정적인지 부정적인지 결정하세요."  
+- **지시 (Instruction)**  
+  - 모델에게 수행할 태스크를 명확히 알려주는 부분  
+    - "주어진 영화 리뷰의 감성을 긍정 또는 부정으로 분류하시오."  
+    - "당신은 영화 리뷰 분석 전문가입니다. 리뷰의 감성을 판단해주세요."  
+    - "다음 리뷰가 긍정적인지 부정적인지 결정하세요."  
 
-  - **컨텍스트 (Context)**  
-    - 태스크 수행에 필요한 배경 정보나 자료  
-      - "감성 분류는 '긍정' 또는 '부정' 둘 중 하나로만 응답해야 합니다." (규칙 제시)  
-      - "긍정적인 리뷰는 영화에 대한 만족감, 칭찬, 추천 등의 내용을 포함합니다. 부정적인 리뷰는 실망감, 비판, 불만족 등의 내용을 포함합니다." (개념 정의)  
-      - (Few-shot 예시 - 아래 '입력 데이터'와 '출력 형식 지시' 포함하여 구성)  
+- **컨텍스트 (Context)**  
+  - 태스크 수행에 필요한 배경 정보나 자료  
+    - "감성 분류는 '긍정' 또는 '부정' 둘 중 하나로만 응답해야 합니다." (규칙 제시)  
+    - "긍정적인 리뷰는 영화에 대한 만족감, 칭찬, 추천 등의 내용을 포함합니다. 부정적인 리뷰는 실망감, 비판, 불만족 등의 내용을 포함합니다." (개념 정의)  
+    - (Few-shot 예시 - 아래 '입력 데이터'와 '출력 형식 지시' 포함하여 구성)  
 
-  - **입력 데이터 (Input Data)**  
-    - 모델이 처리해야 할 실제 데이터  
-    - 간단한 텍스트 분류 또는 정보 추출 프롬프트 작성 및 모델 출력 확인 (예: 분석할 텍스트)  
-      - "리뷰: 영상미는 뛰어났지만 스토리가 좀 아쉬웠어요." (모델이 분류할 실제 리뷰)  
-      - "사용자 리뷰: 이 영화 정말 인생 영화입니다!"  
+- **입력 데이터 (Input Data)**  
+  - 모델이 처리해야 할 실제 데이터  
+  - 간단한 텍스트 분류 또는 정보 추출 프롬프트 작성 및 모델 출력 확인 (예: 분석할 텍스트)  
+    - "리뷰: 영상미는 뛰어났지만 스토리가 좀 아쉬웠어요." (모델이 분류할 실제 리뷰)  
+    - "사용자 리뷰: 이 영화 정말 인생 영화입니다!"  
 
-  - **출력 형식 지시 (Output Indicator)**  
-    - 원하는 출력의 시작이나 형식을 알려주는 표시  
-      - "감성:"  
-      - "분류 결과:"  
-      - "판단:"  
+- **출력 형식 지시 (Output Indicator)**  
+  - 원하는 출력의 시작이나 형식을 알려주는 표시  
+    - "감성:"  
+    - "분류 결과:"  
+    - "판단:"  
 
 ---
 
@@ -1390,76 +1392,74 @@ $$
   여기서 사실에 근거한 주장들을 뽑아주고, 사실 여부 확인할 수 있는 질문들을 만들되,  
   질문을 만들 때에는 SEARCH("query") 형식으로 만들어줘.  
 
----
+**Chat GPT 답변**  
 
-- **추출된 주장들**  
-  1. 톰 크루즈는 니콜 키드먼과 재혼했다.  
-  2. 그들에게 3명의 자녀가 있다.  
-  3. 그는 현재 니콜 키드먼과 이혼한 상태이다.  
-
-- **검색 질문들**  
-
-  1. **톰 크루즈와 니콜 키드먼의 재혼 여부 확인**  
-     - SEARCH("Tom Cruise remarried Nicole Kidman")  
-     - SEARCH("Tom Cruise Nicole Kidman remarriage")  
-
-  2. **톰 크루즈와 니콜 키드먼의 자녀 수 확인**  
-     - SEARCH("Tom Cruise Nicole Kidman three children")  
-     - SEARCH("Tom Cruise Nicole Kidman children")  
-     - SEARCH("Tom Cruise Nicole Kidman family")  
-
-  3. **톰 크루즈와 니콜 키드먼의 이혼 상태 확인**  
-     - SEARCH("Tom Cruise Nicole Kidman divorce")  
-     - SEARCH("Tom Cruise Nicole Kidman current relationship status")  
-     - SEARCH("Tom Cruise Nicole Kidman divorced")  
-
-이러한 질문들을 검색 엔진에 입력하면, 해당 주장들의 사실 여부를 확인할 수 있는 정보를 찾을 수 있습니다.  
+>- **추출된 주장들**  
+>  1. 톰 크루즈는 니콜 키드먼과 재혼했다.  
+>  2. 그들에게 3명의 자녀가 있다.  
+>  3. 그는 현재 니콜 키드먼과 이혼한 상태이다.  
+>
+>- **검색 질문들**  
+>
+>  1. **톰 크루즈와 니콜 키드먼의 재혼 여부 확인**  
+>     - SEARCH("Tom Cruise remarried Nicole Kidman")  
+>     - SEARCH("Tom Cruise Nicole Kidman remarriage")  
+>
+>  2. **톰 크루즈와 니콜 키드먼의 자녀 수 확인**  
+>     - SEARCH("Tom Cruise Nicole Kidman three children")  
+>     - SEARCH("Tom Cruise Nicole Kidman children")  
+>     - SEARCH("Tom Cruise Nicole Kidman family")  
+>
+>  3. **톰 크루즈와 니콜 키드먼의 이혼 상태 확인**  
+>     - SEARCH("Tom Cruise Nicole Kidman divorce")  
+>     - SEARCH("Tom Cruise Nicole Kidman current relationship status")  
+>     - SEARCH("Tom Cruise Nicole Kidman divorced")  
+>
+>이러한 질문들을 검색 엔진에 입력하면, 해당 주장들의 사실 여부를 확인할 수 있는 정보를 찾을 수 있습니다.  
 
 ---
 
 ## p42. 프롬프트 엔지니어링 기법  
 
-- **Few-Shot Prompting**  
-  - 문맥 내 학습(In Context Learning)을 사용한 프롬프트팅 기법  
-  - 새로운 문제나 도메인에서 원하는 작업의 성공적인 작업 수행 예시를 제공하여  
-    새로운 문제에 대해 원하는 수행결과를 생성하는 기법  
+**Few-Shot Prompting**  
+- 문맥 내 학습(In Context Learning)을 사용한 프롬프트팅 기법  
+- 새로운 문제나 도메인에서 원하는 작업의 성공적인 작업 수행 예시를 제공하여  
+  새로운 문제에 대해 원하는 수행결과를 생성하는 기법  
 
----
+- **다음의 예시에서와 같이 주어진 텍스트에서 속성과 속성에 대한 의견을 추출해줘**  
 
-- **예시 (한국어)**  
-  - 다음의 예시에서와 같이 주어진 텍스트에서 속성과 속성에 대한 의견을 추출해줘  
+  예시1: 내 두피 상태에 맞춤형으로 원하는 향과 헤어케어에 도움이 되었다.  
+  → `<두피, 맞춤형이다>, <향, 원한다>, <헤어케어, 도움된다>`  
 
-    예시1: 내 두피 상태에 맞춤형으로 원하는 향과 헤어케어에 도움이 되었다.  
-    → `<두피, 맞춤형이다>, <향, 원한다>, <헤어케어, 도움된다>`  
+  예시2: 브랜드 이미지가 좋고 아파트 주변 조경이 맘에 든다.  
+  → `<브랜드 이미지, 좋다>, <주변 조경, 좋다>`  
 
-    예시2: 브랜드 이미지가 좋고 아파트 주변 조경이 맘에 든다.  
-    → `<브랜드 이미지, 좋다>, <주변 조경, 좋다>`  
+  텍스트: 롯데캐슬이란 상호가 왠지 고급스럽게 느껴짐  
 
-    텍스트: 롯데캐슬이란 상호가 왠지 고급스럽게 느껴짐  
-    → `<상호, 고급스럽다>`  
+  - **Chat GPT 답변**  
+  > `<상호, 고급스럽다>`  
 
----
+- **Your task is to answer in a consistent style.**  
 
-- **예시 (영어)**  
-  - *Your task is to answer in a consistent style.*  
+  **<child>**: Teach me about patience.  
+  **<grandparent>**: The river that carves the deepest valley flows from a modest spring;  
+  the grandest symphony originates from a single note;  
+  the most intricate tapestry begins with a solitary thread.  
 
-    **<child>**: Teach me about patience.  
-    **<grandparent>**: The river that carves the deepest valley flows from a modest spring;  
-    the grandest symphony originates from a single note;  
-    the most intricate tapestry begins with a solitary thread.  
+  **<child>**: Teach me about resilience.  
 
-    **<child>**: Teach me about resilience.  
-    **<grandparent>**: The mighty bamboo bends but does not break under the fiercest winds;  
-    the persistent water erodes even the hardest stone over time;  
-    the small seedling that pushes through the concrete crack reaches for the sun.  
+  - **Chat GPT 답변**  
+  >**<grandparent>**: The mighty bamboo bends but does not break under the fiercest winds;  
+  >the persistent water erodes even the hardest stone over time;  
+  >the small seedling that pushes through the concrete crack reaches for the sun.  
 
 ---
 
 ## p43. 기본 프롬프트 엔지니어링 기법  
 
-- **역할 부여 (Role Playing) 프롬프트**  
-  - 모델에게 특정 역할(예: 전문 연구원, 비평가, 요약 전문가)을 부여하는 기법  
-  - 역할 부여를 통해 모델의 응답 스타일과 내용 제어  
+**역할 부여 (Role Playing) 프롬프트**  
+- **모델에게 특정 역할(예: 전문 연구원, 비평가, 요약 전문가)을 부여하는 기법**  
+- **역할 부여를 통해 모델의 응답 스타일과 내용 제어**  
 
 - **주요목적**  
   - 모델 응답의 스타일과 톤을 특정 역할에 맞게 조정  
@@ -1477,13 +1477,13 @@ $$
 
 ## p44. 기본 프롬프트 엔지니어링 기법  
 
-- **제약 조건 기반 프롬프트**  
-  - 모델의 응답을 사용자의 의도에 더욱 정확하게 맞추고 통제하기 위한 기법 중 하나  
-    - 출력의 길이, 스타일, 포함/제외해야 할 내용 등 구체적인 제약 조건 명시  
-    - 부정적 제약 (Negative Constraints): 모델이 하지 말아야 할 것을 명시  
-    - 제약 조건 충돌 관리  
-  - LLM은  
-    - 생성될 응답의 형태, 내용, 길이에 대한 구체적인 제한을 설정  
+**제약 조건 기반 프롬프트**  
+- 모델의 응답을 사용자의 의도에 더욱 정확하게 맞추고 통제하기 위한 기법 중 하나  
+  - 출력의 길이, 스타일, 포함/제외해야 할 내용 등 구체적인 제약 조건 명시  
+  - 부정적 제약 (Negative Constraints): 모델이 하지 말아야 할 것을 명시  
+  - 제약 조건 충돌 관리  
+- LLM은  
+  - 생성될 응답의 형태, 내용, 길이에 대한 구체적인 제한을 설정  
 
 - **제약 조건 기반 프롬프트 작성 방법**  
   **모델이 명확하게 인식하고 따를 수 있도록 지시를 구체적으로 작성**  
@@ -1497,16 +1497,16 @@ $$
 
 ## p45. 기본 프롬프트 엔지니어링 기법  
 
-- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글은 반드시 50자 이상 100자 이하로 작성해야 해.  
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글은 반드시 **50자 이상 100자 이하로** 작성해야 해.  
   제품: 최신 스마트 워치 "TechTime Pro"  
 
-- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"혁신적인 디자인"**과 **"오래가는 배터리"**라는 키워드를 반드시 포함해야 해.  
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"혁신적인 디자인"과 "오래가는 배터리"라는 키워드를 반드시 포함**해야 해.  
   제품: 최신 스마트 워치 "TechTime Pro"  
 
-- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"방수 기능"** 또는 **"운동 추적"** 기능에 대한 내용은 절대 언급하지 않아야 해.  
+- 다음 제품에 대한 소개 글을 작성해 줘. 소개 글에는 **"방수 기능" 또는 "운동 추적" 기능에 대한 내용은 절대 언급하지 않아야** 해.  
   제품: 최신 스마트 워치 "TechTime Pro"  
 
-- 당신은 제품 마케터입니다. 다음 제품에 대한 짧은 홍보 문구를 작성해 주세요. 홍보 문구는 **"30자 이내"**여야 하며, **"스마트"**, **"시간"**, **"디자인"** 이 세 단어를 모두 포함해야 합니다. 또한, 가격에 대한 언급은 절대 하지 마세요.  
+- 당신은 제품 마케터입니다. 다음 제품에 대한 짧은 홍보 문구를 작성해 주세요. 홍보 문구는 **"30자 이내"여야 하며, "스마트", "시간", "디자인" 이 세 단어를 모두 포함**해야 합니다. 또한, **가격에 대한 언급은 절대 하지 마세요.**  
   제품: 최신 스마트 워치 "TechTime Pro"  
 
   홍보 문구:  
@@ -1534,7 +1534,7 @@ $$
 >정보 추출 과정을 단계별로 설명해주세요. 각 단계는 짧은 문장으로 작성합니다.
 >모든 추출 과정 설명이 끝난 후, 추출된 최종 정보를 마크다운 테이블 형식으로 요약해서 보여주세요.
 >
->--- 문단: 최근 발행된 보고서에 따르면, 2023년에 착수된 이 프로젝트의 총 비용은 150만 달러였습니다. 연구 결과는 긍정적이며, 향후 추가 투자가 기대됩니다.
+>--- 문단: 최근 발행된 보고서에 따르면, 2023년에 착수된 이 프로젝트의 총 비용은 150만 달러였습니다. 연구 결과는 긍정적이며, 향후 추가 투자가 기대됩니다.  
 >--- 단계별 추출 과정:
 
 ---
@@ -1552,7 +1552,7 @@ $$
 
 ## p48. 고급 프롬프트 엔지니어링 - CoT  
 
-- **복잡한 문제 해결 과정에서 단계별 추론을 사용하여 답변 퀄리티를 높이는 기법**  
+- 복잡한 문제 해결 과정에서 **단계별 추론**을 사용하여 답변 퀄리티를 높이는 기법  
 - 모델이 sufficiently large LLM(충분히 큰 LLM)에서만 작동하며,  
   CoT 설계 시 질문을 단계별로 분해하고, 각 단계에서 필요한 정보와 추론 과정을 명시하는 것이 핵심임  
 
@@ -1560,26 +1560,26 @@ $$
 
 **Standard Prompting**  
 
-- *Model Input*  
+- **Model Input**  
   Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?  
   A: The answer is 11.  
 
   Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?  
 
-- *Model Output*  
+- **Model Output**  
   ❌ **잘못된 답변:** A: The answer is 27.  
 
 ---
 
 **Chain-of-Thought Prompting**  
 
-- *Model Input*  
+- **Model Input**  
   Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?  
   A: Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls. 5 + 6 = 11. The answer is 11.  
 
   Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?  
 
-- *Model Output*  
+- **Model Output**  
   ✅ **올바른 답변:** A: The cafeteria had 23 apples originally. They used 20 to make lunch. So they had 23 - 20 = 3. They bought 6 more apples, so they have 3 + 6 = 9. The answer is 9.  
 
 ---
@@ -1588,7 +1588,7 @@ $$
 
 - **텍스트와 비전을 2단계 프레임워크로 통합**  
   - **첫 번째 단계: 다중 모드 정보를 기반으로 한 이론적 근거 생성 단계**  
-    모델에 텍스트와 이미지를 모두 제공, 텍스트와 이미지가 어떻게 관련되어 있는지 설명하는 근거 생성  
+    모델에 텍스트와 이미지를 모두 제공, **텍스트와 이미지가 어떻게 관련되어 있는지** 설명하는 근거 생성  
   - **두 번째 단계: 답변 추론**  
     첫 번째 단계에서 생성한 정보적 근거를 사용하여 질문에 대한 정답을 추론  
 
@@ -1617,7 +1617,7 @@ $$
 
 ## p50. Generate Knowledge Prompting
 
-- **Generate Knowledge Prompting ?**  
+- **Generate Knowledge Prompting**:  
   - 모델로부터 답을 얻기 전에 **Few-shot Prompting**으로 모델이 직접 관련 정보를 가져오도록 한 다음,  
     이를 질문과 함께 활용해서 답을 생성하는 방법  
 
@@ -1650,10 +1650,12 @@ $$
 
 ## p51. 고급 프롬프트 엔지니어링 - Meta Prompt
 
-- **Meta Prompt 정의**  
-  - 일반적인 프롬프트가 LLM에게 "이것을 번역해 줘", "이 질문에 답해 줘"와 같이 특정 작업을 직접 수행하도록 지시하는 것이라면,  
-    **메타 프롬프트(Meta Prompt)** 는 LLM에게 *프롬프트 자체*에 대한 작업을 수행하거나, 모델의 전반적인 행동 방식/규칙을 정의하도록 지시하는 프롬프트  
-  - 즉, 모델의 **'사고(思考)'** 나 **'프롬프트 처리 방식'**, **'역할'** 등에 대한 지시를 담고 있으며,  
+**Meta Prompt**  
+
+- **정의**
+  - 일반적인 프롬프트가 LLM에게 "이것을 번역해 줘", "이 질문에 답해 줘"와 같이 **특정 작업을 직접 수행하도록 지시**하는 것이라면,  
+    **메타 프롬프트(Meta Prompt)는 LLM에게 *프롬프트 자체*에 대한 작업을 수행하거나, 모델의 전반적인 행동 방식/규칙을 정의하도록 지시**하는 프롬프트  
+  - 즉, 모델의 **'사고(思考)'나 '프롬프트 처리 방식', '역할' 등에 대한 지시**를 담고 있으며,  
     사용자의 최종 태스크를 직접적으로 수행하는 것이 아니라 **다른 프롬프트의 생성이나 모델의 상위 레벨 행동을 제어하는 데 관여**  
 
 - **주요 목적 및 사용 사례**  
@@ -1670,27 +1672,32 @@ $$
 
 ## p52. 고급 프롬프트 엔지니어링
 
-- **meta_prompt_system_message = """**  
+```
+meta_prompt_system_message = """  
   You are a helpful and friendly AI assistant. However, you are not a medical professional.  
   Whenever the user asks about health issues, medical conditions, symptoms, or treatments,  
-  you must first state clearly that **"I am an AI and cannot provide medical advice. Please consult a qualified healthcare professional for any health concerns."**  
+  you must first state clearly that "I am an AI and cannot provide medical advice. Please 
+  consult a qualified healthcare professional for any health concerns."  
   Before providing any general information, start your response with this exact sentence.  
   For other types of questions, answer normally.  
-  **"""**
+  """
 
-- **사용자 질문 예시**  
-  - user_question_health = "요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?"  
-  - user_question_other = "오늘 날씨는 어떤가요?"
+# --- 사용자 질문 예시 ---
+user_question_health = "요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?"  
+user_question_other = "오늘 날씨는 어떤가요?"
+```
 
-- **응답 예시**  
-  - 사용자 질문: 요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?  
-    모델 응답: 저는 AI이며 의료 조언을 제공할 수 없습니다. 건강 문제에 대해서는 자격을 갖춘 의료 전문가와 상담하시기 바랍니다.  
-    일반적으로 피곤함과 두통은 다양한 원인으로 인해 발생할 수 있습니다. 스트레스, 수면 부족, 탈수, 과도한 카페인 섭취 또는  
-    심지어 감기와 같은 감염이 원인일 수 있습니다. 하지만 정확한 원인은 전문가의 진단이 필요합니다. 건강을 잘 챙기세요!  
+``` 
+--- 사용자 질문: 요즘 계속 피곤하고 두통이 있어요. 왜 그런 걸까요?  
+--- 모델 응답: 저는 AI이며 의료 조언을 제공할 수 없습니다. 건강 문제에 대해서는 자격을 갖춘 의료 전문가와 상담하시기 
+    바랍니다. 일반적으로 피곤함과 두통은 다양한 원인으로 인해 발생할 수 있습니다. 스트레스, 수면 부족, 탈수, 과도한 
+    카페인 섭취 또는 심지어 감기와 같은 감염이 원인일 수 있습니다. 하지만 정확한 원인은 전문가의 진단이 필요합니다. 
+    건강을 잘 챙기세요!  
 
-  - 사용자 질문: 오늘 날씨는 어떤가요?  
-    모델 응답: 오늘의 날씨는 지역에 따라 다를 수 있습니다. 구체적인 지역을 알려주시면 더 정확한 정보를 제공해드릴 수 있습니다.  
-    또는, 기상청 웹사이트나 날씨 앱을 통해 최신 날씨 정보를 확인하시는 것도 좋은 방법입니다!  
+--- 사용자 질문: 오늘 날씨는 어떤가요?  
+--- 모델 응답: 오늘의 날씨는 지역에 따라 다를 수 있습니다. 구체적인 지역을 알려주시면 더 정확한 정보를 제공해드릴 수 
+    있습니다. 또는, 기상청 웹사이트나 날씨 앱을 통해 최신 날씨 정보를 확인하시는 것도 좋은 방법입니다!  
+```
 
 ---
 
@@ -1715,46 +1722,50 @@ $$
 
 ## p53. 고급 프롬프트 엔지니어링  
 
-- **메타 프롬프트 작성**  
+```
+# --- 메타 프롬프트 작성 ---
 
-  # --- 메타 프롬프트 작성 ---  
+# 프롬프트 생성 대상 태스크 정의
+target_task_description = "주어진 영화 리뷰의 감성을 '긍정' 또는 '부정'으로 분류하시오."
 
-  # 프롬프트 생성 대상 태스크 정의  
-  target_task_description = "주어진 영화 리뷰의 감성을 '긍정' 또는 '부정'으로 분류하시오."  
+# 프롬프트 후보 생성을 요청하는 메타 프롬프트
+meta_prompt_for_prompt_generation = f"""
+당신은 대규모 언어 모델을 위한 프롬프트 작성 전문가입니다. 다음 태스크를 가장 잘 수행할 수 있는 다양하고 효과적인 
+한국어 프롬프트들을 5개 생성해주세요. 각 프롬프트는 사용자가 영화 리뷰 텍스트 뒤에 붙여 모델에게 감성 분류를 
+요청할 때 사용될 것입니다.
 
-  # 프롬프트 후보 생성을 요청하는 메타 프롬프트  
-  meta_prompt_for_prompt_generation = """  
-  당신은 대규모 언어 모델을 위한 프롬프트 작성 전문가입니다. 다음 태스크를 가장 잘 수행할 수 있는  
-  다양하고 효과적인 한국어 프롬프트들을 5개 생성해주세요. 각 프롬프트는 사용자가 영화 리뷰 텍스트 뒤에 붙여  
-  모델에게 감성 분류를 요청할 때 사용될 것입니다.  
+태스크: {target_task_description}
 
-  태스크: {target_task_description}  
+생성해야 할 프롬프트의 특징:
+- 간결하고 명확해야 합니다.
+- 다양한 표현 방식을 사용해주세요.
+- 결과는 '긍정' 또는 '부정'으로 명확히 분류되도록 유도해야 합니다.
 
-  생성해야 할 프롬프트의 특징:  
-  - 간결하고 명확해야 합니다.  
-  - 다양한 표현 방식을 사용해주세요.  
-  - 결과는 '긍정' 또는 '부정'으로 명확히 분류되도록 유도해야 합니다.  
+---
+생성된 프롬프트들:
+"""
+```
 
-  ---  
-  생성된 프롬프트들:  
-  """  
+```
+--- 메타 프롬프트 실행 결과 (프롬프트 후보 생성)
+--- LLM이 생성한 프롬프트 후보군:
+1.이 영화 리뷰의 감정을 판단해 주세요. 
+  감정이 긍정적이면 '긍정', 부정적이면 '부정'으로 분류해 주세요: [리뷰 텍스트]
+2.다음 영화 리뷰를 바탕으로 감성을 분석해 주세요. 
+  결과는 '긍정' 또는 '부정' 중 하나로 명시해 주세요: [리뷰 텍스트]
+3.주어진 영화 리뷰에 대한 감정이 어떤지 평가해 주세요. 
+  긍정적인 느낌이면 '긍정', 부정적인 느낌이면 '부정'으로 표시해 주세요: [리뷰 텍스트]
+4.이 영화 리뷰를 읽고 감정을 분류해 주시기 바랍니다. 
+  긍정적이면 '긍정', 부정적이면 '부정'으로 답변해 주세요: [리뷰 텍스트]
+5.다음 영화 리뷰에 대해 감성을 결정해주세요. 
+  긍정적일 경우 '긍정', 부정적일 경우 '부정'이라고 적어주세요: [리뷰 텍스트]
+```
 
 ---
 
-- **메타 프롬프트 실행 결과 (프롬프트 후보 생성)**  
+## p54. 고급 프롬프트 엔지니어링
 
-  --- LLM이 생성한 프롬프트 후보:  
-  1. 이 영화 리뷰의 감정을 판단해 주세요. 감정이 긍정적이면 '긍정', 부정적이면 '부정'으로 분류해 주세요: [리뷰 텍스트]  
-  2. 다음 영화 리뷰를 바탕으로 감성을 분석해 주세요. 결과는 '긍정' 또는 '부정' 중 하나로 명시해 주세요: [리뷰 텍스트]  
-  3. 주어진 영화 리뷰에 대한 감정이 어떤지 평가해 주세요. 긍정적인 느낌이면 '긍정', 부정적인 느낌이면 '부정'으로 표시해 주세요: [리뷰 텍스트]  
-  4. 이 영화 리뷰를 읽고 감정을 분류해 주시기 바랍니다. 긍정적이면 '긍정', 부정적이면 '부정'으로 답변해 주세요: [리뷰 텍스트]  
-  5. 다음 영화 리뷰에 대해 감성을 결정해주세요. 긍정적일 경우 '긍정', 부정적일 경우 '부정'이라고 적어주세요: [리뷰 텍스트]  
-
----
-
-## p54. RAG (Retrieval Augmented Generation)
-
-- **RAG (Retrieval Augmented Generation) ?**  
+- **RAG (Retrieval Augmented Generation)**:  
   - 언어모델 외부에서 가져온 정보로 모델의 정확성과 신뢰성을 향상시키는 기술  
   - 작업과 관련된 데이터/문서를 **외부 지식베이스를 연결하여 검색한 결과를 LLM의 문맥으로 Prompt에 제공**,  
     모델의 정확성과 신뢰성 향상시키는 기법  
@@ -1765,13 +1776,12 @@ $$
 
 ## p55. ReAct (Reason + Act)
 
-- **ReAct (Reason + Act) ?**  
-  - 언어모델이 문제를 해결하는 과정에서 **추론과 행동을 결합하는 기법**  
-  - 작업을 위해 언어모델이 추론 추적과 행동을 생성함으로써 **행동계획을 생성, 유지 및 조정**하는 동시에  
-    외부 환경과의 상호작용을 통해 사실적 응답으로 이어지는 정보검색으로 추론에 추가 정보를 통합  
+- **ReAct (Reason + Act)**:  
+  - 언어모델이 문제를 해결하는 과정에서 추론과 행동을 결합하는 기법  
+  - 작업을 위해 언어모델이 추론 추적과 행동을 생성함으로써 행동계획을 생성, 유지 및 조정하는 동시에  
+    외부 환경과의 상호작용을 통해 사실적 응답으로 이어지는 정보검색으로 추론에 추가 정보를 통합함  
   - **질의응답과 사실검증 (FEVER) 등의 언어이해 작업에서 뛰어난 성능**을 보임  
-
-- **구성 요소**  
+<br>
   - **질문 (Question)** : 사용자가 요청한 작업이나 해결해야 할 문제  
   - **사고 (Thought)** : 취할 행동 식별, 행동 계획의 생성/유지/조정 방법을 언어모델에 제시  
   - **행동 (Action)** : 사전 허용/정의된 API 등 외부 환경(예: 검색 엔진)과 모델의 실시간 상호 작용  
@@ -1841,7 +1851,9 @@ $$
 
 ---
 
-## p57. Function Calling
+## p57. 고급 프롬프트 엔지니어링
+
+**Function Calling**
 
 - **정의**  
   - LLM API가 제공하는 기능으로 코드에 정의된 함수(Function)들의 설명을 LLM에게 제공하면,  
@@ -1871,7 +1883,9 @@ $$
 
 ---
 
-## p58. OpenAI 에서의 Function Calling
+## p58. 고급 프롬프트 엔지니어링
+
+**OpenAI 에서의 Function Calling**
 
 <img src="/assets/img/lecture/bigdatasearch/5/image_36.png" alt="image" width="600px">  
 

@@ -12,36 +12,36 @@ tags: []
 
 ## p2. ElasticSearch  
 
-- **Elastic 창시**: 2012년, 4인의 멤버가 회사로 설립  
-  - 2004년 **사이 배논(Shay Bannon)**  
-    - 요리 레시피 검색엔진을 개발 후 **아파치 루씬(Apache Lucene)** 을 적용하려던 중 루씬이 가진 한계를 발견  
-    - 루씬의 한계를 보완하기 위해 새로운 검색엔진 프로젝트로 **ElasticSearch** 출발  
-  - **창시 멤버**: 사이 배논, **스티븐 서르만(Steven Schuurman)**, **우리 보네스(Uri Boness)**, **사이먼 윌너(Simon Willnauer)** 4인의 멤버가 회사로 설립  
+- Elastic 창시: 2012년, 4인의 멤버가 회사로 설립  
+  - 2004년 샤이 배논(Shay Bannon)  
+    - 요리 레시피 검색엔진을 개발 후 아파치 루씬(Apache Lucene)을 적용하려던 중 루씬이 가진 한계를 발견  
+    - 루씬의 한계를 보완하기 위해 새로운 검색엔진 프로젝트로 ElasticSearch 출발  
+  - 창시 멤버: 샤이 배논, 스티븐 셔르만(Steven Schuurman), 우리 보네스(Uri Boness), 사이먼 윌너(Simon Willnauer) 4인의 멤버가 회사로 설립  
 
-- **Elasticsearch**는 **자바(Java)** 로 만들어진 **루씬 기반의 오픈 소스 검색 엔진**  
-  - 뛰어난 검색능력과 **대규모 분산 시스템**을 구축할 수 있는 다양한 기능들을 제공  
+- Elasticsearch는 자바로 만들어진 루씬 기반의 오픈 소스 검색 엔진  
+  - 뛰어난 검색능력과 대규모 분산 시스템을 구축할 수 있는 다양한 기능들을 제공  
 
 ---
 
 ## p3. ElasticSearch  
 
-- **Elasticsearch**는 **자바(Java)** 로 만들어진 **루씬 기반의 오픈 소스 검색 엔진**  
+- Elasticsearch는 자바로 만들어진 루씬 기반의 오픈 소스 검색 엔진  
 
 [특징]  
 - **오픈소스 (open source)** ([GitHub 링크](https://github.com/elastic)), Apache 2.0 라이선스로 배포  
 - **실시간 분석 (real-time)**: 실시간에 가까운 속도로 색인된 데이터의 검색, 집계가 가능  
 - **전문(full text) 검색 엔진**  
-  - 루씬은 기본적으로 **역파일 색인(inverted file index)** 라는 구조로 데이터를 저장  
+  - 루씬은 기본적으로 역파일 색인(inverted file index)라는 구조로 데이터를 저장  
   - Elasticsearch도 루씬 기반 위에서 개발되어 색인된 모든 데이터를 역파일 색인 구조로 저장  
-  - **JSON** 형식으로 데이터를 전달, 내부적으로는 역파일 색인 구조로 저장  
-  - Elasticsearch에서 **질의(query)** 에 사용되는 쿼리문이나 결과도 모두 **JSON** 형식으로 전달되고 리턴  
+  - JSON 형식으로 데이터를 전달, 내부적으로는 역파일 색인 구조로 저장  
+  - Elasticsearch에서 질의(query)에 사용되는 쿼리문이나 결과도 모두 JSON 형식으로 전달되고 리턴  
 
 - **RESTFul API**  
-  - **마이크로 서비스 아키텍처(MSA)** 를 기본으로 설계  
-  - Rest API를 기반으로 지원하며 모든 데이터 조회, 입력, 삭제를 **HTTP** 프로토콜을 통해 처리  
+  - 마이크로 서비스 아키텍처(MSA)를 기본으로 설계  
+  - Rest API를 기반으로 지원하며 모든 데이터 조회, 입력, 삭제를 HTTP 프로토콜을 통해 처리  
 
 - **멀티테넌시(multitenancy)**  
-  - 데이터들은 **인덱스(Index)** 라는 논리적 집합 단위로 구성되며, 서로 다른 저장소에 분산되어 저장  
+  - 데이터들은 인덱스(Index)라는 논리적 집합 단위로 구성되며, 서로 다른 저장소에 분산되어 저장  
   - 서로 다른 인덱스들을 별도의 커넥션 없이 하나의 질의로 묶어서 검색하고, 결과들을 하나의 출력으로 도출  
 
 ---
@@ -53,7 +53,7 @@ tags: []
 | **Cluster**          | Database Server 전체 | 여러 인덱스를 포함하는 하나의 검색/저장 시스템 단위 |
 | **Index**            | Database          | 문서를 저장하는 논리적 공간 (특정 주제별, 서비스별로 나눔) |
 | **Type** (deprecated)| Table             | 하나의 인덱스 안에 있는 여러 문서를 묶어서 타임이라는 논리 단위.<br> 현재는 사용되지 않음 |
-| **Document**         | Row (Record)      | **JSON 형식의 데이터 레코드** |
+| **Document**         | Row (Record)      | JSON 형식의 데이터 레코드 |
 | **Field**            | Column            | 문서(Document)의 속성(키-값) |
 | **_id**              | Primary Key       | 인덱스 내 문서에 부여되는 고유한 구분자.<br> 인덱스 이름과 _id 조합은 Elasticsearch 클러스터 내에서 고유함 |
 | **Mapping**          | Schema            | 필드의 자료형 정의 (text, keyword, date, number 등) |
@@ -91,7 +91,7 @@ tags: []
 
 1. **Logstash/Beats**  
 - 역할: Ingest(수집)  
-- 다양한 소스(DB, CSV, Log 등)으로부터 데이터를 가져다, 조작 후 **Elasticsearch**에게 전달하는 역할  
+- 다양한 소스(DB, CSV, Log 등)으로부터 데이터를 가져다, 조작 후 Elasticsearch에게 전달하는 역할  
 
 2. **Elasticsearch**  
 - 역할: Store, Search, Analyze  
@@ -99,7 +99,7 @@ tags: []
 
 3. **Kibana**  
 - 역할: Visualize(시각화), Manage(관리), Bulk 데이터 입력  
-- **Elasticsearch**의 데이터를 시각화하거나 편리하게 조작 기능을 제공  
+- Elasticsearch의 데이터를 시각화하거나 편리하게 조작 기능을 제공  
 - GUI 환경을 제공한다  
 
 ---
@@ -115,7 +115,7 @@ tags: []
 - Elasticsearch는 자바로 개발, 자바 실행이 가능한 환경이라면 어디서든 구동  
 
 - Windows 설치 및 실행  
-  - https://www.elastic.co/downloads/elasticsearch  
+  - <a href="https://www.elastic.co/downloads/elasticsearch" target="_blank">https://www.elastic.co/downloads/elasticsearch</a>
     - 엘라스틱서치 압축 파일 다운로드 -> 압축 해제  
 
 - 엘라스틱서치 설정  
@@ -137,85 +137,75 @@ tags: []
 - 서비스 종료  
   - bin\elasticsearch-service.bat stop  
 
-<img src="/assets/img/lecture/bigdatasearch/4/image_3.png" alt="image" width="600px"> 
+<img src="/assets/img/lecture/bigdatasearch/4/image_3.png" alt="image" width="720px"> 
 
 ---
 
 ## p10. ElasticSearch  
 
 - Java 버전 확인  
-<img src="/assets/img/lecture/bigdatasearch/4/image_4.png" alt="image" width="720px"> 
+<img src="/assets/img/lecture/bigdatasearch/4/image_4.png" alt="image" width="800px"> 
 
 - CRUD : REST API 를 사용해서 데이터 색인, 조회 및 삭제  
 
----
-
 - 도큐먼트 생성  
 
-**명령어**   
+  - 명령어   
 ```powershell
 curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
 Elasticsearch\" }“
 ```
 
-**출력 결과**  
+  - 출력 결과  
 ```
 {"_index":"my_index","_id":"1","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":0,"_primary_term":2}
 ```
 
----
-
 - 도큐먼트 조회  
 
-**명령어**   
+  - 명령어   
 ```powershell
 curl -XGET http://localhost:9200/my_index/_doc/1
 ```
 
-**출력 결과**  
+  - 출력 결과  
 ```
 {"_index":"my_index","_id":"1","_version":1,"_seq_no":0,"_primary_term":2,"found":true,"_source":{ "message":"안녕하세요 Elasticsearch" }}
 ```
 
----
-
 - 도큐먼트 수정  
 
-**명령어**   
+  - 명령어   
 ```powershell
 curl -XPUT "http://localhost:9200/my_index/_doc/1" -H "Content-Type: application/json" -d "{ \"message\":\"안녕하세요
 Elasticsearch Stack\" }“
 ```
 
-**출력 결과**  
+  - 출력 결과  
 ```
 {"_index":"my_index","_id":"1","_version":2,"result":"updated","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":1,"_primary_term":2}
 ```
 
----
-
 - 도큐먼트 삭제  
 
-**명령어**   
+  - 명령어   
 ```powershell
 curl -XDELETE http://localhost:9200/my_index/_doc/1
 ```
 
-**출력 결과**  
+  - 출력 결과  
 ```
 {"_index":"my_index","_id":"1","_version":3,"result":"deleted","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":3,"_primary_term":3}
 ```
 
----
-
 - 인덱스 삭제  
 
-**명령어**   
+  - 명령어   
 ```powershell
 curl -XDELETE "http://localhost:9200/my_index"
 ```
 
-**출력 결과**  
+  - 출력 결과  
 ```
 {"acknowledged":true}
 ```
@@ -275,18 +265,17 @@ curl -XDELETE "http://localhost:9200/my_index"
 ## p12. Kibana  
 
 - **Kibana 설치 및 실행**  
-  - 다운로드 링크: https://www.elastic.co/kr/downloads/kibana  
+  - 다운로드 링크:  <a href="https://www.elastic.co/kr/downloads/kibana" target="_blank">https://www.elastic.co/kr/downloads/kibana</a> 
 
 - **Kibana 설정 및 실행**  
   - `kibana-9.1.4/config/kibana.yml` 수정  
+  <img src="/assets/img/lecture/bigdatasearch/4/image_5.png" alt="image" width="480px"> 
   - `kibana-9.1.4/bin/kibana.bat` 실행  
-
-<img src="/assets/img/lecture/bigdatasearch/4/image_5.png" alt="image" width="480px"> 
 
 - **접속**  
   - http://localhost:5601 에 접속  
     - Elasticsearch 실행된 상태여야 함  
-    - 해당 페이지에서 *try sample data* 버튼을 통해 데이터 입력  
+    - 해당 페이지에서 `try sample data` 버튼을 통해 데이터 입력  
 
 ---
 
@@ -311,7 +300,7 @@ wsl -d docker-desktop -u root
 
 -**간단한 빠른 시작(한번만 테스트)**  
 
-```powershell
+```
 docker run --name es01 -p 9200:9200 -p 9300:9300 \
 -e "discovery.type=single-node" \
 -e "ELASTIC_PASSWORD=changeme" \
@@ -860,6 +849,7 @@ curl -u elastic:changeme -X GET http://localhost:9200/my-index
 ```
 
 - REST API (curl, https 기준) : 없는 경우 404
+
 ```bash
 curl -u elastic:changeme -k -X GET https://localhost:9200/my-index
 ```
@@ -1049,10 +1039,7 @@ POST my-index/_doc
   - 패턴 이름에 `my-index*` 입력  
   - `date` 필드를 Time filter로 지정  
   - 생성 완료  
-
-→ Discover, Visualize, Dashboard에서 my-index 데이터를 조회 가능  
-
----
+  → Discover, Visualize, Dashboard에서 my-index 데이터를 조회 가능  
 
 >*Index Patterns** 메뉴가 보이지 않을 때
 >
@@ -1063,15 +1050,11 @@ POST my-index/_doc
 >- Timestamp field에 `date` 선택  
 >- **Save data view to Kibana** 클릭  
 
----
-
 4) Kibana에서 검색 및 탐색  
 - **Discover 탭**  
   - 좌측 메뉴 → Analytics → Discover  
   - `my-index*` 선택  
   - 검색창에 쿼리 입력: `content : "검색"`  
-
----
 
 >- 좌측 메뉴 → Analytics → Discover  
 >- Kibana 메뉴 → Data Views → Create data view
@@ -1079,8 +1062,6 @@ POST my-index/_doc
 >- Index pattern에 `my-index` (좀 전에 입력한 data view 이름) 선택  
 >- 검색창에 쿼리 입력: `content : "검색"`  
 >- 하단의 파란색 버튼 (**Search entire time range**) 클릭하면 검색 결과 나옴
-
----
 
 - **필터/쿼리 예시**  
   - `title: "안내"` → 제목이 "안내"인 문서 조회  
