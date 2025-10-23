@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[1. Variational Autoencoders] An Introduction to Variational Autoencoders"
+title: "[2. Variational Autoencoders] An Introduction to Variational Autoencoders"
 date: 2025-10-23 13:00:00 +0900
 categories:
   - "Books"
@@ -408,6 +408,9 @@ $$
 \end{align}
 $$
 
+마지막 줄의 식 (2.17)은 식 (2.15)의 단순한 몬테카를로 추정(Monte Carlo estimator)이며,  
+식 (2.16)과 (2.17)에 등장하는 $\mathbf{z}$는 $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})$ 로부터 샘플링된 확률표본이다.  
+
 > **1) (2.14) → (2.15):**  
 >    그래디언트 $\nabla_{\theta}$는 디코더 $p_{\theta}(x,z)$ 의 파라미터에만 의존하므로, 인코더 분포 $q_{\phi}(z\mid x)$와는 무관하다.  
 >    따라서 그래디언트 $\nabla_{\theta}$를 $q_{\phi}(z\mid x)$에 대한 기댓값 연산자 안쪽으로 이동할 수 있다.  
@@ -474,8 +477,219 @@ $$
 >    \tag{2.17}
 >    $$
 
-마지막 줄의 식 (2.17)은 식 (2.15)의 단순한 몬테카를로 추정(Monte Carlo estimator)이다.  
-즉, 식 (2.16)과 (2.17)에 등장하는 $\mathbf{z}$는 $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})$ 로부터 샘플링된 확률표본이다.  
+---
 
-이 과정을 통해 $\boldsymbol{\theta}$ 에 대한 그래디언트를 근사적으로 계산할 수 있으며,  
-이 값은 확률적 경사하강법(SGD)을 이용한 최적화에 직접 사용할 수 있다.
+비편향(unbiased) 그래디언트를 변분 파라미터(variational parameters) $\boldsymbol{\phi}$ 에 대해 계산하는 것은  
+$\boldsymbol{\theta}$ 에 대한 경우보다 훨씬 더 어렵다.  
+
+이는 ELBO의 기댓값이 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 에 대해 정의되어 있는데, 이 분포 자체가 $\boldsymbol{\phi}$ 의 함수이기 때문이다.  
+
+즉, 일반적으로 다음이 성립한다.
+
+$$
+\begin{align}
+\nabla_{\boldsymbol{\phi}}
+  \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
+&= \nabla_{\boldsymbol{\phi}}
+   \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+   \big[
+     \log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
+     - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+   \big]
+   \tag{2.18} \\[6pt]
+&\neq
+   \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+   \big[
+     \nabla_{\boldsymbol{\phi}}
+     \big(
+       \log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
+       - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+     \big)
+   \big]
+   \tag{2.19}
+\end{align}
+$$
+
+> 1) **각 파라미터의 역할**  
+>    - $\boldsymbol{\theta}$ : 디코더(Decoder)의 파라미터로, 생성 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$를 구성한다.  
+>      즉, 잠재변수 $\mathbf{z}$ 로부터 데이터를 복원(reconstruct)하는 역할을 한다.  
+>    - $\boldsymbol{\phi}$ : 인코더(Encoder)의 파라미터로, 근사 사후분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 를 구성한다.  
+>      즉, 입력 $\mathbf{x}$ 로부터 잠재변수 $\mathbf{z}$ 의 분포를 추정하는 역할을 한다.  
+>
+> ---
+>
+> 2) **디코더(θ)에 대한 기댓값 식**  
+>    디코더의 경우 ELBO의 기댓값은 다음과 같이 주어진다.
+>
+>    $$
+>    \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
+>    = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+>      \big[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
+>      - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\big]
+>    $$
+>
+>    여기서 기댓값의 분포는 $\boldsymbol{\phi}$이고, 미분 연산자는 $\boldsymbol{\theta}$에 대해 작동한다.  
+>
+>    따라서 $\boldsymbol{\theta}$ 는 분포 $q_{\boldsymbol{\phi}}$ 와 독립적이므로, 미분을 기댓값 안쪽으로 자유롭게 옮길 수 있다.
+>
+>    $$
+>    \nabla_{\boldsymbol{\theta}}
+>    \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[f(\mathbf{z})]
+>    = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+>      [\nabla_{\boldsymbol{\theta}} f(\mathbf{z})]
+>    $$
+>
+>    즉, “기댓값의 분포는 φ, 미분 대상은 θ”이므로 두 연산이 서로 간섭하지 않아 계산이 단순하다.  
+>
+> ---
+>
+> 3) **인코더(φ)에 대한 기댓값 식**  
+>    반면 인코더의 경우 ELBO의 기댓값은 다음과 같다.
+>
+>    $$
+>    \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
+>    = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+>      \big[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
+>      - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\big]
+>    $$
+>
+>    이번에는 기댓값의 분포도 φ에 의존하고, 기댓값 안의 항(특히 $\log q_{\boldsymbol{\phi}}$) 역시 φ에 의존한다.  
+>
+>    즉, 기댓값을 적분 형태로 쓰면 다음과 같다.
+>
+>    $$
+>    \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[f(\mathbf{z})]
+>    = \int f(\mathbf{z})\, q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\, d\mathbf{z}
+>    $$
+>
+>    이때 $\boldsymbol{\phi}$ 에 대해 미분하면,
+>
+>    $$
+>    \nabla_{\boldsymbol{\phi}}
+>    \int f(\mathbf{z})\, q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\, d\mathbf{z}
+>    =
+>    \int \nabla_{\boldsymbol{\phi}} f(\mathbf{z})\, q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\, d\mathbf{z}
+>    + \int f(\mathbf{z})\, \nabla_{\boldsymbol{\phi}} q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\, d\mathbf{z}
+>    $$
+>
+>    두 번째 항(분포 자체의 미분)이 추가되므로, 단순히 기댓값 안쪽만 미분한 것과는 달라진다.  
+>
+>    즉,
+>
+>    $$
+>    \nabla_{\boldsymbol{\phi}}
+>    \mathbb{E}_{q_{\boldsymbol{\phi}}}[f(\mathbf{z})]
+>    \neq
+>    \mathbb{E}_{q_{\boldsymbol{\phi}}}[\nabla_{\boldsymbol{\phi}} f(\mathbf{z})]
+>    $$
+>
+>    이는 기댓값의 분포와 미분 대상이 모두 φ에 의존하기 때문이다.  
+>    따라서 인코더의 경우에는 “기댓값 안의 식”과 “확률밀도 함수” 모두에 $\boldsymbol{\phi}$ 가 들어 있어 미분이 훨씬 더 복잡해진다.  
+
+연속적인 잠재변수의 경우, $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$의 비편향 추정값(unbiased estimates)을 계산하기 위해  
+재매개변수화 기법(reparameterization trick)을 사용할 수 있다.  
+
+이 확률적 추정은 확률적 경사하강법(SGD)을 사용하여 ELBO를 최적화할 수 있게 해 준다.  
+알고리즘 1을 참조하라.  
+
+불연속 잠재변수에 대한 변분 방법(variational methods)에 대한 논의는 2.9.1절을 참조하라.
+
+---
+
+**알고리즘 1. ELBO의 확률적 최적화 (Stochastic optimization of the ELBO)**
+
+노이즈는 미니배치 샘플링과 $p(\boldsymbol{\epsilon})$의 샘플링 두 과정 모두에서 발생하기 때문에,  
+이 절차는 이중 확률적 최적화(doubly stochastic optimization) 방식이다.  
+
+이 절차는 오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘이라고도 불린다.
+
+**데이터 (Data):**  
+- $\mathcal{D}$: 데이터셋 (Dataset)  
+- $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$: 추론 모델 (Inference model)  
+- $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$: 생성 모델 (Generative model)  
+
+**결과 (Result):**  
+- $\boldsymbol{\theta}, \boldsymbol{\phi}$: 학습된 파라미터 (Learned parameters)  
+
+**절차 (Procedure):**
+
+$$
+\begin{aligned}
+(\boldsymbol{\theta}, \boldsymbol{\phi}) &\leftarrow \text{Initialize parameters} \\[4pt]
+\textbf{while } &\text{SGD not converged do} \\[2pt]
+&\mathcal{M} \sim \mathcal{D} 
+\quad \text{(Random minibatch of data)} \\[4pt]
+&\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon}) 
+\quad \text{(Random noise for every datapoint in } \mathcal{M}\text{)} \\[4pt]
+&\text{Compute } 
+\tilde{\mathcal{L}}_{\boldsymbol{\theta},\boldsymbol{\phi}}(\mathcal{M}, \boldsymbol{\epsilon})
+\text{ and its gradients }
+\nabla_{\boldsymbol{\theta},\boldsymbol{\phi}}
+\tilde{\mathcal{L}}_{\boldsymbol{\theta},\boldsymbol{\phi}}(\mathcal{M}, \boldsymbol{\epsilon}) \\[4pt]
+&\text{Update } \boldsymbol{\theta} \text{ and } \boldsymbol{\phi}
+\text{ using SGD optimizer} \\[4pt]
+\textbf{end}
+\end{aligned}
+$$
+
+> 1) **초기화 단계**  
+>    $(\boldsymbol{\theta}, \boldsymbol{\phi}) \leftarrow$ Initialize parameters  
+>    - 생성 모델(디코더)의 파라미터 $\boldsymbol{\theta}$ 와  
+>      추론 모델(인코더)의 파라미터 $\boldsymbol{\phi}$ 를 무작위로 초기화한다.  
+>
+> ---
+>
+> 2) **학습 반복 루프 (while SGD not converged)**  
+>    확률적 경사하강법(SGD)을 이용하여 ELBO를 최적화할 때까지  
+>    다음 과정을 반복한다.  
+>
+>    - $\mathcal{M} \sim \mathcal{D}$  
+>      → 전체 데이터셋 $\mathcal{D}$ 에서 무작위 미니배치(minibatch) $\mathcal{M}$ 을 샘플링한다.  
+>
+>    - $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$  
+>      → 각 데이터포인트에 대해 독립적인 노이즈 $\boldsymbol{\epsilon}$ 을 샘플링한다.  
+>         (예: $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$)  
+>         이는 재매개변수화 기법에서 사용되는 확률 변수이다.  
+>
+>    - $$\tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathcal{M}, \boldsymbol{\epsilon})$$ 계산  
+>      → 주어진 미니배치와 노이즈를 이용해 ELBO의 근사값을 계산한다.  
+>         이때 $\mathbf{z} = g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 형태로 잠재변수를 샘플링하여 기대값을 근사한다.  
+>
+>    - $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathcal{M}, \boldsymbol{\epsilon})$ 계산  
+>      → 계산된 ELBO에 대해 $\boldsymbol{\theta}$ 와 $\boldsymbol{\phi}$ 각각의 그래디언트를 구한다.  
+>
+>    - 파라미터 업데이트  
+>      → 계산된 그래디언트를 이용하여 SGD 옵티마이저로 $\boldsymbol{\theta}$ 와 $\boldsymbol{\phi}$ 를 갱신한다.  
+>
+> ---
+>
+> 3) **종료 조건 (end)**  
+>    - SGD가 수렴(converged)하면 학습을 종료한다.  
+>    - 최종적으로 학습된 파라미터 $(\boldsymbol{\theta}, \boldsymbol{\phi})$ 는  
+>      디코더와 인코더의 최적화된 형태가 된다.
+
+---
+
+## 2.4 재매개변수화 기법 (Reparameterization Trick)
+
+연속적인 잠재변수와 미분 가능한 인코더 및 생성 모델의 경우,  
+ELBO는 변수변환(change of variables)을 통해 $\boldsymbol{\phi}$ 와 $\boldsymbol{\theta}$ 모두에 대해 직접적으로 미분할 수 있다.  
+
+이 방법을 재매개변수화 기법(Reparameterization trick)이라고 하며,  
+Kingma & Welling (2014), Rezende et al. (2014) 에 의해 제안되었다.
+
+---
+
+### 2.4.1 변수변환 (Change of Variables)
+
+먼저, 잠재변수 $\mathbf{z}$ 가 인코더 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$로부터 샘플링된다고 하자.  
+
+이때 $\mathbf{z}$를 또 다른 확률변수 $\boldsymbol{\epsilon}$의 미분 가능하고 가역적인(invertible) 변환으로 표현할 수 있다.
+
+$$
+\mathbf{z} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})
+\tag{2.20}
+$$
+
+여기서 $\boldsymbol{\epsilon}$은 $\mathbf{x}$ 나 $\boldsymbol{\phi}$와는 독립적인 확률변수이다.
+
