@@ -647,7 +647,7 @@ $$
 >      → 전체 데이터셋 $\mathcal{D}$ 에서 무작위 미니배치(minibatch) $\mathcal{M}$ 을 샘플링한다.  
 >
 >    - $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$  
->      → 각 데이터포인트에 대해 독립적인 노이즈 $\boldsymbol{\epsilon}$ 을 샘플링한다.  
+>      → 각 데이터 포인트에 대해 독립적인 노이즈 $\boldsymbol{\epsilon}$ 을 샘플링한다.  
 >         (예: $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$)  
 >         이는 재매개변수화 기법에서 사용되는 확률 변수이다.  
 >
@@ -853,7 +853,7 @@ $$
 이 그래디언트는 정확한 단일 데이터 포인트 ELBO 그래디언트의 불편향 추정량(unbiased estimator)이다.  
 
 즉, 노이즈 $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$에 대해 평균을 취하면,  
-이 그래디언트는 단일 데이터포인트 ELBO 그래디언트와 동일하다.
+이 그래디언트는 단일 데이터 포인트 ELBO 그래디언트와 동일하다.
 
 $$
 \begin{align}
@@ -1356,11 +1356,11 @@ $$
 
 ---
 
-**알고리즘 2. 단일 데이터포인트 ELBO의 비편향 추정 (Unbiased estimate of single-datapoint ELBO)**  
+**알고리즘 2. 단일 데이터 포인트 ELBO의 비편향 추정 (Unbiased estimate of single-datapoint ELBO)**  
 
 이 알고리즘은 완전 공분산(full-covariance) 가우시안 추론 모델과  
 분리된 베르누이(factorized Bernoulli) 생성 모델을 가지는 예시 VAE의  
-단일 데이터포인트(single-datapoint)에 대한 ELBO를 비편향적으로 추정한다.  
+단일 데이터 포인트(single-datapoint)에 대한 ELBO를 비편향적으로 추정한다.  
 
 여기서 $\mathbf{L}_{\text{mask}}$ 는  
 대각선 위와 대각선에 0을, 대각선 아래에는 1을 가지는 마스크 행렬(masking matrix)이다.  
@@ -1368,7 +1368,7 @@ $$
 ---
 
 **데이터 (Data):**  
-- $\mathbf{x}$: 데이터포인트 (필요시 조건부 정보 포함 가능)  
+- $\mathbf{x}$: 데이터 포인트 (필요시 조건부 정보 포함 가능)  
 - $\boldsymbol{\epsilon}$: $p(\boldsymbol{\epsilon}) = \mathcal{N}(0, I)$ 로부터의 무작위 샘플  
 - $\boldsymbol{\theta}$: 생성 모델(generative model) 파라미터  
 - $\boldsymbol{\phi}$: 추론 모델(inference model) 파라미터  
@@ -1376,7 +1376,7 @@ $$
 - $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$: 생성 모델 (Generative model)  
 
 **결과 (Result):**  
-- $\tilde{\mathcal{L}}$: 단일 데이터포인트에 대한 ELBO의 비편향 추정치  
+- $\tilde{\mathcal{L}}$: 단일 데이터 포인트에 대한 ELBO의 비편향 추정치  
 
 ---
 
@@ -1385,23 +1385,19 @@ $$
 $$
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}')
 \leftarrow \mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})
-\tag{2.53}
 $$
 
 $$
 \mathbf{L}
 \leftarrow \mathbf{L}_{\text{mask}} \odot \mathbf{L}' + \mathrm{diag}(\boldsymbol{\sigma})
-\tag{2.54}
 $$
 
 $$
 \boldsymbol{\epsilon} \sim \mathcal{N}(0, I)
-\tag{2.38}
 $$
 
 $$
 \mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}
-\tag{2.47}
 $$
 
 $$
@@ -1460,4 +1456,191 @@ $$
 >    - \tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}
 >    $$  
 >
->    이 식은 단일 데이터포인트에 대한 ELBO의 비편향 추정치로 사용된다.
+>    이 식은 단일 데이터 포인트에 대한 ELBO의 비편향 추정치로 사용된다.
+
+---
+
+## 2.6 주변가능도(Marginal Likelihood)의 추정
+
+VAE를 학습한 후에는,  
+Rezende 등(2014)에 의해 처음 제안된 중요도 샘플링(importance sampling) 기법을 사용하여  
+모델 하에서 데이터의 확률을 추정할 수 있다.
+
+데이터 포인트 하나의 주변가능도(marginal likelihood)는 다음과 같이 쓸 수 있다.
+
+$$
+\log p_{\boldsymbol{\theta}}(\mathbf{x})
+= \log
+\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+\left[
+\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}
+{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+\right]
+\tag{2.56}
+$$
+
+$q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 로부터 무작위 샘플을 여러 개 추출하면,  
+이를 이용한 몬테카를로 근사(Monte Carlo estimator)는 다음과 같다.
+
+$$
+\log p_{\boldsymbol{\theta}}(\mathbf{x})
+\approx
+\log
+\frac{1}{L}
+\sum_{l=1}^{L}
+\frac{
+p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}^{(l)})
+}{
+q_{\boldsymbol{\phi}}(\mathbf{z}^{(l)}\mid\mathbf{x})
+}
+\tag{2.57}
+$$
+
+여기서 각 $\mathbf{z}^{(l)} \sim q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$는 추론 모델로부터 샘플링된 잠재변수이다.  
+
+$L$ 을 크게 할수록 근사는 주변가능도의 더 정확한 추정값에 가까워진다.  
+사실상, $L \to \infty$ 일 때 이 몬테카를로 추정치는 실제 주변가능도(marginal likelihood)에 수렴하게 된다.
+
+---
+
+$L = 1$ 로 설정하면, 이는 VAE의 ELBO 추정량과 동일하다.  
+
+또한 식 (2.57)의 추정량을 목적함수(objective function)로 사용할 수도 있는데,  
+이는 Importance Weighted Autoencoders (IWAE) (Burda et al., 2015)에서 사용된 목적함수이다.  
+
+해당 연구에서는 $L$ 값이 커질수록 목적함수가 더 "tight"해진다고 보였다.  
+(즉, 진짜 로그가능도 $\log p_{\boldsymbol{\theta}}(\mathbf{x})$ 에 더 근접한다고)   
+
+이후 Cremer et al. (2017)은 IWAE의 목적함수가  
+특정한 추론 모델 형태를 갖는 ELBO 목적함수로 재해석될 수 있다는 사실을 밝혔다.  
+
+그러나 이러한 “더 타이트한 하한”을 최적화하는 접근 방식에는 단점이 있다.  
+즉, 중요도 가중 추정(importance weighted estimate)은  
+고차원 잠재공간에서 스케일링이 매우 비효율적이라는 문제가 있다.
+
+---
+
+## 2.7 주변가능도(Marginal Likelihood)와 KL 발산으로서의 ELBO
+
+ELBO의 잠재적인 타이트니스를 향상시키는 한 가지 방법은 생성 모델의 유연성을 증가시키는 것이다.  
+
+이것은 ELBO와 KL 발산 사이의 연결을 통해 이해될 수 있다.
+
+---
+
+독립적이고 동일분포(i.i.d.)를 따르는 크기 $N_D$ 의 데이터셋 $\mathcal{D}$ 에 대해, 최대우도 기준(criterion)은 다음과 같다.
+
+$$
+\begin{align}
+\log p_{\boldsymbol{\theta}}(\mathcal{D})
+&= \frac{1}{N_D} \sum_{\mathbf{x} \in \mathcal{D}} \log p_{\boldsymbol{\theta}}(\mathbf{x})
+\tag{2.58} \\[6pt]
+&= \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})} [\log p_{\boldsymbol{\theta}}(\mathbf{x})]
+\tag{2.59}
+\end{align}
+$$
+
+여기서 $q_{\mathcal{D}}(\mathbf{x})$ 는 혼합 분포인 경험적(데이터) 분포이다.
+
+$$
+\begin{align}
+q_{\mathcal{D}}(\mathbf{x})
+&= \frac{1}{N} \sum_{i=1}^{N} q_{\mathcal{D}}^{(i)}(\mathbf{x})
+\tag{2.60}
+\end{align}
+$$
+
+각 성분 $q_{\mathcal{D}}^{(i)}(\mathbf{x})$ 는 일반적으로  
+연속형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 중심을 둔 디랙 델타 분포에 대응하며,  
+이산형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 모든 확률 질량이 집중된 이산 분포에 대응한다.  
+
+데이터 분포와 모델 분포 사이의 쿨백-라이블러(Kullback-Leibler, KL) 발산은  
+음의 로그우도(negative log-likelihood)에 상수를 더한 형태로 다시 쓸 수 있다.
+
+$$
+\begin{align}
+D_{\mathrm{KL}}(q_{\mathcal{D}}(\mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{x}))
+&= - \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})} [\log p_{\boldsymbol{\theta}}(\mathbf{x})]
++ \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})} [\log q_{\mathcal{D}}(\mathbf{x})]
+\tag{2.61} \\[6pt]
+&= -\log p_{\boldsymbol{\theta}}(\mathcal{D}) + \text{constant}
+\tag{2.62}
+\end{align}
+$$
+
+여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
+따라서 위의 KL 발산을 최소화하는 것은 데이터 로그가능도 $\log p_{\boldsymbol{\theta}}(\mathcal{D})$를 최대화하는 것과 동일하다.
+
+---
+
+경험적 데이터 분포 $q_{\mathcal{D}}(\mathbf{x})$와 추론 모델을 결합하면,  
+데이터 $\mathbf{x}$ 와 잠재변수 $\mathbf{z}$ 에 대한 결합분포(joint distribution)를 다음과 같이 얻을 수 있다.
+
+$$
+q_{\mathcal{D}, \boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})
+= q_{\mathcal{D}}(\mathbf{x}) q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+$$
+
+$q_{\mathcal{D}, \boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$ 와 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$ 사이의 KL 발산은  
+음의 ELBO(negative ELBO)에 상수(constant)를 더한 형태로 쓸 수 있다.
+
+$$
+\begin{align}
+& D_{KL}\!\big(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x},\mathbf{z}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})\big) \tag{2.63} \\[6pt]
+&= -\,\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}
+\!\left[
+\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid \mathbf{x})}
+\big[\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})
+- \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid \mathbf{x})\big]
+- \log q_{\mathcal{D}}(\mathbf{x})
+\right] \tag{2.64} \\[6pt]
+&= -\,\mathcal{L}_{\boldsymbol{\theta},\boldsymbol{\phi}}(\mathcal{D}) \;+\; \text{constant} \tag{2.65}
+\end{align}
+$$
+
+여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
+따라서 ELBO를 최대화하는 것은  
+이 KL 발산 $D_{KL}(q_{\mathcal{D}, \boldsymbol{\phi}}(\mathbf{x}, \mathbf{z}) \| p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}))$을 최소화하는 것과 동치이다.
+
+이제 최대우도(ML)와 ELBO의 관계는 다음의 간단한 식으로 요약된다.
+
+$$
+\begin{align}
+& D_{KL}\!\big(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x},\mathbf{z}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})\big) \tag{2.66} \\[6pt]
+&= D_{KL}\!\big(q_{\mathcal{D}}(\mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x})\big)
++ \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}
+\!\Big[
+D_{KL}\!\big(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+\,\|\, p_{\boldsymbol{\theta}}(\mathbf{z}\mid\mathbf{x})\big)
+\Big] \tag{2.67} \\[6pt]
+&\ge D_{KL}\!\big(q_{\mathcal{D}}(\mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x})\big) \tag{2.68}
+\end{align}
+$$
+
+---
+
+하나의 추가적인 관점은, ELBO를 증강된 공간(augmented space)에서의  
+최대우도 목표(maximum likelihood objective)로 볼 수 있다는 것이다.  
+
+인코더 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$가 고정되어 있다고 하면, 결합분포 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는  
+원래의 데이터 $\mathbf{x}$와 각 데이터 포인트에 연관된 (확률적) 보조 특징(stochastic auxiliary features) $\mathbf{z}$에 대한  
+증강된 경험적 분포(augmented empirical distribution)로 볼 수 있다.  
+
+즉, 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 원래 데이터와 그에 대응하는 보조 특징 모두에 대한 결합 모델(joint model)을 정의한다.  
+(그림 2.4 참조)
+
+---
+
+그림 2.4:  
+최대우도(ML, Maximum Likelihood) 목표는 $D_{KL}(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x}))$의 최소화로 볼 수 있다.  
+
+반면 ELBO 목표는 $D_{KL}(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}))$의 최소화로 볼 수 있으며,  
+이는 $D_{KL}(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x}))$보다 항상 크거나 같다(즉, 그 값을 위에서 제한한다).
+
+완벽한 적합(perfect fit)이 불가능할 경우,  
+KL 발산의 방향성 때문에 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 $q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$보다 일반적으로 더 큰 분산(variance)을 갖게 된다.
+
+<img src="/assets/img/books/intro-to-vae/2/image_4.png" alt="image" width="720px"> 
+
+---
+
