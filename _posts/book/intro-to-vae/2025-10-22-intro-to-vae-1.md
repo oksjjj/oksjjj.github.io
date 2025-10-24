@@ -279,7 +279,7 @@ GAN은 주관적 지각 품질(subjective perceptual quality)이 높은 이미�
 
 ---
 
-## 1.3 확률 모델과 변분 추론 (Probabilistic Models and Variational Inference)
+## 1.3 확률 모델과 변분 추론(Variational Inference)
 
 머신러닝 분야에서는 다양한 자연적 또는 인공적 현상에 대해  
 데이터로부터 확률 모델(probabilistic model)을 학습하는 데 관심이 많다.  
@@ -356,7 +356,7 @@ $$
 
 ---
 
-### 1.3.1 조건부 모델 (Conditional Models)
+### 1.3.1 조건부(Conditional) 모델
 
 분류(classification)나 회귀(regression) 문제의 경우처럼,  
 우리는 비(非)조건부 모델 $ p_{\boldsymbol{\theta}}(\mathbf{x}) $ 을 학습하는 데 관심이 있는 것이 아니라,  
@@ -451,7 +451,7 @@ $$
 
 ---
 
-## 1.5 유향 그래픽 모델과 신경망 (Directed Graphical Models and Neural Networks)
+## 1.5 유향 그래픽 모델(Directed Graphical Models)과 신경망
 
 우리는 유향 확률 모델(directed probabilistic models)을 다룬다.  
 이들은 유향 확률 그래픽 모델(directed probabilistic graphical models, PGMs)  
@@ -500,7 +500,7 @@ $$
 
 ---
 
-## 1.6 완전 관측 모델에서의 신경망 학습 (Learning in Fully Observed Models with Neural Nets)
+## 1.6 완전 관측 모델(Fully Observed Models)에서의 신경망 학습
 
 유향 그래픽 모델의 모든 변수가 데이터에서 관측된다면,  
 그 모델 하에서의 데이터 로그 확률(log-probability)을 계산하고 이에 대해 미분할 수 있다.  
@@ -612,7 +612,7 @@ $$
 
 ---
 
-## 1.7 심층 잠재 변수 모델에서의 학습과 추론 (Learning and Inference in Deep Latent Variable Models)
+## 1.7 심층 잠재 변수 모델(Deep Latent Variable Models)에서의 학습과 추론 
 
 ### 1.7.1 잠재 변수 (Latent Variables)
 
