@@ -1518,13 +1518,21 @@ $L = 1$ 로 설정하면, 이는 VAE의 ELBO 추정량과 동일하다.
 즉, 중요도 가중 추정(importance weighted estimate)은  
 고차원 잠재공간에서 스케일링이 매우 비효율적이라는 문제가 있다.
 
+> IWAE는 샘플 수 L을 늘려 주변가능도 추정의 하한을 더 타이트하게 만들지만,  
+> 중요도 가중치의 분산이 고차원 잠재공간에서 급격히 커지므로  
+> 실제로는 샘플 효율이 떨어지고 학습이 불안정해지는 단점이 있다.
+
 ---
 
 ## 2.7 주변가능도(Marginal Likelihood)와 KL 발산으로서의 ELBO
 
-ELBO의 잠재적인 타이트니스를 향상시키는 한 가지 방법은 생성 모델의 유연성을 증가시키는 것이다.  
+ELBO의 잠재적인 타이트니스(tightness)를 향상시키는 한 가지 방법은 생성 모델의 유연성을 증가시키는 것이다.  
 
 이것은 ELBO와 KL 발산 사이의 연결을 통해 이해될 수 있다.
+
+> ELBO를 더 타이트하게 만들려면 단순히 중요도 샘플을 늘리는 대신,  
+> 생성 모델 자체의 표현력을 높여 데이터 분포를 더 잘 설명하도록 하는 것이 효과적이다.  
+> 이는 ELBO가 결국 데이터 분포와 모델 분포 간의 KL 발산 최소화 문제로 연결되기 때문이다.
 
 ---
 
@@ -1550,9 +1558,13 @@ q_{\mathcal{D}}(\mathbf{x})
 \end{align}
 $$
 
-각 성분 $q_{\mathcal{D}}^{(i)}(\mathbf{x})$ 는 일반적으로  
-연속형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 중심을 둔 디랙 델타 분포에 대응하며,  
+각 성분 $q_{\mathcal{D}}^{(i)}(\mathbf{x})$는 일반적으로  
+연속형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 중심을 둔 디랙 델타(Dirac delta) 분포에 대응하며,  
 이산형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 모든 확률 질량이 집중된 이산 분포에 대응한다.  
+
+> 경험적 분포 $q_{\mathcal{D}}(\mathbf{x})$는 데이터셋을 확률적으로 표현한 분포로,  
+> 각 데이터 포인트가 “그 지점에만 확률이 몰린 아주 뾰족한 분포(디랙 델타)”로 표현된다고 볼 수 있다.  
+> 쉽게 말해, 모든 데이터 샘플에 동일한 가중치를 주어 평균낸 “데이터의 실제 분포”이다.
 
 데이터 분포와 모델 분포 사이의 쿨백-라이블러(Kullback-Leibler, KL) 발산은  
 음의 로그우도(negative log-likelihood)에 상수를 더한 형태로 다시 쓸 수 있다.
@@ -1569,6 +1581,12 @@ D_{\mathrm{KL}}(q_{\mathcal{D}}(\mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{x
 $$
 
 여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
+
+> 엔트로피(entropy)는 확률분포 $q_{\mathcal{D}}(\mathbf{x})$의 “평균적인 놀람 정도”를 의미한다.  
+> 여기서 자기 정보량(self-information)은 어떤 사건이 일어났을 때의 놀람 정도로, $-\log q_{\mathcal{D}}(\mathbf{x})$로 정의된다.  
+> 따라서 엔트로피는 이 놀람의 평균값, 즉 $$\mathcal{H}(q_{\mathcal{D}}(\mathbf{x})) = - \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}[\log q_{\mathcal{D}}(\mathbf{x})]$$ 로 표현된다.  
+> KL 발산 식의 두 번째 항이 이 정의와 부호만 반대이므로 상수항을 $$-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$$로 쓸 수 있다.
+
 따라서 위의 KL 발산을 최소화하는 것은 데이터 로그가능도 $\log p_{\boldsymbol{\theta}}(\mathcal{D})$를 최대화하는 것과 동일하다.
 
 ---
@@ -1598,6 +1616,31 @@ $$
 \end{align}
 $$
 
+> (2.63)에서 시작: $$D_{KL}(q\|p)=\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\log q(\mathbf{x},\mathbf{z})-\log p(\mathbf{x},\mathbf{z})]$$  
+> 여기서 $$q(\mathbf{x},\mathbf{z})=q_{\mathcal{D}}(\mathbf{x})\,q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$이므로  
+> $$\log q(\mathbf{x},\mathbf{z})=\log q_{\mathcal{D}}(\mathbf{x})+\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$  
+> 
+> 기대값의 사슬 법칙으로 분해:  
+> $$\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\,\cdot\,] =\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\big[\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\,\cdot\,]\big]$$  
+> 
+> 대입/정리:  
+> 
+> $$
+> \begin{aligned}
+> D_{KL}
+> &=\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\Big[
+> \log q_{\mathcal{D}}(\mathbf{x})
+> +\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}\![\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})-\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})]
+> \Big] \\
+> &=-\,\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\Big[
+> \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}\![\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})]
+> -\log q_{\mathcal{D}}(\mathbf{x})
+> \Big],
+> \end{aligned}
+> $$
+>  
+> 이것이 (2.64)
+
 여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
 따라서 ELBO를 최대화하는 것은  
 이 KL 발산 $D_{KL}(q_{\mathcal{D}, \boldsymbol{\phi}}(\mathbf{x}, \mathbf{z}) \| p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}))$을 최소화하는 것과 동치이다.
@@ -1617,6 +1660,34 @@ D_{KL}\!\big(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
 \end{align}
 $$
 
+> (2.66) → (2.67):  
+> $D_{KL}(q(x,z)\|p(x,z)) = \mathbb{E}_{q(x,z)}[\log q(x,z) - \log p(x,z)]$에서  
+> $q(x,z)=q(x)q(z|x)$, $p(x,z)=p(x)p(z|x)$를 대입하면  
+>
+> $$
+> \begin{aligned}
+> D_{KL}(q(x,z)\|p(x,z))
+> &= \mathbb{E}_{q(x,z)}[\log q(x) - \log p(x)]
+> + \mathbb{E}_{q(x,z)}[\log q(z|x) - \log p(z|x)] \\[4pt]
+> &= \mathbb{E}_{q(x)}[\log q(x) - \log p(x)]
+> + \mathbb{E}_{q(x)}\!\Big[\mathbb{E}_{q(z|x)}[\log q(z|x) - \log p(z|x)]\Big].
+> \end{aligned}
+> $$  
+>
+> 여기서 첫 번째 항의 기대값 기준이 $q(x,z)$에서 $q(x)$로 바뀌는 이유는  
+> $\log q(x)-\log p(x)$가 $z$에 의존하지 않기 때문이다.  
+>
+> (2.67) → (2.68):  
+> 조건부 KL 발산 $D_{KL}(q(z|x)\|p(z|x))$는 항상 0 이상이므로,  
+> 두 번째 항이 제거되면 전체 KL 발산의 하한이 된다.  
+> 따라서
+>
+> $$
+> D_{KL}(q(x,z)\|p(x,z)) \ge D_{KL}(q(x)\|p(x))
+> $$
+>
+> 이 되어 식 (2.68)이 성립한다.
+
 ---
 
 하나의 추가적인 관점은, ELBO를 증강된 공간(augmented space)에서의  
@@ -1625,6 +1696,18 @@ $$
 인코더 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$가 고정되어 있다고 하면, 결합분포 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는  
 원래의 데이터 $\mathbf{x}$와 각 데이터 포인트에 연관된 (확률적) 보조 특징(stochastic auxiliary features) $\mathbf{z}$에 대한  
 증강된 경험적 분포(augmented empirical distribution)로 볼 수 있다.  
+
+> 여기서 말하는 “증강된 공간(augmented space)”이란  
+> 원래 데이터 $\mathbf{x}$만 다루는 대신,  
+> 그에 대응하는 잠재변수(또는 보조 변수) $\mathbf{z}$까지 포함한  
+> 확장된 공간 $(\mathbf{x}, \mathbf{z})$를 의미한다.  
+> 즉, ELBO를 단순히 데이터 $\mathbf{x}$의 가능도를 근사하는 식이 아니라,  
+> “데이터와 그에 대응하는 잠재표현 전체에 대한 최대우도 학습”으로  
+> 해석할 수 있다는 뜻이다.  
+> 이런 관점에서는 인코더 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$가  
+> 데이터마다 확률적으로 보조 특징 $\mathbf{z}$를 부여하는 역할을 하고,  
+> 생성모델 $p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})$는  
+> 이 결합된 데이터–잠재공간을 최대우도 방식으로 학습한다고 볼 수 있다.
 
 즉, 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 원래 데이터와 그에 대응하는 보조 특징 모두에 대한 결합 모델(joint model)을 정의한다.  
 (그림 2.4 참조)
@@ -1639,6 +1722,23 @@ $$
 
 완벽한 적합(perfect fit)이 불가능할 경우,  
 KL 발산의 방향성 때문에 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 $q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$보다 일반적으로 더 큰 분산(variance)을 갖게 된다.
+
+> KL 발산의 정의는  
+>
+> $$
+> D_{KL}(q\|p)=\mathbb{E}_{q}[\log q(x,z)-\log p(x,z)]
+> $$
+>
+> 이다.  
+> 이 식은 $q(x,z)$가 큰 영역(즉, 실제 데이터가 자주 등장하는 곳)에서  
+> $p(x,z)$가 너무 작으면 $\log p(x,z)$ 항이 크게 음수가 되어 전체 KL 값이 급격히 커진다.  
+>  
+> 반대로 $p(x,z)$가 $q(x,z)$보다 더 넓게 퍼져 있더라도,  
+> 즉 데이터가 거의 없는 영역에 확률 질량을 조금 더 주더라도 KL 값에는 큰 영향이 없다.  
+>  
+> 따라서 $D_{KL}(q\|p)$를 최소화할 때 모델 분포 $p_{\boldsymbol{\theta}}(x,z)$는  
+> “데이터가 있는 영역에서 확률이 너무 작아지지 않도록” 학습되며,  
+> 그 결과 데이터 영역을 넉넉히 덮기 위해 전체적으로 분산이 커지는 경향을 보이게 된다.
 
 <img src="/assets/img/books/intro-to-vae/2/image_4.png" alt="image" width="720px"> 
 
