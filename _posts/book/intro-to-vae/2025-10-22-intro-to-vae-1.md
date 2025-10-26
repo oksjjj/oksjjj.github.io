@@ -12,18 +12,27 @@ tags: []
 
 ## 1.1 동기 (Motivation)
 
-머신러닝은 주로 생성(generative)모델링과 판별(discriminative) 모델링로 구분된다.  
+머신러닝은 주로  
+생성(generative)모델링과 판별(discriminative) 모델링로 구분된다.  
 
-판별 모델링에서는 관측된 데이터가 주어졌을 때 예측기(predictor)를 학습시키는 것이 목표인 반면,  
-생성 모델링에서는 모든 변수들에 대한 결합 분포를 학습하는 것과 같이 보다 일반적인 문제를 다루는 것이 목표이다.  
+판별 모델링에서는  
+관측된 데이터가 주어졌을 때 예측기(predictor)를 학습시키는 것이 목표인 반면,  
+
+생성 모델링에서는  
+모든 변수들에 대한 결합 분포를 학습하는 것과 같이  
+보다 일반적인 문제를 다루는 것이 목표이다.  
 
 생성 모델은 현실 세계에서 데이터가 어떻게 생성되는지를 모사(simulate)한다.  
 
 ‘모델링(modeling)’이라는 개념은 거의 모든 과학 분야에서  
 "생성 과정을 밝히기 위해 이론을 가정하고 관측을 통해 이를 검증하는 과정"으로 이해된다.  
 
-예를 들어, 기상학자가 날씨를 모델링할 때는 날씨의 근본적인 물리 법칙을 표현하기 위해 매우 복잡한 편미분방정식을 사용한다.  
-또한 천문학자가 은하의 형성을 모델링할 때는 별들 간의 상호작용을 지배하는 물리 법칙을 운동 방정식에 담는다.  
+예를 들면,  
+기상학자는 날씨를 모델링할 때,  
+날씨의 근본적인 물리 법칙을 표현하기 위해 매우 복잡한 편미분방정식을 사용한다.  
+
+또한 천문학자는 은하의 형성을 모델링할 때,  
+별들 간의 상호작용을 지배하는 물리 법칙을 운동 방정식에 담는다.  
 
 이와 같은 원리는 생물학자, 화학자, 경제학자 등 다른 과학자들에게도 동일하게 적용된다.  
 
@@ -37,16 +46,19 @@ tags: []
 우리가 알지 못하거나 관심 없는 세부 사항들, 즉 성가신 변수들은 노이즈로 취급된다.  
 
 이러한 방식으로 얻어진 모델들은 일반적으로 매우 직관적이고 해석 가능하며,  
-이를 관측값과 대조함으로써 우리는 세상이 어떻게 작동하는지에 대한 우리의 이론을 확인하거나 기각할 수 있다.
+이를 관측값과 대조함으로써  
+우리는 세상이 어떻게 작동하는지에 대한 우리의 이론을 확인하거나 기각할 수 있다.
 
 ---
 
 데이터의 생성 과정을 이해하려고 하는 또 다른 이유는  
 그 과정이 자연스럽게 세상의 인과(causal) 관계를 표현하기 때문이다.  
 
-인과 관계는 단순한 상관관계(correlations)보다 새로운 상황에 훨씬 더 잘 일반화된다는 큰 이점을 가진다.  
+인과 관계는 단순한 상관관계(correlations)보다,  
+새로운 상황에 훨씬 더 잘 일반화된다는 큰 이점을 가진다.  
 
-예를 들어, 우리가 지진의 생성 과정을 이해하게 되면, 그 지식을 캘리포니아나 칠레에서 모두 활용할 수 있다.
+예를 들어, 우리가 지진의 생성 과정을 이해하게 되면,  
+그 지식을 캘리포니아나 칠레에서 모두 활용할 수 있다.
 
 ---
 
@@ -71,7 +83,10 @@ tags: []
 
 생성 모델은 데이터로부터 효율적으로 학습할 수 있지만,  
 순수한 판별 모델에 비해 데이터에 대해 더 강한 가정을 세우는 경향이 있다.  
-그 결과, 모델이 잘못되었을 경우 점근적 편향(asymptotic bias)이 더 크게 나타나는 경우가 있다 (Banerjee, 2007).  
+
+그 결과,  
+모델이 잘못되었을 경우 점근적 편향(asymptotic bias)이 더 크게 나타나는 경우가 있다.  
+(Banerjee, 2007)  
 
 > 여기서 ‘점근적 편향(asymptotic bias)’은 데이터의 양이 무한히 많아져도 사라지지 않는  
 > 체계적 오차(systematic error)를 의미한다.  
@@ -82,12 +97,13 @@ tags: []
 단순히 판별만을 학습하는 것이 목적이며, 충분히 많은 데이터가 주어진 환경에 있다면,  
 순수한 판별 모델이 판별 과제에서 더 적은 오류를 낳는 경향을 보인다.  
 
-그럼에도 불구하고, 데이터의 양에 따라,  
-생성 과정을 연구하는 것이 판별기 — 예를 들어 분류기(classifier) — 의 학습에 도움이 될 수 있다.  
+그럼에도 불구하고, 데이터의 양에 따라, 생성 과정을 연구하는 것이  
+판별기 — 예를 들어 분류기(classifier) — 의 학습에 도움이 될 수 있다.  
 
 예를 들어, 레이블이 있는 데이터는 적고, 레이블이 없는 데이터는 훨씬 많은 경우,  
 즉 준지도 학습(semi-supervised learning) 환경에서는,  
-데이터의 생성 모델을 이용하여 분류성능을 향상시킬 수 있다 (Kingma et al., 2014; Sønderby et al., 2016a).
+데이터의 생성 모델을 이용하여 분류성능을 향상시킬 수 있다.  
+(Kingma et al., 2014; Sønderby et al., 2016a)
 
 ---
 
@@ -111,12 +127,14 @@ tags: []
 >오토인코더 구조에서 생성 모델은 표현으로부터 입력을 생성하므로,  
 >입력에서 표현으로 가는 인코딩 과정은 생성 과정의 역방향으로 볼 수 있다.
 
-이러한 보조 작업, 즉 세상을 예측하는 작업은 세계를 추상적인 수준에서 더 잘 이해하기 위해 사용되며,  
+이러한 보조 작업, 즉 세상을 예측하는 작업은  
+세계를 추상적인 수준에서 더 잘 이해하기 위해 사용되며,  
 결국 후속 예측(downstream prediction)을 더 잘 수행할 수 있도록 돕는다.
 
 ---
 
-변분 오토인코더(VAE)는 서로 연결되어 있지만, 각각 독립적으로 매개변수화된 두 개의 모델로 볼 수 있다.  
+변분 오토인코더(VAE)는  
+서로 연결되어 있지만, 각각 독립적으로 매개변수화된 두 개의 모델로 볼 수 있다.  
 
 즉, 인코더(encoder) 또는 인식 모델(recognition model)과  
 디코더(decoder) 또는 생성 모델(generative model)이다.  
@@ -138,7 +156,8 @@ tags: []
 > 생성 모델은 이를 바탕으로 M단계(maximization step)에서  
 > 데이터의 우도(likelihood)를 최대화한다.
 
-반대로, 생성 모델은, 인식 모델이 데이터의 의미 있는 표현(예를 들어 클래스 레이블)을 학습할 수 있도록  
+반대로 생성 모델은,  
+인식 모델이 데이터의 의미 있는 표현(예를 들어 클래스 레이블)을 학습할 수 있도록  
 일종의 학습 틀(scaffolding) 역할을 한다.  
 
 즉, 인식 모델은 베이즈 규칙에 따라 생성 모델의 근사적 역함수로 작동한다.
@@ -153,28 +172,34 @@ tags: []
 > VAE에서는 하나의 인식 모델이 모든 데이터에 대해 공통으로 작동하므로  
 > 훨씬 효율적으로 추론을 수행할 수 있다.
 
-이는 VI에서 각 데이터 샘플마다 별도의 변분 분포(variational distribution)를 두는 방식과 대조된다.  
+이는 VI에서 각 데이터 샘플마다  
+별도의 변분 분포(variational distribution)를 두는 방식과 대조된다.  
 그러한 접근은 데이터셋이 커질수록 비효율적이다.  
 
 VAE의 인식 모델은 하나의 파라미터 집합으로 입력 변수와 잠재 변수 간의 관계를 학습하며,  
 이러한 방식을 상각 추론(amortized inference)이라고 부른다.  
 
 이 인식 모델은 임의의 복잡한 형태를 가질 수 있지만,  
-구조상 입력에서 잠재 변수로의 단일 feedforward 연산만으로 수행되므로 비교적 빠르게 계산할 수 있다.  
+구조상 입력에서 잠재 변수로의 단일 feedforward 연산만으로 수행되므로  
+비교적 빠르게 계산할 수 있다.  
 
 그러나 그 대가로, 이러한 샘플링 과정은  
 학습에 필요한 그래디언트에 샘플링 노이즈(sampling noise)를 유발한다.  
 
 VAE 프레임워크의 가장 큰 공헌 중 하나는 이러한 분산(variance)을 줄이기 위해  
-재매개변수화 기법(reparameterization trick)으로 알려진 간단한 그래디언트 계산 재구성 절차를 도입했다는 점이다.  
+재매개변수화 기법(reparameterization trick)으로 알려진  
+간단한 그래디언트 계산 재구성 절차를 도입했다는 점이다.  
+
 이를 통해 그래디언트의 분산을 효과적으로 줄일 수 있다.
 
 ---
 
-변분 오토인코더(VAE)는 헬름홀츠 머신(Helmholtz Machine, Dayan et al., 1995)에서 영감을 받았다.  
+변분 오토인코더(VAE)는  
+헬름홀츠 머신(Helmholtz Machine, Dayan et al., 1995)에서 영감을 받았다.  
 헬름홀츠 머신은 아마도 최초로 인식 모델(recognition model)을 도입한 모델이었다.  
 
-그러나 그 학습 방식인 wake-sleep 알고리즘은 비효율적이었으며, 단일 목적 함수를 최적화하는 방식이 아니었다.  
+그러나 그 학습 방식인 wake-sleep 알고리즘은 비효율적이었으며,  
+단일 목적 함수를 최적화하는 방식이 아니었다.  
 
 > 헬름홀츠 머신은 생성 모델과 인식 모델을 번갈아 학습했지만,  
 > VAE는 하나의 명확한 목적 함수(ELBO)를 중심으로  
@@ -188,10 +213,11 @@ VAE 프레임워크의 가장 큰 공헌 중 하나는 이러한 분산(variance
 
 변분 오토인코더(VAE)는 그래픽(graphical) 모델과 딥러닝을 결합한 구조이다.  
 
-생성 모델은 $p(x \mid z)p(z)$과 같은 형태의 베이지안 네트워크(Bayesian network)로 표현된다:  
+생성 모델은 $p(x \mid z)p(z)$과 같은 형태의  
+베이지안 네트워크(Bayesian network)로 표현된다:  
   
 또는 다층 잠재 변수가 존재하는 경우,  
-$p(x \mid z_L)p(z_L \mid z_{L-1}) \dots p(z_1 \mid z_0)$ 와 같은 계층적(hierarchical) 구조를 가진다.  
+$p(x \mid z_L)p(z_L \mid z_{L-1}) \dots p(z_1 \mid z_0)$와 같은 계층적(hierarchical) 구조를 가진다.  
 
 마찬가지로 인식 모델(추론 모델)도 $q(z \mid x)$ 형태의 조건부 베이지안 네트워크이거나,  
 $q(z_0 \mid z_1) \dots q(z_L \mid x)$ 와 같은 계층 구조로 표현될 수 있다.  
@@ -207,9 +233,11 @@ VAE의 학습 알고리즘은
 ---
 
 VAE 프레임워크는 제안된 이후 다양한 방향으로 확장되어 왔다.  
+
 예를 들어, 동적 모델(dynamical models) (Johnson et al., 2016),  
 어텐션(attention)이 포함된 모델 (Gregor et al., 2015),  
-다층 확률 잠재 변수(multiple levels of stochastic latent variables)를 가지는 모델 (Kingma et al., 2016) 등이 있다.  
+다층 확률 잠재 변수(multiple levels of stochastic latent variables)를  
+가지는 모델(Kingma et al., 2016) 등이 있다.  
 
 이처럼 VAE는 새로운 생성 모델을 설계하기 위한 풍부한 기반(fertile framework)으로 자리잡았다.  
 
@@ -244,11 +272,15 @@ GAN은 주관적 지각 품질(subjective perceptual quality)이 높은 이미�
 
 ## 1.2 목표 (Aim)
 
-변분 오토인코더(VAE, Variational Autoencoder) 프레임워크 (Kingma & Welling, 2014; Rezende et al., 2014)는  
-심층 잠재 변수 모델(deep latent-variable model)과 그에 대응하는 추론 모델(inference model)을  
-확률적 경사 하강법(stochastic gradient descent)을 통해 동시에 학습할 수 있는 체계적인 방법을 제공한다.  
+변분 오토인코더(VAE, Variational Autoencoder) 프레임워크  
+(Kingma & Welling, 2014; Rezende et al., 2014)는  
+심층 잠재 변수 모델(deep latent-variable model)과  
+그에 대응하는 추론 모델(inference model)을  
+확률적 경사 하강법(stochastic gradient descent)을 통해  
+동시에 학습할 수 있는 체계적인 방법을 제공한다.  
 
-이 프레임워크는 생성 모델링(generative modeling), 준지도 학습(semi-supervised learning),  
+이 프레임워크는  
+생성 모델링(generative modeling), 준지도 학습(semi-supervised learning),  
 표현 학습(representation learning) 등 다양한 영역에 걸쳐 폭넓게 활용된다.
 
 ---
@@ -325,7 +357,7 @@ GAN은 주관적 지각 품질(subjective perceptual quality)이 높은 이미�
 이 과정의 실제 (확률) 분포 $ p^{*}(\mathbf{x}) $ 는 알려져 있지 않다.  
 
 따라서 우리는 이 근본적인 과정을  
-파라미터 $ \boldsymbol{\theta} $ 를 갖는 선택된 모델 $ p_{\boldsymbol{\theta}}(\mathbf{x}) $ 로 근사하려고 한다.
+파라미터 $ \boldsymbol{\theta} $ 를 갖는 선택된 모델 $ p_{\boldsymbol{\theta}}(\mathbf{x}) $로 근사하려고 한다.
 
 $$
 \mathbf{x} \sim p_{\boldsymbol{\theta}}(\mathbf{x})
@@ -397,7 +429,8 @@ $$
 
 ---
 
-표기상의 복잡함을 피하기 위해, 이 글에서는 종종 비(非)조건부 모델링(unconditional modeling)을 가정한다.  
+표기상의 복잡함을 피하기 위해,  
+이 글에서는 종종 비(非)조건부 모델링(unconditional modeling)을 가정한다.  
 
 그러나 여기서 소개하는 방법들은 거의 모든 경우에  
 조건부 모델(conditional models)에도 동일하게 적용될 수 있다는 점을 기억해야 한다.  
@@ -430,7 +463,8 @@ $$
 
 ---
 
-작성 시점을 기준으로, 딥러닝은 다양한 분류 및 회귀 문제에서 우수한 성능을 보이는 것으로 확인되었다.  
+작성 시점을 기준으로,  
+딥러닝은 다양한 분류 및 회귀 문제에서 우수한 성능을 보이는 것으로 확인되었다.  
 (LeCun et al., 2015; Goodfellow et al., 2016).  
 
 예를 들어, 신경망 기반 이미지 분류(LeCun et al., 1998)의 경우,  
@@ -469,7 +503,7 @@ p_{\boldsymbol{\theta}}(\mathbf{x}_1, \dots, \mathbf{x}_M)
 \tag{1.6}
 $$
 
-여기서 $ Pa(\mathbf{x}_j) $ 는 그래프에서 노드 $ j $ 의 부모 변수(parent variables) 집합을 의미한다.  
+여기서 $ Pa(\mathbf{x}_j) $ 는 그래프에서 노드 $ j $의 부모 변수(parent variables) 집합을 의미한다.  
 루트 노드(root node)가 아닌 경우, 부모 노드에 조건화된 분포를 사용한다.  
 루트 노드의 경우에는 부모 집합이 공집합이므로, 그 분포는 비(非)조건부(unconditional) 분포가 된다.
 
@@ -479,12 +513,16 @@ $$
 룩업 테이블(lookup table) 또는 선형 모델(linear model)로 파라미터화되었다 (Koller and Friedman, 2009).  
 
 > 과거에는 조건부 확률분포를 표현하기 위해  
-> 각 변수의 모든 가능한 입력 조합을 나열한 룩업 테이블이나, 단순한 선형 관계를 가정하는 모델이 주로 사용되었다.  
+> 각 변수의 모든 가능한 입력 조합을 나열한 룩업 테이블이나,  
+> 단순한 선형 관계를 가정하는 모델이 주로 사용되었다.  
 > 그러나 이러한 방식은 고차원 데이터나 복잡한 비선형 관계를 표현하기 어렵다는 한계가 있다.
 
-앞서 설명했듯이, 이러한 조건부 분포를 더 유연하게 파라미터화하는 방법은 신경망을 사용하는 것이다.  
+앞서 설명했듯이,  
+이러한 조건부 분포를 더 유연하게 파라미터화하는 방법은 신경망을 사용하는 것이다.  
 
-이 경우, 신경망은 유향 그래프에서 변수의 부모 노드를 입력으로 받아 그 변수에 대한 '분포의 파라미터' $ \boldsymbol{\eta} $ 를 출력한다.
+이 경우, 신경망은  
+유향 그래프에서 변수의 부모 노드를 입력으로 받아  
+그 변수에 대한 '분포의 파라미터' $ \boldsymbol{\eta} $ 를 출력한다.
 
 $$
 \boldsymbol{\eta} = \text{NeuralNet}(Pa(\mathbf{x}))
@@ -496,7 +534,8 @@ p_{\boldsymbol{\theta}}(\mathbf{x} \mid Pa(\mathbf{x})) = p_{\boldsymbol{\theta}
 \tag{1.8}
 $$
 
-이제 모든 변수가 데이터에서 관측된 경우, 이러한 모델들의 파라미터를 어떻게 학습할 것인지 살펴볼 것이다.
+이제 모든 변수가 데이터에서 관측된 경우,  
+이러한 모델들의 파라미터를 어떻게 학습할 것인지 살펴볼 것이다.
 
 ---
 
@@ -522,7 +561,8 @@ $$
 각 데이터 포인트들은 변하지 않는(unchanging) 기저 분포(underlying distribution)로부터  
 독립적으로 추출된 표본(independent samples)이라고 가정한다.  
 
-다시 말해, 데이터셋은 동일한(변하지 않는) 시스템으로부터 서로 독립적인 관측값들로 구성된다고 본다.  
+다시 말해,  
+데이터셋은 동일한(변하지 않는) 시스템으로부터 서로 독립적인 관측값들로 구성된다고 본다.  
 
 이 경우, 관측값 집합 $ \mathcal{D} = \{ \mathbf{x}^{(i)} \}_{i=1}^{N} $는 i.i.d. (independently and identically distributed),  
 즉 독립적이며 동일 분포를 따르는 표본으로 간주된다.  
@@ -550,7 +590,8 @@ $$
 ---
 
 최대우도(ML) 기준에서는,  
-모델이 데이터에 할당한 로그 확률(log-probability)의 합(또는 평균)을 최대화하는 파라미터 $ \boldsymbol{\theta} $ 를 찾는 것이 목표이다.  
+모델이 데이터에 할당한 로그 확률(log-probability)의 합(또는 평균)을 최대화하는  
+파라미터 $ \boldsymbol{\theta} $ 를 찾는 것이 목표이다.  
 
 i.i.d. 데이터셋 $ \mathcal{D} $ 의 크기가 $ N_D $ 일 때,  
 최대우도 목적함수(maximum likelihood objective)는 식 (1.10)에서 정의된 로그 확률을 최대화하는 것으로 표현된다.
@@ -573,7 +614,8 @@ i.i.d. 데이터셋 $ \mathcal{D} $ 의 크기가 $ N_D $ 일 때,
 
 ---
 
-보다 효율적인 최적화 방법은 확률적 경사하강법(stochastic gradient descent, SGD)이다 (section A.3).  
+보다 효율적인 최적화 방법은  
+확률적 경사하강법(stochastic gradient descent, SGD)이다 (section A.3).  
 
 SGD는 전체 데이터셋 $ \mathcal{D} $ 중 일부를 무작위로 선택한 미니배치 $ \mathcal{M} \subset \mathcal{D} $ 를 사용하며,  
 그 크기는 $ N_{\mathcal{M}} $ 로 표시된다.  
@@ -592,7 +634,8 @@ $$
 
 ---
 
-이러한 그래디언트는 확률적 경사 기반 최적화 알고리즘(stochastic gradient-based optimizers)에 직접 사용할 수 있다.  
+이러한 그래디언트는  
+확률적 경사 기반 최적화 알고리즘(stochastic gradient-based optimizers)에 직접 사용할 수 있다.  
 자세한 내용은 section A.3을 참조하라.  
 
 요약하면, 목적함수(objective function)는  
@@ -639,7 +682,8 @@ $$
 보통 이러한 잠재 변수는 **$ \mathbf{z} $** 로 표기한다.  
 
 관측 변수 **$ \mathbf{x} $** 에 대한 비(非)조건부(unconditional) 모델링의 경우,  
-유향 그래픽 모델은 관측 변수 **$ \mathbf{x} $** 와 잠재 변수 **$ \mathbf{z} $** 모두에 대한 결합 분포(joint distribution) $ p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) $ 를 나타낸다.  
+유향 그래픽 모델은  
+관측 변수 **$ \mathbf{x} $** 와 잠재 변수 **$ \mathbf{z} $** 모두에 대한 결합 분포(joint distribution) $ p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) $ 를 나타낸다.  
 
 관측 변수에 대한 주변 분포(marginal distribution) $ p_{\boldsymbol{\theta}}(\mathbf{x}) $ 는 다음과 같이 정의된다:
 
@@ -700,14 +744,17 @@ $ p_{\boldsymbol{\theta}}(\mathbf{x}) $ 는 사실상 무한한(infinite) 혼합
 이러한 모델은 특정 문맥(context)에 조건화될 수도 있으며, $ p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z} \mid \mathbf{y}) $ 와 같이 표현된다.  
 
 DLVM의 중요한 장점 중 하나는,  
-유향 그래픽 모델의 각 구성 요소(사전분포나 조건부분포)가 비교적 단순한 형태(예: 조건부 가우시안 분포)라고 하더라도,  
+유향 그래픽 모델의 각 구성 요소(사전분포나 조건부분포)가  
+비교적 단순한 형태(예: 조건부 가우시안 분포)라고 하더라도,  
 그 주변 분포 $ p_{\boldsymbol{\theta}}(\mathbf{x}) $는 매우 복잡하고 다양한 의존성을 포함할 수 있다는 점이다.  
 
-이러한 높은 표현력(expressivity)덕분에 DLVM은 복잡한 실제 분포 $ p^{*}(\mathbf{x}) $를 근사하는 데 매우 유용하다.  
+이러한 높은 표현력(expressivity)덕분에  
+DLVM은 복잡한 실제 분포 $ p^{*}(\mathbf{x}) $를 근사하는 데 매우 유용하다.  
 
 ---
 
-아마도 가장 단순하고 가장 일반적인 DLVM은 다음과 같은 구조로 분해(factorization)되는 형태이다:
+아마도 가장 단순하고 가장 일반적인 DLVM은  
+다음과 같은 구조로 분해(factorization)되는 형태이다:
 
 $$
 p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
@@ -758,6 +805,7 @@ $$
 
 여기서 모든 $p_j \in \mathbf{p}$ 에 대해 $0 \le p_j \le 1$ 이며,  
 이는 보통 DecoderNeuralNet의 마지막 층에서 시그모이드(sigmoid) 비선형함수로 구현된다.  
+
 $D$는 $\mathbf{x}$의 차원 수를 의미하며,  
 $\text{Bernoulli}(\cdot; p)$ 는 베르누이 분포의 확률질량함수(PMF)를 나타낸다.
 

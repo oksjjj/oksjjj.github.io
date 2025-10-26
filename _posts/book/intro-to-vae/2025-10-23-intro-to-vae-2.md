@@ -17,7 +17,8 @@ tags: []
 ## 2.1 인코더(Encoder) 또는 근사 사후분포(Approximate Posterior)
 
 이전 장에서는 심층 잠재 변수 모델(DLVM, Deep Latent Variable Model)과  
-그러한 모델에서 로그우도(log-likelihood)와 사후분포(posterior distribution)를 추정하는 문제를 소개하였다.  
+그러한 모델에서 로그우도(log-likelihood)와 사후분포(posterior distribution)를 추정하는  
+문제를 소개하였다.  
 
 변분 오토인코더(VAE) 프레임워크는  
 확률적 경사하강법(SGD, Stochastic Gradient Descent)을 이용하여  
@@ -39,7 +40,8 @@ q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}
 \tag{2.1}
 $$
 
-이후 설명하겠지만, 이러한 사후분포의 근사는 주변우도(marginal likelihood)를 효율적으로 최적화하는 데 도움이 된다.
+이후 설명하겠지만, 이러한 사후분포의 근사는  
+주변우도(marginal likelihood)를 효율적으로 최적화하는 데 도움이 된다.
 
 ---
 
@@ -81,8 +83,11 @@ $$
 기존 방법에서는 변분 매개변수(variational parameters)가 데이터 포인트별로 분리되어 있으며,  
 각 데이터 포인트마다 별도의 반복적 최적화(iterative optimization)를 수행해야 한다.  
 
-반면, VAE에서는 데이터 포인트 전체에 대해 하나의 공통된 변분 매개변수를 공유하는 전략을 사용한다.  
-이 방식을 상각 변분 추론(amortized variational inference) (Gershman & Goodman, 2014)이라 부른다.  
+반면, VAE에서는 데이터 포인트 전체에 대해  
+하나의 공통된 변분 매개변수를 공유하는 전략을 사용한다.  
+
+이 방식을  
+상각 변분 추론(amortized variational inference) (Gershman & Goodman, 2014)이라 부른다.  
 
 상각 추론을 사용하면 데이터 포인트마다 개별적인 최적화 루프를 돌 필요가 없으며,  
 확률적 경사하강법(SGD)의 효율성을 그대로 활용할 수 있다.
@@ -230,7 +235,8 @@ $$
 
 그리고 두 분포가 정확히 일치할 때, 즉 $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) = p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$일 때만 0이 된다.  
 
-식 (2.8)의 첫 번째 항은 변분 하한(variational lower bound), 즉 ELBO (Evidence Lower Bound)라고 부른다.
+식 (2.8)의 첫 번째 항은 변분 하한(variational lower bound),  
+즉 ELBO (Evidence Lower Bound)라고 부른다.
 
 $$
 \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
@@ -351,7 +357,8 @@ $$
 ## 2.3 확률적 경사 기반 ELBO 최적화  
 
 ELBO의 중요한 성질 중 하나는, 모든 매개변수(즉, $\boldsymbol{\phi}$ 와 $\boldsymbol{\theta}$)에 대해  
-확률적 경사하강법(stochastic gradient descent, SGD)으로 공동 최적화(joint optimization)가 가능하다는 점이다.  
+확률적 경사하강법(stochastic gradient descent, SGD)으로  
+공동 최적화(joint optimization)가 가능하다는 점이다.  
 
 임의의 초기값 $\boldsymbol{\phi}$ 와 $\boldsymbol{\theta}$로 시작하여, 수렴할 때까지 확률적으로 그 값을 반복적으로 최적화할 수 있다.  
 
@@ -367,12 +374,14 @@ $$
 
 각 데이터 포인트에 대한 ELBO와 그 그래디언트 $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$ 는 일반적으로 계산이 불가능(intractable)하다.  
 
-그러나 뒤에서 보게 될 것처럼, 좋은 불편 추정량(unbiased estimator)인 $$\tilde{\nabla}_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$$를 사용하면,  
+그러나 뒤에서 보게 될 것처럼,  
+좋은 불편 추정량(unbiased estimator)인 $$\tilde{\nabla}_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$$를 사용하면,  
 미니배치 SGD도 수행할 수 있다.  
 
 ---
 
-불편향(unbiased) ELBO 그래디언트는 생성 모델의 매개변수 $\boldsymbol{\theta}$ 에 대해 비교적 간단하게 계산할 수 있다.
+불편향(unbiased) ELBO 그래디언트는  
+생성 모델의 매개변수 $\boldsymbol{\theta}$에 대해 비교적 간단하게 계산할 수 있다.
 
 $$
 \begin{align}
@@ -412,7 +421,8 @@ $$
 식 (2.16)과 (2.17)에 등장하는 $\mathbf{z}$는 $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})$ 로부터 샘플링된 확률표본이다.  
 
 > **1) (2.14) → (2.15):**  
->    그래디언트 $\nabla_{\theta}$는 디코더 $p_{\theta}(x,z)$ 의 파라미터에만 의존하므로, 인코더 분포 $q_{\phi}(z\mid x)$와는 무관하다.  
+>    그래디언트 $\nabla_{\theta}$는 디코더 $p_{\theta}(x,z)$ 의 파라미터에만 의존하므로,  
+>    인코더 분포 $q_{\phi}(z\mid x)$와는 무관하다.  
 >    따라서 그래디언트 $\nabla_{\theta}$를 $q_{\phi}(z\mid x)$에 대한 기댓값 연산자 안쪽으로 이동할 수 있다.  
 >
 >    $$
@@ -440,7 +450,8 @@ $$
 > ---
 >
 > **2) (2.15) → (2.16):**  
->    (2.15)식의 기댓값은 적분 형태로 계산하기 어렵기 때문에, 몬테카를로 추정(Monte Carlo estimation)을 이용해 근사한다.  
+>    (2.15)식의 기댓값은 적분 형태로 계산하기 어렵기 때문에,  
+>    몬테카를로 추정(Monte Carlo estimation)을 이용해 근사한다.  
 >
 >    $$
 >    \mathbb{E}_{q_{\phi}(z\mid x)}[f(z)]
@@ -449,7 +460,8 @@ $$
 >    \quad z^{(l)} \sim q_{\phi}(z\mid x)
 >    $$
 >
->    샘플 수 $L$이 충분히 크면 이 근사치는 실제 기댓값에 수렴하며, 이는 대수의 법칙(Law of Large Numbers)에 의해 보장된다.  
+>    샘플 수 $L$이 충분히 크면 이 근사치는 실제 기댓값에 수렴하며,  
+>    이는 대수의 법칙(Law of Large Numbers)에 의해 보장된다.  
 >
 >    이를 (2.15)에 적용하면,
 >
@@ -482,7 +494,8 @@ $$
 불편향(unbiased) 그래디언트를 변분 파라미터(variational parameters) $\boldsymbol{\phi}$ 에 대해 계산하는 것은  
 $\boldsymbol{\theta}$ 에 대한 경우보다 훨씬 더 어렵다.  
 
-이는 ELBO의 기댓값이 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 에 대해 정의되어 있는데, 이 분포 자체가 $\boldsymbol{\phi}$ 의 함수이기 때문이다.  
+이는 ELBO의 기댓값이 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 에 대해 정의되어 있는데,  
+이 분포 자체가 $\boldsymbol{\phi}$ 의 함수이기 때문이다.  
 
 즉, 일반적으로 다음이 성립한다.
 
@@ -584,7 +597,9 @@ $$
 >    $$
 >
 >    이는 기댓값의 분포와 미분 대상이 모두 φ에 의존하기 때문이다.  
->    따라서 인코더의 경우에는 “기댓값 안의 식”과 “확률밀도 함수” 모두에 $\boldsymbol{\phi}$ 가 들어 있어 미분이 훨씬 더 복잡해진다.  
+>
+>    따라서 인코더의 경우에는  
+>    “기댓값 안의 식”과 “확률밀도 함수” 모두에 $\boldsymbol{\phi}$ 가 들어 있어 미분이 훨씬 더 복잡해진다.  
 
 연속적인 잠재변수의 경우, $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$의 불편향 추정값(unbiased estimates)을 계산하기 위해  
 재매개변수화 기법(reparameterization trick)을 사용할 수 있다.  
@@ -601,7 +616,8 @@ $$
 노이즈는 미니배치 샘플링과 $p(\boldsymbol{\epsilon})$의 샘플링 두 과정 모두에서 발생하기 때문에,  
 이 절차는 이중 확률적 최적화(doubly stochastic optimization) 방식이다.  
 
-이 절차는 오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘이라고도 불린다.
+이 절차는  
+오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘이라고도 불린다.
 
 **데이터 (Data):**  
 - $\mathcal{D}$: 데이터셋 (Dataset)  
@@ -684,7 +700,8 @@ Kingma & Welling (2014), Rezende et al. (2014) 에 의해 제안되었다.
 
 먼저, 잠재변수 $\mathbf{z}$ 가 인코더 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$로부터 샘플링된다고 하자.  
 
-이때 $\mathbf{z}$를 또 다른 확률변수 $\boldsymbol{\epsilon}$의 미분 가능하고 가역적인(invertible) 변환(transformation)으로 표현할 수 있다.
+이때 $\mathbf{z}$를 또 다른 확률변수 $\boldsymbol{\epsilon}$의  
+미분 가능하고 가역적인(invertible) 변환(transformation)으로 표현할 수 있다.
 
 $$
 \mathbf{z} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})
@@ -760,7 +777,8 @@ $\mathbf{z} = g(\boldsymbol{\phi}, \mathbf{x}, \boldsymbol{\epsilon})$ 이다.
 >    바로 몬테카를로 추정량(Monte Carlo estimator)이다.
 
 그림 2.3은 이에 대한 시각적 예시 및 추가 설명을 제공하며,  
-그림 3.2는 2차원 예제(2D toy problem)에 대해 결과로 얻어지는 사후분포(posteriors)를 시각화한 것이다.
+그림 3.2는 2차원 예제(2D toy problem)에 대해  
+결과로 얻어지는 사후분포(posteriors)를 시각화한 것이다.
 
 ---
 
@@ -770,7 +788,8 @@ $\mathbf{z} = g(\boldsymbol{\phi}, \mathbf{x}, \boldsymbol{\epsilon})$ 이다.
 
 우리는 확률적 경사하강법(SGD)을 이용해 목적함수를 최적화하기 위해 $\nabla_{\boldsymbol{\phi}} f$ 를 계산하고자 한다.  
 
-원래 형태(왼쪽)에서는, 확률 변수 $\mathbf{z}$ 를 통해 그래디언트를 직접 역전파(backpropagate)할 수 없기 때문에  
+원래 형태(왼쪽)에서는,  
+확률 변수 $\mathbf{z}$ 를 통해 그래디언트를 직접 역전파(backpropagate)할 수 없기 때문에  
 $f$ 를 $\boldsymbol{\phi}$ 에 대해 미분할 수 없다.
 
 우리는 변수 $\mathbf{z}$의 무작위성을,  
@@ -778,7 +797,8 @@ $\boldsymbol{\phi}$, $\mathbf{x}$, 그리고 새로 도입된 확률 변수 $\bo
 변수의 매개변수를 다시 설정(re-parameterizing)함으로써  
 ‘외부화(externalize)’할 수 있다.
 
-이것은 우리가 ‘$\mathbf{z}$를 통해 역전파(backprop through $\mathbf{z}$)’하고, 그래디언트 $\nabla_{\boldsymbol{\phi}} f$ 를 계산할 수 있게 해준다.
+이것은 우리가 ‘$\mathbf{z}$를 통해 역전파(backprop through $\mathbf{z}$)’하고,  
+그래디언트 $\nabla_{\boldsymbol{\phi}} f$ 를 계산할 수 있게 해준다.
 
 <img src="/assets/img/books/intro-to-vae/2/image_3.png" alt="image" width="720px"> 
 
@@ -808,7 +828,8 @@ $$
 
 ---
 
-그 결과, 단일 데이터 포인트에 대한 ELBO의 단순한 몬테카를로 추정량(estimator) $\tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$ 을 구성할 수 있다.  
+그 결과, 단일 데이터 포인트에 대한  
+ELBO의 단순한 몬테카를로 추정량(estimator) $\tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$ 을 구성할 수 있다.  
 
 이때 하나의 노이즈 샘플 $\boldsymbol{\epsilon}$을 $p(\boldsymbol{\epsilon})$ 로부터 사용한다.
 
@@ -831,17 +852,20 @@ $$
 
 ---
 
-이 일련의 연산들은 TensorFlow와 같은 소프트웨어에서 기호적 그래프(symbolic graph) 형태로 표현될 수 있으며,  
+이 일련의 연산들은 TensorFlow와 같은 소프트웨어에서  
+기호적 그래프(symbolic graph) 형태로 표현될 수 있으며,  
 파라미터 $\boldsymbol{\theta}$ 와 $\boldsymbol{\phi}$에 대해 손쉽게 미분될 수 있다.  
 
-그 결과로 얻어진 그래디언트 $\nabla_{\boldsymbol{\phi}} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$는  미니배치 SGD를 사용하여 ELBO를 최적화하는 데 사용된다.  
+그 결과로 얻어진 그래디언트 $\nabla_{\boldsymbol{\phi}} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$는   
+미니배치 SGD를 사용하여 ELBO를 최적화하는 데 사용된다.  
 알고리즘 1을 참조하라.  
 
-이 알고리즘은 Kingma와 Welling(2014)에 의해  
-처음에는 오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘으로 불렸다.  
+이 알고리즘은 Kingma와 Welling(2014)에 의해 처음에는  
+오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘으로 불렸다.  
 
 보다 일반적으로, 재매개변수화된 ELBO 추정량은  
-확률적 그래디언트 변분 베이즈(Stochastic Gradient Variational Bayes, SGVB) 추정량이라고 불린다.  
+확률적 그래디언트 변분 베이즈(Stochastic Gradient Variational Bayes, SGVB)  
+추정량이라고 불린다.  
 
 이 추정량은 또한 모델 파라미터에 대한 사후분포(posterior)를 추정하는 데에도 사용할 수 있으며,  
 이에 대한 설명은 Kingma와 Welling(2014)의 부록(Appendix)에 제시되어 있다.
@@ -850,7 +874,8 @@ $$
 
 #### 불편향성 (Unbiasedness)
 
-이 그래디언트는 정확한 단일 데이터 포인트 ELBO 그래디언트의 불편향 추정량(unbiased estimator)이다.  
+이 그래디언트는  
+정확한 단일 데이터 포인트 ELBO 그래디언트의 불편향 추정량(unbiased estimator)이다.  
 
 즉, 노이즈 $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$에 대해 평균을 취하면,  
 이 그래디언트는 단일 데이터 포인트 ELBO 그래디언트와 동일하다.
@@ -919,7 +944,37 @@ $$
 
 우리는 이것을 $\boldsymbol{\epsilon}$ 에서 $\mathbf{z}$ 로의 변환의 로그-행렬식(log-determinant)이라고 부른다.  
 
-이 로그-행렬식이 $g(\cdot)$ 와 마찬가지로 $\mathbf{x}$, $\boldsymbol{\epsilon}$, 그리고 $\boldsymbol{\phi}$ 의 함수임을 명확히 하기 위해 $\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 라는 표기를 사용한다.  
+> 식 (2.33)은 확률변수의 변수변환 공식(change of variables formula)에서 나온다.  
+>  
+> 만약 $\mathbf{z}$가 $\mathbf{z} = g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$로 정의되고, $g$가 가역(invertible)이라면,  
+> 두 변수 $\mathbf{z}$와 $\boldsymbol{\epsilon}$의 확률밀도는 다음 관계를 가진다:
+>
+> $$
+> q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> = p(\boldsymbol{\epsilon})
+> \left|\det\!\left(\frac{\partial \boldsymbol{\epsilon}}{\partial \mathbf{z}}\right)\right|
+> = p(\boldsymbol{\epsilon})
+> \Big/\!
+> \left|\det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right)\right|.
+> $$
+>  
+> 양변에 로그를 취하면,
+>
+> $$
+> \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> = \log p(\boldsymbol{\epsilon})
+> - \log \left|\det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right)\right|.
+> $$
+>  
+> 이것이 바로 식 (2.33)의 형태이다.  
+>  
+> 즉, $\boldsymbol{\epsilon}$의 분포를 알고 있을 때, $\mathbf{z}$로의 변환이 가역적이면  
+> 밀도변환 공식에 의해 두 확률밀도 간의 관계를 로그-야코비안 항을 통해 간단히 연결할 수 있다.  
+> 이 원리를 이용하면 VAE에서 샘플링 과정을 미분 가능한 형태로 표현할 수 있게 된다  
+> (즉, reparameterization trick의 핵심 아이디어).
+
+이 로그-행렬식이 $g(\cdot)$ 와 마찬가지로 $\mathbf{x}$, $\boldsymbol{\epsilon}$, 그리고 $\boldsymbol{\phi}$ 의 함수임을 명확히 하기 위해  
+$\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 라는 표기를 사용한다.  
 
 야코비안 행렬(Jacobian matrix)은 $\boldsymbol{\epsilon}$ 에서 $\mathbf{z}$ 로의 변환에 대한 모든 1차 미분항을 포함한다.
 
@@ -936,60 +991,9 @@ $$
 \tag{2.35}
 $$
 
-앞으로 보이겠지만, $\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 를 쉽게 계산할 수 있는 매우 유연한 변환 함수 $g(\cdot)$ 를 구성할 수 있다.  
+앞으로 보이겠지만,  
+$\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 를 쉽게 계산할 수 있는 매우 유연한 변환 함수 $g(\cdot)$ 를 구성할 수 있다.  
 이를 통해 매우 유연한 추론 모델 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 를 얻을 수 있다.
-
-> (1) $p(\boldsymbol{\epsilon})$ 는 우리가 직접 정한 노이즈 분포의 밀도이다  
->     예를 들어 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$ 처럼 선택했기 때문에 그 식을 알고 있다.  
->
-> (2) $g(\cdot)$ 는 노이즈를 잠재변수로 바꾸는 함수이다.  
->     $\mathbf{z} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$ 로 표현하며,  
->     $g$ 가 가역(invertible)이라면 $\boldsymbol{\epsilon}$ 의 밀도와 $\mathbf{z}$ 의 밀도는  
->     변수 변경 공식(change of variables formula)에 의해 연결된다.  
->
-> (3) 식 (2.33)의 뜻  
->     $\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$는 “노이즈 공간”의 확률을 “잠재변수 공간”의 확률로 바꾼 결과이다.  
->     우리가 알고 있는 것은 $\boldsymbol{\epsilon}$ (노이즈)의 확률분포이기 때문에,  
->     $\mathbf{z} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$로 바뀔 때 그 확률이 어떻게 변하는지를 계산해야 한다.  
->     식 (2.33)은 바로 그 변환 관계를 나타낸다.  
->     즉,  
->     - $\log p(\boldsymbol{\epsilon})$: 원래 노이즈의 확률  
->     - $d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$: 변환 과정에서 확률이 얼마나 퍼지거나 압축되는지를 나타내는 보정항  
->     이 두 항을 조합하면, 변환된 공간에서의 새로운 확률 $\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 를 얻는다.  
->
-> (4) 식 (2.34)의 뜻  
->     $d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$는 함수 $g$ 가 입력 노이즈 $\boldsymbol{\epsilon}$ 을 출력 $\mathbf{z}$ 로 바꿀 때  
->     “공간을 얼마나 늘이거나 줄이는지”를 나타내는 값이다.  
->     예를 들어,  
->     - 공간이 2배로 늘어나면 확률밀도는 절반으로 줄고,  
->     - 공간이 절반으로 압축되면 확률밀도는 2배로 커진다.  
->     이 변화율을 수학적으로 표현한 것이  
->     야코비안 행렬 $\dfrac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}$ 의 행렬식(det)이다.  
->     로그를 취하면 이 변화를 덧셈 형태로 다룰 수 있어서 계산이 훨씬 단순해진다.  
->
-> (5) 왜 야코비안 행렬이 등장하는가  
->     $\mathbf{z}$ 와 $\boldsymbol{\epsilon}$ 은 모두 여러 차원을 가지는 벡터이므로,  
->     각 성분끼리 단순히 1:1 대응하는 것이 아니라, 서로 다른 인덱스들 간에도 영향을 주고받는다.  
->     따라서 한 변수의 변화가 다른 여러 변수에 영향을 미치므로 전체 관계를 편미분으로 표현해야 한다.  
->     이때 사용되는 것이 바로 야코비안 행렬이다.  
->
->$$
->J = \frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}
->=
->\begin{bmatrix}
->\dfrac{\partial z_1}{\partial \epsilon_1} & \dfrac{\partial z_1}{\partial \epsilon_2} & \cdots & \dfrac{\partial z_1}{\partial \epsilon_n} \\
->\dfrac{\partial z_2}{\partial \epsilon_1} & \dfrac{\partial z_2}{\partial \epsilon_2} & \cdots & \dfrac{\partial z_2}{\partial \epsilon_n} \\
->\vdots & \vdots & \ddots & \vdots \\
->\dfrac{\partial z_m}{\partial \epsilon_1} & \dfrac{\partial z_m}{\partial \epsilon_2} & \cdots & \dfrac{\partial z_m}{\partial \epsilon_n}
->\end{bmatrix}
->$$
->
-> 이 행렬의 행렬식(det)은  
-> 변환 $g$ 가 공간의 “부피(volume)”를 얼마나 늘리거나 줄였는지를 나타낸다.  
-> 예를 들어, $\det(J) > 1$ 이면 공간이 늘어나서 확률밀도가 줄고,  
-> $\det(J) < 1$ 이면 공간이 압축되어 확률밀도가 커진다.  
-> 따라서 식 (2.34)의 로그 행렬식은  
-> 이러한 부피 변화율을 로그 스케일에서 더해 주는 보정항 역할을 한다.
 
 ---
 
@@ -1016,12 +1020,13 @@ q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
 \tag{2.37}
 $$
 
-여기서 $\mathcal{N}(z_i; \mu_i, \sigma_i^2)$ 는 단변량 가우시안 분포(univariate Gaussian distribution)의 확률밀도함수(PDF)이다.  
+여기서 $\mathcal{N}(z_i; \mu_i, \sigma_i^2)$는  
+단변량 가우시안 분포(univariate Gaussian distribution)의 확률밀도함수(PDF)이다.  
 
 > (1) 인코더 신경망의 역할  
 >     인코더 $\mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})$ 는 입력 $\mathbf{x}$ 로부터  
 >     잠재분포의 파라미터인 평균 $\boldsymbol{\mu}$ 와 로그표준편차 $\log \boldsymbol{\sigma}$ 를 출력한다.  
->     즉, 인코더는 **데이터 $\mathbf{x}$ 가 주어졌을 때 잠재변수 $\mathbf{z}$ 의 분포를 결정하는 함수**이다.  
+>     즉, 인코더는 데이터 $\mathbf{x}$ 가 주어졌을 때 잠재변수 $\mathbf{z}$ 의 분포를 결정하는 함수이다.  
 >
 > (2) 인코더가 정의하는 분포의 형태  
 >     인코더가 출력한 $\boldsymbol{\mu}$ 와 $\boldsymbol{\sigma}$ 는  
@@ -1039,7 +1044,7 @@ $$
 >     $\mathrm{diag}(\boldsymbol{\sigma}^2)$ 는 각 차원의 분산을 대각원소로 가지는 대각행렬이므로,  
 >     서로 다른 잠재변수 $z_i$ 와 $z_j$ 사이의 공분산이 0이다.  
 >     즉, 모든 잠재차원은 독립(independent)이다.  
->     그래서 이 분포를 **분리된 가우시안 분포(factorized Gaussian)** 라고 부른다.  
+>     그래서 이 분포를 분리된 가우시안 분포(factorized Gaussian)라고 부른다.  
 >
 > (4) 다변량 정규분포의 의미  
 >     - $\mathbf{z}$ : 잠재변수 벡터  
@@ -1126,43 +1131,12 @@ $$
 $$
 
 $$
-= \sum_i \log \mathcal{N}(\epsilon_i; 0, 1)
-- \log \sigma_i
+= \sum_i (\log \mathcal{N}(\epsilon_i; 0, 1)
+- \log \sigma_i)
 \tag{2.44}
 $$
 
 여기서 $\mathbf{z} = g(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$ 이다.
-
->첫 번째 항 $\log p(\boldsymbol{\epsilon})$ 은  
->표준 정규분포 $\mathcal{N}(0, I)$ 의 로그밀도이므로  
->모든 독립 차원에 대한 합으로 쓸 수 있다.  
->
->$$
->\log p(\boldsymbol{\epsilon})
->= \sum_i \log \mathcal{N}(\epsilon_i; 0, 1)
->$$  
->
->두 번째 항은 이미 $\sum_i \log \sigma_i$ 형태로 표현되므로,  
->식 (2.43)에 대입하면  
->
->$$
->\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
->= \sum_i \log \mathcal{N}(\epsilon_i; 0, 1)
->- \sum_i \log \sigma_i
->$$  
->
->가 된다.  
->논문에서는 이를 벡터 연산 형태로 간략히 표현하기 위해  
->$\sum$ 기호를 생략하고 다음처럼 표기한다.  
->
->$$
->\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
->= \sum_i \log \mathcal{N}(\epsilon_i; 0, 1)
->- \log \sigma_i
->\tag{2.44}
->$$  
->
->실제 의미상으로는 여전히 모든 차원에 대한 합이 내포되어 있다.  
 
 ---
 
@@ -1238,9 +1212,9 @@ $$
 > $$
 >
 > 여기서:
-> - 대각 원소 $L_{11}, L_{22}, L_{33}$ 는 각 차원의 **분산(scale)** 을 조절하고,  
+> - 대각 원소 $L_{11}, L_{22}, L_{33}$ 는 각 차원의 분산(scale)을 조절하고,  
 > - 비대각 원소(off-diagonal) $L_{21}, L_{31}, L_{32}$ 는  
->   차원 간의 **공분산(covariance)** 또는 **상관성(correlation)** 을 반영한다.  
+>   차원 간의 공분산(covariance) 또는 상관성(correlation)을 반영한다.  
 >
 > (4) 삼각행렬의 행렬식(det)의 계산  
 > 하삼각행렬의 행렬식은 대각 원소들의 곱으로 단순하게 계산된다.
@@ -1254,13 +1228,6 @@ $$
 > $$
 > \log|\det(\mathbf{L})| = \sum_i \log |L_{ii}|
 > $$
->
-> (5) 결과적으로  
-> 야코비안이 $\mathbf{L}$ 로 주어질 때,  
-> 그 로그 행렬식은 위와 같이 대각 원소의 로그합으로 단순화된다.  
-> 이는 계산 효율성을 높이고,  
-> 공분산을 포함한 복잡한 가우시안 분포에서도  
-> 손쉽게 로그 확률을 계산할 수 있도록 해준다.
 
 ---
 
@@ -1304,7 +1271,8 @@ $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$이므로 $\mathbb{E}[\boldsymbol{
 >
 > (3) 식 (2.52)의 의미  
 > $\boldsymbol{\epsilon}\sim\mathcal{N}(0,I)$ 이므로 $\mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^{\top}]=I$ 이다.  
-> 결과적으로 $\boldsymbol{\Sigma}=\mathbf{L}\mathbf{L}^{\top}$ 가 되며, 이는 공분산 행렬의 촐레스키 분해(Cholesky decomposition)에 해당한다.
+> 결과적으로 $\boldsymbol{\Sigma}=\mathbf{L}\mathbf{L}^{\top}$ 가 되며,  
+> 이는 공분산 행렬의 촐레스키 분해(Cholesky decomposition)에 해당한다.
 
 ---
 
@@ -1329,7 +1297,8 @@ $$
 > (1) 식 (2.53)의 의미  
 > 인코더 신경망은 입력 $\mathbf{x}$ 로부터  
 > 평균 $\boldsymbol{\mu}$, 로그표준편차 $\log\boldsymbol{\sigma}$, 그리고 공분산 구조를 학습하기 위한 가중치 행렬 $\mathbf{L}'$ 을 출력한다.  
-> 여기서 $\boldsymbol{\sigma}$ 는 각 잠재변수의 단변량 표준편차(대각 항)를, $\mathbf{L}'$ 은 변수 간 상관관계(비대각 항)를 학습한다.  
+> 여기서 $\boldsymbol{\sigma}$ 는 각 잠재변수의 단변량 표준편차(대각 항)를,  
+> $\mathbf{L}'$ 은 변수 간 상관관계(비대각 항)를 학습한다.  
 > 다만 $\mathbf{L}'$ 은 아직 삼각행렬 형태를 보장하지 않는다.
 >
 > (2) 식 (2.54)의 의미  
@@ -1346,9 +1315,11 @@ $$
 \tag{2.55}
 $$
 
-좀 더 일반적으로, $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$를 (미분 가능하고 비선형적인) 변환들의 연쇄(chain)로 대체할 수 있다.  
+좀 더 일반적으로,  
+$\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$를 (미분 가능하고 비선형적인) 변환들의 연쇄(chain)로 대체할 수 있다.  
 
-이때, 연쇄의 각 단계에서의 야코비안(Jacobian)이 비영(非零) 대각 원소를 가진 삼각행렬(triangular matrix) 형태라면,  
+이때, 연쇄의 각 단계에서의 야코비안(Jacobian)이  
+비영(非零) 대각 원소를 가진 삼각행렬(triangular matrix) 형태라면,  
 로그 행렬식(log determinant)은 여전히 단순하게 계산된다.  
 
 이 원리는 Inverse Autoregressive Flow (IAF)에서 사용되며,  
@@ -1431,22 +1402,23 @@ $$
 
 ---
 
-> (1) **인코더 단계**  
->    $\mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})$는 입력 $\mathbf{x}$ 로부터 평균 $\boldsymbol{\mu}$, 로그표준편차 $\log\boldsymbol{\sigma}$, 그리고 초기 공분산 행렬 $\mathbf{L}'$ 을 추정한다.  
+> (1) 인코더 단계  
+>    $\mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})$는  
+>    입력 $\mathbf{x}$ 로부터 평균 $\boldsymbol{\mu}$, 로그표준편차 $\log\boldsymbol{\sigma}$, 그리고 초기 공분산 행렬 $\mathbf{L}'$ 을 추정한다.  
 >
-> (2) **마스크 적용 단계**  
+> (2) 마스크 적용 단계  
 >    마스크 행렬 $\mathbf{L}_{\text{mask}}$ 를 적용해 상삼각 항을 제거하고, 대각에는 $\boldsymbol{\sigma}$를 추가하여  
 >   하삼각 형태의 공분산 행렬 $\mathbf{L}$을 생성한다.  
 >
-> (3) **잠재변수 샘플링**  
+> (3) 잠재변수 샘플링  
 >    $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$에 따라 노이즈를 샘플링한 뒤, $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$ 로 재매개변수화한다.  
 >
-> (4) **ELBO 항 계산**  
+> (4) ELBO 항 계산  
 >    - $$\tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}$$: 인코더의 사후 분포 항  
 >    - $$\tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}$$: 잠재변수의 사전 분포 항  
 >    - $$\tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}$$: 복원된 입력의 로그우도 항  
 >
-> (5) **ELBO 결합**  
+> (5) ELBO 결합  
 >    최종 ELBO 추정치는 다음과 같다.  
 >
 >    $$
@@ -1466,6 +1438,38 @@ VAE를 학습한 후에는,
 Rezende 등(2014)에 의해 처음 제안된 중요도 샘플링(importance sampling) 기법을 사용하여  
 모델 하에서 데이터의 확률을 추정할 수 있다.
 
+> 중요도 샘플링(importance sampling)은  
+> 직접 샘플링하기 어려운 분포 $p(\mathbf{z})$ 하에서 함수 $f(\mathbf{z})$의 기대값 $\mathbb{E}_{p}[f(\mathbf{z})]$을  
+> 샘플링이 쉬운 제안 분포 $q(\mathbf{z})$로부터 얻은 샘플로 근사하는 방법이다.  
+>
+> 먼저 $q(\mathbf{z})$에서 샘플 $\mathbf{z}^{(1)}, \dots, \mathbf{z}^{(L)} \sim q(\mathbf{z})$를 추출하고,  
+> 각 샘플에 중요도 가중치 $w^{(l)} = \frac{p(\mathbf{z}^{(l)})}{q(\mathbf{z}^{(l)})}$를 곱해  
+> 기대값을 다음과 같이 추정한다.
+>
+> $$
+> \hat{\mu} = \frac{1}{L}\sum_{l=1}^{L} w^{(l)} f(\mathbf{z}^{(l)}),
+> \quad \text{또는} \quad
+> \hat{\mu} = \frac{\sum_{l=1}^{L} w^{(l)} f(\mathbf{z}^{(l)})}{\sum_{l=1}^{L} w^{(l)}}.
+> $$
+>
+> 직관적으로, $q$에서 너무 자주 뽑힌 영역은 가중치로 덜어 주고,  
+> $q$에 비해 $p$가 큰 영역은 더 큰 가중치를 부여해 균형을 맞춘다.  
+>
+> 이 방법은 $q$가 $p$의 높은 확률질량 영역을 잘 커버할 때 잘 작동하지만,  
+> 두 분포가 겹치지 않으면 가중치의 분산이 커져 추정이 불안정해진다.  
+> 특히 고차원 공간에서는 이런 문제가 심각해지므로,  
+> $q$의 품질을 개선하거나 샘플 수를 늘리는 것이 필요하다.  
+>
+> VAE에서는 주변가능도 추정 시  
+> 가중치 $w^{(l)} = \frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}^{(l)})}{q_{\boldsymbol{\phi}}(\mathbf{z}^{(l)}|\mathbf{x})}$ 형태로 등장하며,  
+> IWAE는 이 가중치들을 여러 개 사용해 로그 평균을 취함으로써  
+> ELBO보다 더 타이트한 하한을 얻는다.  
+>
+> 쉽게 말해, 목표 분포 $p$의 “지형”을 직접 탐색하기 어려울 때,  
+> 더 다루기 쉬운 분포 $q$를 따라가며  
+> 각 지점이 실제 지형 $p$에서 얼마나 중요한지를 가중치로 보정하는 과정이  
+> 바로 중요도 샘플링이다.
+
 데이터 포인트 하나의 주변가능도(marginal likelihood)는 다음과 같이 쓸 수 있다.
 
 $$
@@ -1478,6 +1482,25 @@ $$
 \right]
 \tag{2.56}
 $$
+
+> 주변가능도 $p_{\boldsymbol{\theta}}(\mathbf{x}) = \int p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\,d\mathbf{z}$는  
+> 적분 안에 추론 분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$를 곱하고 나누어  
+> 기대값 형태로 바꿀 수 있다.  
+>
+> $$
+> p_{\boldsymbol{\theta}}(\mathbf{x})
+> = \int q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> \frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}
+> {q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}\,d\mathbf{z}
+> = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> \!\left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}
+> {q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}\right].
+> $$
+>
+> 양변에 로그를 취하면 식 (2.56)이 되며,  
+> 이는 적분을 기대값으로 표현한 항등식으로,  
+> 주변가능도를 샘플링 기반으로 근사할 수 있게 해준다.  
+> 이러한 표현은 중요도 샘플링(importance sampling)의 기초가 된다.
 
 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 로부터 무작위 샘플을 여러 개 추출하면,  
 이를 이용한 몬테카를로 근사(Monte Carlo estimator)는 다음과 같다.
@@ -1499,7 +1522,9 @@ $$
 여기서 각 $\mathbf{z}^{(l)} \sim q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$는 추론 모델로부터 샘플링된 잠재변수이다.  
 
 $L$ 을 크게 할수록 근사는 주변가능도의 더 정확한 추정값에 가까워진다.  
-사실상, $L \to \infty$ 일 때 이 몬테카를로 추정치는 실제 주변가능도(marginal likelihood)에 수렴하게 된다.
+
+사실상, $L \to \infty$ 일 때 이 몬테카를로 추정치는  
+실제 주변가능도(marginal likelihood)에 수렴하게 된다.
 
 ---
 
@@ -1518,9 +1543,15 @@ $L = 1$ 로 설정하면, 이는 VAE의 ELBO 추정량과 동일하다.
 즉, 중요도 가중 추정(importance weighted estimate)은  
 고차원 잠재공간에서 스케일링이 매우 비효율적이라는 문제가 있다.
 
-> IWAE는 샘플 수 L을 늘려 주변가능도 추정의 하한을 더 타이트하게 만들지만,  
-> 중요도 가중치의 분산이 고차원 잠재공간에서 급격히 커지므로  
-> 실제로는 샘플 효율이 떨어지고 학습이 불안정해지는 단점이 있다.
+> $L=1$일 때는 샘플을 하나만 사용하므로,  
+> 이는 일반적인 VAE의 ELBO 계산과 완전히 동일하다.  
+> 하지만 $L$을 늘리면 샘플을 여러 개 사용해  
+> 주변가능도를 더 정밀하게 추정할 수 있고,  
+> 그 결과 목적함수가 실제 로그가능도에 더 가까워진다.  
+> 이것이 IWAE의 핵심 아이디어다.  
+> 다만, 샘플 수를 늘리면 계산 비용이 커지고,  
+> 고차원 잠재공간에서는 중요도 가중치의 분산이 매우 커져  
+> 학습 효율이 급격히 떨어지는 한계가 있다.
 
 ---
 
@@ -1563,7 +1594,8 @@ $$
 이산형 데이터의 경우 $\mathbf{x}^{(i)}$ 값에 모든 확률 질량이 집중된 이산 분포에 대응한다.  
 
 > 경험적 분포 $q_{\mathcal{D}}(\mathbf{x})$는 데이터셋을 확률적으로 표현한 분포로,  
-> 각 데이터 포인트가 “그 지점에만 확률이 몰린 아주 뾰족한 분포(디랙 델타)”로 표현된다고 볼 수 있다.  
+> 각 데이터 포인트가  
+> “그 지점에만 확률이 몰린 아주 뾰족한 분포(디랙 델타)”로 표현된다고 볼 수 있다.  
 > 쉽게 말해, 모든 데이터 샘플에 동일한 가중치를 주어 평균낸 “데이터의 실제 분포”이다.
 
 데이터 분포와 모델 분포 사이의 쿨백-라이블러(Kullback-Leibler, KL) 발산은  
@@ -1583,7 +1615,8 @@ $$
 여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
 
 > 엔트로피(entropy)는 확률분포 $q_{\mathcal{D}}(\mathbf{x})$의 “평균적인 놀람 정도”를 의미한다.  
-> 여기서 자기 정보량(self-information)은 어떤 사건이 일어났을 때의 놀람 정도로, $-\log q_{\mathcal{D}}(\mathbf{x})$로 정의된다.  
+> 여기서 자기 정보량(self-information)은 어떤 사건이 일어났을 때의 놀람 정도로,  
+> $-\log q_{\mathcal{D}}(\mathbf{x})$로 정의된다.  
 > 따라서 엔트로피는 이 놀람의 평균값, 즉 $$\mathcal{H}(q_{\mathcal{D}}(\mathbf{x})) = - \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}[\log q_{\mathcal{D}}(\mathbf{x})]$$ 로 표현된다.  
 > KL 발산 식의 두 번째 항이 이 정의와 부호만 반대이므로 상수항을 $$-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$$로 쓸 수 있다.
 
@@ -1694,7 +1727,8 @@ $$
 최대우도 목표(maximum likelihood objective)로 볼 수 있다는 것이다.  
 
 인코더 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$가 고정되어 있다고 하면, 결합분포 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는  
-원래의 데이터 $\mathbf{x}$와 각 데이터 포인트에 연관된 (확률적) 보조 특징(stochastic auxiliary features) $\mathbf{z}$에 대한  
+원래의 데이터 $\mathbf{x}$와 각 데이터 포인트에 연관된  
+(확률적) 보조 특징(stochastic auxiliary features) $\mathbf{z}$에 대한  
 증강된 경험적 분포(augmented empirical distribution)로 볼 수 있다.  
 
 > 여기서 말하는 “증강된 공간(augmented space)”이란  
@@ -1709,7 +1743,8 @@ $$
 > 생성모델 $p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})$는  
 > 이 결합된 데이터–잠재공간을 최대우도 방식으로 학습한다고 볼 수 있다.
 
-즉, 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 원래 데이터와 그에 대응하는 보조 특징 모두에 대한 결합 모델(joint model)을 정의한다.  
+즉, 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는  
+원래 데이터와 그에 대응하는 보조 특징 모두에 대한 결합 모델(joint model)을 정의한다.  
 (그림 2.4 참조)
 
 ---
