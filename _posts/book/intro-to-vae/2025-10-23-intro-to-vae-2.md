@@ -17,8 +17,8 @@ tags: []
 ## 2.1 인코더(Encoder) 또는 근사 사후분포(Approximate Posterior)
 
 이전 장에서는 심층 잠재 변수 모델(DLVM, Deep Latent Variable Model)과  
-그러한 모델에서 로그우도(log-likelihood)와 사후분포(posterior distribution)를 추정하는  
-문제를 소개하였다.  
+그러한 모델에서 로그우도(log-likelihood)와 사후분포(posterior distribution)를  
+추정하는 문제를 소개하였다.  
 
 변분 오토인코더(VAE) 프레임워크는  
 확률적 경사하강법(SGD, Stochastic Gradient Descent)을 이용하여  
@@ -31,7 +31,8 @@ DLVM의 계산 불가능한(intractable) 사후 추론과 학습 문제를 계�
 매개변수를 갖는 추론 모델(parametric inference model) $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})$를 도입한다.  
 
 이 모델은 인코더(encoder) 또는 인식 모델(recognition model)이라고도 불린다.  
-여기서 $\boldsymbol{\phi}$는 이 추론 모델의 매개변수(parameter)를 의미하며, 변분 매개변수(variational parameters)라고 부른다.  
+여기서 $\boldsymbol{\phi}$는 이 추론 모델의 매개변수(parameter)를 의미하며,  
+변분 매개변수(variational parameters)라고 부른다.  
 
 이 변분 매개변수 $\boldsymbol{\phi}$를 최적화하여 다음이 성립하도록 한다:
 
@@ -689,7 +690,7 @@ $$
 ## 2.4 재매개변수화 기법 (Reparameterization Trick)
 
 연속적인 잠재변수와 미분 가능한 인코더 및 생성 모델의 경우,  
-ELBO는 변수변환(change of variables)을 통해 $\boldsymbol{\phi}$ 와 $\boldsymbol{\theta}$ 모두에 대해 직접적으로 미분할 수 있다.  
+ELBO는 변수 변경(change of variables)을 통해 $\boldsymbol{\phi}$ 와 $\boldsymbol{\theta}$ 모두에 대해 직접적으로 미분할 수 있다.  
 
 이 방법을 재매개변수화 기법(Reparameterization trick)이라고 하며,  
 Kingma & Welling (2014), Rezende et al. (2014) 에 의해 제안되었다.
@@ -1276,7 +1277,8 @@ $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$이므로 $\mathbb{E}[\boldsymbol{
 
 ---
 
-원하는 성질, 즉 삼각행렬성과 0이 아닌 대각 원소를 가지는 행렬 $\mathbf{L}$ 을 구성하는 한 가지 방법은 다음과 같다:
+원하는 성질,  
+즉 삼각행렬성과 0이 아닌 대각 원소를 가지는 행렬 $\mathbf{L}$ 을 구성하는 한 가지 방법은 다음과 같다:
 
 $$
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}')
@@ -1291,7 +1293,8 @@ $$
 
 이후 앞서 설명한 것처럼 $\mathbf{z} = \boldsymbol{\mu} + \mathbf{L}\boldsymbol{\epsilon}$ 으로 계산을 진행한다.  
 
-여기서 $\mathbf{L}_{\text{mask}}$ 는 마스크 행렬로, 대각선 위와 대각선에는 0을, 대각선 아래에는 1을 가지도록 구성된다.  
+여기서 $\mathbf{L}_{\text{mask}}$ 는 마스크 행렬로,  
+대각선 위와 대각선에는 0을, 대각선 아래에는 1을 가지도록 구성된다.  
 즉, $\mathbf{L}'$ 의 상삼각 부분은 제거되고 하삼각 부분만 남게 된다.  
 
 > (1) 식 (2.53)의 의미  
@@ -1567,7 +1570,8 @@ ELBO의 잠재적인 타이트니스(tightness)를 향상시키는 한 가지 �
 
 ---
 
-독립적이고 동일분포(i.i.d.)를 따르는 크기 $N_D$ 의 데이터셋 $\mathcal{D}$ 에 대해, 최대우도 기준(criterion)은 다음과 같다.
+독립적이고 동일분포(i.i.d.)를 따르는 크기 $N_D$ 의 데이터셋 $\mathcal{D}$ 에 대해,  
+최대우도 기준(criterion)은 다음과 같다.
 
 $$
 \begin{align}

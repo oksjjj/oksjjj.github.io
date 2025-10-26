@@ -504,13 +504,17 @@ p_{\boldsymbol{\theta}}(\mathbf{x}_1, \dots, \mathbf{x}_M)
 $$
 
 여기서 $ Pa(\mathbf{x}_j) $ 는 그래프에서 노드 $ j $의 부모 변수(parent variables) 집합을 의미한다.  
+
 루트 노드(root node)가 아닌 경우, 부모 노드에 조건화된 분포를 사용한다.  
-루트 노드의 경우에는 부모 집합이 공집합이므로, 그 분포는 비(非)조건부(unconditional) 분포가 된다.
+
+루트 노드의 경우에는 부모 집합이 공집합이므로,  
+그 분포는 비(非)조건부(unconditional) 분포가 된다.
 
 ---
 
 전통적으로, 각 조건부 확률분포 $ p_{\boldsymbol{\theta}}(\mathbf{x}_j \mid Pa(\mathbf{x}_j)) $ 는  
-룩업 테이블(lookup table) 또는 선형 모델(linear model)로 파라미터화되었다 (Koller and Friedman, 2009).  
+룩업 테이블(lookup table) 또는 선형 모델(linear model)로 파라미터화되었다.  
+(Koller and Friedman, 2009)  
 
 > 과거에는 조건부 확률분포를 표현하기 위해  
 > 각 변수의 모든 가능한 입력 조합을 나열한 룩업 테이블이나,  
@@ -594,7 +598,8 @@ $$
 파라미터 $ \boldsymbol{\theta} $ 를 찾는 것이 목표이다.  
 
 i.i.d. 데이터셋 $ \mathcal{D} $ 의 크기가 $ N_D $ 일 때,  
-최대우도 목적함수(maximum likelihood objective)는 식 (1.10)에서 정의된 로그 확률을 최대화하는 것으로 표현된다.
+최대우도 목적함수(maximum likelihood objective)는  
+식 (1.10)에서 정의된 로그 확률을 최대화하는 것으로 표현된다.
 
 ---
 
@@ -620,7 +625,8 @@ i.i.d. 데이터셋 $ \mathcal{D} $ 의 크기가 $ N_D $ 일 때,
 SGD는 전체 데이터셋 $ \mathcal{D} $ 중 일부를 무작위로 선택한 미니배치 $ \mathcal{M} \subset \mathcal{D} $ 를 사용하며,  
 그 크기는 $ N_{\mathcal{M}} $ 로 표시된다.  
 
-이러한 미니배치를 이용하면 최대우도(ML) 기준의 불편 추정량(unbiased estimator)을 구성할 수 있다.
+이러한 미니배치를 이용하면  
+최대우도(ML) 기준의 불편 추정량(unbiased estimator)을 구성할 수 있다.
 
 $$
 \frac{1}{N_{\mathcal{D}}} \log p_{\boldsymbol{\theta}}(\mathcal{D})
@@ -767,7 +773,8 @@ $$
 > $p_{\boldsymbol{\theta}}(\mathbf{z})$ 및/또는 $p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z})$는 모델 설계자가 명시적으로 정의하는 분포이며,  
 > $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 이들로부터 결과적으로 도출되는 결합분포(joint distribution)이다.
 
-분포 $p_{\boldsymbol{\theta}}(\mathbf{z})$는 어떤 관측값에도 조건화되지 않기 때문에 종종 사전분포(prior distribution)라고 불린다.
+분포 $p_{\boldsymbol{\theta}}(\mathbf{z})$는 어떤 관측값에도 조건화되지 않기 때문에  
+종종 사전분포(prior distribution)라고 불린다.
 
 > 즉, 분포 $p_{\boldsymbol{\theta}}(\mathbf{z})$는 관측 데이터와 무관하게 정의되는 분포이다.
 
