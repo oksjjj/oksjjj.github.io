@@ -373,7 +373,8 @@ $$
 \tag{2.13}
 $$  
 
-각 데이터 포인트에 대한 ELBO와 그 그래디언트 $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$ 는 일반적으로 계산이 불가능(intractable)하다.  
+각 데이터 포인트에 대한 ELBO와 그 그래디언트 $\nabla_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$는  
+일반적으로 계산이 불가능(intractable)하다.  
 
 그러나 뒤에서 보게 될 것처럼,  
 좋은 불편 추정량(unbiased estimator)인 $$\tilde{\nabla}_{\boldsymbol{\theta}, \boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})$$를 사용하면,  
@@ -1560,7 +1561,8 @@ $L = 1$ 로 설정하면, 이는 VAE의 ELBO 추정량과 동일하다.
 
 ## 2.7 주변가능도(Marginal Likelihood)와 KL 발산으로서의 ELBO
 
-ELBO의 잠재적인 타이트니스(tightness)를 향상시키는 한 가지 방법은 생성 모델의 유연성을 증가시키는 것이다.  
+ELBO의 잠재적인 타이트니스(tightness)를 향상시키는  
+한 가지 방법은 생성 모델의 유연성을 증가시키는 것이다.  
 
 이것은 ELBO와 KL 발산 사이의 연결을 통해 이해될 수 있다.
 
@@ -1653,15 +1655,22 @@ $$
 \end{align}
 $$
 
-> (2.63)에서 시작: $$D_{KL}(q\|p)=\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\log q(\mathbf{x},\mathbf{z})-\log p(\mathbf{x},\mathbf{z})]$$  
-> 여기서 $$q(\mathbf{x},\mathbf{z})=q_{\mathcal{D}}(\mathbf{x})\,q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$이므로  
+> (2.63)에서 시작:  
+>
+> $$D_{KL}(q\|p)=\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\log q(\mathbf{x},\mathbf{z})-\log p(\mathbf{x},\mathbf{z})]$$  
+>
+> 여기서 $$q(\mathbf{x},\mathbf{z})=q_{\mathcal{D}}(\mathbf{x})\,q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$ 이므로  
+>
 > $$\log q(\mathbf{x},\mathbf{z})=\log q_{\mathcal{D}}(\mathbf{x})+\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$  
-> 
-> 기대값의 사슬 법칙으로 분해:  
-> $$\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\,\cdot\,] =\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\big[\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\,\cdot\,]\big]$$  
-> 
-> 대입/정리:  
-> 
+>
+> 기대값의 사슬 법칙(chain rule for expectation)에 따라  
+>
+> $$\mathbb{E}_{q(\mathbf{x},\mathbf{z})}[\,\cdot\,] = \mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\big[\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\,\cdot\,]\big]$$  
+>
+> 로 분해할 수 있다.  
+>
+> 이를 대입하면  
+>
 > $$
 > \begin{aligned}
 > D_{KL}
@@ -1672,11 +1681,14 @@ $$
 > &=-\,\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}\!\Big[
 > \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}\![\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})]
 > -\log q_{\mathcal{D}}(\mathbf{x})
-> \Big],
+> \Big].
 > \end{aligned}
 > $$
->  
-> 이것이 (2.64)
+>
+> 이렇게 외부 기대값 $$\mathbb{E}_{q_{\mathcal{D}}(\mathbf{x})}$$이 추가된 이유는  
+> 단일 데이터 샘플의 ELBO가 아니라,  
+> 데이터 분포 전체에 대한 평균 ELBO, 즉 $$\mathcal{L}_{\boldsymbol{\theta},\boldsymbol{\phi}}(\mathcal{D})$$를 나타내기 위함이다.  
+> 따라서 이 식은 dataset-level ELBO를 정의하는 형태로 전개된 것이다.
 
 여기서 상수항은 $-\mathcal{H}(q_{\mathcal{D}}(\mathbf{x}))$ 이다.  
 따라서 ELBO를 최대화하는 것은  
@@ -1760,7 +1772,8 @@ $$
 이는 $D_{KL}(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{x}))$보다 항상 크거나 같다(즉, 그 값을 위에서 제한한다).
 
 완벽한 적합(perfect fit)이 불가능할 경우,  
-KL 발산의 방향성 때문에 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는 $q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$보다 일반적으로 더 큰 분산(variance)을 갖게 된다.
+KL 발산의 방향성 때문에 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$는  
+$q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$보다 일반적으로 더 큰 분산(variance)을 갖게 된다.
 
 > KL 발산의 정의는  
 >
