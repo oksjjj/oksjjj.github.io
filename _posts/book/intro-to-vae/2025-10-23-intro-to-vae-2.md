@@ -264,31 +264,8 @@ $$
 \end{align}
 $$
 
-> (2.10) → (2.11) 유도 요약  
->
-> 1) 베이즈 법칙 사용: $ p_{\theta}(x,z) = p_{\theta}(z\mid x)\,p_{\theta}(x) $   
-> 2) 이를 (2.10)에 대입하고 항을 분리한다.
->
-> $$
-> \begin{aligned}
-> \mathcal{L}_{\theta,\phi}(x)
-> &= \mathbb{E}_{q_{\phi}(z\mid x)}
->    \big[ \log p_{\theta}(x,z) - \log q_{\phi}(z\mid x) \big] \\[4pt]
-> &= \mathbb{E}_{q_{\phi}(z\mid x)}
->    \big[ \log p_{\theta}(z\mid x) + \log p_{\theta}(x) - \log q_{\phi}(z\mid x) \big] \\[4pt]
-> &= \underbrace{\mathbb{E}_{q_{\phi}(z\mid x)}[\log p_{\theta}(x)]}_{=\;\log p_{\theta}(x)}
->    \;+\; \mathbb{E}_{q_{\phi}(z\mid x)}
->    \big[ \log p_{\theta}(z\mid x) - \log q_{\phi}(z\mid x) \big] \\[4pt]
-> &= \log p_{\theta}(x)
->    - \mathbb{E}_{q_{\phi}(z\mid x)}
->      \big[ \log q_{\phi}(z\mid x) - \log p_{\theta}(z\mid x) \big] \\[4pt]
-> &= \log p_{\theta}(x)
->    - D_{\mathrm{KL}}\!\big(q_{\phi}(z\mid x)\,\|\,p_{\theta}(z\mid x)\big),
-> \end{aligned}
-> $$
->
-> 이로써 (2.11)이 성립한다.  
-> 마지막 줄은 KL 발산의 정의 $ D_{\mathrm{KL}}(q\|p)=\mathbb{E}_q[\log q - \log p] $를 사용한 것이다.
+> 식 (2.8)에서 양변에서 $$D_{\mathrm{KL}}\!\big(q_{\phi}(z\mid x)\,\|\,p_{\theta}(z\mid x)\big)$$를 빼면,  
+> 식 (2.11)이 도출됨   
 
 따라서 KL 발산 $D_{\mathrm{KL}}(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}))$ 은 두 가지 “거리”를 결정한다.
 
