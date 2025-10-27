@@ -103,7 +103,7 @@ tags: []
 
 ---
 
-## p16. 분류: 이진 분류 vs 다중 클래스 분류 (binary vs. multi-class) 
+## p16. 분류: 이진 분류 vs 다중 클래스 분류 
 
 - **분류(Classification)**: 미리 정의된 범주 집합 $C$에서 **이산적인 레이블**을 예측하는 것  
 
@@ -127,3 +127,286 @@ $$
   (2) 각 클래스에 대한 **확률(probability)** 을 계산할 수 있다.  
 
 <img src="/assets/img/lecture/textmining/8/image_6.png" alt="image" width="800px">
+
+---
+
+## p19. 분류: 손실 함수 (이진)
+
+- 우리는 다음을 가진다  
+
+  $$
+  \mathcal{D} = \{(x_n, y_n) \mid n = 1, \ldots, N\}, \quad \text{where } y_i \in \{0, 1\}
+  $$
+
+- 손실 유도(Loss derivation):  
+  - 각 레이블은 베르누이 확률변수(Bernoulli random variable)로 모델링될 수 있다.  
+  >✓ 베르누이 분포(Bernoulli distribution):  
+  >  - 확률변수 $y = 1$ 은 확률 $p$ 로, $y = 0$ 은 확률 $1 - p$ 로 발생한다.  
+  >  - 예시:  
+  >
+  >    $$
+  >    p(Y = \{1,0,1,0,0\}) = p(1-p)p(1-p)(1-p) = p^2(1-p)^3
+  >    $$
+  - 데이터셋 전체에 대한 우도(Likelihood)는 다음과 같이 표현된다:  
+
+    $$
+    \prod_{n=1}^{N} \hat{y}_n^{y_n} (1 - \hat{y}_n)^{1 - y_n}, \quad 
+    \text{where } \hat{y}_n = p(y_n = 1 \mid x_n)
+    $$
+
+  - 우도(Likelihood) = 모델 하에서 데이터셋(레이블)이 관측될 확률  
+
+---
+
+## p20. 분류: 손실 함수 (이진)
+
+- 우리는 다음을 가진다  
+
+  $$
+  \mathcal{D} = \{(x_n, y_n) \mid n = 1, \ldots, N\}, \quad \text{where } y_i \in \{0, 1\}
+  $$
+
+- 손실 유도(Loss derivation):  
+  - 데이터셋 전체에 대한 우도(Likelihood)는 다음과 같이 표현된다:  
+
+    $$
+    \prod_{n=1}^{N} \hat{y}_n^{y_n} (1 - \hat{y}_n)^{1 - y_n}, 
+    \quad \text{where } \hat{y}_n = p(y_n = 1 \mid x_n)
+    $$
+
+    $\hat{y}_n$: 예측된 확률(sigmoid 출력)
+
+  - 우리는 로그 우도(log-likelihood)를 최대화(maximizing)하여 모델을 학습한다:  
+
+    $$
+    \mathcal{L}_{\text{BCE}}(\theta) 
+    = -\sum_{n=1}^{N} 
+    \Big[ y_n \log \hat{y}_n 
+    + (1 - y_n)\log(1 - \hat{y}_n) \Big]
+    $$
+
+    - 이 손실 함수는 이진 교차 엔트로피(Binary Cross-Entropy, BCE)라고 불린다.  
+
+---
+
+## p21. 분류: 손실 함수 (다중 클래스)
+
+<a href="https://en.wikipedia.org/wiki/Categorical_distribution" target="_blank">https://en.wikipedia.org/wiki/Categorical_distribution</a>
+
+- 우리는 다음을 가진다  
+
+  $$
+  \mathcal{D} = \{(x_n, y_n) \mid n = 1, \ldots, N\}, \quad \text{where } y_i \in \{1, \ldots, C\}
+  $$
+
+- 손실 유도(Loss derivation):  
+  - 각 레이블은 범주형 확률변수(Categorical random variable)로 모델링될 수 있다.  
+
+    $$
+    P(y_n = c \mid x_n) = \hat{y}_{n,c}, \quad 
+    \sum_{c=1}^{C} \hat{y}_{n,c} = 1
+    $$
+
+    $\hat{y}_{n,c}$: 클래스 $c$ 에 대한 예측 확률(softmax 출력)
+
+  - 데이터셋 전체에 대한 우도(Likelihood)는 다음과 같이 표현된다:  
+
+    $$
+    \prod_{n=1}^{N} \prod_{c=1}^{C} 
+    \hat{y}_{n,c}^{\,1[y_n = c]}
+    $$
+
+  - 우리는 로그 우도(log-likelihood)를 최대화(maximizing)하여 모델을 학습한다:  
+
+    $$
+    \mathcal{L}_{\text{CE}}(\theta)
+    = -\sum_{n=1}^{N} \sum_{c=1}^{C}
+    1[y_n = c] \log \hat{y}_{n,c}
+    $$
+
+    - 이 손실 함수는 교차 엔트로피(Cross-Entropy, CE)라고 불린다.  
+
+---
+
+## p22. 이진 분류에서의 시그모이드 vs 소프트맥스
+
+- 시그모이드(Sigmoid)와 소프트맥스(Softmax)는 서로 다른 가정에서 출발한다 (베르누이 vs. 범주형(Categorical)).  
+- 그러나 이진 분류(binary case)에서는 분자와 분모를 나누면 동일한 형태가 된다.  
+  - 실제로는 구현상의 선택(implementation choice)의 문제이다.  
+
+**주어진 로짓(logits) $u_1, u_2$ 에 대해:**  
+
+$$
+p_1 = \frac{e^{u_1}}{e^{u_0} + e^{u_1}}
+     = \frac{1}{1 + e^{u_0 - u_1}}
+     = \sigma(u_1 - u_0)
+$$
+
+$$
+p_0 = 
+\underbrace{\frac{e^{u_0}}{e^{u_0} + e^{u_1}}}_{\text{Softmax}}
+= 
+\underbrace{\sigma(u_0 - u_1)}_{\text{Sigmoid}}
+= 1 - p_1
+$$
+
+- 두 개의 로짓에 대한 소프트맥스는 로짓 차이 $(u_1 - u_0)$ 에 대한 시그모이드와 동일하다.  
+- 따라서 이는 같은 문제를 푸는 조금 다른 관점일 뿐이다.  
+
+**교차 엔트로피(CE, Softmax)는 이진 교차 엔트로피(BCE)로 축소된다:**  
+
+$$
+-\big[ y \log p_1 + (1 - y) \log(1 - p_1) \big]
+$$
+
+<img src="/assets/img/lecture/textmining/8/image_7.png" alt="image" width="600px">
+
+---
+
+## p23. 다중 레이블 분류
+
+**다중 레이블 분류(Multi-label classification)**  
+- 많은 실제(real-world) 사례에서, 각 인스턴스는 동시에 여러 클래스(multiple classes)에 속할 수 있다.  
+- 예시: 텍스트 주제 분류(Text topic classification), 객체 탐지(Object detection)
+
+<img src="/assets/img/lecture/textmining/8/image_8.png" alt="image" width="720px">
+
+---
+
+## p24. 다중 레이블 분류
+
+>✓ 베르누이 분포(Bernoulli distribution):  
+>  - 확률변수 $y = 1$ 은 확률 $p$ 로, $y = 0$ 은 확률 $1 - p$ 로 발생한다.  
+>  - 예시:  
+>
+>    $$
+>    p(Y = \{1,0,1,0,0\}) = p(1-p)p(1-p)(1-p) = p^2(1-p)^3
+>    $$
+
+- 손실 유도(Loss derivation):  
+  - 각 클래스 레이블 $y_c$ 는 독립적인 베르누이 확률변수로 모델링될 수 있다.  
+
+  $$
+  P(y \mid x) = \prod_{c=1}^{C} 
+  \hat{y}_c^{\,y_c} (1 - \hat{y}_c)^{\,1 - y_c}
+  $$
+
+  - 여기에서, $$\hat{y}_c = P(y_c = 1 \mid x) = \sigma(u_c)$$, 클래스 c에 대한 sigmoid 출력  
+
+<img src="/assets/img/lecture/textmining/8/image_9.png" alt="image" width="800px">
+
+---
+
+## p25. 다중 레이블 분류
+
+- 손실 유도(Loss derivation):  
+  - 각 클래스 레이블 $y_c$ 는 독립적인 베르누이 확률변수로 모델링될 수 있다.  
+
+  $$
+  P(y \mid x) = \prod_{c=1}^{C} 
+  \hat{y}_c^{\,y_c} (1 - \hat{y}_c)^{\,1 - y_c}
+  $$
+
+  - 여기에서, $$\hat{y}_c = P(y_c = 1 \mid x) = \sigma(u_c)$$, 클래스 c에 대한 sigmoid 출력  
+
+- 음의 로그 우도(negative log-likelihood)는 BCE 손실(binary cross-entropy loss)로 표현되며,  
+  각 클래스에 독립적으로 적용(applied independently per class)된다.  
+
+  $$
+  \mathcal{L}_{\text{Multi-label}}(\theta)
+  = - \sum_{n=1}^{N} \sum_{c=1}^{C}
+  \Big[ y_{n,c} \log \hat{y}_{n,c} + (1 - y_{n,c}) \log(1 - \hat{y}_{n,c}) \Big]
+  $$
+
+✓ 주의(Note):  
+- 덜 일반적이지만(less common), 소프트맥스(Softmax)도 적용될 수 있다.  
+  이 경우, 클래스 확률(class probabilities)은 반드시 합이 1이 되어야 하므로,  
+  상호 배타적(mutually exclusive)인 레이블로 취급된다.  
+
+---
+
+### 보충 설명
+
+#### 1. 다중 레이블 분류에서 소프트맥스(Softmax)의 제약  
+- 다중 레이블 분류(Multi-label classification)는  
+  하나의 샘플이 여러 클래스에 동시에 속할 수 있는 문제이다.  
+  예를 들어, 한 이미지가 `cat=1`, `dog=0`, `human=1` 처럼  
+  여러 레이블을 동시에 가질 수 있다.  
+- 이때 일반적으로 시그모이드(Sigmoid) 함수를 사용한다.  
+  각 클래스에 대해 독립적인 확률을 계산하므로,  
+  확률의 합이 1이 될 필요가 없다.
+
+#### 2. 소프트맥스(Softmax) 적용 시의 의미  
+- 반면 소프트맥스(Softmax) 함수는  
+  모든 클래스의 확률을 합했을 때 1이 되도록(normalized) 강제한다.  
+
+  $$
+  \sum_{c=1}^{C} p(y=c \mid x) = 1
+  $$
+
+- 따라서 소프트맥스를 사용하면 모델은  
+  “하나의 샘플이 단 하나의 클래스에만 속한다”는  
+  상호 배타적(mutually exclusive) 가정을 따르게 된다.  
+- 즉, 소프트맥스는 다중 클래스 분류(Multi-class classification)에 적합하며,  
+  다중 레이블 분류(Multi-label classification)에는 부적절하다.  
+
+---
+
+## p26. 분류 과제(Classification task): 요약
+
+- 분류 유형과 손실:  
+  - 이진 분류(Binary classification)  
+
+    $$
+    \mathcal{L}_{\text{BCE}}(\theta)
+    = -\sum_{n=1}^{N}
+    \big[ y_n \log \hat{y}_n + (1 - y_n)\log(1 - \hat{y}_n) \big]
+    $$
+
+  - 다중 클래스 분류(Multi-class classification)  
+
+    $$
+    \mathcal{L}_{\text{CE}}(\theta)
+    = -\sum_{n=1}^{N} \sum_{c=1}^{C}
+    1[y_n = c] \log \hat{y}_{n,c}
+    $$
+
+  - 다중 레이블 분류(Multi-label classification)  
+
+    $$
+    \mathcal{L}_{\text{Multi-label}}(\theta)
+    = -\sum_{n=1}^{N} \sum_{c=1}^{C}
+    \big[ y_{n,c}\log \hat{y}_{n,c} + (1 - y_{n,c})\log(1 - \hat{y}_{n,c}) \big]
+    $$
+
+- 전체 흐름을 생각하라!:  
+  - 각 입력 텍스트는 사전학습된 모델(pretrained model)을 이용하여 벡터(vector)로 표현된다.  
+  - 손실(loss)을 최소화함으로써 모델을 미세조정(fine-tuning)한다.  
+    (전체 파라미터를 조정할 수도 있고, 일부만 조정할 수도 있다 — full vs. partial fine-tuning)
+
+<img src="/assets/img/lecture/textmining/8/image_10.png" alt="image" width="800px">
+
+---
+
+# p27. 분류: 평가(evaluation)
+
+---
+
+## p28. 분류: 평가
+
+- 우리의 분류기가 얼마나 잘 작동하는가?  
+
+- 먼저 이진 분류기(binary classifiers)부터 살펴보자:  
+  - 이 이메일은 스팸인가?  
+    **→ spam (+) 또는 not spam (−)**  
+    <img src="/assets/img/lecture/textmining/8/image_11.png" alt="image" width="480px">
+  - 이 게시글은 Pie 회사에 관한 것인가?  
+    **→ about pie (+) 또는 not about pie (−)**  
+
+- 우리가 알아야 할 것들:  
+  1. 분류기가 각 이메일 또는 게시글에 대해 **무엇을 예측했는가?**  
+  2. 분류기가 **무엇을 예측했어야 하는가?**   
+     - 정답은 **gold label** 또는 **ground-truth** 라고 불린다.  
+     - 일반적으로 사람(human)에 의해 주석(annotated)된다.  
+
+

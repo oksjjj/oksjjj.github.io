@@ -1844,14 +1844,12 @@ Bowman et al. (2015)과 Sønderby et al. (2016a)가 제안한 해결책은,
 
 Kingma et al. (2016)이 제안한 또 다른 대안은 *free Bits* 방법이다.  
 이 방법은 ELBO 목적함수를 수정하여,  
-평균적으로 각 잠재변수 또는 잠재변수 그룹 당  
-일정한 최소 비트(bit)의 정보가 인코딩되도록 보장한다.
+평균적으로 각 잠재변수 또는 잠재변수 그룹 당 일정한 최소 비트(bit)의 정보가 인코딩되도록 보장한다.
 
 잠재 차원(latent dimensions)은 $K$개의 그룹으로 나뉜다.  
 이때, 각 미니배치(minibatch)마다 다음과 같은 목적함수를 사용한다.  
 이 식은 각 부분집합(subset) $j$에 대해,  
-평균적으로 $\lambda$ nat보다 적은 정보량을 사용하는 것이  
-이득이 되지 않도록 보장한다.  
+평균적으로 $\lambda$ nat보다 적은 정보량을 사용하는 것이 이득이 되지 않도록 보장한다.  
 
 $$
 \begin{align}
@@ -1874,22 +1872,17 @@ $$
 $$
 
 즉, 각 잠재변수 그룹별 KL 발산이 임계값 $\lambda$보다 작으면  
-그 값이 고정되어(“free” 상태로 유지되어)  
-모델이 지나치게 작은 KL 항으로 수렴하지 않도록 한다.  
-이를 통해 잠재변수가 실제로 일정 수준 이상의 정보를  
-인코딩하도록 강제할 수 있다.
+그 값이 고정되어(“free” 상태로 유지되어) 모델이 지나치게 작은 KL 항으로 수렴하지 않도록 한다.  
+이를 통해 잠재변수가 실제로 일정 수준 이상의 정보를 인코딩하도록 강제할 수 있다.
 
 잠재 정보(latent information)를 증가시키는 것은  
 일반적으로 목적함수의 첫 번째 항(영향받지 않는 항, 흔히 negative reconstruction error라 불림)에  
 유리하게 작용하므로,  
-결과적으로 $$\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}[D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))] \ge \lambda$$  
-가 모든 $j$에 대해 성립하게 된다.  
+결과적으로 $$\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}[D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))] \ge \lambda$$가 모든 $j$에 대해 성립하게 된다.  
 
-Kingma et al. (2016)은  
-$\lambda \in \{0.125, 0.25, 0.5, 1, 2\}$와 같은  
+Kingma et al. (2016)은 $\lambda \in \{0.125, 0.25, 0.5, 1, 2\}$와 같은  
 비교적 넓은 범위의 값에서 이 방법이 잘 작동하며,  
-벤치마크 결과에서 로그가능도(log-likelihood)가  
-유의미하게 개선됨을 보였다.
+벤치마크 결과에서 로그가능도(log-likelihood)가 유의미하게 개선됨을 보였다.
 
 > 일반적인 VAE 학습에서는 KL 항이 너무 작아져  
 > 인코더가 잠재변수 $\mathbf{z}$에 거의 아무 정보도 담지 않는  
@@ -1945,3 +1938,191 @@ $\lambda \in \{0.125, 0.25, 0.5, 1, 2\}$와 같은
 > 기존 VAE보다 유의미하게 향상되었다.
 
 ---
+
+### 2.8.2 생성 모델의 흐릿함(Blurriness)
+
+2.7절에서, ELBO를 최적화하는 것은  
+$D_{KL}(q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z}) \| p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}))$을 최소화하는 것과 동일하다는 사실을 보았다.  
+
+$q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$와 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$가 완벽하게 일치하는 것이 불가능하다면,  
+$p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$와 $p_{\boldsymbol{\theta}}(\mathbf{x})$의 분산은  
+$q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$ 및 데이터 분포 $q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x})$보다 더 커지게 된다.  
+
+이는 KL 발산의 방향성 때문인데, 만약 $(\mathbf{x}, \mathbf{z})$의 어떤 값이  
+$q_{\mathcal{D},\boldsymbol{\phi}}$에서는 확률이 높지만 $p_{\boldsymbol{\theta}}$에서는 그렇지 않다면,  
+$$\mathbb{E}_{q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x},\mathbf{z})}[\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})]$$ 항이 무한대로 발산하게 된다.  
+
+반대로, 생성 모델이 $q_{\mathcal{D},\boldsymbol{\phi}}$의 지지(support)에 없는 $(\mathbf{x}, \mathbf{z})$에 확률 질량을 부여하더라도  
+그에 대한 패널티는 상대적으로 작다.  
+
+따라서 생성 모델이 “흐릿한(blurry)” 결과를 만들어내는 현상은  
+KL 발산의 비대칭적 성질에서 비롯된 것이다.  
+
+이를 해결하기 위해서는 충분히 유연한 추론 모델(inference model)  
+또는 충분히 유연한 생성 모델(generative model)을 설계해야 한다.  
+
+다음 두 장에서는 이러한 유연한 추론 및 생성 모델을 구성하는 방법에 대해 다룬다.
+
+---
+
+## 2.9 관련 선행 및 동시대 연구(Related prior and concurrent work)
+
+여기서는 Kingma and Welling (2014)의 연구 이전과  
+그와 동시대에 수행된 관련 문헌들을 간략히 논의한다.  
+
+---
+
+Wake–Sleep 알고리즘(Hinton et al., 1995)은 연속적인 잠재변수를 사용하는  
+동일한 일반적 범주의 온라인 학습(on-line learning) 방법 중 하나이다.  
+
+이 방법은 진짜 사후분포(true posterior)를 근사하는  
+인식 모델(recognition model)을 사용한다는 점에서 우리의 방법과 유사하다.  
+
+그러나 Wake–Sleep 알고리즘의 단점은, 두 개의 목적함수를 동시에(concurrently)  
+최적화해야 하며, 이 두 목적함수가 주변가능도(marginal likelihood)  
+또는 그 하한(bound)을 직접적으로 최적화하지 않는다는 점이다.  
+
+반면, Wake–Sleep의 장점은 이산형 잠재변수(discrete latent variables)를  
+포함한 모델에도 적용 가능하다는 것이다.  
+
+또한, Wake–Sleep 알고리즘은  
+데이터 포인트 하나당 AEVB(Amortized Variational Bayes)와  
+동일한 계산 복잡도(computational complexity)를 가진다.
+
+---
+
+변분추론(Variational inference)은 머신러닝 분야에서 오랜 역사를 가지고 있다.  
+
+(Wainwright and Jordan, 2008)은  
+지수족 그래픽 모델(exponential family graphical models)에 대한  
+변분추론의 아이디어를 종합적으로 정리하고 통합한 포괄적인 개요를 제시한다.
+
+이 연구에서는 여러 추론 알고리즘들 (예: 기대 전파(expectation propagation),  
+합-곱(sum-product), 최대-곱(max-product) 등)이  
+정확하거나 근사적인 형태의 변분추론으로 이해될 수 있음을 보여준다.
+
+---
+
+확률적 변분추론(Stochastic Variational Inference, Hoffman et al., 2013)은  
+점점 더 많은 관심을 받고 있다.  
+
+Blei et al. (2012)는  
+점수함수(Score Function) 기반 그래디언트 추정기의 분산을 줄이기 위해  
+제어변수(control variate) 기법을 도입하였으며,  
+이를 사후분포(posterior)의 지수족 근사(exponential-family approximation)에 적용하였다.  
+
+Ranganath et al. (2014)에서는 원래의 그래디언트 추정기의 분산을 줄이기 위한  
+일반적인 방법들(예: 제어변수 기법 등)이 제안되었다.  
+
+Salimans and Knowles (2013)는  
+본 논문과 유사한 재매개변수화(reparameterization) 방식을 사용하여,  
+지수족 근사분포(exponential-family approximating distribution)의  
+자연매개변수(natural parameters)를 학습하기 위한  
+효율적인 확률적 변분추론 알고리즘을 제안하였다.
+
+---
+
+Graves (2011)에서는 이와 유사한 형태의  
+그래디언트 추정기(gradient estimator)가 제안되었다.  
+
+그러나 그 추정기의 분산(variance)에 대한 추정은  
+ELBO 그래디언트에 대해 불편추정(unbiased estimator)이 아니다.  
+
+---
+
+VAE 학습 알고리즘은 변분 목적함수(variational objective)로 학습된  
+확률적 생성모델과 오토인코더(autoencoder) 사이의 연결을 드러낸다.  
+
+선형 오토인코더와 특정한 형태의 선형-가우시안 생성모델 사이의  
+연관성은 오래전부터 알려져 있었다.  
+
+Roweis (1998)는 PCA(주성분분석)가 특정 선형-가우시안 모델의  
+최대우도(Maximum Likelihood) 해에 해당함을 보였다.  
+
+이 모델은 사전분포(prior) $p(\mathbf{z}) = \mathcal{N}(0, \mathbf{I})$와  
+조건부분포(conditional distribution) $p(\mathbf{x}\mid\mathbf{z}) = \mathcal{N}(\mathbf{x}; \mathbf{Wz}, \epsilon \mathbf{I})$를 갖는다.  
+
+$\epsilon$이 극도로 작은 경우(즉, 잡음이 거의 없는 경우),  
+잠재변수에 대한 사후분포 $p(\mathbf{z}\mid\mathbf{x})$는  
+디랙 델타 분포(Dirac delta distribution)가 된다.
+
+$$
+p(\mathbf{z}\mid\mathbf{x}) = \delta(\mathbf{z} - \mathbf{W}'\mathbf{x}), \quad
+\mathbf{W}' = (\mathbf{W}^{T}\mathbf{W})^{-1}\mathbf{W}^{T}
+$$
+
+즉, $\mathbf{W}$와 $\mathbf{x}$가 주어지면 잠재변수 $\mathbf{z}$에 대한 불확실성이 전혀 없게 된다.  
+
+> 이 식은 “관측된 $\mathbf{x}$가 주어졌을 때, 잠재변수 $\mathbf{z}$가 어떤 값을 가지는가”를 나타낸다.  
+>  
+> 먼저, 모델 $p(\mathbf{x}\mid\mathbf{z}) = \mathcal{N}(\mathbf{x}; \mathbf{Wz}, \epsilon\mathbf{I})$에서는  
+> $\mathbf{x}$가 $\mathbf{Wz}$를 중심으로 한 가우시안 분포를 따른다고 가정한다.  
+>  
+> 그런데 잡음 $\epsilon$이 0에 가깝다면,  
+> $\mathbf{x}$는 사실상 $\mathbf{Wz}$와 같아야 하므로  
+> $\mathbf{z}$는 $\mathbf{x}$로부터 거의 유일하게 결정되는 값이 된다.  
+>  
+> 이때 $\mathbf{W}' = (\mathbf{W}^{T}\mathbf{W})^{-1}\mathbf{W}^{T}$는  
+> 선형대수에서 의사역행렬(pseudo-inverse)이라 불리는 형태로,  
+> $\mathbf{z}$를 $\mathbf{x}$로부터 복원하는 변환 역할을 한다.  
+>  
+> 따라서  
+>
+> $$
+> \mathbf{z} = \mathbf{W}'\mathbf{x}
+> $$  
+>
+> 가 되고,  
+> 이 관계를 확률분포 형태로 쓰면  
+> “$\mathbf{z}$는 $\mathbf{W}'\mathbf{x}$에서만 확률질량이 존재한다”는 뜻의  
+> 디랙 델타 분포(Dirac delta distribution)  
+>
+> $$
+> p(\mathbf{z}\mid\mathbf{x}) = \delta(\mathbf{z} - \mathbf{W}'\mathbf{x})
+> $$
+>
+> 로 표현된다.  
+>  
+> 즉, $\mathbf{x}$가 주어지면 $\mathbf{z}$는 더 이상 불확실한 확률변수가 아니라  
+> 고정된 하나의 값으로 결정된다는 의미이다.
+
+Roweis (1998)는 이후 EM 알고리즘 유형의 접근법으로  
+$\mathbf{W}$를 학습하는 방법을 제시하였다.  
+
+이보다 앞선 연구인 Bourlard and Kamp (1988)은  
+선형 오토인코더의 최적화가 데이터의 주성분을 복원함을 보였다.  
+
+따라서 선형 오토인코더의 학습은  
+위의 선형-가우시안 확률모델을 학습하는 특정한 방법과 동일하다고 할 수 있다.  
+
+그러나 선형 오토인코더 기반 접근법은 선형-가우시안 모델에만 한정되는 반면,  
+본 논문에서의 접근법은 훨씬 더 넓은 범주의 연속형 잠재변수 모델에 적용될 수 있다.
+
+---
+
+신경망을 추론 모델과 생성 모델 양쪽에 모두 사용할 경우,  
+이 조합은 특정 정규화항(regularization term)을 갖는  
+하나의 오토인코더 형태를 이룬다 (Goodfellow et al., 2016).  
+
+$$
+\tilde{\mathcal{L}}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}; \boldsymbol{\epsilon})
+=
+\underbrace{\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})}_{\text{Negative reconstruction error}}
++
+\underbrace{\log p_{\boldsymbol{\theta}}(\mathbf{z}) - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}_{\text{Regularization terms}}
+\tag{2.71}
+$$
+
+> 이 식은 ELBO의 한 형태로, 첫 번째 항 $\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})$는  
+> “입력 $\mathbf{x}$를 얼마나 잘 복원하는가”를 나타내는 재구성 항(reconstruction term)이다.  
+>  
+> 두 번째 항 $\log p_{\boldsymbol{\theta}}(\mathbf{z}) - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$는 정규화항(regularization term)으로,  
+> 인코더가 추정한 잠재분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$가  
+> 사전분포 $p_{\boldsymbol{\theta}}(\mathbf{z})$와 얼마나 일치하는지를 측정한다.  
+>  
+> 즉,  
+> - 첫 항은 “데이터 재구성의 정확도”를 높이려는 항이고,  
+> - 두 번째 항은 “잠재공간의 분포를 규제”하여 모델이 과적합되지 않도록 하는 항이다.  
+>  
+> 따라서 VAE는 “재구성 손실 + 정규화 손실”로 구성된  
+> 확률적 오토인코더(probabilistic autoencoder)로 해석할 수 있다.
