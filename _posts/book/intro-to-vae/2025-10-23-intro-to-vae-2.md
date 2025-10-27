@@ -1773,3 +1773,175 @@ $q_{\mathcal{D},\boldsymbol{\phi}}(\mathbf{x}, \mathbf{z})$보다 일반적으�
 
 ---
 
+## 2.8 한계점(Challenges)
+
+### 2.8.1 최적화 문제(Optimization issues)
+
+우리의 연구에서, Bowman et al. (2015)과 Sønderby et al. (2016a)의 연구 결과와 일치하게,  
+변형되지 않은 하한(lower bound) 목적함수를 사용한 확률적 최적화(stochastic optimization)는  
+원하지 않는 안정적인 평형 상태(undesirable stable equilibrium)에 빠질 수 있음을 발견했다.  
+
+학습 초기에 우도 항(likelihood term)인 $\log p(\mathbf{x}\mid\mathbf{z})$는 상대적으로 약하기 때문에,  
+처음부터 매력적인 상태는 $q(\mathbf{z}\mid\mathbf{x}) \approx p(\mathbf{z})$인 경우가 된다.  
+이로 인해 빠져나오기 어려운 안정적인 평형 상태가 형성된다.  
+
+> ELBO는 다음과 같이 정의된다.  
+>
+> $$
+> \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
+> = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> \big[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})
+> - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\big]
+> \tag{2.10}
+> $$
+>
+> 결합분포를 조건부분포와 사전분포로 분해하면  
+> $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) = p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})\,p(\mathbf{z})$ 이므로  
+> 이를 (2.10)에 대입하면 다음과 같이 된다.  
+>
+> $$
+> \begin{aligned}
+> \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x})
+> &= \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> \big[
+> \log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})
+> + \log p(\mathbf{z})
+> - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> \big] \\[4pt]
+> &= 
+> \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})]
+> -
+> D_{KL}\!\big(q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x}) \| p(\mathbf{z})\big)
+> \end{aligned}
+> $$
+>
+> 즉, ELBO는 '재구성 항'과 'KL 발산 항'의 차로 표현된다.  
+>
+> 이때 학습에서는 ELBO를 최대화하는 대신,  
+> 그 음수 형태를 손실 함수로 최소화하는데 다음과 같다.  
+>
+> $$
+> \mathcal{L}_{\text{VAE}}
+> =
+> -\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})]
+> +
+> D_{KL}\!\big(q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x}) \| p(\mathbf{z})\big)
+> $$
+>
+> 학습 초기에 디코더 $p(\mathbf{x}\mid\mathbf{z})$가 충분히 학습되지 않았을 때,  
+> 첫 번째 항(재구성 항)은 약하고 두 번째 항(KL 항)이 상대적으로 강하게 작용한다.  
+> 이로 인해 인코더는 $q(\mathbf{z}\mid\mathbf{x}) \approx p(\mathbf{z})$ 방향으로만 학습되고,  
+> 결과적으로 잠재변수 $\mathbf{z}$가 입력 정보를 반영하지 못한 채  
+> 안정적인 평형 상태로 고착되는 문제가 발생한다.
+
+Bowman et al. (2015)과 Sønderby et al. (2016a)가 제안한 해결책은,  
+잠재공간 항(latent cost) $D_{KL}(q(\mathbf{z}\mid\mathbf{x}) \| p(\mathbf{z}))$의 가중치를  
+여러 epoch에 걸쳐 0에서 1로 천천히 증가시키는(annealing) 최적화 스케줄을 사용하는 것이다.
+
+---
+
+Kingma et al. (2016)이 제안한 또 다른 대안은 *free Bits* 방법이다.  
+이 방법은 ELBO 목적함수를 수정하여,  
+평균적으로 각 잠재변수 또는 잠재변수 그룹 당  
+일정한 최소 비트(bit)의 정보가 인코딩되도록 보장한다.
+
+잠재 차원(latent dimensions)은 $K$개의 그룹으로 나뉜다.  
+이때, 각 미니배치(minibatch)마다 다음과 같은 목적함수를 사용한다.  
+이 식은 각 부분집합(subset) $j$에 대해,  
+평균적으로 $\lambda$ nat보다 적은 정보량을 사용하는 것이  
+이득이 되지 않도록 보장한다.  
+
+$$
+\begin{align}
+\tilde{\mathcal{L}}_{\lambda}
+&=
+\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}
+\!\left[
+\mathbb{E}_{q(\mathbf{z}\mid\mathbf{x})}[\log p(\mathbf{x}\mid\mathbf{z})]
+\right]
+\tag{2.69}\\
+&\quad -
+\sum_{j=1}^{K}
+\max\!\left(
+\lambda,\,
+\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}
+\big[D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))\big]
+\right)
+\tag{2.70}
+\end{align}
+$$
+
+즉, 각 잠재변수 그룹별 KL 발산이 임계값 $\lambda$보다 작으면  
+그 값이 고정되어(“free” 상태로 유지되어)  
+모델이 지나치게 작은 KL 항으로 수렴하지 않도록 한다.  
+이를 통해 잠재변수가 실제로 일정 수준 이상의 정보를  
+인코딩하도록 강제할 수 있다.
+
+잠재 정보(latent information)를 증가시키는 것은  
+일반적으로 목적함수의 첫 번째 항(영향받지 않는 항, 흔히 negative reconstruction error라 불림)에  
+유리하게 작용하므로,  
+결과적으로 $$\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}[D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))] \ge \lambda$$  
+가 모든 $j$에 대해 성립하게 된다.  
+
+Kingma et al. (2016)은  
+$\lambda \in \{0.125, 0.25, 0.5, 1, 2\}$와 같은  
+비교적 넓은 범위의 값에서 이 방법이 잘 작동하며,  
+벤치마크 결과에서 로그가능도(log-likelihood)가  
+유의미하게 개선됨을 보였다.
+
+> 일반적인 VAE 학습에서는 KL 항이 너무 작아져  
+> 인코더가 잠재변수 $\mathbf{z}$에 거의 아무 정보도 담지 않는  
+> “posterior collapse” 현상이 자주 발생한다.  
+> Free Bits는 이를 막기 위해 ELBO의 KL 항을 직접 수정한 기법이다.  
+>
+> 수식 (2.69)–(2.70)은 이를 반영한 새로운 목적함수를 정의한 것이다.
+>
+> 첫 번째 항  
+>
+> $$
+> \mathbb{E}_{\mathbf{x}\sim\mathcal{M}}
+> \!\left[
+> \mathbb{E}_{q(\mathbf{z}\mid\mathbf{x})}[\log p(\mathbf{x}\mid\mathbf{z})]
+> \right]
+> $$
+>
+> 은 기존 ELBO와 동일하게 재구성(reconstruction) 성능을 높이는 항이다.  
+> 즉, 디코더가 $\mathbf{z}$로부터 $\mathbf{x}$를 얼마나 잘 복원하는지를 나타낸다.  
+>
+> 두 번째 항  
+>
+> $$
+> -\sum_{j=1}^{K}
+> \max\!\left(
+> \lambda,\,
+> \mathbb{E}_{\mathbf{x}\sim\mathcal{M}}
+> [D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))]
+> \right)
+> $$
+>
+> 은 각 잠재변수 그룹 $j$별 KL 발산이  
+> 임계값 $\lambda$보다 작아지지 않도록 하는 조정 항이다.  
+> 즉,  
+> - 만약 $D_{KL}$이 $\lambda$보다 크면 원래 KL 값 그대로 사용하고,  
+> - $\lambda$보다 작으면 $\lambda$로 고정한다.  
+>
+> 이렇게 하면 모델이 KL 항을 너무 작게 만들어서  
+> 잠재변수를 무시하는 방향으로 수렴하는 것을 방지한다.  
+> 즉, 각 잠재변수가 최소한 $\lambda$ nat의 정보량을  
+> 유지하도록 강제하는 것이다.  
+>
+> 이러한 구조 때문에, 모델은  
+> $$\mathbb{E}_{\mathbf{x}\sim\mathcal{M}}[D_{KL}(q(\mathbf{z}_j\mid\mathbf{x}) \| p(\mathbf{z}_j))] \ge \lambda$$  
+> 를 자연스럽게 만족하게 된다.  
+> 결과적으로, 디코더는 여전히 입력 복원을 최적화하면서도  
+> 각 잠재변수가 일정 수준 이상의 유의미한 정보를 보존하게 된다.  
+>
+> Kingma et al. (2016)은  
+> $\lambda \in \{0.125, 0.25, 0.5, 1, 2\}$와 같은 폭넓은 값 범위에서  
+> 이 방법이 잘 작동함을 보였으며,  
+> 그 결과 로그가능도(log-likelihood)가  
+> 기존 VAE보다 유의미하게 향상되었다.
+
+---
