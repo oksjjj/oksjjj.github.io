@@ -2126,3 +2126,68 @@ $$
 >  
 > 따라서 VAE는 “재구성 손실 + 정규화 손실”로 구성된  
 > 확률적 오토인코더(probabilistic autoencoder)로 해석할 수 있다.
+
+---
+
+일반적인(plain) 오토인코더에 대한 분석(Vincent et al., 2010)에서,  
+정규화되지 않은(unregularized) 오토인코더의 학습 기준은  
+입력 $\mathbf{X}$와 잠재표현(latent representation) $\mathbf{Z}$ 사이의  
+상호정보량(mutual information)에 대한 하한(lower bound)의  
+최대화와 대응된다는 것이 밝혀졌다  
+(정보최대화 원리, *infomax principle*, Linsker, 1989 참조).  
+
+상호정보량을 매개변수에 대해 최대화하는 것은  
+조건부 엔트로피(conditional entropy)를 최대화하는 것과 동치이며,  
+이는 오토인코딩 모델(autoencoding model) 하에서의  
+데이터의 기대 로그가능도(expected log-likelihood)의 하한으로 제한된다.  
+즉, 이는 음의 재구성 오차(negative reconstruction error)와 같다.  
+(Vincent et al., 2010)  
+
+그러나 이러한 재구성 기준만으로는 유용한 표현(meaningful representations)을  
+학습하기에 충분하지 않다는 것이 잘 알려져 있다 (Bengio et al., 2013).  
+
+이에 따라 잡음제거(denoising), 수축형(contractive), 희소(sparse)  
+오토인코더와 같은 정규화 기법(regularization techniques)이 제안되어,  
+오토인코더가 더 유용한 표현을 학습할 수 있도록 하였다 (Bengio et al., 2013).  
+
+VAE의 목적함수는 변분하한(variational bound)에 의해 결정되는  
+정규화항(regularization term)을 포함하고 있으며,  
+이로 인해 일반적인 오토인코더에서 필요한 추가적인 정규화 하이퍼파라미터 없이도  
+유용한 표현을 학습할 수 있다.  
+
+또한 본 연구는 예측적 희소 분해(predictive sparse decomposition, PSD)  
+(Kavukcuoglu et al., 2008)와 같은 인코더-디코더 구조로부터  
+일부 영감을 얻었다.  
+
+아울러 최근 제안된 생성 확률적 네트워크(Generative Stochastic Networks, GSN)  
+(Bengio et al., 2014)도 관련이 있다.  
+이 모델에서는 잡음이 있는 오토인코더(noisy autoencoder)가  
+데이터 분포로부터 샘플링하는 마르코프 체인(Markov chain)의  
+전이 연산자(transition operator)를 학습한다.  
+
+또한 Salakhutdinov and Larochelle (2010)에서는  
+심층 볼츠만 머신(Deep Boltzmann Machines)의 효율적인 학습을 위해  
+인식 모델(recognition model)을 사용하였다.  
+
+이러한 방법들은 대부분  
+비정규화 모델(unnormalized model, 예: 볼츠만 머신과 같은 비방향성 모델)  
+또는 희소 부호화(sparse coding) 모델에 한정되어 있으며,  
+이에 반해 본 논문에서 제안한 알고리즘은  
+일반적인 유향 확률모델(directed probabilistic models)의  
+보다 폭넓은 계열을 학습하기 위한 것이다.
+
+---
+
+제안된 DARN 방법(Gregor et al., 2014) 또한 오토인코딩 구조를 사용하여  
+유향 확률모델(directed probabilistic model)을 학습한다.  
+그러나 그들의 방법은 이진 잠재변수(binary latent variables)에 적용된다.  
+
+동시대 연구로서, Rezende et al. (2014) 역시  
+오토인코더(autoencoders), 유향 확률모델(directed probabilistic models),  
+그리고 확률적 변분추론(stochastic variational inference) 사이의 연결을 제시하였다.  
+이들은 (Kingma and Welling, 2014)에서 우리가 설명한  
+재매개변수화 트릭(reparameterization trick)을 사용하였다.  
+
+그들의 연구는 우리와 독립적으로 개발되었으며, VAE에 대한 또 다른 관점을 제공한다.
+
+---
