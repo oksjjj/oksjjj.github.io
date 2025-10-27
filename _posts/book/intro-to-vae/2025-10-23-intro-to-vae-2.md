@@ -278,7 +278,7 @@ $$
 
 > KL 발산이 두 가지 “거리(distance)” 역할을 한다는 의미를 좀 더 자세히 살펴보면 다음과 같다.  
 >
-> **(1) 근사 사후분포와 실제 사후분포 간의 거리**  
+> (1) 근사 사후분포와 실제 사후분포 간의 거리  
 >
 > - $ D_{\mathrm{KL}}\\big(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \,\|\, p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\big) $ 은  
 >   변분 추론(variational inference)에서 가장 핵심적인 오차 척도이다.  
@@ -288,7 +288,7 @@ $$
 >   근사 사후분포가 완벽하게 실제 사후분포를 복원한다는 뜻이다.  
 > - 반대로 KL 발산이 커질수록, 두 분포가 멀리 떨어져 있다는 의미이다.  
 >
-> **(2) ELBO와 로그 가능도(log-likelihood) 간의 차이(gap)**  
+> (2) ELBO와 로그 가능도(log-likelihood) 간의 차이(gap)  
 >
 > - 식 (2.11)에서 보듯,  
 >
@@ -399,7 +399,7 @@ $$
 마지막 줄의 식 (2.17)은 식 (2.15)의 단순한 몬테카를로 추정(Monte Carlo estimator)이며,  
 식 (2.16)과 (2.17)에 등장하는 $\mathbf{z}$는 $q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})$ 로부터 샘플링된 확률표본이다.  
 
-> **1) (2.14) → (2.15):**  
+> 1) (2.14) → (2.15):  
 >    그래디언트 $\nabla_{\theta}$는 디코더 $p_{\theta}(x,z)$ 의 파라미터에만 의존하므로,  
 >    인코더 분포 $q_{\phi}(z\mid x)$와는 무관하다.  
 >    따라서 그래디언트 $\nabla_{\theta}$를 $q_{\phi}(z\mid x)$에 대한 기댓값 연산자 안쪽으로 이동할 수 있다.  
@@ -428,7 +428,7 @@ $$
 >
 > ---
 >
-> **2) (2.15) → (2.16):**  
+> 2) (2.15) → (2.16):  
 >    (2.15)식의 기댓값은 적분 형태로 계산하기 어렵기 때문에,  
 >    몬테카를로 추정(Monte Carlo estimation)을 이용해 근사한다.  
 >
@@ -457,7 +457,7 @@ $$
 >
 > ---
 >
-> **3) (2.16) → (2.17):**  
+> 3) (2.16) → (2.17):  
 >    $\log q_{\phi}(z\mid x)$ 는 인코더 파라미터 $\phi$ 의 함수이므로 $\theta$ 에 대한 미분은 0이다.  
 >    따라서 남는 항은 $\log p_{\theta}(x,z)$에 대한 그래디언트뿐이다.
 >
@@ -502,7 +502,7 @@ $$
 \end{align}
 $$
 
-> 1) **각 파라미터의 역할**  
+> 1) 각 파라미터의 역할  
 >    - $\boldsymbol{\theta}$ : 디코더(Decoder)의 파라미터로, 생성 모델 $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$를 구성한다.  
 >      즉, 잠재변수 $\mathbf{z}$ 로부터 데이터를 복원(reconstruct)하는 역할을 한다.  
 >    - $\boldsymbol{\phi}$ : 인코더(Encoder)의 파라미터로, 근사 사후분포 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$ 를 구성한다.  
@@ -510,7 +510,7 @@ $$
 >
 > ---
 >
-> 2) **디코더(θ)에 대한 기댓값 식**  
+> 2) 디코더(θ)에 대한 기댓값 식  
 >    디코더의 경우 ELBO의 기댓값은 다음과 같이 주어진다.
 >
 >    $$
@@ -535,7 +535,7 @@ $$
 >
 > ---
 >
-> 3) **인코더(φ)에 대한 기댓값 식**  
+> 3) 인코더(φ)에 대한 기댓값 식  
 >    반면 인코더의 경우 ELBO의 기댓값은 다음과 같다.
 >
 >    $$
@@ -590,7 +590,7 @@ $$
 
 ---
 
-**알고리즘 1. ELBO의 확률적 최적화 (Stochastic optimization of the ELBO)**
+알고리즘 1. ELBO의 확률적 최적화 (Stochastic optimization of the ELBO)
 
 노이즈는 미니배치 샘플링과 $p(\boldsymbol{\epsilon})$의 샘플링 두 과정 모두에서 발생하기 때문에,  
 이 절차는 이중 확률적 최적화(doubly stochastic optimization) 방식이다.  
@@ -598,15 +598,15 @@ $$
 이 절차는  
 오토인코딩 변분 베이즈(Auto-Encoding Variational Bayes, AEVB) 알고리즘이라고도 불린다.
 
-**데이터 (Data):**  
+데이터 (Data):  
 - $\mathcal{D}$: 데이터셋 (Dataset)  
 - $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$: 추론 모델 (Inference model)  
 - $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$: 생성 모델 (Generative model)  
 
-**결과 (Result):**  
+결과 (Result):  
 - $\boldsymbol{\theta}, \boldsymbol{\phi}$: 학습된 파라미터 (Learned parameters)  
 
-**절차 (Procedure):**
+절차 (Procedure):
 
 $$
 \begin{aligned}
@@ -627,14 +627,14 @@ $$
 \end{aligned}
 $$
 
-> 1) **초기화 단계**  
+> 1) 초기화 단계  
 >    $(\boldsymbol{\theta}, \boldsymbol{\phi}) \leftarrow$ Initialize parameters  
 >    - 생성 모델(디코더)의 파라미터 $\boldsymbol{\theta}$ 와  
 >      추론 모델(인코더)의 파라미터 $\boldsymbol{\phi}$ 를 무작위로 초기화한다.  
 >
 > ---
 >
-> 2) **학습 반복 루프 (while SGD not converged)**  
+> 2) 학습 반복 루프 (while SGD not converged)  
 >    확률적 경사하강법(SGD)을 이용하여 ELBO를 최적화할 때까지  
 >    다음 과정을 반복한다.  
 >
@@ -658,7 +658,7 @@ $$
 >
 > ---
 >
-> 3) **종료 조건 (end)**  
+> 3) 종료 조건 (end)  
 >    - SGD가 수렴(converged)하면 학습을 종료한다.  
 >    - 최종적으로 학습된 파라미터 $(\boldsymbol{\theta}, \boldsymbol{\phi})$ 는  
 >      디코더와 인코더의 최적화된 형태가 된다.
@@ -1174,7 +1174,7 @@ $$
 > 재매개변수화 $\mathbf{z} = \boldsymbol{\mu} + \mathbf{L}\boldsymbol{\epsilon}$ 에서  
 > 행렬 $\mathbf{L}$ 은 공분산 행렬 $\boldsymbol{\Sigma}$ 의 분해(cholesky decomposition)를 통해 얻어진다.  
 > 즉, $\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}^\top$ 으로 나타낼 수 있으며,  
-> $\mathbf{L}$ 은 일반적으로 **하삼각(lower triangular) 행렬**이다.  
+> $\mathbf{L}$ 은 일반적으로 하삼각(lower triangular) 행렬이다.  
 > 이렇게 하면 샘플링 과정에서 $\boldsymbol{\epsilon}$ (표준 정규분포에서 추출된 노이즈)에  
 > 선형 변환을 적용하여 공분산 구조를 반영할 수 있다.  
 >
@@ -1308,7 +1308,7 @@ $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$를 (미분 가
 
 ---
 
-**알고리즘 2. 단일 데이터 포인트 ELBO의 비편향 추정 (Unbiased estimate of single-datapoint ELBO)**  
+알고리즘 2. 단일 데이터 포인트 ELBO의 비편향 추정 (Unbiased estimate of single-datapoint ELBO)  
 
 이 알고리즘은 완전 공분산(full-covariance) 가우시안 추론 모델과  
 분리된 베르누이(factorized Bernoulli) 생성 모델을 가지는 예시 VAE의  
@@ -1319,7 +1319,7 @@ $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$를 (미분 가
 
 ---
 
-**데이터 (Data):**  
+데이터 (Data):  
 - $\mathbf{x}$: 데이터 포인트 (필요시 조건부 정보 포함 가능)  
 - $\boldsymbol{\epsilon}$: $p(\boldsymbol{\epsilon}) = \mathcal{N}(0, I)$ 로부터의 무작위 샘플  
 - $\boldsymbol{\theta}$: 생성 모델(generative model) 파라미터  
@@ -1327,12 +1327,12 @@ $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$를 (미분 가
 - $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$: 추론 모델 (Inference model)  
 - $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$: 생성 모델 (Generative model)  
 
-**결과 (Result):**  
+결과 (Result):  
 - $\tilde{\mathcal{L}}$: 단일 데이터 포인트에 대한 ELBO의 비편향 추정치  
 
 ---
 
-**절차 (Procedure):**
+절차 (Procedure):
 
 $$
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}')
