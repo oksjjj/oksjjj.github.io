@@ -923,34 +923,85 @@ $$
 
 우리는 이것을 $\boldsymbol{\epsilon}$ 에서 $\mathbf{z}$ 로의 변환의 로그-행렬식(log-determinant)이라고 부른다.  
 
-> 식 (2.33)은 확률변수의 변수변환 공식(change of variables formula)에서 나온다.  
+> 일반적인 확률변수의 변수변환 공식은 다음과 같다.  
 >  
-> 만약 $\mathbf{z}$가 $\mathbf{z} = g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$로 정의되고, $g$가 가역(invertible)이라면,  
-> 두 변수 $\mathbf{z}$와 $\boldsymbol{\epsilon}$의 확률밀도는 다음 관계를 가진다:
+> 확률변수 $\mathbf{z}$가 다른 확률변수 $\boldsymbol{\epsilon}$의 가역(invertible) 변환으로 정의된다고 하자.
+>
+> $$
+> \mathbf{z} = g(\boldsymbol{\epsilon}), \qquad
+> \boldsymbol{\epsilon} = g^{-1}(\mathbf{z})
+> $$
+>
+> 이때 $\boldsymbol{\epsilon}$의 확률밀도함수를 $p_{\boldsymbol{\epsilon}}(\boldsymbol{\epsilon})$,  
+> $\mathbf{z}$의 확률밀도함수를 $p_{\mathbf{z}}(\mathbf{z})$라고 하면,
+>
+> $$
+> p_{\mathbf{z}}(\mathbf{z})
+> = p_{\boldsymbol{\epsilon}}\!\big(g^{-1}(\mathbf{z})\big)
+> \left|\det\!\left(
+> \frac{\partial g^{-1}(\mathbf{z})}{\partial \mathbf{z}}
+> \right)\right|.
+> $$
+>
+> 이는 확률질량 보존 원리
+> $\mathrm{d}\mathbf{z}\, p_{\mathbf{z}}(\mathbf{z}) = \mathrm{d}\boldsymbol{\epsilon}\, p_{\boldsymbol{\epsilon}}(\boldsymbol{\epsilon})$
+> 에서 유도되며, 야코비안 행렬의 행렬식 절댓값이  
+> 공간 스케일 변화(scale change)를 보정하는 역할을 한다.
+>
+> ---
+>
+> 하지만 VAE의 경우, $\mathbf{z}$가 $\boldsymbol{\epsilon}$의 명시적 함수로 주어지므로  
+> $g^{-1}(\mathbf{z})$ 대신 $g(\boldsymbol{\epsilon})$을 사용하는 것이 더 직관적이다.  
+>  
+> 즉, $\mathbf{z} = g(\boldsymbol{\epsilon})$라고 하면,
+>
+> $$
+> p_{\mathbf{z}}\big(g(\boldsymbol{\epsilon})\big)
+> = p_{\boldsymbol{\epsilon}}(\boldsymbol{\epsilon})
+> \Big/\!
+> \left|\det\!\left(
+> \frac{\partial g(\boldsymbol{\epsilon})}{\partial \boldsymbol{\epsilon}}
+> \right)\right|.
+> $$
+>
+> ---
+>
+> 이제 VAE의 표현과 연결시키면 다음과 같다.
+>
+> 1. 변환 $\mathbf{z} = g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$는 인코더가 정의한 함수이다.  
+> 2. 따라서 $p_{\mathbf{z}}\big(g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})\big)$은  
+>    “$\mathbf{x}$가 주어졌을 때의 $\mathbf{z}$의 조건부 확률밀도”로 볼 수 있다.  
+>    즉,  
+>    $$
+>    p_{\mathbf{z}}\big(g_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})\big)
+>    \equiv
+>    q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x}).
+>    $$
+> 3. 반면 $\boldsymbol{\epsilon}$의 밀도는 이미 알고 있는 노이즈 분포  
+>    $p(\boldsymbol{\epsilon})$ (예: $\mathcal{N}(0, I)$)이다.  
+> 4. 따라서 위 일반식을 다음과 같이 다시 쓸 수 있다.
 >
 > $$
 > q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
 > = p(\boldsymbol{\epsilon})
-> \left|\det\!\left(\frac{\partial \boldsymbol{\epsilon}}{\partial \mathbf{z}}\right)\right|
-> = p(\boldsymbol{\epsilon})
 > \Big/\!
-> \left|\det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right)\right|.
+> \left|\det\!\left(
+> \frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}
+> \right)\right|.
 > $$
->  
+>
 > 양변에 로그를 취하면,
 >
 > $$
 > \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
 > = \log p(\boldsymbol{\epsilon})
-> - \log \left|\det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right)\right|.
+> - \log \left|\det\!\left(
+> \frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}
+> \right)\right|.
 > $$
->  
-> 이것이 바로 식 (2.33)의 형태이다.  
->  
-> 즉, $\boldsymbol{\epsilon}$의 분포를 알고 있을 때, $\mathbf{z}$로의 변환이 가역적이면  
-> 밀도변환 공식에 의해 두 확률밀도 간의 관계를 로그-야코비안 항을 통해 간단히 연결할 수 있다.  
-> 이 원리를 이용하면 VAE에서 샘플링 과정을 미분 가능한 형태로 표현할 수 있게 된다  
-> (즉, reparameterization trick의 핵심 아이디어).
+>
+> 이것이 바로 식 (2.33)의 형태이며,  
+> 두 번째 항이 식 (2.34)의 로그-야코비안(log-Jacobian) 항에 해당한다.
 
 이 로그-행렬식이 $g(\cdot)$ 와 마찬가지로 $\mathbf{x}$, $\boldsymbol{\epsilon}$, 그리고 $\boldsymbol{\phi}$ 의 함수임을 명확히 하기 위해  
 $\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})$ 라는 표기를 사용한다.  
@@ -1172,11 +1223,23 @@ $$
 >
 > (2) 식 (2.47)의 의미  
 > 재매개변수화 $\mathbf{z} = \boldsymbol{\mu} + \mathbf{L}\boldsymbol{\epsilon}$ 에서  
-> 행렬 $\mathbf{L}$ 은 공분산 행렬 $\boldsymbol{\Sigma}$ 의 분해(cholesky decomposition)를 통해 얻어진다.  
+> 행렬 $\mathbf{L}$ 은 공분산 행렬 $\boldsymbol{\Sigma}$ 의 콜레스키 분해(Cholesky decomposition)를 통해 얻어진다.  
 > 즉, $\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}^\top$ 으로 나타낼 수 있으며,  
 > $\mathbf{L}$ 은 일반적으로 하삼각(lower triangular) 행렬이다.  
-> 이렇게 하면 샘플링 과정에서 $\boldsymbol{\epsilon}$ (표준 정규분포에서 추출된 노이즈)에  
-> 선형 변환을 적용하여 공분산 구조를 반영할 수 있다.  
+> 이렇게 하면 표준정규분포에서 뽑은 노이즈 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$에  
+> 선형 변환을 적용하여, 공분산 구조를 반영한 샘플 $\mathbf{z}$를 생성할 수 있다.  
+>
+> 특히, 하삼각 행렬 $\mathbf{L}$의 구조로 인해 각 잠재변수 $z_i$는  
+> 오직 자신보다 이전 노이즈 항들 $\epsilon_1, \dots, \epsilon_i$에만 의존한다.  
+> 따라서  
+> - 첫 번째 변수 $z_1$은 $\epsilon_1$에만 의존하여 다른 변수들과의 공분산이 0이고,  
+> - 두 번째 변수 $z_2$는 $\epsilon_1, \epsilon_2$에 의존하여 $z_1$과는 상관이 있으나 이후 변수들과는 독립이며,  
+> - 세 번째 변수 $z_3$는 $\epsilon_1, \epsilon_2, \epsilon_3$에 의존하여 $z_1, z_2$와 공분산을 가지지만 그 이후 변수들과는 독립이다.  
+>
+> 즉, $\mathbf{L}$의 하삼각 구조는  
+> “각 변수는 이전 변수들과만 상관관계를 가진다”는 공분산 구조를 자연스럽게 부여한다.  
+> 이로써 $\mathbf{z}$의 상호 의존성이 효율적으로 모델링되며,  
+> 계산 또한 안정적으로 유지된다.  
 >
 > (3) 삼각행렬(triangular matrix)의 예시  
 > 예를 들어, 3차원 잠재변수의 경우 $\mathbf{L}$ 이 하삼각 행렬이면 다음과 같다.
@@ -1384,32 +1447,247 @@ $$
 ---
 
 > (1) 인코더 단계  
->    $\mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})$는  
->    입력 $\mathbf{x}$ 로부터 평균 $\boldsymbol{\mu}$, 로그표준편차 $\log\boldsymbol{\sigma}$, 그리고 초기 공분산 행렬 $\mathbf{L}'$ 을 추정한다.  
+>    $$\mathrm{EncoderNeuralNet}_{\boldsymbol{\phi}}(\mathbf{x})$$는  
+>    입력 $$\mathbf{x}$$ 로부터 평균 $$\boldsymbol{\mu}$$, 로그표준편차 $$\log\boldsymbol{\sigma}$$, 그리고 초기 공분산 행렬 $$\mathbf{L}'$$ 을 추정한다.  
+>    이 단계는 사후분포 $$q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$$를 가우시안으로 근사하기 위한 파라미터화 과정이다.  
+>    즉,
+>  
+>    $$
+>    q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+>    = \mathcal{N}(\mathbf{z}; \boldsymbol{\mu}, \mathbf{L}\mathbf{L}^\top)
+>    $$
+>
+>    와 같은 형태를 취하도록 학습된다.  
 >
 > (2) 마스크 적용 단계  
->    마스크 행렬 $\mathbf{L}_{\text{mask}}$ 를 적용해 상삼각 항을 제거하고, 대각에는 $\boldsymbol{\sigma}$를 추가하여  
->   하삼각 형태의 공분산 행렬 $\mathbf{L}$을 생성한다.  
+>    마스크 행렬 $\mathbf{L}_{\text{mask}}$ 는 대각선 위의 항을 제거하여 $\mathbf{L}'$을 하삼각 형태로 만든다.  
+>    이렇게 하면 $\mathbf{L}$은 콜레스키 분해(Cholesky decomposition) 형태를 띠며,  
+>    $\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}^\top$ 로부터 완전 공분산 구조를 반영할 수 있게 된다.  
+>    또한 $\mathbf{L}$이 하삼각이므로, 각 잠재변수 $z_i$는  
+>    오직 이전 노이즈 변수들 $\epsilon_1,\dots,\epsilon_i$에만 의존하게 된다.  
+>    따라서 $z_1$은 독립적이고, $z_2$는 $z_1$과 공분산을 가지며,  
+>    $z_3$는 $z_1, z_2$와의 공분산을 반영하지만 이후 변수들과는 독립이다.  
+>    이 구조는 “이전 변수들까지만 상관이 있는” 안정적인 공분산 구조를 보장한다.  
 >
 > (3) 잠재변수 샘플링  
->    $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$에 따라 노이즈를 샘플링한 뒤, $\mathbf{z} = \mathbf{L}\boldsymbol{\epsilon} + \boldsymbol{\mu}$ 로 재매개변수화한다.  
->
-> (4) ELBO 항 계산  
->    - $$\tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}$$: 인코더의 사후 분포 항  
->    - $$\tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}$$: 잠재변수의 사전 분포 항  
->    - $$\tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}$$: 복원된 입력의 로그우도 항  
->
-> (5) ELBO 결합  
->    최종 ELBO 추정치는 다음과 같다.  
+>    표준정규분포에서 노이즈 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$ 를 샘플링하고  
+>    이를 재매개변수화 식
 >
 >    $$
->    \tilde{\mathcal{L}} = 
->    \tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}
->    + \tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}
->    - \tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}
->    $$  
+>    \mathbf{z} = \boldsymbol{\mu} + \mathbf{L}\boldsymbol{\epsilon}
+>    $$
 >
->    이 식은 단일 데이터 포인트에 대한 ELBO의 비편향 추정치로 사용된다.
+>    에 대입한다.  
+>    이렇게 하면 샘플링 과정이 미분 가능해지며, 역전파를 통해 인코더 파라미터 $\boldsymbol{\phi}$가 업데이트될 수 있다.  
+>
+> (4) ELBO 항 계산  
+>
+> ELBO의 세 항은 모두 확률밀도의 정의와 변수변환 공식으로부터 직접적으로 유도된다.  
+> 특히, 사후분포 항 $q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$는  
+> 식 (2.33)과 (2.34)에 의해 다음과 같이 표현된다.
+>
+> $$
+> \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> = \log p(\boldsymbol{\epsilon})
+> - \log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})
+> \tag{2.33}
+> $$
+>
+> $$
+> \log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})
+> = \log \left| \det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right) \right|
+> \tag{2.34}
+> $$
+>
+> 식 (2.34)를 (2.33)에 대입하면 다음과 같다.
+>
+> $$
+> \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> = \log p(\boldsymbol{\epsilon})
+> - \log \left| \det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right) \right|.
+> $$
+>
+> 이제 두 항을 각각 전개한다.  
+>
+> ① 표준정규분포의 로그밀도 산출
+>
+> d차원 정규분포의 밀도는 다음과 같으므로,
+>
+> $$
+> p(\mathbf{z})=\frac{1}{(2\pi)^{d/2}\,|\boldsymbol{\Sigma}|^{1/2}}
+> \exp\!\left(-\tfrac{1}{2}(\mathbf{z}-\boldsymbol{\mu})^\top
+> \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\boldsymbol{\mu})\right).
+> $$
+>
+> $\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)$ 일 때,  
+> 정규분포의 일반 로그밀도식은 다음과 같다.
+>
+> $$
+> \log p(\mathbf{z})
+> = -\tfrac{1}{2}(\mathbf{z}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\boldsymbol{\mu})
+> -\tfrac{1}{2}\log|\boldsymbol{\Sigma}|
+> -\tfrac{d}{2}\log(2\pi).
+> $$
+>
+> 이를 $\boldsymbol{\mu}=0$, $\boldsymbol{\Sigma}=I$로 두면  
+> $\boldsymbol{\Sigma}^{-1}=I$, $|\boldsymbol{\Sigma}|=1$이므로
+>
+> $$
+> \log p(\boldsymbol{\epsilon})
+> = -\tfrac{1}{2}\boldsymbol{\epsilon}^\top \boldsymbol{\epsilon}
+> -\tfrac{d}{2}\log(2\pi)
+> = -\tfrac{1}{2}\sum_i (\epsilon_i^2 + \log(2\pi)).
+> $$
+>
+> 즉, 각 $\epsilon_i$가 독립인 표준정규분포를 따른다는 사실에 따라  
+> 로그밀도가 단순한 합 형태로 분리된다.  
+>
+> ② 야코비안(log-determinant) 항의 계산
+>
+> 재매개변수화 식 $\mathbf{z} = \boldsymbol{\mu} + \mathbf{L}\boldsymbol{\epsilon}$에서  
+> 야코비안은 $\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}} = \mathbf{L}$이다.  
+>  
+> $\mathbf{L}$이 대각행렬(diagonal)이라면  
+> $\det(\mathbf{L}) = \prod_i \sigma_i$이므로,
+>
+> $$
+> \log \left| \det\!\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right) \right|
+> = \sum_i \log \sigma_i.
+> $$
+>
+> 이를 다시 식 (2.33)에 대입하면,
+>
+> $$
+> \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+> = -\tfrac{1}{2}\sum_i (\epsilon_i^2 + \log(2\pi))
+> - \sum_i \log\sigma_i.
+> $$
+>
+> 이로부터 ELBO의 사후분포 항이 도출된다.
+>
+> $$
+> \tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}
+> \approx -\sum_i
+> \left(
+> \tfrac{1}{2}(\epsilon_i^2 + \log(2\pi)) + \log\sigma_i
+> \right).
+> $$
+>
+> ③ 사전분포 항의 도출
+>
+> 사전분포는 $p_{\boldsymbol{\theta}}(\mathbf{z}) = \mathcal{N}(0, I)$이므로,  
+> 위의 일반 정규 로그밀도식을 그대로 적용하면
+>
+> $$
+> \log p_{\boldsymbol{\theta}}(\mathbf{z})
+> = -\tfrac{1}{2}\sum_i (z_i^2 + \log(2\pi)).
+> $$
+>
+> 따라서,
+>
+> $$
+> \tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}
+> \approx -\sum_i
+> \left(
+> \tfrac{1}{2}(z_i^2 + \log(2\pi))
+> \right).
+> $$
+>
+> ④ 복원(재구성) 항의 도출
+>
+> 디코더는 잠재변수 $\mathbf{z}$를 입력받아  
+> 각 데이터 차원에 대한 베르누이 확률 $p_i$를 예측한다.
+>
+> $$
+> \mathbf{p} = \mathrm{DecoderNeuralNet}_{\boldsymbol{\theta}}(\mathbf{z})
+> $$
+>
+> 베르누이 분포의 로그밀도는 다음과 같다.
+>
+> $$
+> \log p(x_i\mid p_i) = x_i \log p_i + (1-x_i)\log(1-p_i).
+> $$
+>
+> 이 식을 데이터 전체에 대해 합산하면 복원 항의 형태가 된다.
+>
+> $$
+> \tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}
+> \approx \sum_i
+> \big(
+> x_i\log p_i + (1-x_i)\log(1-p_i)
+> \big).
+> $$
+>
+> (5) ELBO 결합  
+>
+> ELBO는 원래 다음과 같이 정의된다.
+>
+> $$
+> \mathcal{L}(\mathbf{x})
+> = \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})
+> - \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})].
+> $$
+>
+> 여기서 결합확률을 분해하면  
+>
+> $$
+> \log p_{\boldsymbol{\theta}}(\mathbf{x},\mathbf{z})
+> = \log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})
+> + \log p_{\boldsymbol{\theta}}(\mathbf{z}),
+> $$
+>
+> 따라서 ELBO는 세 개의 항으로 나뉜다.
+>
+> $$
+> \begin{aligned}
+> \mathcal{L}(\mathbf{x})
+> &= \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})]
+> + \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log p_{\boldsymbol{\theta}}(\mathbf{z})]
+> - \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+> [\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})].
+> \end{aligned}
+> $$
+>
+> 이 식은 각각 다음 세 항을 의미한다.
+>
+> - (a) 재구성 항(reconstruction term):  
+>   $$\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z})]$$  
+>   → 모델이 입력 $\mathbf{x}$를 얼마나 잘 복원하는지를 측정한다.
+>
+> - (b) 사전분포 항(prior term):  
+>   $$\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\log p_{\boldsymbol{\theta}}(\mathbf{z})]$$  
+>   → 샘플링된 잠재변수 $\mathbf{z}$가 사전분포 $p(\mathbf{z})$에 얼마나 일관되는지를 평가한다.
+>
+> - (c) 사후분포 항(posterior term):  
+>   $$\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[\log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})]$$  
+>   → 인코더가 추론한 분포의 엔트로피를 반영하며,  
+>     복잡도를 제어하는 정규화(regularization) 역할을 한다.
+>
+> 단일 샘플 근사(Monte Carlo estimate)를 적용하면,  
+> 기대값 항들이 각각 다음과 같이 계산된다.
+>
+> $$
+> \tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}
+> \approx \log p_{\boldsymbol{\theta}}(\mathbf{x}\mid\mathbf{z}),
+> \quad
+> \tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}
+> \approx \log p_{\boldsymbol{\theta}}(\mathbf{z}),
+> \quad
+> \tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}
+> \approx \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x}).
+> $$
+>
+> 이를 결합하면, 단일 데이터 포인트에 대한 ELBO 추정식은 다음과 같다.
+>
+> $$
+> \tilde{\mathcal{L}}
+> = \tilde{\mathcal{L}}_{\log p_{\mathbf{x}}}
+> + \tilde{\mathcal{L}}_{\log p_{\mathbf{z}}}
+> - \tilde{\mathcal{L}}_{\log q_{\mathbf{z}}}.
+> $$
 
 ---
 
@@ -2191,3 +2469,40 @@ VAE의 목적함수는 변분하한(variational bound)에 의해 결정되는
 그들의 연구는 우리와 독립적으로 개발되었으며, VAE에 대한 또 다른 관점을 제공한다.
 
 ---
+
+### 2.9.1 점수함수 추정기(Score function estimator)
+
+ELBO의 또 다른 불편한(stochastic) 그래디언트 추정기는  
+점수함수 추정기(score function estimator)이다 (Kleijnen and Rubinstein, 1996).
+
+$$
+\begin{align}
+\nabla_{\boldsymbol{\phi}}
+\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}[f(\mathbf{z})]
+&= 
+\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})}
+\big[f(\mathbf{z}) \nabla_{\boldsymbol{\phi}} \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})\big]
+\tag{2.72} \\[6pt]
+&\simeq 
+f(\mathbf{z}) \nabla_{\boldsymbol{\phi}} \log q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})
+\tag{2.73}
+\end{align}
+$$
+
+여기서 $\mathbf{z} \sim q_{\boldsymbol{\phi}}(\mathbf{z}\mid\mathbf{x})$이다.  
+
+이 방법은 가능도비 추정기(likelihood ratio estimator) (Glynn, 1990; Fu, 2006)  
+그리고 REINFORCE 그래디언트 추정기(REINFORCE gradient estimator) (Williams, 1992)로도 알려져 있다.  
+
+이 방법은 신경 변분추론(neural variational inference) (Mnih and Gregor, 2014),  
+블랙박스 변분추론(black-box variational inference) (Ranganath et al., 2014),  
+자동 변분추론(automated variational inference) (Wingate and Weber, 2013),  
+그리고 변분 확률적 탐색(variational stochastic search) (Paisley et al., 2012)과 같은  
+다양한 방법들에서 성공적으로 사용되어 왔다.  
+
+또한 이 방법은 분산 감소(variance reduction)를 위해  
+여러 새로운 제어변수(control variate) 기법들 (Glasserman, 2013)과 함께 사용되기도 한다.  
+
+가능도비 추정기의 한 가지 장점은  
+이산형 잠재변수(discrete latent variables)에 적용할 수 있다는 점이다.
+
