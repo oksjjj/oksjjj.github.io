@@ -648,3 +648,113 @@ F1 = 2 × (0.86 × 0.80) / (0.86 + 0.80) ≈ 0.827
   Micro-Precision ≈ 268 / (268 + 99) = 268 / 367 ≈ 0.730  
   Micro-Recall ≈ 268 / (268 + 99) = 268 / 367 ≈ 0.730  
   Micro-F1 ≈ 2 × 0.730 × 0.730 / (0.730 + 0.730) ≈ 0.730  
+
+---
+
+## p39. 다중 클래스 분류는 어떨까?
+
+- 전체 성능을 요약하는 **단일 지표(single metric)** 가 필요하다.  
+
+  - 클래스별(per-class) 지표는 두 가지 방식으로 결합된다.  
+
+    1. **Macro-averaging:**  
+       각 클래스에 대해 Precision, Recall, F1을 계산한 뒤,  
+       클래스 전체에 걸쳐 평균을 낸다.  
+
+    2. **Micro-averaging:**  
+       모든 클래스의 TP, FP, FN을 합산한 후,  
+       전체적으로 Precision, Recall, F1을 계산한다.  
+
+**Macro- vs. Micro-averaging**
+
+- **Macro**는 클래스의 크기(class size)와 관계없이 **모든 클래스를 동일하게 취급한다.**  
+
+  - 장점(Pros):  
+    모든 클래스를 동일하게 다루며, **소수 클래스(minority class)** 의 성능을 강조한다.  
+  - 단점(Cons):  
+    **희귀 클래스(rare class)** 의 성능이 낮을 경우,  
+    전체 성능(overall performance)을 과소평가할 수 있다.  
+
+- **Micro**는 클래스의 **빈도(frequency)** 에 따라 가중치를 부여하며,  
+  큰 클래스(majority class)가 전체 지표에 더 큰 영향을 미친다.  
+
+  - 장점(Pros):  
+    전체적인 성능을 잘 반영하며, **클래스 불균형(imbalance)** 에 강하다.  
+  - 단점(Cons):  
+    다수 클래스가 지표를 지배하므로, **소수 클래스의 성능을 가릴 수 있다.**  
+
+**예시 (메일 유형 분류: 긴급, 일반, 스팸)**  
+
+| Class | # of Samples | F1 |
+|--------|---------------|------|
+| Urgent | 16 | ≈ 0.457 |
+| Normal | 100 | ≈ 0.558 |
+| Spam | 251 | ≈ 0.827 |
+
+Macro-F1 ≈ 0.614  
+Micro-F1 ≈ 0.730  
+
+---
+
+## p40. 분류 평가: 요약
+
+- **평가지표(Metrics):**
+
+  - **정확도(Accuracy):**  
+    전체 예측 중에서 올바르게 분류된 비율.  
+
+  - **정밀도(Precision):**  
+    모델이 양성이라고 예측한 것 중에서 실제로 양성인 비율.  
+
+  - **재현율(Recall):**  
+    실제 양성인 것 중에서 모델이 올바르게 양성으로 예측한 비율.  
+
+  - **F1-점수(F1-score):**  
+    정밀도와 재현율의 **조화 평균(harmonic mean)**.  
+
+<img src="/assets/img/lecture/textmining/8/image_23.png" alt="image" width="480px">
+
+- **평균화 방법(Averaging methods):**
+
+  - **매크로 평균(Macro-averaging):**  
+    각 클래스별로 정밀도, 재현율, F1을 계산한 후,  
+    이들을 클래스 전체에 대해 단순 평균한다.  
+
+    - 모든 클래스의 크기와 관계없이 **동일한 비중(equal weight)** 으로 취급한다.  
+
+  - **마이크로 평균(Micro-averaging):**  
+    모든 클래스의 TP(참양성), FP(거짓양성), FN(거짓음성)을 합산한 뒤,  
+    전체적으로 정밀도, 재현율, F1을 계산한다.  
+
+    - 클래스의 **빈도(frequency)** 에 따라 가중치가 부여되어,  
+      큰 클래스(majority class)가 결과에 더 큰 영향을 미친다.  
+
+- **활용 지침(Guideline):**  
+  클래스 불균형(class imbalance)이 중요한 경우에는 **매크로 평균(Macro)** 을 사용하고,  
+  전체적인 성능(overall performance)이 더 중요할 때는 **마이크로 평균(Micro)** 을 사용하는 것이 좋다.  
+
+---
+
+## p41. 다음: 제한된 레이블로 학습하기 (Learning with limited labels)
+
+- 지금까지 우리는 **레이블이 있는 데이터(labeled data)** 를 사용하여  
+  **분류기(classifier)를 학습하는 방법** 에 대해 논의하였다.  
+
+  - 각 입력 텍스트 $ x $ 마다, 해당하는 클래스 레이블 $ y $ 가 주어진다고 가정하였다.  
+
+- 그러나 **현실에서는 모든 데이터 인스턴스에 레이블이 존재할까?**  
+
+- 이제 우리는 **레이블이 부족한 데이터(scarcity of labeled data)** 상황에서  
+  이를 어떻게 다루는지를 살펴볼 것이다.  
+
+**감정 분류(Sentiment classification) 예시**
+
+| 입력 텍스트 | 감정 레이블(Sentiment label) |
+|--------------|-----------------------------|
+| 문서 1 | Positive |
+| 문서 2 | Negative |
+| 문서 3 | ? |
+| 문서 4 | … |
+| 문서 5 | ? |
+
+<img src="/assets/img/lecture/textmining/8/image_24.png" alt="image" width="720px">
