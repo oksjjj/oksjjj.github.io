@@ -409,4 +409,242 @@ $$
      - 정답은 **gold label** 또는 **ground-truth** 라고 불린다.  
      - 일반적으로 사람(human)에 의해 주석(annotated)된다.  
 
+---
 
+## p29. 혼동 행렬
+
+✓ 혼동 행렬(Confusion matrix)은  
+시스템이 **정답 레이블(gold labels)** 에 대해 얼마나 잘 동작하는지를 보여주는 표이다.  
+
+- 각 셀(cell)은 가능한 네 가지 결과 중 하나를 나타낸다:  
+  - True Positive (TP): 실제로 긍정이고, 예측도 긍정  
+  - False Positive (FP): 실제로 부정인데, 예측은 긍정  
+  - False Negative (FN): 실제로 긍정인데, 예측은 부정  
+  - True Negative (TN): 실제로 부정이고, 예측도 부정  
+
+  <img src="/assets/img/lecture/textmining/8/image_12.png" alt="image" width="500px">
+
+- 예시 (스팸 탐지, 총 100개의 이메일):  
+  - 40개의 스팸이 정확히 스팸으로 탐지됨 → **TP = 40**  
+  - 5개의 스팸이 잘못 비스팸으로 분류됨 → **FN = 5**  
+  - 10개의 비스팸이 잘못 스팸으로 분류됨 → **FP = 10**  
+  - 45개의 비스팸이 정확히 비스팸으로 분류됨 → **TN = 45**
+
+  <img src="/assets/img/lecture/textmining/8/image_13.png" alt="image" width="360px">
+
+---
+
+## p30. 혼동 행렬: 정확도
+
+✓ 정확도(Accuracy)는 **시스템이 정답으로 분류한 예측의 비율** 을 나타낸다.  
+(the proportion of all predictions that the system labeled correctly)
+
+  <img src="/assets/img/lecture/textmining/8/image_12.png" alt="image" width="500px">
+
+$$
+\text{accuracy} = \frac{tp + tn}{tp + fp + tn + fn}
+$$
+
+- 예시 (스팸 탐지, 100개의 이메일):  
+  - 40개의 스팸이 정확히 스팸으로 탐지됨 → TP = 40  
+  - 5개의 스팸이 비스팸으로 잘못 분류됨 → FN = 5  
+  - 10개의 비스팸이 잘못 스팸으로 분류됨 → FP = 10  
+  - 45개의 비스팸이 정확히 비스팸으로 분류됨 → TN = 45  
+
+<img src="/assets/img/lecture/textmining/8/image_13.png" alt="image" width="360px">
+
+$$
+\text{Accuracy} = \frac{(40 + 45)}{100} = 0.85
+$$
+
+---
+
+## p31. 혼동 행렬: 정확도
+
+- 문제(Problem):  
+  정확도(Accuracy)는 **클래스가 불균형하거나 드문(imbalanced or rare)** 경우  
+  오해를 불러일으킬 수 있다(misleading).
+
+- 예시 (스팸 탐지, 100개의 이메일):  
+  - 스팸 5개, 비스팸(non-spam) 95개가 있다고 하자.  
+  - 만약 어떤 분류기가 다음과 같이 낙관적으로 판단한다고 가정하면:  
+    → “모든 메일은 비스팸이다!”  
+
+  <img src="/assets/img/lecture/textmining/8/image_14.png" alt="image" width="360px">
+
+  $$
+  \text{Accuracy} = \frac{(0 + 95)}{100} = 0.95
+  $$
+
+  - 정확도는 95%로 높지만,  
+    실제로는 **스팸 메일 탐지에는 전혀 쓸모없는(useless)** 모델이다.
+  
+- 즉, 현실적인 많은 경우에서 정확도(accuracy)만으로는  
+  시스템의 성능(performance)을 제대로 평가할 수 없다.  
+
+---
+
+## p32. 혼동 행렬: 정밀도와 재현율
+
+✓ **정밀도(Precision)** 는  
+**예측된 긍정(predicted positives) 중**에서 **실제로 긍정인 것의 비율**을 의미한다.  
+
+$$
+\text{precision} = \frac{tp}{tp + fp}
+$$
+
+✓ **재현율(Recall)** 은  
+
+**실제 긍정(actual positives) 중**에서 **올바르게 예측된 것의 비율**을 의미한다.  
+
+$$
+\text{recall} = \frac{tp}{tp + fn}
+$$
+
+<img src="/assets/img/lecture/textmining/8/image_15.png" alt="image" width="720px">
+
+<img src="/assets/img/lecture/textmining/8/image_16.png" alt="image" width="800px">
+
+---
+
+## p33. 혼동 행렬: 정밀도와 재현율
+
+- 사실, 정밀도(precision)와 재현율(recall)은 **상충(trade-off) 관계** 를 가진다.  
+
+- 우리의 분류기가 메일이 스팸일 확률(시그모이드를 통해 0~1 로 변환됨)을 예측한다고 가정하자.  
+
+- 임계값(threshold, 예: 0.5)을 조정함으로써 분류기의 ‘민감도(sensitivity)’를 조절할 수 있다.  
+
+  1. 임계값을 높이는 경우 (예: 0.8):  
+    - 우리는 더 엄격해진다. 매우 확신(confident)이 있는 예측만 스팸으로 간주된다.  
+    - 정밀도(Precision) ↑, 재현율(Recall) ↓  
+
+  2. 임계값을 낮추는 경우 (예: 0.3):  
+    - 우리는 더 많은 항목을 스팸으로 분류한다.  
+    - 재현율(Recall) ↑, 정밀도(Precision) ↓  
+
+<img src="/assets/img/lecture/textmining/8/image_17.png" alt="image" width="500px">
+
+---
+
+## p34. 혼동 행렬: F1-점수
+
+✓ F1 점수는 정밀도(Precision, P)와 재현율(Recall, R)의 **조화 평균(harmonic mean)** 이다.  
+
+- 두 값을 균형 있게 조정하며,  
+  오직 **정밀도와 재현율이 모두 높을 때만** 높은 값을 가진다.
+
+$$
+F_1 = \frac{2PR}{P + R}
+$$
+
+예시 (스팸 탐지, 100개의 이메일):
+
+<img src="/assets/img/lecture/textmining/8/image_18.png" alt="image" width="800px">
+
+---
+
+## p35. 다중 클래스(multi-class) 분류는 어떨까?  
+
+- 다중 클래스 설정(예: 3개 이상의 클래스)에서는  
+  이진 혼동 행렬(binary confusion matrix)을 확장한다.  
+
+  - 혼동 행렬(confusion matrix)은 $C \times C$ 표가 된다.  
+  - 각 대각선 셀(diagonal cell) = 올바르게 분류된 샘플(클래스별 True Positive)  
+  - 대각선이 아닌 셀(off-diagonal cell) = 잘못 분류된 샘플(클래스 간의 혼동)  
+  - 각 클래스에 대해 **정밀도(precision) / 재현율(recall) / F1 점수(F1)** 를 계산할 수 있다.  
+
+**예시 (메일 유형 분류: 긴급, 일반, 스팸)**
+
+<img src="/assets/img/lecture/textmining/8/image_19.png" alt="image" width="360px">
+
+- **Urgent class**
+
+Precision = 8 / (8 + 10 + 1) = 8 / 19 ≈ 0.421  
+Recall = 8 / (8 + 5 + 3) = 8 / 16 = 0.500  
+F1 = 2 × (0.42 × 0.5) / (0.42 + 0.5) ≈ 0.457  
+
+- **Normal class**
+
+Precision = 60 / (5 + 60 + 50) = 60 / 115 ≈ 0.522  
+Recall = 60 / (10 + 60 + 30) = 60 / 100 = 0.600  
+F1 = 2 × (0.52 × 0.60) / (0.52 + 0.60) ≈ 0.558  
+
+- **Spam class**
+
+Precision = 200 / (3 + 30 + 200) = 200 / 233 ≈ 0.859  
+Recall = 200 / (1 + 50 + 200) = 200 / 251 ≈ 0.797  
+F1 = 2 × (0.86 × 0.80) / (0.86 + 0.80) ≈ 0.827  
+
+---
+
+## p36. 다중 클래스(multi-class) 분류는 어떨까?  
+
+<img src="/assets/img/lecture/textmining/8/image_20.png" alt="image" width="600px">
+
+---
+
+## p37. 다중 클래스 분류는 어떨까?
+
+- 전체 성능을 요약할 **하나의 단일 지표(single metric)** 가 필요하다.  
+
+  - 클래스별(per-class) 지표는 두 가지 방식으로 결합된다:  
+
+  1. **Macro-averaging:**  
+      각 클래스에 대해 Precision, Recall, F1을 계산한 뒤,  
+      이들을 클래스 전체에 걸쳐 평균을 낸다.  
+
+  2. **Micro-averaging:**  
+      모든 클래스에 걸쳐 TP, FP, FN을 합산한 후,  
+      전체에 대해 Precision, Recall, F1을 계산한다.  
+
+**예시 (Macro-averaging):**
+
+<img src="/assets/img/lecture/textmining/8/image_21.png" alt="image" width="360px">
+
+- **Urgent class**  
+  Precision ≈ 0.421  
+  Recall = 0.500  
+  F1 ≈ 0.457  
+
+- **Normal class**  
+  Precision ≈ 0.522  
+  Recall = 0.600  
+  F1 ≈ 0.558  
+
+- **Spam class**  
+  Precision ≈ 0.859  
+  Recall ≈ 0.797  
+  F1 ≈ 0.827  
+
+- **결합된 지표 (Macro-averaging):**  
+  Macro-Precision ≈ (0.421 + 0.522 + 0.859) / 3 ≈ 0.601  
+  Macro-Recall ≈ (0.500 + 0.600 + 0.797) / 3 ≈ 0.632  
+  Macro-F1 ≈ (0.457 + 0.558 + 0.827) / 3 ≈ 0.614  
+
+---
+
+## p38. 다중 클래스 분류는 어떨까?
+
+- 전체 성능을 요약할 **하나의 단일 지표(single metric)** 가 필요하다.  
+
+  - 클래스별(per-class) 지표는 두 가지 방식으로 결합된다:  
+
+  1. **Macro-averaging:**  
+      각 클래스에 대해 Precision, Recall, F1을 계산한 뒤,  
+      이들을 클래스 전체에 걸쳐 평균을 낸다.  
+
+  2. **Micro-averaging:**  
+      모든 클래스에 걸쳐 TP, FP, FN을 합산한 후,  
+      전체에 대해 Precision, Recall, F1을 계산한다.  
+
+**예시 (Micro-averaging):**
+
+<img src="/assets/img/lecture/textmining/8/image_21.png" alt="image" width="360px">
+
+<img src="/assets/img/lecture/textmining/8/image_22.png" alt="image" width="800px">
+
+- **Combined metrics (Micro-averaging):**  
+  Micro-Precision ≈ 268 / (268 + 99) = 268 / 367 ≈ 0.730  
+  Micro-Recall ≈ 268 / (268 + 99) = 268 / 367 ≈ 0.730  
+  Micro-F1 ≈ 2 × 0.730 × 0.730 / (0.730 + 0.730) ≈ 0.730  

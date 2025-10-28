@@ -2472,7 +2472,7 @@ VAE의 목적함수는 변분하한(variational bound)에 의해 결정되는
 
 ### 2.9.1 점수함수 추정기(Score function estimator)
 
-ELBO의 또 다른 불편한(stochastic) 그래디언트 추정기는  
+ELBO의 또 다른 불편향(unbiased) 확률적 그래디언트 추정기는  
 점수함수 추정기(score function estimator)이다 (Kleijnen and Rubinstein, 1996).
 
 $$
