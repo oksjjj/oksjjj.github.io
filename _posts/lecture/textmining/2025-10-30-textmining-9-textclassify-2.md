@@ -250,3 +250,139 @@ tags: []
 
 <img src="/assets/img/lecture/textmining/9/image_11.png" alt="image" width="600px">
 
+---
+
+## p20. 의사 레이블링: 자기 학습 (Pseudo Labeling: Self-Training)
+
+- 의사 레이블로 학습함으로써, 모델은 점진적으로 **비레이블 데이터**에 대한 더 많은 지식을 얻게 된다.  
+
+- **자기 학습(Self-training)**:  
+  의사 레이블링 과정을 반복하여 **이 지식을 전파(propagate this knowledge)** 하고 **감독(supervision)** 을 확장한다.  
+  - 자기 학습(Self-training) = 반복적 의사 레이블링(Iterative pseudo-labeling)
+
+<img src="/assets/img/lecture/textmining/9/image_12.png" alt="image" width="800px">
+
+---
+
+## p21. 의사 레이블링: 자기 학습 (Pseudo Labeling: Self-Training)
+
+- 의사 레이블로 학습함으로써, 모델은 점진적으로 **비레이블 데이터(unlabeled data)** 에 대한 더 많은 지식을 얻게 된다.  
+
+- **자기 학습(Self-training)**:  
+  의사 레이블링 과정을 반복하여 **이 지식을 전파(propagate this knowledge)** 하고 감독(supervision)을 확장한다.  
+  - 자기 학습(Self-training) = 반복적 의사 레이블링(Iterative pseudo-labeling)
+
+**알고리즘 1. 의사 레이블링을 이용한 자기 학습(Self-training with Pseudo-Labeling)**
+
+1. **입력(Input)**: 레이블된 데이터셋 $D_l$, 비레이블 데이터셋 $D_u$, 신뢰 임계값(confidence threshold) $\tau$  
+2. **출력(Output)**: 학습된 모델 $f$  
+3. 기본 모델 $f$ 를 $D_l$ 에서 학습한다.  
+4. 수렴하지 않은 동안 while 루프 실행:  
+   - $D_u$ 내의 샘플에 대해 모델 $f$ 를 사용하여 **의사 레이블(pseudo-labels)** 예측  
+   - 신뢰도가 높은(high-confidence) 예측만 선택:  
+     $D_p = \\\{ (x, \hat{y}) \mid \max f(x) \ge \tau \\\}$  
+   - 학습 데이터셋 업데이트: $D_l \leftarrow D_l \cup D_p$  
+   - 확장된 $D_l$ 로 모델 $f$ 업데이트  
+5. while 루프 종료  
+6. **$f$** 반환(return)
+
+<img src="/assets/img/lecture/textmining/9/image_13.png" alt="image" width="240px">
+
+---
+
+## p22. 의사 레이블링: 요약 (Pseudo Labeling: Summary)
+
+- 의사 레이블링은 **비레이블 데이터(unlabeled data)** 를 활용하기 위한 **단순하고 효과적인 방법(simple and effective way)** 이다.  
+
+- 그러나 모델의 예측은 **사람이 직접 단 레이블(human annotations)** 만큼 **정확하지 않다(not as accurate)**.  
+  - 최악의 경우, 의사 레이블링은 오히려 **레이블된 데이터만 사용하는 것보다 더 나쁜 성능(performance)** 을 낼 수도 있다.
+
+  <img src="/assets/img/lecture/textmining/9/image_14.png" alt="image" width="600px">
+
+  - **소수 클래스(minority class, 주황색)** 의 레이블이 제한적인 경우,  
+    모델은 전체 공간에서 정확한 예측을 수행하는 데 어려움을 겪는다.  
+  - 의사 레이블은 **비레이블 데이터의 일부 패턴만(partial patterns)** 포착할 수도 있다.
+
+**제한점(Limitations)**  
+1. **오류 전파(Error propagation)**: 잘못된 의사 레이블이 학습 과정에서 오류를 강화시킨다.  
+2. **과잉 확신(Overconfidence)**: 모델이 자신의 잘못된 예측에 대해서도 과도하게 확신하게 될 수 있다.
+
+---
+
+## p23. 준지도 학습 (Semi-Supervised Learning, SSL)
+
+- **두 가지 주요(그리고 기초적인) 접근법 (Two main and foundational approaches)**  
+
+**1. 의사 레이블링 (Pseudo Labeling)**  
+
+- 모델이 자신감(confidence)이 높은 예측을 사용하여  
+  **비레이블 데이터(unlabeled data)** 에 **레이블을 할당(assign labels)** 하도록 한다.  
+- 신뢰도가 높은 예측(confident predictions)은  
+  모델이 유사한 **레이블된 데이터(labeled examples)** 로부터 이미 학습한 패턴과  
+  대부분 일치한다.  
+
+**🟨 2. 일관성 정규화 (Consistency Regularization)** ← 이번 슬라이드에서 다룸  
+
+- **같은 입력(same input)** 에 **작은 변화(small changes)** 를 주더라도  
+  모델은 **일관된 예측(consistent prediction)** 을 해야 한다.  
+  - 예: 벡터에 작은 노이즈를 추가하거나 단어를 약간 변경하는 경우  
+- 이 접근법은 **결정 경계(decision boundary)** 가  
+  **저밀도 영역(low-density regions)** 에 위치하도록 유도한다.  
+
+<img src="/assets/img/lecture/textmining/9/image_8.png" alt="image" width="600px">
+
+🔹 이번 장에서는 **일관성 정규화 (Consistency Regularization)** 에 초점을 맞춘다.  
+이전 장에서는 **의사 레이블링 (Pseudo Labeling)** 을 다뤘다.
+
+---
+
+## p24. 일관성 정규화 (Consistency Regularization)
+
+- **핵심 아이디어 (Key idea)**  
+  **같은 입력(same input)** 에 **작은 변화(small changes)** 를 주더라도  
+  모델은 **일관된 예측(consistent prediction)** 을 해야 한다.  
+
+  - 작은 섭동(perturbation, 예: 노이즈 추가, 데이터 증강 등)을 적용해도  
+    예측(prediction)은 안정적으로 유지되어야 한다.  
+  - 즉, **서로 가까운 데이터 포인트(nearby data points)** 는  
+    **유사한 예측(similar predictions)** 을 가져야 한다.  
+
+<img src="/assets/img/lecture/textmining/9/image_15.png" alt="image" width="800px">
+
+- **빨강 (red)**: 레이블된 데이터 (labeled data)  
+- **파랑 (blue)**: 레이블된 데이터 (labeled data)  
+- **검정 (black)**: 비레이블 데이터 (unlabeled data)  
+
+- 모델은 원 안에 있는 모든 포인트에서 **유사한 예측(similar predictions)** 을 해야 하며,  
+  **겹치는 원(overlapped circles)** 은 서로 비슷한 예측을 갖게 된다.  
+
+- 이렇게 되면 모델의 **결정 경계(decision boundary)** 는  
+  **저밀도 영역(low-density region)** 에 형성된다.  
+
+---
+
+## p25. 일관성 정규화 (Consistency Regularization)
+
+- **핵심 아이디어 (Key idea)**  
+  **같은 입력(same input)** 에 **작은 변화(small changes)** 를 주더라도  
+  모델은 **일관된 예측(consistent prediction)** 을 해야 한다.  
+
+  - 작은 섭동(perturbation)을 추가한다. (예: 노이즈, 증강) → 예측은 안정적으로 유지되어야 한다.
+
+- **구체화 (Instantiation):**
+
+$$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+
+$$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
+
+$ x $: 원래 입력 (original input),  
+$ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
+
+- **섭동을 추가하는 방법 (How to add perturbations):**  
+  - 임베딩에 작은 랜덤 노이즈 추가  
+  - 단어 드롭아웃(word dropout) 또는 마스킹(masking)  
+  - 데이터 증강(data augmentation, 예: 회전(rotation), 자르기(crop) 등)  
+  - 그 외 여러 가지 방법
+
+<img src="/assets/img/lecture/textmining/9/image_16.png" alt="image" width="480px">
+
