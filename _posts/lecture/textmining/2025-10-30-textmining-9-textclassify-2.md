@@ -371,12 +371,12 @@ tags: []
 
 - **구체화 (Instantiation):**
 
-$$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+  $$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
 
-$$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
+  $$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
 
-$ x $: 원래 입력 (original input),  
-$ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
+    $ x $: 원래 입력 (original input),  
+    $ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
 
 - **섭동을 추가하는 방법 (How to add perturbations):**  
   - 임베딩에 작은 랜덤 노이즈 추가  
@@ -394,12 +394,12 @@ $ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
 
 - **구체화 (Instantiation):**
 
-$$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+  $$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
 
-$$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
+  $$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
 
-$ x $: 원래 입력 (original input),  
-$ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
+    $ x $: 원래 입력 (original input),  
+    $ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
 
 - **통찰 1 (Insight 1):**  
   원래 입력과 섭동된 입력에 대해  
@@ -415,3 +415,248 @@ $ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
     모델이 데이터를 단순히 외우는 것(과적합, overfitting)을 방지하고,  
     과도한 자신감(overconfidence)을 갖지 않도록 한다.  
 
+---
+
+## p27. 일관성 정규화: 통찰 (Consistency Regularization: Insights)
+
+- **구체화 (Instantiation):**
+
+  $$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+
+  $$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
+
+    $ x $: 원래 입력 (original input),  
+    $ \tilde{x} $: 섭동된 입력 (perturbed input)
+
+- **통찰 2 (Insight 2):**  
+  **의사 레이블링(pseudo labeling)** 은 **신뢰도가 높은 샘플(high-confidence samples)** 에만 의존하지만,  
+  **일관성 정규화(consistency regularization)** 는 **모든 비레이블 데이터(all unlabeled data)** 를 사용한다.
+
+  - 이는 데이터셋의 훨씬 더 큰 부분을 활용할 수 있게 한다.  
+
+<img src="/assets/img/lecture/textmining/9/image_18.png" alt="image" width="800px">
+
+---
+
+## p28. 일관성 정규화: 시간적 앙상블 (Consistency Regularization: Temporal Ensemble)
+
+- **하나의 실제적인 문제 (One practical issue):**  
+  학습 과정에서 모델은 종종 **비레이블 데이터(unlabeled data)** 에 대해  
+  **불안정한 예측(unstable prediction)** 을 한다.  
+
+  - 예측값은 섭동(perturbation)이 없더라도 **에폭(epoch)** 간에 변동한다.  
+  - 섭동이 추가되면 이러한 불안정성은 더욱 심해지며,  
+    이는 전체 학습을 **불안정하게 만든다.**
+
+  <img src="/assets/img/lecture/textmining/9/image_20.png" alt="image" width="480px">
+
+    **→ 비레이블 데이터의 경우, 실제 정답 레이블(gold label)이 존재하지 않는다.**  
+    **→ 모델의 예측은 매우 불안정해지기 쉽다!**
+
+**[모델의 Softmax 출력 예시 (Softmax output from the model)]**
+
+<img src="/assets/img/lecture/textmining/9/image_19.png" alt="image" width="800px">
+
+---
+
+## p29. 일관성 정규화: 시간적 앙상블 (Consistency Regularization: Temporal Ensemble)
+
+- **모델의 예측을 어떻게 안정화할 수 있을까?**
+
+**✓ 모델 앙상블 (Model ensemble)**  
+- 하나의 모델(single model)을 사용하는 대신,  
+  여러 모델을 학습시키고 그들의 예측을 **통합(aggregate)** 한다.
+
+**이유 (Why?)**  
+- 서로 다른 초기화(different initializations)는  
+  서로 다른 수렴된 파라미터(converged parameters)를 만든다.  
+- 예측을 평균(averaging)함으로써 **분산(variance)** 이 줄어들며,  
+  더 **안정적이고 신뢰할 수 있는 예측(more stable & reliable prediction)** 이 가능해진다.
+
+<img src="/assets/img/lecture/textmining/9/image_21.png" alt="image" width="800px">
+
+---
+
+## p30. 일관성 정규화: 시간적 앙상블 (Consistency Regularization: Temporal Ensemble)
+
+- **모델의 예측을 어떻게 안정화(stabilize)할 수 있을까?**
+
+**✓ 시간적 앙상블 (Temporal ensemble)**  
+- 여러 모델을 독립적으로 학습시키는 것은 비용이 많이 든다.  
+  *"하나의 모델만으로 비슷한 효과를 얻을 수 있을까?"*  
+
+- **핵심 아이디어 (Key idea):**  
+  동일한 모델의 **서로 다른 학습 시점(epoch)** 에서의 예측값들을 **통합(aggregate)** 하는 것이다.  
+
+- 시간에 따라 예측을 평균(averaging)하면, **변동(fluctuation)** 이 줄어들고  
+  예측이 더 **안정적이고 신뢰할 수 있게(stable & reliable)** 된다.  
+
+<img src="/assets/img/lecture/textmining/9/image_22.png" alt="image" width="800px">
+
+---
+
+## p31. 일관성 정규화: 시간적 앙상블 (Consistency Regularization: Temporal Ensemble)
+
+**✓ 시간적 앙상블 (Temporal ensemble)**  
+
+- **핵심 아이디어 (Key idea):**  
+  동일한 데이터에 대한 예측을 **서로 다른 학습 시점(epoch)** 에서 **통합(aggregate)** 한다.  
+
+- **구현 방식 (Instantiation):**  
+  모델 파라미터를 **지수이동평균(Exponential Moving Average, EMA)** 으로 앙상블한다.  
+
+  $$ \theta_{te}^{(t)} \leftarrow \alpha \theta_{te}^{(t-1)} + (1 - \alpha)\theta^{(t)} $$
+
+  $ \theta^{(t)} $: 학습 시점 $t$ 에서의 모델 파라미터  
+  $ \theta_{te}^{(t)} $: 학습 시점 $t$ 에서의 시간적 앙상블 파라미터  
+  $ \alpha $: 과거 지식을 얼마나 반영할지를 조절하는 하이퍼파라미터 
+
+---
+
+<img src="/assets/img/lecture/textmining/9/image_23.png" alt="image" width="480px">
+
+- 시간적 앙상블은 학습 과정 동안 **이전 모델 파라미터(past model parameters)** 를 통합한다.  
+- 최신 모델(latest model)을 **천천히 따라가면서(slowly follows)**,  
+  **에폭(epoch) 간의 예측 평균화(averaging predictions across epochs)** 를 통해  
+  훨씬 더 **안정적인(stable)** 결과를 얻는다.  
+
+---
+
+<img src="/assets/img/lecture/textmining/9/image_24.png" alt="image" width="480px">
+
+**시간적 앙상블 업데이트 프로세스(Temporal ensemble update process)**  
+- 이전 앙상블 파라미터($\theta_{te}^{(t-1)}$)와  
+  현재 모델 파라미터($\theta^{(t)}$)를  
+  $\alpha$ 와 $(1 - \alpha)$ 가중합으로 결합하여  
+  새로운 앙상블 파라미터($\theta_{te}^{(t)}$)를 생성한다.  
+
+---
+
+## p32. 일관성 정규화: 시간적 앙상블 (Consistency Regularization: Temporal Ensemble)
+
+**시간적 앙상블을 이용한 일관성 정규화 (Consistency regularization with temporal ensemble)**  
+
+- 시간적 앙상블에서의 예측 $f(x; \theta_{te})$ 를 사용한다.  
+- 이는 **더 신뢰할 수 있고 안정적인 가이드(more reliable and stable guidance)** 를  
+  비레이블 데이터(unlabeled data)에 제공한다.  
+
+$$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+
+$$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} \left[ \| f(x; \theta_{te}) - f(\tilde{x}; \theta) \|^2 \right] $$
+
+> **원래 버전 (The original version):**  
+> 
+> $$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} \left[ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 \right] $$
+
+---
+
+**알고리즘 2**
+*시간적 앙상블을 이용한 일관성 정규화 (Consistency Regularization with Temporal Ensemble)*  
+
+1. **입력 (Input):** 레이블된 데이터셋 $D_l$, 비레이블 데이터셋 $D_u$  
+2. **출력 (Output):** 학습된 모델 $f(\cdot; \theta)$  
+3. 파라미터 $\theta$, 앙상블 파라미터 $\theta_{te}$ 초기화: $\theta_{te} \leftarrow \theta$  
+4. **for** epoch $t = 1$ to $T$ **do**  
+5. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$D_l$ 에 대해 지도 학습 손실 $ \mathcal{L}_{sup} $ 계산  
+6. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$D_u$ 에 대해 일관성 손실 $$ \mathcal{L}_{cons} = \| f(x_u; \theta_{te}) - f(\tilde{x}_u; \theta) \|^2 $$ 계산  
+7. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$ \mathcal{L} = \mathcal{L}_{sup} + \lambda \mathcal{L}_{cons} $$ 최소화를 통해 $\theta$ 업데이트   
+8. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;앙상블 파라미터 업데이트: $ \theta_{te}^{(t)} \leftarrow \alpha \theta_{te}^{(t-1)} + (1 - \alpha)\theta^{(t)} $  
+9. **end for**  
+10. **반환 (Return):** $f(\cdot; \theta)$  
+
+<img src="/assets/img/lecture/textmining/9/image_25.png" alt="image" width="480px">
+
+---
+
+## p33. 일관성 정규화 (Consistency Regularization): 요약
+
+- **핵심 아이디어:**  
+  동일한 입력(same input)에 **작은 변화(small changes)** 를 주더라도  
+  모델은 **일관된 예측(consistent predictions)** 을 해야 한다.
+
+- **장점 (Pros)**  
+  - **비레이블 데이터(unlabeled data)의 효율적 활용:**  
+    작은 섭동(perturbations)만 필요하며, 다양한 비레이블 데이터에 적용 가능하다.  
+  - **단순한 개념(Simple concept):**  
+    기존 모델에 정규화 항(regularizer)으로 쉽게 추가할 수 있다.  
+
+- **단점 (Cons)**  
+  - **섭동 민감성(Perturbation sensitivity):**  
+    효과는 노이즈(noise)나 데이터 증강(augmentation)의 선택에 따라 달라진다.  
+    - 연구자들이 여전히 활발히 연구 중인 주제이다.  
+  - **약한 직접적 지도(Weak direct guidance):**  
+    명시적인 레이블을 제공하지 않기 때문에  
+    결정 경계(boundary)가 여전히 불확실할 수 있다.  
+
+<img src="/assets/img/lecture/textmining/9/image_26.png" alt="consistency_summary" width="800px">
+
+---
+
+## p34. 준지도 학습 (Semi-Supervised Learning, SSL): 요약
+
+- 우리가 다룬 두 가지 주요(그리고 기초적인) 접근법  
+
+1. **의사 레이블링 (Pseudo Labeling)**  
+   - **강점 (Strength):** 실제 레이블(ground truth)과 같은 **직접적인 학습 신호(direct training signal)** 를 제공한다.  
+   - **한계 (Limitation):** 모델이 잘못된 예측에 대해 **과도하게 확신(overconfident)** 할 경우,  
+     **오류를 증폭(amplify errors)** 시킬 수 있다.  
+
+2. **일관성 정규화 (Consistency Regularization)**  
+   - **강점 (Strength):** 모델이 **과도하게 확신(overconfident)** 하는 것을 방지하는  
+     **정규화 항(regularizer)** 로 작용한다.  
+   - **한계 (Limitation):** 명시적인 레이블이 주어지지 않기 때문에  
+     **약한 지도(weak guidance)** 를 제공한다.  
+
+- 이 두 접근법은 **상호 보완적인 관계(complementary relationship)** 를 가진다.  
+  - **의사 레이블링**은 **강하지만 잡음이 많은 신호(strong but noisy signals)** 를 제공하며,  
+    **일관성 정규화**는 그것을 **안정화(stabilizes them)** 한다.  
+
+- 거의 모든 최신 SSL(state-of-the-art SSL)은  
+  **이 두 접근법을 하나의 전체적인 프레임워크(holistic framework)** 로 결합한다.  
+
+---
+
+## p35. (선택) 준지도 학습(SSL)의 개요 (Overview of SSL)
+
+- 이번 강의에서는 **2017년에 발표된 Mean Teacher** 까지를 다루었다.  
+- 이후의 거의 모든 연구들은 우리가 학습한 **두 가지 접근법**(의사 레이블링, 일관성 정규화)을 기반으로 발전하였다.  
+
+<img src="/assets/img/lecture/textmining/9/image_27.png" alt="ssl_overview" width="800px">
+
+**준지도 학습의 개요 (Overview of Semi-Supervised Learning)**  
+
+- **Consistency Regularization (일관성 정규화)**  
+  - *Ladder Net (2015)*  
+  - *Π Model (2015)*  
+  - *Mean Teacher (2017)*  
+
+- **Pseudo Labeling (의사 레이블링)**  
+  - *Pseudo Label (2013)*  
+
+- **Other Techniques (기타 기법)**  
+  - *Label Propagation (2019)*  
+
+- **Mutual Learning (상호 학습)**  
+  - *Co-training (1998)*  
+  - *MMT, DivideMix (2020)*  
+
+- **Holistic Methods (통합적 방법)**  
+  - *MixMatch (2019)*  
+  - *ReMixMatch, FixMatch, UDA, Noisy Student (2020)*  
+  - ...  
+
+---
+
+## p36. 추천 읽을거리 (Recommended Readings)
+
+- **기사 (Articles):**  
+  - **인공지능의 우주 – 준지도 학습 (The Universe of AI – Semi-supervised learning)**  
+    - 한국어 버전: <a href="https://wikidocs.net/255169" target="_blank">https://wikidocs.net/255169</a>  
+    - 영어 버전: <a href="https://wikidocs.net/255197" target="_blank">https://wikidocs.net/255197</a>  
+
+- **논문 (Papers):**  
+  - **시간적 앙상블을 이용한 일관성 정규화 (Consistency regularization with temporal ensemble)**  
+    - *Mean teachers are better role models: 가중 평균된 일관성 목표(Weight-averaged consistency targets)가 준지도 학습된 심층 신경망의 성능을 향상시킨다*, NeurIPS 2017  
+
+  - **(선택 사항, 본 강의 범위 밖)**  
+    - *편향 제거된 자기 학습(Debiased Self-Training)을 통한 준지도 학습*, NeurIPS 2022  
