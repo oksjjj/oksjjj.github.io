@@ -386,3 +386,32 @@ $ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
 
 <img src="/assets/img/lecture/textmining/9/image_16.png" alt="image" width="480px">
 
+---
+
+## p26. 일관성 정규화: 통찰 (Consistency Regularization: Insights)
+
+**✓ 정규화는 모델이 데이터를 암기하지 않도록 하여 과적합(overfitting)을 방지한다.**  
+
+- **구체화 (Instantiation):**
+
+$$ \mathcal{L} = \mathcal{L}_{sup}(D_l) + \lambda \mathcal{L}_{cons}(D_u) $$
+
+$$ \mathcal{L}_{cons} = \mathbb{E}_{x \in D_l \cup D_u} [ \| f(x; \theta) - f(\tilde{x}; \theta) \|^2 ] $$
+
+$ x $: 원래 입력 (original input),  
+$ \tilde{x} $: 섭동이 추가된 입력 (perturbed input)
+
+- **통찰 1 (Insight 1):**  
+  원래 입력과 섭동된 입력에 대해  
+  **예측된 확률 분포(predicted probability distributions)** 가  
+  유사하도록 강제한다.
+
+  <img src="/assets/img/lecture/textmining/9/image_17.png" alt="image" width="720px">
+
+  - 모델은 섭동된 입력에서 자연스럽게 **신뢰도가 낮아지는 경향**이 있다.  
+  - 그 결과, 모델의 전반적인 **신뢰도(confidence)** 가 낮아진다.  
+
+  - **정규화 효과 (Regularization effect):**  
+    모델이 데이터를 단순히 외우는 것(과적합, overfitting)을 방지하고,  
+    과도한 자신감(overconfidence)을 갖지 않도록 한다.  
+
