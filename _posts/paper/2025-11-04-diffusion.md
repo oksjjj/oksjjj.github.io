@@ -312,3 +312,274 @@ $$
 > 최종적으로 데이터 $$\mathbf{x}_0$$ 를 생성하는  
 > 확률적 복원 절차(stochastic denoising process) 를 수행한다.
 
+---
+확산 모델(diffusion models)을  
+다른 유형의 잠재 변수 모델(latent variable models)과 구별하는 것은,  
+순방향 과정(forward process) 또는 확산 과정(diffusion process) 이라고 불리는  
+근사 사후분포(approximate posterior) $q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)$ 가  
+마르코프 연쇄(Markov chain)로 고정되어 있으며,  
+이는 분산 스케줄(variance schedule) $\beta_1, \dots, \beta_T$ 에 따라  
+데이터에 점진적으로 가우시안 잡음을 추가한다는 점이다.
+
+$$
+q(\mathbf{x}_{1:T} \mid \mathbf{x}_0) := \prod_{t=1}^{T} q(\mathbf{x}_t \mid \mathbf{x}_{t-1}), 
+\quad q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) := 
+\mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t} \, \mathbf{x}_{t-1}, \, \beta_t \mathbf{I})
+\tag{2}
+$$
+
+> $$\mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t}\mathbf{x}_{t-1}, \beta_t\mathbf{I})$$ 는  
+> 이전 상태 $$\mathbf{x}_{t-1}$$ 의 일부를 남기고, 나머지를 잡음으로 채워  
+> $$\mathbf{x}_t$$ 를 만드는 과정을 나타낸다.  
+>  
+> $(1 - \beta_t)$ 는 신호를 유지하는 비율,  
+> $\beta_t$ 는 잡음을 추가하는 비율을 의미한다.  
+>  
+> 제곱근(√)은 분산이 일정하게 유지되도록 하기 위한 것이다.  
+> 즉, 신호와 잡음의 분산이 $(1 - \beta_t) + \beta_t = 1$ 이 되게 하여  
+> 값이 발산하지 않고 안정적으로 확산되도록 한다.  
+>  
+> 결과적으로 $\sqrt{1 - \beta_t}$ 는 “신호 유지 세기”,  
+> $\sqrt{\beta_t}$ 는 “잡음 세기”를 조절하는 계수이다.
+
+---
+
+학습은 음의 로그 가능도(negative log likelihood)에 대한  
+통상적인 변분 경계(variational bound)를 최적화함으로써 수행된다:
+
+$$
+\mathbb{E}[-\log p_\theta(\mathbf{x}_0)] 
+\le 
+\mathbb{E}_q \left[
+-\log \frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)}
+\right]
+=
+\mathbb{E}_q \left[
+-\log p(\mathbf{x}_T)
+-
+\sum_{t \ge 1}
+\log
+\frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+\right]
+=: \mathcal{L}
+\tag{3}
+$$
+
+> 1. 데이터의 주변 확률(marginal likelihood) 은 다음과 같이 정의된다.  
+>
+>    $$
+>    p_\theta(\mathbf{x}_0) = \int p_\theta(\mathbf{x}_{0:T}) \, d\mathbf{x}_{1:T}
+>    $$
+>    
+>    이는 모든 잠재 변수 $\mathbf{x}_1, \dots, \mathbf{x}_T$ 를 적분해  
+>    데이터 $\mathbf{x}_0$ 의 확률을 계산한 것이다.  
+>
+> 2. 이 적분은 계산이 어렵기 때문에,  
+>    계산 가능한 근사 분포 $q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)$ 를 곱하고 나눈다.  
+>
+>    $$
+>    \log p_\theta(\mathbf{x}_0)
+>    = \log \int q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)
+>    \frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)} \, d\mathbf{x}_{1:T}
+>    $$
+>
+>    이렇게 하면 $q$ 를 기대값(expectation) 형태로 표현할 수 있다.  
+>
+> 3. 젠센 부등식(Jensen’s inequality) 을 적용하기 전에,  
+>    먼저 그 정의를 간단히 살펴보면 다음과 같다.  
+>
+>    - 함수 $f(x)$ 가 오목(concave) 일 때  
+>      확률 변수 $X$ 에 대해 다음이 성립한다:
+>
+>      $$
+>      f(\mathbb{E}[X]) \ge \mathbb{E}[f(X)]
+>      $$
+>
+>    - 로그 함수 $\log(x)$ 는 오목 함수이므로 다음이 성립한다:
+>
+>      $$
+>      \log \mathbb{E}[X] \ge \mathbb{E}[\log X]
+>      $$
+>
+>    이 성질을 위 식에 적용하면,  
+>    로그 안쪽의 적분(기댓값)을 바깥으로 이동시킬 수 있다.
+>
+>    따라서 다음의 부등식이 성립한다:
+>
+>    $$
+>    \log p_\theta(\mathbf{x}_0)
+>    = \log \mathbb{E}_q \left[\frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)}\right]
+>    \ge 
+>    \mathbb{E}_q \left[\log \frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)}\right]
+>    $$
+>
+>    음의 로그를 취하면 부호가 반대가 되어  
+>    식 (3)의 변분 하한(variational lower bound) 형태가 얻어진다.  
+>
+> 4. 확산 모델은  
+>
+>    $$p_\theta(\mathbf{x}_{0:T}) = p(\mathbf{x}_T)\prod_{t=1}^T p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t), \quad q(\mathbf{x}_{1:T} \mid \mathbf{x}_0) = \prod_{t=1}^T q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$  
+>
+>    로 정의되므로, 로그 비율은 다음처럼 전개된다.  
+>
+>    $$
+>    -\log \frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)}
+>    = -\log p(\mathbf{x}_T)
+>    - \sum_{t \ge 1} \log \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+>    $$
+>
+> 5. 이를 $q$ 에 대한 기댓값으로 취하면 다음과 같다.  
+>
+>    $$
+>    \mathbb{E}[-\log p_\theta(\mathbf{x}_0)]
+>    \le
+>    \mathbb{E}_q \left[
+>    -\log p(\mathbf{x}_T)
+>    - \sum_{t \ge 1} \log
+>    \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+>    \right]
+>    =: \mathcal{L}
+>    $$
+
+순방향 과정(forward process)의 분산(variances) $\beta_t$ 는  
+재매개변수화(reparameterization) [33]를 통해 학습되거나,  
+혹은 하이퍼파라미터(hyperparameters)로 고정될 수 있다.  
+
+역과정(reverse process)의 표현력(expressiveness)은  
+$p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 에서  
+가우시안 조건부(Gaussian conditionals)를 선택함으로써  
+부분적으로 보장된다.  
+
+이는 $\beta_t$ 가 작을 때  
+순방향 과정과 역방향 과정이  
+같은 함수적 형태(functional form)를 가지기 때문이다 [53].
+
+> 순방향 과정의 분산 $\beta_t$ 는  
+> 각 단계에서 얼마나 강한 잡음을 추가할지를 결정하는 값이다.  
+>  
+> 이 값은 모델이 직접 학습하도록 설정할 수도 있고  
+> 사람이 미리 고정된 스케줄(hyperparameter)로 지정할 수도 있다.  
+> 예를 들어, $\beta_t$ 를 선형적으로 혹은 지수적으로 증가시키는 스케줄이 자주 사용된다.  
+>  
+> 역과정 $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 은  
+> 노이즈가 추가된 데이터를 다시 복원하는 확률 분포인데,  
+> 이를 가우시안 분포 형태로 설정하면  
+> 순방향 과정과 동일한 수학적 구조를 갖게 된다.  
+>  
+> 특히 $\beta_t$ 가 작을 경우,  
+> 순방향 과정의 가우시안 전이와  
+> 역과정의 가우시안 복원이 거의 같은 형태를 가지므로,  
+> 모델이 학습해야 할 관계가 단순해지고  
+> 복원(샘플링) 과정의 표현력이 안정적으로 보장된다.
+
+순방향 과정의 주목할 만한 성질 중 하나는,  
+임의의 시점 $t$ 에서 폐형식(closed form)으로  
+$\mathbf{x}_t$ 를 샘플링할 수 있다는 점이다.  
+
+$\alpha_t := 1 - \beta_t$ 및  
+$$\bar{\alpha}_t := \prod_{s=1}^{t} \alpha_s$$ 라는 표기를 사용하면,  
+다음과 같은 식이 성립한다:
+
+$$
+q(\mathbf{x}_t \mid \mathbf{x}_0)
+=
+\mathcal{N}(\mathbf{x}_t;
+\sqrt{\bar{\alpha}_t}\mathbf{x}_0,
+(1 - \bar{\alpha}_t)\mathbf{I})
+\tag{4}
+$$
+
+> 우선 다음과 같이 정의한다:
+>
+> $$
+> \alpha_t = 1 - \beta_t, 
+> \quad 
+> \bar{\alpha}_t = \prod_{i=1}^{t} \alpha_i
+> $$
+>
+> 순방향 과정은 다음과 같은 가우시안 형태로 표현된다:
+>
+> $$
+> \mathbf{x}_t = \sqrt{\alpha_t}\mathbf{x}_{t-1} + \sqrt{1 - \alpha_t}\boldsymbol{\epsilon}_{t-1},
+> \quad \boldsymbol{\epsilon}_{t-1} \sim \mathcal{N}(0, \mathbf{I})
+> $$
+>
+> ---
+>
+> 이 식을 반복적으로 전개하면 다음과 같다.
+>
+> 첫 번째 단계:
+>
+> $$
+> \mathbf{x}_t = \sqrt{\alpha_t}\mathbf{x}_{t-1} + \sqrt{1 - \alpha_t}\boldsymbol{\epsilon}_{t-1}
+> $$
+>
+> 두 번째 단계:
+>
+> $$
+> \mathbf{x}_{t-1} = \sqrt{\alpha_{t-1}}\mathbf{x}_{t-2} + \sqrt{1 - \alpha_{t-1}}\boldsymbol{\epsilon}_{t-2}
+> $$
+>
+> 이를 대입하면,
+>
+> $$
+> \mathbf{x}_t 
+> = \sqrt{\alpha_t \alpha_{t-1}} \mathbf{x}_{t-2}
+> + \sqrt{\alpha_t(1 - \alpha_{t-1})}\boldsymbol{\epsilon}_{t-2}
+> + \sqrt{1 - \alpha_t}\boldsymbol{\epsilon}_{t-1}
+> $$
+>
+> ---
+>
+> “서로 다른 분산을 가진 두 가우시안 분포를 결합할 때”  
+> 새로운 분산이 두 분산의 합으로 표현된다.
+>
+> 예를 들어,  
+> $\mathcal{N}(0, \sigma_1^2\mathbf{I})$ 와 $\mathcal{N}(0, \sigma_2^2\mathbf{I})$ 를 결합하면  
+> 결과는 $\mathcal{N}(0, (\sigma_1^2 + \sigma_2^2)\mathbf{I})$ 가 된다.  
+>
+> 이 원리를 적용하면,  
+> 단계별 잡음이 합쳐질 때 표준편차는 다음과 같이 단순화된다:
+>
+> $$
+> \sqrt{(1 - \alpha_t) + \alpha_t(1 - \alpha_{t-1})}
+> = \sqrt{1 - \alpha_t \alpha_{t-1}}
+> $$
+>
+> ---
+>
+> 위 과정을 계속 반복하면, 일반적으로 다음 형태로 수렴한다:
+>
+> $$
+> \mathbf{x}_t
+> = \sqrt{\bar{\alpha}_t}\mathbf{x}_0
+> + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon},
+> \quad \boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I})
+> $$
+>
+> ---
+>
+> 위 식은 $\mathbf{x}_t$ 가 원본 데이터 $\mathbf{x}_0$ 와  
+> 단일 가우시안 잡음 $\boldsymbol{\epsilon}$ 의 선형 결합(linear combination)으로 표현된다는 것을 의미한다.  
+>  
+> 따라서 $\mathbf{x}_t$ 는 확률 변수 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I})$ 를 따르며,  
+> 평균(mean)은 $\sqrt{\bar{\alpha}_t}\mathbf{x}_0$,  
+> 분산(covariance)은 $(1 - \bar{\alpha}_t)\mathbf{I}$ 인 가우시안 분포가 된다.  
+>  
+> 즉, 이 관계를 확률 분포 형태로 쓰면 다음과 같으며,  
+> 이것이 바로 식 (4)이다:
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_0)
+> =
+> \mathcal{N}\!\left(
+> \mathbf{x}_t;
+> \sqrt{\bar{\alpha}_t}\mathbf{x}_0,
+> (1 - \bar{\alpha}_t)\mathbf{I}
+> \right)
+> \tag{4}
+> $$
+
+
+
+
