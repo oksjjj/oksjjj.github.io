@@ -504,8 +504,6 @@ $$
 > \quad \boldsymbol{\epsilon}_{t-1} \sim \mathcal{N}(0, \mathbf{I})
 > $$
 >
-> ---
->
 > 이 식을 반복적으로 전개하면 다음과 같다.
 >
 > 첫 번째 단계:
@@ -528,8 +526,6 @@ $$
 > + \sqrt{\alpha_t(1 - \alpha_{t-1})}\boldsymbol{\epsilon}_{t-2}
 > + \sqrt{1 - \alpha_t}\boldsymbol{\epsilon}_{t-1}
 > $$
->
-> ---
 >
 > “서로 다른 분산을 가진 두 가우시안 분포를 결합할 때”  
 > 새로운 분산이 두 분산의 합으로 표현된다.
@@ -580,6 +576,650 @@ $$
 > \tag{4}
 > $$
 
+따라서 확률적 경사 하강법(stochastic gradient descent)을 사용하여  
+$\mathcal{L}$ 의 임의 항(random terms)을 최적화함으로써  
+효율적인 학습이 가능하다.
 
+추가적인 향상은  
+식 (3)의 $\mathcal{L}$ 을 다음과 같이 다시 씀으로써  
+분산 감소(variance reduction)로부터 얻어진다:
 
+$$
+\mathbb{E}_q \biggl[
+\underbrace{
+D_{\mathrm{KL}}\!\left(q(\mathbf{x}_T \mid \mathbf{x}_0) \parallel p(\mathbf{x}_T)\right)
+}_{L_T}
++ 
+\sum_{t > 1}
+\underbrace{
+D_{\mathrm{KL}}\!\left(q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0) 
+\parallel p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)\right)
+}_{L_{t-1}}
+- 
+\underbrace{
+\log p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)
+}_{L_0}
+\biggr]
+\tag{5}
+$$
 
+(자세한 내용은 부록 A(Appendix A) 를 참고하라.)  
+
+> **식 (5)의 도출 과정**  
+>
+> Appendix A에서는 식 (3)에서 제시된 변분 하한(variational lower bound)을  
+> 보다 분산이 낮은(reduced variance) 형태로 다시 전개하여  
+> 식 (5)를 얻는 과정을 단계별로 설명한다.  
+>
+> ---
+>
+> **1. 기본 형태로부터 시작 (식 17)**  
+>
+> 변분 하한 $\mathcal{L}$ 은 다음과 같이 정의된다.
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> -\log \frac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)}
+> \right]
+> \tag{17}
+> $$
+>
+> 이는 전체 데이터 생성 확률과 근사 분포 간의 로그 비율의 기댓값으로,  
+> 변분 하한(VLB, variational lower bound)의 기본 형태를 나타낸다.
+>
+> ---
+>
+> **2. 공통 항 분리 (식 18)**  
+>
+> 결합 확률 분포 $$p_\theta(\mathbf{x}_{0:T})$$ 와 $$q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)$$ 는  
+> 모두 마르코프 연쇄(Markov chain) 구조를 가지므로,  
+> 각 조건부 확률의 곱 형태로 전개할 수 있다:
+>
+> $$
+> p_\theta(\mathbf{x}_{0:T})
+> = p(\mathbf{x}_T) \prod_{t=1}^{T} p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t),
+> \quad
+> q(\mathbf{x}_{1:T} \mid \mathbf{x}_0)
+> = \prod_{t=1}^{T} q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> $$
+>
+> 이를 식 (17)에 대입하면 다음과 같이 된다.
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> -\log p(\mathbf{x}_T)
+> - \sum_{t \ge 1}
+> \log
+> \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+> \right]
+> \tag{18}
+> $$
+>
+> 첫 번째 항은 종단 노이즈 분포 $p(\mathbf{x}_T)$ 의 로그 우도를,  
+> 두 번째 항은 단계별 전이 확률의 로그 비율을 나타낸다.
+>
+> ---
+>
+> **3. 첫 번째 항과 마지막 항의 분리 (식 19)**  
+>
+> $t = 1$ 항을 별도로 분리하여,  
+> 마지막 복원 항 $p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)$ 을 분리해낸다.
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> -\log p(\mathbf{x}_T)
+> - \sum_{t > 1} \log
+> \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+> - \log
+> \frac{p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)}{q(\mathbf{x}_1 \mid \mathbf{x}_0)}
+> \right]
+> \tag{19}
+> $$
+>
+> 여기서 마지막 항은 데이터 복원 단계(reconstruction term)를,  
+> 나머지 합은 중간 단계의 확률 전이(term transition)를 의미한다.
+>
+> ---
+>
+> **4. 조건부 확률의 재정렬 (식 20–21 유도)**  
+>
+> 순방향 과정의 확률 $$q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$ 은  
+> 사후 확률 형태 $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$ 로 변환될 수 있다.  
+> 결합 확률의 성질로부터 다음이 성립한다:
+>
+> $$
+> q(\mathbf{x}_{t-1}, \mathbf{x}_t \mid \mathbf{x}_0)
+> = q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)\, q(\mathbf{x}_t \mid \mathbf{x}_0)
+> = q(\mathbf{x}_t \mid \mathbf{x}_{t-1})\, q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)
+> $$
+>
+> 따라서 다음 관계식을 얻는다.
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> = \frac{q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)\, q(\mathbf{x}_t \mid \mathbf{x}_0)}{q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}
+> \tag{A}
+> $$
+>
+> 식 (A)를 이용하면 분모의 $$q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$ 를 다음과 같이 바꿀 수 있다:
+>
+> $$
+> \frac{1}{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})}
+> =  \frac{1}{q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)}\,
+> \frac{q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}
+> $$
+>
+> 이를 식 (19)에 대입하면 다음이 된다.
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> -\log p(\mathbf{x}_T)
+> - \sum_{t > 1}
+> \log \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)}
+> \cdot
+> \frac{q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}
+> - \log \frac{p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)}{q(\mathbf{x}_1 \mid \mathbf{x}_0)}
+> \right]
+> \tag{20}
+> $$
+>
+> 여기서 두 번째 로그항은  
+> $t$ 에 대해 망원급수(telescoping sum) 형태로 대부분 상쇄되어,
+>
+> $$
+> \sum_{t>1} \log \frac{q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}
+> = \log q(\mathbf{x}_1 \mid \mathbf{x}_0) - \log q(\mathbf{x}_T \mid \mathbf{x}_0)
+> $$
+>
+> 가 된다.  
+>
+> ---
+>
+> **이후 망원항을 정리하면 식 (21)로 단순화된다.**
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> -\log \frac{p(\mathbf{x}_T)}{q(\mathbf{x}_T \mid \mathbf{x}_0)}
+> - \sum_{t > 1}
+> \log \frac{p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)}{q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)}
+> - \log p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)
+> \right]
+> \tag{21}
+> $$
+>
+> 위 식에서  
+>
+> $$-\log \frac{p(\mathbf{x}_T)}{q(\mathbf{x}_T \mid \mathbf{x}_0)}$$ 
+> 
+> 항은  
+> KL 발산 $$D_{\mathrm{KL}}(q(\mathbf{x}_T \mid \mathbf{x}_0) \parallel p(\mathbf{x}_T))$$ 의 형태로 변환되며,  
+> 이후 식 (22)로 이어진다.
+>
+> ---
+>
+> **5. KL 발산 형태로 표현 (식 22)**  
+>
+> 위 식 (20)은 KL 발산의 정의를 이용하여 다음과 같이 정리된다.
+>
+> $$
+> \mathcal{L}
+> = \mathbb{E}_q \left[
+> D_{\mathrm{KL}}(q(\mathbf{x}_T \mid \mathbf{x}_0) \parallel p(\mathbf{x}_T))
+> + \sum_{t > 1}
+> D_{\mathrm{KL}}(q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> \parallel p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t))
+> - \log p_\theta(\mathbf{x}_0 \mid \mathbf{x}_1)
+> \right]
+> \tag{22}
+> $$
+>
+> 이 식이 본문에서 제시된 **식 (5)** 와 동일하다.  
+> 즉, 변분 하한을 KL 발산 항들의 합으로 표현한 결과이다.  
+> 
+> ---
+> 
+> **6. 왜 “분산이 낮은(reduced variance)” 형태인가**  
+> 
+> 식 (5)의 각 KL 항은  
+> 확률적 샘플링 대신 폐형식(closed-form) 으로 계산 가능한 가우시안 간 KL로 구성된다.  
+> 기존 ELBO(식 3)는  
+> 단일 샘플 $$\mathbf{x}_0 \sim q(\mathbf{x}_0)$$ 을 사용하여  
+> $$\log p_\theta(\mathbf{x}_0)$$ 를 직접 추정해야 하므로  
+> 몬테카를로 추정에 의한 분산이 크다.  
+> 
+> 반면 식 (5)는  
+> - $q(\mathbf{x}_T \mid \mathbf{x}_0)$,  
+> - $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$,  
+> - $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$  
+> 모두 가우시안 분포로 명시적 파라미터화가 되어 있고,  
+> 각 KL 항이 닫힌 형태로 계산되므로,  
+> 표본 추출에 의한 분산이 발생하지 않는다.  
+> 
+> 즉,  
+> 식 (5)는 원래의 ELBO를  
+> “샘플링 기반 추정(Monte Carlo Estimation)”에서  
+> “가우시안 KL 기반의 결정적 계산(Deterministic KL Computation)”으로 변환한 형태이며,  
+> 따라서 훨씬 분산이 낮고 안정적인 학습 목표를 제공한다.  
+
+식의 각 항에 붙은 레이블(label)은 3절(Section 3)에서 사용된다.  
+식 (5)는 KL 발산(KL divergence)을 사용하여  
+$$p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$$ 과  
+순방향 과정의 사후분포(forward process posterior)  
+$$q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$$ 를 직접 비교한다.  
+이 비교는 $\mathbf{x}_0$ 가 주어졌을 때 계산이 용이하다(tractable).
+
+$$
+q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+=
+\mathcal{N}\!\left(\mathbf{x}_{t-1};
+\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0),
+\tilde{\beta}_t \mathbf{I}\right),
+\tag{6}
+$$
+
+여기서  
+
+$$
+\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0)
+:=
+\frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t}\mathbf{x}_0
++ \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}\mathbf{x}_t,
+\quad
+\tilde{\beta}_t := \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t}\beta_t
+\tag{7}
+$$
+
+> **식 (6)의 도출 과정**  
+>
+> 식 (6)은 순방향 과정  
+> $$q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$  
+> 과 초기 상태 $$\mathbf{x}_0$$ 의 결합 분포로부터  
+> 사후분포 $$q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$$  
+> 를 유도하는 과정이다.  
+>
+> ---
+>
+> **1. 순방향 과정의 정의**  
+>
+> 순방향 확산 과정은 다음의 가우시안 형태로 정의된다.  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> = \mathcal{N}\!\left(
+> \mathbf{x}_t;
+> \sqrt{\alpha_t}\mathbf{x}_{t-1},
+> (1 - \alpha_t)\mathbf{I}
+> \right)
+> $$
+>
+> 이 과정을 $t$ 스텝까지 누적하면,  
+> 초기 상태 $\mathbf{x}_0$ 로부터의 직접적인 전이 확률은  
+> 다음과 같다.  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_0)
+> = \mathcal{N}\!\left(
+> \mathbf{x}_t;
+> \sqrt{\bar{\alpha}_t}\mathbf{x}_0,
+> (1 - \bar{\alpha}_t)\mathbf{I}
+> \right),
+> \quad
+> \bar{\alpha}_t = \prod_{s=1}^{t} \alpha_s
+> $$
+>
+> ---
+>
+> **2. 사후분포의 정의**  
+>
+> 우리가 구하고자 하는 것은  
+> $$\mathbf{x}_t$$ 와 $$\mathbf{x}_0$$ 가 주어졌을 때의  
+> $$\mathbf{x}_{t-1}$$ 의 조건부 분포이다.  
+>
+> 결합 확률의 정의로부터 다음이 성립한다.  
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> = \frac{q(\mathbf{x}_t \mid \mathbf{x}_{t-1}, \mathbf{x}_0)\, q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}
+> $$
+>
+> 여기서 마르코프 성질(Markov property), 즉  
+> “현재 상태는 바로 이전 상태에만 의존하고  
+> 그보다 앞선 상태에는 직접 의존하지 않는다”는 성질에 의해  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1}, \mathbf{x}_0)
+> = q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> $$
+>
+> 이므로 식은 다음과 같이 단순화된다.  
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> = \frac{q(\mathbf{x}_t \mid \mathbf{x}_{t-1})\, q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}
+> $$
+>
+> 마지막 항 $$q(\mathbf{x}_t \mid \mathbf{x}_0)$$ 은  
+> $$\mathbf{x}_{t-1}$$ 과 무관한 정규화 상수이므로,  
+> 비례식으로 간단히 쓸 수 있다.  
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> \propto q(\mathbf{x}_t \mid \mathbf{x}_{t-1})\, q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)
+> $$
+>
+> ---
+>
+> **3. 가우시안 곱의 일반형 정리**  
+>
+> 두 가우시안 $\mathcal{N}(\mathbf{x}; \mu_1, \Sigma_1)$ 과  
+> $\mathcal{N}(\mathbf{x}; \mu_2, \Sigma_2)$ 의 곱은  
+> 또 다른 가우시안 형태로 표현된다.  
+>
+> $$
+> \mathcal{N}(\mathbf{x}; \tilde{\mu}, \tilde{\Sigma}),
+> \quad
+> \tilde{\Sigma} = (\Sigma_1^{-1} + \Sigma_2^{-1})^{-1},
+> \quad
+> \tilde{\mu} = \tilde{\Sigma}(\Sigma_1^{-1}\mu_1 + \Sigma_2^{-1}\mu_2)
+> $$
+>
+> ---
+>
+> **4. 각 항의 구체적 대입**  
+>
+> 첫 번째 항 $$q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$ 는  
+> 순방향 과정에서 다음의 가우시안 형태로 정의된다.  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> = \mathcal{N}\!\left(
+> \mathbf{x}_t;
+> \sqrt{\alpha_t}\mathbf{x}_{t-1},
+> (1 - \alpha_t)\mathbf{I}
+> \right)
+> $$
+>
+> 그러나 우리는 $$\mathbf{x}_{t-1}$$ 에 대한 사후분포  
+> $$q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$$ 를 구해야 하므로,  
+> 위 확률을 $\mathbf{x}_{t-1}$을 변수로 한 형태로 다시 써야 한다.  
+>
+> 이를 위해 다음의 확률 밀도 함수를 생각한다.  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> \propto
+> \exp\!\left(
+> -\frac{1}{2(1 - \alpha_t)}
+> \|\mathbf{x}_t - \sqrt{\alpha_t}\mathbf{x}_{t-1}\|^2
+> \right)
+> $$
+>
+> 제곱항을 $\mathbf{x}_{t-1}$ 에 대해 전개하면,
+>
+> $$
+> \|\mathbf{x}_t - \sqrt{\alpha_t}\mathbf{x}_{t-1}\|^2
+> = \alpha_t\|\mathbf{x}_{t-1}\|^2 - 2\sqrt{\alpha_t}\mathbf{x}_t^\top \mathbf{x}_{t-1} + \|\mathbf{x}_t\|^2
+> $$
+>
+> 상수항 $$\|\mathbf{x}_t\|^2$$ 는 $$\mathbf{x}_{t-1}$$ 에 의존하지 않으므로 무시할 수 있다.  
+> 남은 부분을 완전제곱(completing the square) 형태로 정리하면,
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> \propto
+> \exp\!\left(
+> -\frac{\alpha_t}{2(1 - \alpha_t)}
+> \left\|
+> \mathbf{x}_{t-1} - \frac{\mathbf{x}_t}{\sqrt{\alpha_t}}
+> \right\|^2
+> \right)
+> $$
+>
+> 따라서 이는 $\mathbf{x}_{t-1}$ 에 대한 가우시안으로 다음과 같이 다시 쓸 수 있다.
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> = \mathcal{N}\!\left(
+> \mathbf{x}_{t-1};
+> \frac{\mathbf{x}_t}{\sqrt{\alpha_t}},
+> \frac{1 - \alpha_t}{\alpha_t}\mathbf{I}
+> \right)
+> $$
+>
+> 확산 계수 $\beta_t = 1 - \alpha_t$ 를 이용하면,  
+> 첫 번째 항 $$q(\mathbf{x}_t \mid \mathbf{x}_{t-1})$$의 평균과 분산은 다음과 같이 정리된다.
+>
+> $$
+> \mu_1 = \frac{\mathbf{x}_t}{\sqrt{\alpha_t}}, \quad
+> \Sigma_1 = \frac{\beta_t}{\alpha_t}\mathbf{I}
+> $$
+>
+> 두 번째 항 $q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)$ 은  
+>
+> $$
+> \mu_2 = \sqrt{\bar{\alpha}_{t-1}}\mathbf{x}_0, \quad
+> \Sigma_2 = (1 - \bar{\alpha}_{t-1})\mathbf{I}
+> $$
+>
+> ---
+> **5. 평균과 분산의 도출 (식 7)**  
+>
+> 앞서 얻은 두 항을 다시 상기하자.  
+>
+> 첫 번째 항:  
+>
+> $$
+> q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+> = \mathcal{N}\!\left(
+> \mathbf{x}_{t-1};
+> \mu_1 = \frac{\mathbf{x}_t}{\sqrt{\alpha_t}},
+> \Sigma_1 = \frac{\beta_t}{\alpha_t}\mathbf{I}
+> \right)
+> $$
+>
+> 두 번째 항:  
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)
+> = \mathcal{N}\!\left(
+> \mathbf{x}_{t-1};
+> \mu_2 = \sqrt{\bar{\alpha}_{t-1}}\mathbf{x}_0,
+> \Sigma_2 = (1 - \bar{\alpha}_{t-1})\mathbf{I}
+> \right)
+> $$
+>
+> 이제 가우시안 곱 정리를 적용하면  
+> 사후분포 $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$ 는  
+> 또 다른 가우시안 형태로 표현된다:
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> = \mathcal{N}\!\left(
+> \mathbf{x}_{t-1};
+> \tilde{\mu}_t, \tilde{\Sigma}_t
+> \right)
+> $$
+>
+> ---
+>
+> **(1) 공분산 행렬의 계산**
+>
+> 가우시안 곱 정리에 따라  
+> 공분산은 다음과 같이 주어진다:
+>
+> $$
+> \tilde{\Sigma}_t
+> = \left(\Sigma_1^{-1} + \Sigma_2^{-1}\right)^{-1}
+> $$
+>
+> 각 항을 대입하면,
+>
+> $$
+> \Sigma_1^{-1} = \frac{\alpha_t}{\beta_t}\mathbf{I}, \quad
+> \Sigma_2^{-1} = \frac{1}{1 - \bar{\alpha}_{t-1}}\mathbf{I}
+> $$
+>
+> 따라서
+>
+> $$
+> \tilde{\Sigma}_t
+> = \left(
+> \frac{\alpha_t}{\beta_t} + \frac{1}{1 - \bar{\alpha}_{t-1}}
+> \right)^{-1}\mathbf{I}
+> $$
+>
+> 분모를 통분하면,
+>
+> $$
+> \frac{\alpha_t}{\beta_t} + \frac{1}{1 - \bar{\alpha}_{t-1}}
+> = \frac{\alpha_t(1 - \bar{\alpha}_{t-1}) + \beta_t}{\beta_t(1 - \bar{\alpha}_{t-1})}
+> $$
+>
+> 여기서 $\beta_t = 1 - \alpha_t$ 이므로,
+>
+> $$
+> \alpha_t(1 - \bar{\alpha}_{t-1}) + \beta_t
+> = \alpha_t - \alpha_t\bar{\alpha}_{t-1} + 1 - \alpha_t
+> = 1 - \alpha_t\bar{\alpha}_{t-1}
+> = 1 - \bar{\alpha}_t
+> $$
+>
+> 따라서,
+>
+> $$
+> \tilde{\Sigma}_t
+> = \frac{\beta_t(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}\mathbf{I}
+> = \tilde{\beta}_t \mathbf{I}
+> $$
+>
+> 즉, 분산 항은 다음과 같이 정리된다.
+>
+> $$
+> \tilde{\beta}_t = \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t}\beta_t
+> $$
+>
+> ---
+>
+> **(2) 평균 벡터의 계산**
+>
+> 평균은 다음 식으로 계산된다:
+>
+> $$
+> \tilde{\mu}_t
+> = \tilde{\Sigma}_t
+> \left(
+> \Sigma_1^{-1}\mu_1 + \Sigma_2^{-1}\mu_2
+> \right)
+> $$
+>
+> 각 항을 대입하면,
+>
+> $$
+> \Sigma_1^{-1}\mu_1 + \Sigma_2^{-1}\mu_2
+> = \frac{\alpha_t}{\beta_t}\frac{\mathbf{x}_t}{\sqrt{\alpha_t}}
+> + \frac{1}{1 - \bar{\alpha}_{t-1}}\sqrt{\bar{\alpha}_{t-1}}\mathbf{x}_0
+> $$
+>
+> $$
+> = \frac{\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t
+> + \frac{\sqrt{\bar{\alpha}_{t-1}}}{1 - \bar{\alpha}_{t-1}}\mathbf{x}_0
+> $$
+>
+> 이를 다시 $\tilde{\Sigma}_t$ 와 곱하면:
+>
+> $$
+> \tilde{\mu}_t
+> = \frac{\beta_t(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}
+> \left(
+> \frac{\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t
+> + \frac{\sqrt{\bar{\alpha}_{t-1}}}{1 - \bar{\alpha}_{t-1}}\mathbf{x}_0
+> \right)
+> $$
+>
+> 분배법칙을 적용하면,
+>
+> $$
+> \tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0)
+> =
+> \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t}\mathbf{x}_0
+> + \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}\mathbf{x}_t
+> $$
+>
+> ---
+>
+> **(3) 결과**
+>
+> 최종적으로 사후분포는 다음과 같이 정리된다:
+>
+> $$
+> q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> =
+> \mathcal{N}\!\left(
+> \mathbf{x}_{t-1};
+> \tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0),
+> \tilde{\beta}_t\mathbf{I}
+> \right)
+> $$
+>
+> 여기서
+> $$\tilde{\beta}_t$$와 $$\tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0)$$는 위에서 정의한 형태이다.
+
+따라서 식 (5)의 모든 KL 발산은  
+가우시안 분포 간의 비교로 표현되므로,  
+고분산의 몬테카를로 추정(Monte Carlo estimates) 대신  
+폐형식(closed-form) 표현을 이용한  
+Rao-Blackwellization 방식으로 계산할 수 있다.
+
+> 위 문장의 의미를 구체적으로 설명하면 다음과 같다.  
+>
+> 식 (5)에서 등장하는 모든 KL 발산 항  
+>
+> $$
+> D_{\mathrm{KL}}\big(q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)
+> \parallel
+> p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)\big)
+> $$
+>
+> 은 두 확률분포가 모두 가우시안 형태임을 이용해  
+> 닫힌 해(closed-form)로 계산할 수 있다.  
+>
+> 즉, 두 분포가 모두  
+>
+> $$
+> q = \mathcal{N}(\mu_q, \Sigma_q), \quad
+> p = \mathcal{N}(\mu_p, \Sigma_p)
+> $$
+>
+> 와 같은 정규분포일 때,  
+> KL 발산은 다음의 분석적 식으로 바로 계산된다.
+>
+> $$
+> D_{\mathrm{KL}}(q \parallel p)
+> = \frac{1}{2}
+> \left[
+> \mathrm{tr}(\Sigma_p^{-1}\Sigma_q)
+> + (\mu_p - \mu_q)^\top \Sigma_p^{-1}(\mu_p - \mu_q)
+> - k
+> + \log\frac{\det\Sigma_p}{\det\Sigma_q}
+> \right]
+> $$
+>
+> 이처럼 KL 발산을 수치적 샘플링(몬테카를로 추정)을 통해 근사하지 않고  
+> 수학적으로 정확한 폐형식(closed-form expression)으로 계산할 수 있기 때문에,  
+> 추정 과정에서 발생하는 확률적 노이즈(variance)가 크게 줄어든다.  
+>
+> 이를 Rao–Blackwellization이라 부르는데,  
+> 이는 “기댓값의 분산을 줄이기 위해 조건부 기댓값 형태로 재작성하는 방법”을 의미한다.  
+> 즉, $E[f(X)]$ 를 단순 샘플링으로 추정하는 대신  
+> $E[E[f(X)\mid Y]]$ 와 같이 조건부 기댓값을 이용해  
+> 더 안정적이고 분산이 낮은 추정치를 얻는 것이다.  
+>
+> 요약하면,  
+> 식 (5)의 각 KL 항이 가우시안 간의 닫힌 해로 표현됨으로써  
+> 학습 과정에서 몬테카를로 샘플링에 의존하지 않아도 되며,  
+> 그 결과 ELBO 기반 학습보다 분산이 낮고 안정적인 최적화가 가능해진다.
