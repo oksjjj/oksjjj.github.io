@@ -248,7 +248,7 @@ $$ p_\theta(\mathbf{x}_0) := \int p_\theta(\mathbf{x}_{0:T}) \, d\mathbf{x}_{1:T
 > 모델은 이 잠재 변수들을 통해 데이터의 복잡한 분포를 학습한다.
 
 결합 분포(joint distribution) $p_\theta(\mathbf{x}_{0:T})$ 는  
-역과정(reverse process)이라고 불리며,  
+역방향 과정(reverse process)이라고 불리며,  
 이는 학습된 가우시안 전이(Gaussian transitions)를 갖는  
 마르코프 연쇄(Markov chain)로 정의된다.  
 
@@ -256,12 +256,12 @@ $$ p_\theta(\mathbf{x}_0) := \int p_\theta(\mathbf{x}_{0:T}) \, d\mathbf{x}_{1:T
 > 데이터 $\mathbf{x}_0$ 부터 잠재 변수 $\mathbf{x}_T$ 까지의  
 > 전체 생성 경로 전체를 아우르는 확률 분포를 의미한다.  
 >  
-> 이를 “역과정(reverse process)”이라고 부르는 이유는,  
+> 이를 “역방향 과정(reverse process)”이라고 부르는 이유는,  
 > 실제 확산 과정이 데이터를 점점 노이즈로 변환시키는 방향으로 진행되는 반면,  
 > 모델은 그 반대 방향으로, 즉 노이즈로부터 데이터를 복원하는 방향으로  
 > 학습되기 때문이다.  
 >  
-> 또한 이 역과정은 마르코프 연쇄(Markov chain) 형태로 정의되는데,  
+> 또한 이 역방향 과정은 마르코프 연쇄(Markov chain) 형태로 정의되는데,  
 > 이는 각 단계의 상태 $\mathbf{x}_{t-1}$ 이  
 > 바로 이전 단계의 상태 $\mathbf{x}_t$ 에만 의존한다는 뜻이다.  
 >  
@@ -445,7 +445,7 @@ $$
 재매개변수화(reparameterization) [33]를 통해 학습되거나,  
 혹은 하이퍼파라미터(hyperparameters)로 고정될 수 있다.  
 
-역과정(reverse process)의 표현력(expressiveness)은  
+역방향 과정(reverse process)의 표현력(expressiveness)은  
 $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 에서  
 가우시안 조건부(Gaussian conditionals)를 선택함으로써  
 부분적으로 보장된다.  
@@ -461,14 +461,14 @@ $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 에서
 > 사람이 미리 고정된 스케줄(hyperparameter)로 지정할 수도 있다.  
 > 예를 들어, $\beta_t$ 를 선형적으로 혹은 지수적으로 증가시키는 스케줄이 자주 사용된다.  
 >  
-> 역과정 $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 은  
+> 역방향 과정 $p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ 은  
 > 노이즈가 추가된 데이터를 다시 복원하는 확률 분포인데,  
 > 이를 가우시안 분포 형태로 설정하면  
 > 순방향 과정과 동일한 수학적 구조를 갖게 된다.  
 >  
 > 특히 $\beta_t$ 가 작을 경우,  
 > 순방향 과정의 가우시안 전이와  
-> 역과정의 가우시안 복원이 거의 같은 형태를 가지므로,  
+> 역방향 과정의 가우시안 복원이 거의 같은 형태를 가지므로,  
 > 모델이 학습해야 할 관계가 단순해지고  
 > 복원(샘플링) 과정의 표현력이 안정적으로 보장된다.
 
@@ -1223,3 +1223,342 @@ Rao-Blackwellization 방식으로 계산할 수 있다.
 > 식 (5)의 각 KL 항이 가우시안 간의 닫힌 해로 표현됨으로써  
 > 학습 과정에서 몬테카를로 샘플링에 의존하지 않아도 되며,  
 > 그 결과 ELBO 기반 학습보다 분산이 낮고 안정적인 최적화가 가능해진다.
+
+---
+
+## 3 확산 모델과 잡음 제거 오토인코더 (Diffusion models and denoising autoencoders)
+
+확산 모델(diffusion models)은  
+잠재 변수(latent variable) 모델의 한정된 형태처럼 보일 수 있지만,  
+구현 단계에서 매우 많은 자유도를 가진다.  
+
+순방향 과정(forward process)의 분산 $\beta_t$ 와  
+역방향 과정(reverse process)의 모델의 아키텍처 및  
+가우시안 분포 매개변수화(parameterization)를 선택해야 한다.  
+
+이러한 선택을 안내하기 위해,  
+확산 모델과 잡음 제거 점수 매칭(denoising score matching) 사이의  
+새로운 명시적 연결을 제시한다 (Section 3.2).  
+이를 통해 단순화되고 가중된 변분 경계 목적식(weighted variational bound objective)이  
+도출된다 (Section 3.4).  
+
+궁극적으로, 제안된 모델 설계는 단순성과  
+경험적 결과(empirical results)에 의해 정당화된다 (Section 4).  
+이 논의는 식 (5)에 의해 정리된다.
+
+---
+
+### 3.1 순방향 과정과 $L_T$ (Forward process and $L_T$)
+
+순방향 과정의 분산 $\beta_t$ 는  
+재매개변수화(reparameterization)를 통해 학습 가능하지만,  
+여기서는 이를 무시하고 상수로 고정한다  
+(자세한 내용은 Section 4 참조).  
+
+따라서 본 구현에서는 근사 사후분포 $q$ 가  
+학습 가능한 파라미터를 가지지 않으며,  
+이에 따라 $L_T$ 는 학습 과정 동안 상수로 유지되어  
+무시할 수 있다.
+
+---
+
+### 3.2 역방향 과정과 $L_{1:T-1}$ (Reverse process and $L_{1:T-1}$)
+
+이제 다음의 역방향 과정 분포 선택에 대해 논의한다:  
+
+$$
+p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t)
+= \mathcal{N}\bigl(\mathbf{x}_{t-1}; \mu_\theta(\mathbf{x}_t, t), \Sigma_\theta(\mathbf{x}_t, t)\bigr),
+\quad 1 < t \leq T.
+$$
+
+먼저, $\Sigma_\theta(\mathbf{x}_t, t) = \sigma_t^2 \mathbf{I}$ 로 설정하며,  
+이는 학습되지 않은 시간 의존 상수들(untrained time dependent constants)이다.
+
+실험적으로, $\sigma_t^2 = \beta_t$ 와  
+$$\sigma_t^2 = \tilde{\beta}_t = \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t} \beta_t$$  
+두 선택 모두 유사한 결과를 보였다.  
+
+첫 번째 선택은 $\mathbf{x}_0 \sim \mathcal{N}(0, \mathbf{I})$ 인 경우 최적이며,  
+두 번째 선택은 $\mathbf{x}_0$ 가 결정론적으로 한 점에 고정된 경우에 최적이다.  
+
+이 두 선택은 좌표별 단위 분산(coordinatewise unit variance)을 갖는 데이터에 대해  
+역방향 과정 엔트로피(reverse process entropy)의  
+상한과 하한에 각각 대응한다 [53].
+
+> 위 식은 확산 모델에서 역방향 과정(reverse process)의 분산 선택에 대한 설명이다.  
+> 여기서 분산 항 $\Sigma_\theta(\mathbf{x}_t, t)$ 는 학습을 통해 추정하지 않고  
+> 실험적으로 설정된 두 가지 상수 형태 중 하나를 사용한다.  
+>
+> $\sigma_t^2 = \beta_t$ 와  
+> $$\sigma_t^2 = \tilde{\beta}_t = \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t} \beta_t$$  
+> 두 설정 모두 유사한 결과를 보였는데,  
+> 이는 이론적 근거에 의해 도출된 것이 아니라  
+> 여러 실험을 통해 경험적으로 확인된 결과이다.  
+> 즉, 특정한 최적화 과정이나 수학적 유도 없이  
+> 실제 학습 실험에서 두 설정이 모두 잘 작동한다는 사실에 기반한다.  
+>
+> 또한, “이 두 선택이 역방향 과정 엔트로피(reverse process entropy)의  
+> 상한과 하한에 대응한다”는 의미는  
+> 데이터의 각 차원별 분산이 1인 경우(즉, 좌표별 단위 분산)  
+> 역방향 과정이 가질 수 있는 불확실성의 범위를  
+> 두 설정이 각각 위쪽과 아래쪽에서 제한한다는 뜻이다.  
+> $\sigma_t^2 = \beta_t$ 는 비교적 큰 불확실성을 유지하는 상한에 해당하고,  
+> $\tilde{\beta}_t$ 는 그보다 작은 불확실성을 가지는 하한에 해당한다.  
+> 따라서 이 둘은 모델이 잡음을 제거하는 과정에서  
+> 엔트로피(불확실성)의 범위를 안정적으로 조절하도록 돕는 역할을 한다.
+
+---
+
+둘째로, 평균 $\mu_\theta(\mathbf{x}_t, t)$ 을 표현하기 위해  
+우리는 $L_t$ 에 대한 다음의 분석에 의해 동기화된  
+특정한 매개변수화(parameterization)를 제안한다.  
+
+$$p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \mu_\theta(\mathbf{x}_t, t), \sigma_t^2 \mathbf{I})$$ 일 때,  
+다음과 같이 쓸 수 있다:
+
+$$
+L_{t-1} = \mathbb{E}_q \left[ \frac{1}{2\sigma_t^2} 
+\lVert \tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0) - \mu_\theta(\mathbf{x}_t, t) \rVert^2 \right] + C
+\tag{8}
+$$
+
+여기서 $C$ 는 $\theta$ 에 의존하지 않는 상수이다.  
+
+> 식 (8)은 변분 하한의 두 번째 항인  
+>
+> $$\mathbb{E}_q[D_{\mathrm{KL}}(q(\mathbf{x}_{t-1}\mid\mathbf{x}_t, \mathbf{x}_0)\,\|\,p_\theta(\mathbf{x}_{t-1}\mid\mathbf{x}_t))]$$  
+> 
+> 을 전개하여 얻어진 형태이다.  
+> 두 분포 $q$ 와 $p_\theta$ 모두 가우시안 분포로 가정되므로,  
+> KL 발산의 폐형식(closed-form) 계산이 가능하며,  
+> 그 결과는 두 평균의 제곱 거리로 단순화된다.  
+>
+> 이때 $\tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0)$ 는  
+> 순방향 과정의 사후 평균(posterior mean)으로,  
+> 실제 데이터 $\mathbf{x}_0$ 와 잡음이 섞인 $\mathbf{x}_t$ 사이의  
+> 관계를 나타낸다.  
+>
+> 반면 $\mu_\theta(\mathbf{x}_t, t)$ 는  
+> 모델이 예측하려는 역방향 과정의 평균으로,  
+> 학습 대상이 되는 함수이다.  
+>
+> 따라서 두 평균 간의 거리  
+> $$\lVert \tilde{\mu}_t - \mu_\theta \rVert^2$$ 는  
+> 모델이 추정한 역방향 평균이  
+> 실제 순방향 과정의 사후 평균과  
+> 얼마나 일치하는지를 나타내는 손실(loss) 항으로 해석된다.  
+>
+> 마지막으로 $\frac{1}{2\sigma_t^2}$ 는  
+> 가우시안 분포의 분산에 따른 정규화 항이며,  
+> $\theta$ 와 무관한 상수항 $C$ 는  
+> 학습에 영향을 주지 않으므로 식에서 분리된다.
+
+따라서 $\mu_\theta$ 의 가장 직접적인 매개변수화는  
+순방향 과정의 사후 평균(forward process posterior mean)인  
+$\tilde{\mu}_t$ 를 예측하는 모델임을 알 수 있다.  
+
+그러나 식 (8)은 $\mathbf{x}_t = \mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon}) = 
+\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}$,  
+$\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I})$ 로 재매개변수화하고  
+순방향 과정의 사후 분포 식 (7)을 적용하여  
+다음과 같이 더 확장할 수 있다:
+
+$$
+\begin{align}
+L_{t-1} - C 
+&= 
+\mathbb{E}_{\mathbf{x}_0, \boldsymbol{\epsilon}} 
+\left[
+\frac{1}{2\sigma_t^2}
+\left\lVert
+\tilde{\mu}_t
+\left(
+\mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon}),
+\frac{1}{\sqrt{\bar{\alpha}_t}}
+\Bigl(
+\mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon})
+- \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}
+\Bigr)
+\right)
+- \mu_\theta(\mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon}), t)
+\right\rVert^2
+\right] \tag{9}\\[8pt]
+&=
+\mathbb{E}_{\mathbf{x}_0, \boldsymbol{\epsilon}}
+\left[
+\frac{1}{2\sigma_t^2}
+\left\lVert
+\frac{1}{\sqrt{\alpha_t}}
+\Bigl(
+\mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon})
+- \frac{\beta_t}{\sqrt{1 - \bar{\alpha}_t}}\boldsymbol{\epsilon}
+\Bigr)
+- \mu_\theta(\mathbf{x}_t(\mathbf{x}_0, \boldsymbol{\epsilon}), t)
+\right\rVert^2
+\right] \tag{10}
+\end{align}
+$$
+
+> [Step 0] 출발점 — 식 (8)  
+>
+> $$
+> \begin{align}
+> L_{t-1}
+> &= \mathbb{E}_q \!\left[\frac{1}{2\sigma_t^2}
+> \left\lVert \tilde{\mu}_t(\mathbf{x}_t,\mathbf{x}_0) - \mu_\theta(\mathbf{x}_t,t)\right\rVert^2 \right]
+> + C \tag{8}
+> \end{align}
+> $$  
+>
+> - $$\tilde{\mu}_t$$ 는 순방향 과정의 사후 평균, $$\mu_\theta$$ 는 역방향 과정의 평균(모델 출력)이다.  
+> - $C$ 는 $\theta$ 와 무관한 상수이다.
+>
+> [Step 1] 재매개변수화로 기대값의 변수 변경  
+>
+> 순방향 과정의 표본 생성식을 사용한다:  
+> 
+> $$
+> \mathbf{x}_t=\sqrt{\bar{\alpha}_t}\,\mathbf{x}_0+\sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon},
+> \qquad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\mathbf{I}).
+> $$
+> 
+> 이를 이용하면 LOTUS(변수변환 하의 기대값 보존)에 의해
+> $$\mathbb{E}_q[\cdot]\;=\;\mathbb{E}_{\mathbf{x}_0,\boldsymbol{\epsilon}}[\cdot]$$ 로 바뀐다.  
+> 
+> ---
+>
+> LOTUS는 “확률 변수의 변환에 대해, 변환된 확률밀도를 직접 구하지 않아도  
+> 기댓값을 계산할 수 있다”는 원리를 의미한다.  
+>  
+> 예를 들어, $\mathbf{z}' = f(\mathbf{z})$ 이고 $\mathbf{z} \sim q(\mathbf{z})$ 라면,  
+> 변환된 변수의 기댓값은 다음과 같이 표현할 수 있다.  
+>  
+> $$
+> \mathbb{E}_{q_{f}}[h(\mathbf{z}')] 
+> = \int h(\mathbf{z}')\, q_{f}(\mathbf{z}')\, d\mathbf{z}' 
+> = \int h(f(\mathbf{z}))\, q(\mathbf{z})\, d\mathbf{z}
+> $$
+>  
+> 즉, 변환 후의 밀도 $q_f(\mathbf{z}')$ 를 명시적으로 계산하지 않아도,  
+> 원래의 분포 $q(\mathbf{z})$ 와 변환 함수 $f$ 만 알면  
+> 기대값을 직접 계산할 수 있다는 뜻이다.  
+>
+> ---
+>
+> [Step 1-1] $\tilde{\mu}_t$ 두 번째 인자에 들어가는 $\mathbf{x}_0$ 를 $\mathbf{x}_t,\boldsymbol{\epsilon}$ 로 치환  
+>
+> 위 식을 $\mathbf{x}_0$ 에 대해 정리하면
+> 
+> $$
+> \mathbf{x}_0
+> = \frac{1}{\sqrt{\bar{\alpha}_t}}
+> \Bigl(\mathbf{x}_t-\sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}\Bigr).
+> $$
+> 
+> 따라서
+>
+> $$
+> \tilde{\mu}_t\bigl(\mathbf{x}_t,\mathbf{x}_0\bigr)
+> =
+> \tilde{\mu}_t\!\Bigl(
+> \mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon}),
+> \frac{1}{\sqrt{\bar{\alpha}_t}}\bigl(\mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon})
+> -\sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}\bigr)
+> \Bigr).
+> $$
+>
+> [Step 1-2] 위 치환을 식 (8)에 대입하여 식 (9) 도출  
+>
+> $$
+> \begin{align}
+> L_{t-1}-C
+> &=
+> \mathbb{E}_{\mathbf{x}_0,\boldsymbol{\epsilon}}
+> \left[
+> \frac{1}{2\sigma_t^2}
+> \left\lVert
+> \tilde{\mu}_t\!\left(
+> \mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon}),
+> \frac{1}{\sqrt{\bar{\alpha}_t}}
+> \Bigl(
+> \mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon})
+> - \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}
+> \Bigr)
+> \right)
+> - \mu_\theta\!\left(\mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon}),t\right)
+> \right\rVert^2
+> \right] \tag{9}
+> \end{align}
+> $$
+>
+> [Step 2] 순방향 사후 평균(식 (7))의 폐형식 대입  
+>
+> 순방향 과정의 사후 평균(식 (7))은 다음과 같이 정의된다:
+>
+> $$
+> \tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0)
+> := 
+> \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t}\mathbf{x}_0
+> + 
+> \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}\mathbf{x}_t.
+> $$
+>
+> 이제 순방향 과정의 정의식  
+>
+> $$\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}$$  
+>
+> 을 위 식에 대입하면 다음과 같이 정리된다:
+>
+> $$
+> \begin{align}
+> \tilde{\mu}_t(\mathbf{x}_t, \mathbf{x}_0)
+> &= 
+> \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t}\mathbf{x}_0
+> + 
+> \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t}
+> \bigl(
+> \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}
+> \bigr) \\[6pt]
+> &= 
+> \frac{1}{\sqrt{\alpha_t}}
+> \left(
+> \mathbf{x}_t
+> - 
+> \frac{\beta_t}{\sqrt{1 - \bar{\alpha}_t}}\boldsymbol{\epsilon}
+> \right),
+> \end{align}
+> $$
+>
+> 따라서 $\tilde{\mu}_t$ 는 $\mathbf{x}_0$ 대신  
+> 잡음 변수 $\boldsymbol{\epsilon}$ 만으로 표현할 수 있으며,  
+> 이는 모델 학습 시 샘플링이 가능한 형태로 단순화된 표현이다.
+>
+> 이를 식 (9)의 $\tilde{\mu}_t(\cdot)$ 위치에 대입한다.
+>
+> [Step 2-1] 대입 후 정리하여 식 (10) 도출  
+>
+> $$
+> \begin{align}
+> L_{t-1}-C
+> &=
+> \mathbb{E}_{\mathbf{x}_0,\boldsymbol{\epsilon}}
+> \left[
+> \frac{1}{2\sigma_t^2}
+> \left\lVert
+> \frac{1}{\sqrt{\alpha_t}}
+> \Bigl(
+> \mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon})
+> - \frac{\beta_t}{\sqrt{1-\bar{\alpha}_t}}\,\boldsymbol{\epsilon}
+> \Bigr)
+> - \mu_\theta\!\left(\mathbf{x}_t(\mathbf{x}_0,\boldsymbol{\epsilon}),t\right)
+> \right\rVert^2
+> \right] \tag{10}
+> \end{align}
+> $$
+>
+> 정리하면, (8) → (9)는 재매개변수화에 따른 기대값 변수 변경 및 인자 치환,  
+> (9) → (10)은 순방향 사후 평균의 폐형식(식 (7))을 직접 대입한 단계이다.
+
+
+
