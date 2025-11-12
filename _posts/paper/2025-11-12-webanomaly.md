@@ -908,3 +908,66 @@ Bytes를 위한 열 7만이 Isolation Forest의 일반적인 구현에서
 
 연구자들은 숫자형 열의 int64 데이터를 StandardScaler에 포함시켰으며,  
 나머지 D-type 데이터는 OneHotEncoding에 포함시켰다.
+
+---
+
+표 4는 추가 열들이 존재함을 보여준다.  
+즉, Attack Type, Human Rating, Predict, 그리고 Anomaly_Score (녹색으로 강조 표시됨)이다.  
+
+---
+
+**표 4.** 본 연구에서 사용된 준비된 테스트 데이터셋의 스키마(schema).
+
+<img src="/assets/img/paper/webanomaly/image_9.png" alt="image" width="800px">
+
+---
+
+연구자들은 이후 테스트 데이터셋에 대해  
+학습 데이터셋에서 사용된 동일한 정제(cleaning) 및  
+특성 생성(feature generation) 절차를 적용하였다.  
+
+또한, 연구자들은 Isolation Forest 모델을  
+테스트 데이터셋에 적용하고,  
+그 결과를 Predict와 Anomaly_Score라는 이름의 열에 각각 저장하였다.  
+
+이렇게 생성된 결과 데이터셋은  
+이후 CSV 파일로 저장되었다.  
+
+---
+
+학습 데이터셋과 테스트 데이터셋의 경우,  
+연구자들은 각각 25%와 10%의 통계적 샘플링(statistical sampling)을 사용하였다.  
+
+Isolation Forest는 비지도(unsupervised) 학습이므로,  
+연구자들은 데이터셋을 공식적으로 분할하지 않고  
+무작위 샘플링(random sampling) 테스트를 사용하였다 [11,15,24].  
+
+본 연구에서 웹 로그(weblog) 데이터셋은  
+null이 아닌(non-null) 값의 개수와 데이터 유형(D-type)에 따라  
+학습과 테스트용으로 분할되었다.  
+
+표 5에 나타난 바와 같이,  
+Isolation Forest 모델 구현에 사용된 웹 로그 데이터셋은  
+전체의 25%, 즉 2,591,287개의 레코드가 학습 데이터셋에,  
+10%, 즉 1,035,020개의 레코드가 테스트 데이터셋에 사용되었다.  
+
+---
+
+**표 5.** 데이터 준비 후 Isolation Forest 모델 구현에 사용된 데이터셋.
+
+<img src="/assets/img/paper/webanomaly/image_10.png" alt="image" width="800px">
+
+---
+
+이는 테스트 데이터셋 내 100만 개 이상의 레코드가  
+인간 평가자(human raters)에 의해 채점되어,  
+실제 웹 트래픽 이상(anomalies)과  
+기계 학습 분류 결과를 비교하는 데 사용되었음을 의미한다.  
+
+이후 데이터셋은 모델 생성을 위한 정규화(normalization) 및  
+스케일링(scaling) 과정을 거쳤다.  
+
+정규화(normalization)는 OneHotEncoding과 StandardScaler를 사용하여 수행되었으며,  
+데이터는 테스트 데이터셋의 경우 0에서 10,365,151까지의 범위 인덱스로 스케일링되었다.  
+
+또한 테스트 데이터셋 역시 0에서 10,365,151까지의 범위 인덱스로 스케일링되었다.
