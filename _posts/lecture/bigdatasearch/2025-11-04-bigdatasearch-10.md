@@ -10,12 +10,6 @@ tags: []
 
 > 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
 
-## p2. 목차  
-
-- 에이전트의 개념과 작동원리 이해  
-- 주요 구성요소와 핵심기술  
-- 실제 기술 개발을 위한 도구와 프레임워크 이해  
-
 ---
 
 ## p3. 검색 에이전트 개요  
@@ -44,7 +38,7 @@ tags: []
 ## p4. AI 에이전트 아키텍처  
 
 AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learning)**, **컨트롤 센터(Control Centre)**,  
-**실행기(Effectors)** 로 구성된 구조를 통해 사용자의 요구와 환경 변화에 적응하며 자율적으로 작동한다.  
+**실행기(Effectors)** 로 구성된 구조를 통해 사용자의 요구와 환경 변화에 적응하며 자율적으로 작동  
 
 <img src="/assets/img/lecture/bigdatasearch/10/image_1.png" alt="image" width="800px">  
 
@@ -564,30 +558,31 @@ class MultiHopRetriever:
 
 ## p26. 검색 에이전트  
 
-- **필수 구성요소**  
-  - **LLM**  
-    - OpenAI GPT-4, …  
-    - Anthropic Claude  
-    - Google PaLM  
-    - 오픈소스 모델(Llama, Mistral 등)  
+**필수 구성요소**  
 
-  - **도구**  
-    - **검색도구**  
-      - SerpAPI: Google 검색  
-      - DuckDuckGo: 프라이버시 중심 검색  
-      - Wikipedia: 백과사전 정보  
-      - ArXiv: 학술 논문 검색  
-    - **벡터 저장소**  
-    - **유틸리티 도구**  
-      - Calculator: 수학 계산  
-      - Python REPL: 코드 실행  
-      - Requests: HTTP 요청  
+- **LLM**  
+  - OpenAI GPT-4, …  
+  - Anthropic Claude  
+  - Google PaLM  
+  - 오픈소스 모델(Llama, Mistral 등)  
 
-  - **메모리**  
-    - **ConversationBufferMemory:** 전체 대화 저장  
-    - **ConversationSummaryMemory:** 요약 저장  
-    - **ConversationBufferWindowMemory:** 최근 N개 메시지만 저장  
-    - **VectorStoreMemory:** 벡터 기반 관련 메모리 검색  
+- **도구**  
+  - **검색도구**  
+    - SerpAPI: Google 검색  
+    - DuckDuckGo: 프라이버시 중심 검색  
+    - Wikipedia: 백과사전 정보  
+    - ArXiv: 학술 논문 검색  
+  - **벡터 저장소**  
+  - **유틸리티 도구**  
+    - Calculator: 수학 계산  
+    - Python REPL: 코드 실행  
+    - Requests: HTTP 요청  
+
+- **메모리**  
+  - **ConversationBufferMemory:** 전체 대화 저장  
+  - **ConversationSummaryMemory:** 요약 저장  
+  - **ConversationBufferWindowMemory:** 최근 N개 메시지만 저장  
+  - **VectorStoreMemory:** 벡터 기반 관련 메모리 검색  
 
 ---
 
