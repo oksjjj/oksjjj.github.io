@@ -12,9 +12,10 @@ tags: []
 
 ## p2. 생성형 AI 검색의 정의와 특징  
 
-- **생성형 AI 검색 (Generative AI Search)**  
-  - 대규모 언어 모델(LLM)을 활용하여 사용자의 질문을 이해하고,  
-    관련 정보를 검색한 후 이를 종합하여 자연스러운 맞춤형 답변을 생성하는 검색 기술  
+**생성형 AI 검색 (Generative AI Search)**  
+
+- 대규모 언어 모델(LLM)을 활용하여 사용자의 질문을 이해하고,  
+  관련 정보를 검색한 후 이를 종합하여 자연스러운 맞춤형 답변을 생성하는 검색 기술  
 
 - **전통적 검색 vs. 생성형 AI 검색**
 
@@ -205,75 +206,6 @@ tags: []
 
 ---
 
-### 보충 설명  
-
-#### 1. **RAG의 개요와 핵심 구조**  
-- RAG(Retrieval-Augmented Generation)는 **검색 기반 생성 확률모델**로,  
-  **Retriever $p_\eta(z|x)$** 와 **Generator $p_\theta(y|x,z)$** 를 결합한 형태이다.  
-- 전체 모델은 다음과 같은 확률 형태로 표현된다.  
-
-  $$
-  p(y|x) = \sum_{z} p_\eta(z|x) \, p_\theta(y|x,z)
-  $$  
-
-  - $x$: 입력 질의(Query)  
-  - $z$: 검색된 문서(Passage)  
-  - $y$: 생성된 답변(Response)  
-- 즉, RAG는 질의에 대해 관련 문서 $z$를 확률적으로 검색한 후,  
-  각 문서를 기반으로 생성된 답변의 확률을 모두 **결합(Marginalization)** 하여  
-  최종 응답을 생성한다.  
-
-#### 2. **그림 속 구성요소 설명**  
-
-- **Query Encoder**  
-  - 입력된 질의 예시:  
-    - *“Define ‘middle ear’”*  
-    - *“Barack Obama was born in Hawaii.”*  
-    - *“The Divine Comedy”*  
-  - 각 질의는 **Query Encoder**를 통해 벡터 표현 $q(x)$로 변환된다.  
-  - 이 표현은 이후 문서 임베딩과 비교되어 관련 문서를 탐색하는 데 사용된다.  
-
-- **Retriever $p_\eta$ (Non-Parametric)**  
-  - 벡터 공간 내에서 $q(x)$와 가장 유사한 문서 벡터 $d(z)$를 찾는다.  
-  - 이때 **MIPS (Maximum Inner Product Search)** 알고리즘을 사용하여  
-    내적이 가장 큰 문서들을 선택한다.  
-  - 선택된 문서 예시:  
-    - *“The middle ear includes the tympanic cavity and the three ossicles.”*  
-    - *“This 14th century work is divided into 3 sections: ‘Inferno’, ‘Purgatorio’, ‘Paradiso’.”*  
-  - 각각의 문서는 $z_1, z_2, \dots, z_k$ 로 표현된다.  
-
-- **Generator $p_\theta$ (Parametric)**  
-  - 선택된 문서들을 질의와 함께 입력받아,  
-    문맥적으로 일관된 답변을 생성한다.  
-  - 예시 생성 결과:  
-    - Question Answering → “The middle ear includes the tympanic cavity and the three ossicles.”  
-    - Fact Verification → “supports (y)”  
-    - Jeopardy-style Question Generation → “This 14th century work is divided into 3 sections...”  
-
-- **Marginalization 과정**  
-  - 각 문서 $z_i$로부터 생성된 답변 확률 $p_\theta(y \mid x, z_i)$ 를  
-    검색 확률 $p_\eta(z_i \mid x)$ 로 가중 평균하여 최종 응답을 산출한다.  
-  - 이 과정을 통해 개별 문서의 정보 불확실성을 줄이고,  
-    **가장 신뢰도 높은 종합적 답변**을 얻는다.  
-
-#### 3. **End-to-End 학습 구조**  
-- RAG는 **Retriever와 Generator를 동시에 학습**할 수 있는  
-  **End-to-End Backpropagation** 구조를 가진다.  
-- 학습 중에는 질의 인코더 $q(x)$와 생성기 $p_\theta$ 모두  
-  손실 함수에 따라 함께 최적화된다.  
-- 이를 통해 검색 정확도와 생성 품질을 동시에 향상시킬 수 있다.  
-
-#### 4. **요약**  
-- **Retriever**: 질의와 가장 관련 있는 문서를 확률적으로 검색 ($p_\eta(z \mid x)$)  
-- **Generator**: 검색된 문서와 질의를 결합해 답변을 생성 ($p_\theta(y \mid x,z)$)  
-- **Marginalization**: 여러 문서의 결과를 종합하여 최종 답변 도출  
-- **장점**:  
-  - 최신 정보 반영 가능  
-  - 근거 문서에 기반한 **사실적(factual)** 응답 생성  
-  - End-to-End 학습으로 **검색-생성 간 상호 최적화** 가능  
-
----
-
 ## p12. RAG
 
 **RAG 시스템 아키텍처**  
@@ -286,10 +218,10 @@ tags: []
 
 ## p13. RAG 작동과정  
 
-1. 사용자의 쿼리가 주어지면 쿼리 인코더가 이를 벡터 형태로 변환한다.  
-2. 지식 검색기가 인코딩된 쿼리를 바탕으로 외부 지식 베이스에서 관련 정보를 검색한다.  
-3. 검색된 지식은 지식 증강 생성기의 입력으로 전달된다.  
-4. 지식 증강 생성기는 검색된 지식을 활용하여 사용자 쿼리에 대한 자연어 답변을 생성한다.  
+1. 사용자의 쿼리가 주어지면 쿼리 인코더가 이를 벡터 형태로 변환.  
+2. 지식 검색기가 인코딩된 쿼리를 바탕으로 외부 지식 베이스에서 관련 정보를 검색.  
+3. 검색된 지식은 지식 증강 생성기의 입력으로 전달.  
+4. 지식 증강 생성기는 검색된 지식을 활용하여 사용자 쿼리에 대한 자연어 답변을 생성.  
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_5.png" alt="image" width="800px">  
 
@@ -349,19 +281,19 @@ tags: []
   - 검색 대상, 검색 방법, 사전/사후 최적화 도입  
     - **인덱싱**: 슬라이딩 윈도우, 세분화, 메타데이터 활용  
     - **쿼리 최적화**: 쿼리 변환, 확장, 재작성  
-    - **검색 후 처리**: 검색 결과 재순위화(rerank), 컨텍스트 압축  
+    - **검색 후**: 검색 결과 재순위화(rerank), 컨텍스트 압축  
   - **장점**  
     - 정보 과부하 방지, 핵심 정보 강조, 프롬프트 길이 제약 극복  
-    - 정확도(Precision)와 재현율(Recall)을 향상시켜 LLM 출력 품질 개선  
-  - **Augmentation**: **최적화된 청크**를 **여러 소스의 정보**로 정제하여 프롬프트에 추가  
+    - 정확도(Precision)와 재현율(Recall)을 향상시켜 LLM 출력 품질 향상  
+  - **Augmentation**: **최적화된 청크**나 **여러 소스의 정보**를 정제하여 프롬프트에 추가  
 
 - **Modular RAG**  
   - LLM 에이전트, 라우터 등 동적 모듈 사용  
   - **모듈화 및 유연성 강화**  
-    - 검색, 생성, 필터링, 평가 등 다양한 기능 모듈 결합 가능  
-    - 반복적/적응적 검색 및 End-to-End 통합 학습 지원  
-    - 특정 도메인·작업에 맞춤화 용이  
-  - **Augmentation**: **작업 흐름을 제어**하며 필요한 정보 검색·검증 및 복합적 증강 수행  
+    - 다양한 기능 모듈(검색, 생성, 필터링, 평가 등) 조합 가능  
+    - 반복적/적응적 검색, End-to-End 통합 학습 지원  
+    - 특정 도메인/작업에 맞춤화 용이  
+  - **Augmentation**: **작업 흐름을 제어**하며 필요에 따라 정보를 검색하고, 검증하거나, 복합적인 방식으로 증강.  
 
 ---
 
@@ -372,7 +304,7 @@ tags: []
 | 유형 | 검색 단계의 개선 | 증강 프로세스에서의 차이점 |
 |:--|:--|:--|
 | **Pre-Retrieval<br>(Index)** | 데이터 전처리(청크 크기, 메타데이터 추가),<br>인덱스 구조 최적화 | 청크 자체의 품질을 높여 더 정확하고 관련성<br>높은 컨텍스트를 검색 |
-| **Post-Retrieval<br>(Reranking)** | 검색된 상위 k개의 문서에 대해 Reranker 모델을<br>사용해 재순위 지정 | 가장 관련성 높은 문서만 선별하여<br>프롬프트에 포함<br>불필요한 노이즈(Noise) 감소 |
+| **Post-Retrieval<br>(Reranking)** | 검색된 상위 k개 문서에 대해 Reranker 모델을<br>사용해 재순위 지정 | 가장 관련성 높은 문서만 선별하여<br>프롬프트에 포함<br>불필요한 노이즈(Noise) 감소 |
 | **Query<br>Transformation** | 원래 쿼리를 LLM을 이용해 여러 쿼리로 확장<br>또는 HyDE(Hypothetical Document Embedding)<br>방식으로 변환 | 사용자의 의도를 더 잘 포착하는 다양한<br>컨텍스트를 검색하여 Recall(재현율) 향상 |
 | **Multi-Hop RAG** | 한 번의 검색으로 답을 찾기 어려울 때, LLM이<br>여러 번의 검색·생성을 반복하여 정보를 결합 | 복합적인 추론이 필요한 경우, 단계별 중간 결과를<br>컨텍스트로 활용하여 최종 답변을 증강 |
 
@@ -732,7 +664,7 @@ Naive/Advanced RAG보다 **유연하고 지능적**인 증강을 제공
   - **Parameters**  
     - chunk_size: 각 청크의 최대 길이  
     - chunk_overlap: 분할된 텍스트 조각들 사이에서 중복으로 포함될 문자 수  
-    - encoding_name: 텍스트를 토큰으로 변환하는 인코딩 방식 (cl100k_base: ada-002 model 사용)
+    - encoding_name: 텍스트를 토큰으로 변환하는 인코딩 방식 ('cl100k_base': ada-002 model 사용)
 
 <img src="/assets/img/lecture/bigdatasearch/7/image_20.png" alt="image" width="800px"> 
 
@@ -803,7 +735,7 @@ RAG 시스템은 속도를 위해 이중 인코더를 사용하여 후보군을 
   - 모델마다 지원 언어가 다름  
   - GPU 없을 시 임베딩 속도 느림  
 
-> 임베딩 모델에 따라 **임베딩 벡터의 값과 차원**이 다르게 표현되므로,  
+> 임베딩 모델에 따라 **임베딩 벡터의 값과 차원** 다르게 표현  
 > **용도에 맞는 임베딩 모델** 선택이 중요!
 
 ---
@@ -846,7 +778,7 @@ RAG 시스템은 속도를 위해 이중 인코더를 사용하여 후보군을 
 
 - **정확도 최우선**  
   - **OpenAI / Cohere** 같은 상용 API 사용하거나 **BGE-M3**와 같은 최신 고성능 오픈소스 모델을 선택  
-  - Reranker(재순위 모델)을 추가하여 성능 향상  
+  - Reranker(재순위 모델)를 추가  
 
 - **비용/효율성 최우선**  
   - **all-MiniLM-L6-v2** 또는 e5-base와 같은 경량 모델을 선택  
@@ -880,6 +812,28 @@ RAG 시스템은 속도를 위해 이중 인코더를 사용하여 후보군을 
 | **Euclidean Distance** | d = √Σ(xᵢ - yᵢ)² | 절대 거리 기준 | 이미지 벡터, 위치 기반 |
 | **Dot Product** | A·B = Σ(aᵢbᵢ) | 크기 + 방향 반영 | 신경망 내부 표현 |
 | **Hamming Distance** | bit 간 불일치 수 | 이진 벡터 전용 | 해시 기반 검색 |
+
+---
+
+### 보충 설명  
+
+#### 1. **Hamming Distance(해밍 거리)의 개요**  
+- 해밍 거리(Hamming Distance)는 **두 이진 벡터(binary vectors)** 또는 **동일 길이를 가진 문자열**이  
+  **얼마나 서로 다른지**를 측정하는 거리(metric)이다.  
+- 구체적으로는 **각 위치(index)** 를 비교했을 때 **서로 다른 값(불일치, mismatch)** 이 나타나는  
+  **비트(bit)의 개수**를 의미한다.  
+- 예를 들어,  
+  - A = 1011101  
+  - B = 1001001  
+  이 두 벡터를 비교하면 서로 다른 위치가 2곳이므로 해밍 거리 = **2**이다.  
+
+#### 2. **특징 및 해석**  
+- 해밍 거리는 **연속적인 실수 벡터에 사용할 수 없고**,  
+  **오직 이진 벡터(0/1)** 또는 **고정 길이 문자열**에서만 정의된다.  
+- 따라서 embedding vector(실수 벡터)에서 사용되는 cosine similarity, euclidean distance와는  
+  **완전히 다른 카테고리의 거리 척도**이다.  
+- 해시 기반 검색(Locality-Sensitive Hashing, SimHash 등)이나  
+  네트워크 오류 검출(Error-Correcting Codes) 영역에서 특히 자주 사용된다.  
 
 ---
 
@@ -929,10 +883,10 @@ RAG 시스템은 속도를 위해 이중 인코더를 사용하여 후보군을 
 
 | 구분 | 주요 서비스 | 핵심 특징 | 하이브리드 검색 | 적합한 사용자 |
 |------|--------------|-------------|------------------|----------------|
-| **전용 벡터 DB** | Pinecone (대표적) | 벡터 검색에 최적화된 아키텍처<br> 다양한 LLM/임베딩 API와 연동용이<br> 클라우드 agnostic (AWS, GCP 등 선택 가능) | 메타데이터 필터링 및 희소 벡터(Sparse) 지원 | 고성능 및 낮은 지연 시간이 필수적인 RAG 개발자, <br> 자체 DB 운영을 원치 않는 기업 |
+| **전용 벡터 DB** | Pinecone (대표적) | 벡터 검색에 최적화된 아키텍처<br> 다양한 LLM/임베딩 API와 연동용이<br> 클라우드 agnostic (AWS, GCP 등 선택 가능) | 메타데이터 필터링 및<br>희소 벡터(Sparse) 지원 | 고성능 및 낮은 지연 시간이<br>필수적인 RAG 개발자, <br> 자체 DB 운영을 원치 않는 기업 |
 | **클라우드 통합** | Vertex AI Vector Search<br>(Google) | Google Cloud 서비스와 긴밀한 통합 <br> 강력한 ML 플랫폼(Vertex AI)의 일부 | 메타데이터 필터링 지원 | Google Cloud를 주력으로 사용. <br> ML Ops 환경을 통합하려는 기업 |
 |  | Azure AI Search<br>(Microsoft) | 기존 Full-Text Search 기능과의 강력한 결합. <br> Microsoft 생태계(Azure, OpenAI) 통합 | **네이티브 하이브리드 검색** <br>(Full-Text + Vector) 강력 지원 | Microsoft Azure를 사용하거나, <br> 하이브리드 검색을 중요하게 생각하는 기업 |
-|  | Amazon OpenSearch<br>Service (w/ k-NN)<br>(AWS) | 로그 및 검색 기능 중심. <br> 벡터 검색을 기존 검색 엔진 기능에 추가 통합 | - | AWS를 사용하며, <br> 기존 OpenSearch 클러스터에 벡터 기능을 추가하려는 기업 |
+|  | Amazon OpenSearch<br>Service (w/ k-NN)<br>(AWS) | 로그 및 검색 기능 중심. <br> 벡터 검색을 기존 검색 엔진 기능에 추가 통합 | - | AWS를 사용하며, <br> 기존 OpenSearch 클러스터에<br>벡터 기능을 추가하려는 기업 |
 
 ---
 
