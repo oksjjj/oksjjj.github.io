@@ -312,7 +312,7 @@ docker.elastic.co/elasticsearch/elasticsearch:<ES_VERSION>
 
 ## p14. Elasticsearch 설치 및 실행(Docker 사용)  
 
-**아래 방법으로 설치되지 않는 경우 보충 설명 참고**
+**아래 방법으로 설치되지 않는 경우 공식 문서에 따른 설치 방법 참고**
 
 - **docker-compose로 설정**  
   (개발용 single-node + Kibana 예시)  
@@ -373,7 +373,7 @@ docker compose up -d
 
 ---
 
-### 보충 설명 : Elastic Search 공식 문서에 따른 docker-compose 설치 방법
+### Elastic Search 공식 문서에 따른 docker-compose 설치 방법
 
 #### 1. .env 파일 생성
 
@@ -746,7 +746,7 @@ curl -u elastic:changeme -k -X GET "https://localhost:9200/my-index/_search" \
 pip install elasticsearch
 ```
 
-- 코드 실행 시 http 주소로 인해 에러가 발생하는 경우, 아래 보충 설명 코드 참고
+- 코드 실행 시 http 주소로 인해 에러가 발생하는 경우, 아래 https 버전 코드 참고
 
 ```python
 from elasticsearch import Elasticsearch
@@ -791,7 +791,7 @@ for hit in res["hits"]["hits"]:
     print(hit["_source"])
 ```
 
-### 보충 설명 : https 버전 python 코드
+### https 버전 python 코드
 
 ```python
 from elasticsearch import Elasticsearch
