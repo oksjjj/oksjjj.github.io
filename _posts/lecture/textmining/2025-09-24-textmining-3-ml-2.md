@@ -42,32 +42,33 @@ $$
 
 ---
 
-### 보충 설명 
-
-- **가설 클래스(Hypothesis class)**란 모델이 학습 과정에서 선택할 수 있는 함수들의 집합을 의미한다.  
-  - 이는 “어떤 모양의 함수들 중에서 최적의 것을 찾을 것인가”를 미리 정해 놓은 틀이다.  
-
-- 예시:  
-  - **선형 회귀**:  
-
-    $$
-    \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot x \}
-    $$  
-
-    - 입력 $x$에 대해 직선(혹은 초평면) 형태의 함수만 고려한다.  
-
-  - **비선형 특성 변환**:  
-
-    $$
-    \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) \}
-    $$  
-
-    - $\varphi(x)$를 사용해 다항식, 곡선, 원형 경계 등 더 복잡한 형태를 포함시킬 수 있다.  
-
-- 즉, 가설 클래스는  
-  - 모델이 어떤 함수 형태를 학습할 수 있는가?  
-  - 문제를 어떤 방식으로 수학적으로 표현할 것인가?  
-  를 결정하는 **모델의 표현력 범위**라 할 수 있다.  
+> 가설 클래스(hypothesis class)란  
+> 모델이 학습 과정에서 선택할 수 있는 함수들의 집합을 의미한다.  
+> 즉, “어떤 모양의 함수들 중에서 최적의 것을 찾을 것인가”를 미리 정해 놓은 틀이다.  
+>  
+> 예시:  
+>  
+> - 선형 회귀:  
+>  
+>   $$  
+>   \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot x \}  
+>   $$  
+>  
+>   입력 $x$ 에 대해 직선(또는 초평면) 형태의 함수만 고려한다.  
+>  
+> - 비선형 특성 변환:  
+>  
+>   $$  
+>   \mathcal{F} = \{ f_{\mathbf{w}}(x) = \mathbf{w} \cdot \varphi(x) \}  
+>   $$  
+>  
+>   $\varphi(x)$ 를 통해 다항식, 곡선, 원형 경계 등 더 복잡한 형태를 포함할 수 있다.  
+>  
+> 즉, 가설 클래스는  
+> - 모델이 어떤 함수 형태를 학습할 수 있는가,  
+> - 문제를 어떤 방식으로 수학적으로 표현할 것인가  
+>  
+> 를 결정하는 **모델의 표현력 범위**라 할 수 있다.    
 
 ---
 
@@ -272,48 +273,46 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. **이차 특성의 예시 전개**
-
-- 특성 벡터:  
-  $$
-  \varphi(x) = [1, x, x^2]
-  $$  
-
-- 첫 번째 경우:  
-  $$
-  f(x) = [2, 1, -0.2] \cdot [1, x, x^2] = 2 + x - 0.2x^2
-  $$  
-
-- 두 번째 경우:  
-  $$
-  f(x) = [4, -1, 0.1] \cdot [1, x, x^2] = 4 - x + 0.1x^2
-  $$  
-
-- 세 번째 경우:  
-  $$
-  f(x) = [1, 1, 0] \cdot [1, x, x^2] = 1 + x
-  $$  
-
----
-
-#### 2. **주기성 특성의 예시 전개**
-
-- 특성 벡터:  
-  $$
-  \varphi(x) = [1, x, x^2, \cos(3x)]
-  $$  
-
-- 첫 번째 경우:  
-  $$
-  f(x) = [1, 1, -0.1, 1] \cdot [1, x, x^2, \cos(3x)] = 1 + x - 0.1x^2 + \cos(3x)
-  $$  
-
-- 두 번째 경우:  
-  $$
-  f(x) = [3, -1, 0.1, 0.5] \cdot [1, x, x^2, \cos(3x)] = 3 - x + 0.1x^2 + 0.5\cos(3x)
-  $$  
+> **1. 이차 특성의 예시 전개**  
+>  
+> - 특성 벡터:  
+>   $$  
+>   \varphi(x) = [1, x, x^2]  
+>   $$  
+>  
+> - 첫 번째 경우:  
+>   $$  
+>   f(x) = [2, 1, -0.2] \cdot [1, x, x^2] = 2 + x - 0.2x^2  
+>   $$  
+>  
+> - 두 번째 경우:  
+>   $$  
+>   f(x) = [4, -1, 0.1] \cdot [1, x, x^2] = 4 - x + 0.1x^2  
+>   $$  
+>  
+> - 세 번째 경우:  
+>   $$  
+>   f(x) = [1, 1, 0] \cdot [1, x, x^2] = 1 + x  
+>   $$  
+>  
+> ---  
+>  
+> **2. 주기성 특성의 예시 전개**  
+>  
+> - 특성 벡터:  
+>   $$  
+>   \varphi(x) = [1, x, x^2, \cos(3x)]  
+>   $$  
+>  
+> - 첫 번째 경우:  
+>   $$  
+>   f(x) = [1, 1, -0.1, 1] \cdot [1, x, x^2, \cos(3x)] = 1 + x - 0.1x^2 + \cos(3x)  
+>   $$  
+>  
+> - 두 번째 경우:  
+>   $$  
+>   f(x) = [3, -1, 0.1, 0.5] \cdot [1, x, x^2, \cos(3x)] = 3 - x + 0.1x^2 + 0.5\cos(3x)  
+>   $$    
 
 ---
 
@@ -352,55 +351,54 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. 원래 공간에서의 결정 경계  
-- 입력이 $(x_1, x_2)$일 때 결정 함수는  
-
-  $$
-  f(x) = 2x_1 + 2x_2 - (x_1^2 + x_2^2)
-  $$  
-
-  이다.  
-- $f(x) = 0$으로 두면  
-
-  $$
-  (x_1 - 1)^2 + (x_2 - 1)^2 = 2
-  $$  
-
-  가 되어 원래의 공간에서는 **원의 형태**가 결정 경계가 된다.  
-
-#### 2. 변환된 공간에서의 표현  
-- 특성 벡터를  
-
-  $$
-  \varphi(x) = [x_1, x_2, x_1^2 + x_2^2]
-  $$  
-
-  로 정의한다.  
-- 새로운 좌표 $(z_1, z_2, z_3)$를  
-
-  $$
-  z_1 = x_1, \quad z_2 = x_2, \quad z_3 = x_1^2 + x_2^2
-  $$  
-
-  라고 두면, 결정 함수는  
-
-  $$
-  f(x) = [2, 2, -1] \cdot \varphi(x) = 2z_1 + 2z_2 - z_3
-  $$  
-
-  로 표현된다.  
-
-#### 3. 초평면으로 단순화되는 이유  
-- 결정 경계 $f(x) = 0$은  
-
-  $$
-  2z_1 + 2z_2 - z_3 = 0
-  $$  
-
-  의 형태가 된다.  
-- 이는 $(z_1, z_2, z_3)$ 공간에서의 **평면 방정식**이며, 따라서 변환된 공간에서는 단순한 **선형 초평면**으로 표현된다.  
+> **1. 원래 공간에서의 결정 경계**  
+> - 입력이 $(x_1, x_2)$일 때 결정 함수는  
+> 
+>   $$  
+>   f(x) = 2x_1 + 2x_2 - (x_1^2 + x_2^2)  
+>   $$  
+> 
+>   이다.  
+> - $f(x) = 0$ 으로 두면  
+> 
+>   $$  
+>   (x_1 - 1)^2 + (x_2 - 1)^2 = 2  
+>   $$  
+> 
+>   가 되어, 원래의 공간에서는 **원의 형태**가 결정 경계가 된다.  
+>  
+> **2. 변환된 공간에서의 표현**  
+> - 특성 벡터를  
+> 
+>   $$  
+>   \varphi(x) = [x_1, x_2, x_1^2 + x_2^2]  
+>   $$  
+> 
+>   로 정의한다.  
+> - 새로운 좌표 $(z_1, z_2, z_3)$ 를  
+> 
+>   $$  
+>   z_1 = x_1,\quad z_2 = x_2,\quad z_3 = x_1^2 + x_2^2  
+>   $$  
+> 
+>   라고 두면, 결정 함수는  
+> 
+>   $$  
+>   f(x) = [2, 2, -1] \cdot \varphi(x) = 2z_1 + 2z_2 - z_3  
+>   $$  
+> 
+>   로 표현된다.  
+>  
+> **3. 초평면으로 단순화되는 이유**  
+> - 결정 경계 $f(x)=0$ 은  
+> 
+>   $$  
+>   2z_1 + 2z_2 - z_3 = 0  
+>   $$  
+> 
+>   의 형태가 된다.  
+> - 이는 $(z_1, z_2, z_3)$ 공간에서의 **평면 방정식**이므로,  
+>   변환된 공간에서는 **단순한 선형 초평면**이 된다.    
 
 ---
 
@@ -593,20 +591,21 @@ $$
 
 ---
 
-### 보충 설명  
-
-#### 1. **Indicator 함수의 불연속성**  
-- 함수 $$h(x) = 1[\mathbf{v} \cdot \varphi(x) \geq 0]$$은 $\mathbf{v} \cdot \varphi(x)$가 0을 기준으로 값이 갑자기 0에서 1로 바뀌는 **불연속 함수**이다.  
-- 즉, 대부분의 영역에서는 값이 일정하게 유지되고, 기준점에서만 점프(discontinuity)가 발생한다.  
-
-#### 2. **거의 모든 구간에서 그래디언트가 0인 이유**  
-- 함수 값이 일정하게 유지되는 구간에서는 변화율이 없으므로 그래디언트가 0이다.  
-- 오직 $\mathbf{v} \cdot \varphi(x) = 0$인 경계점에서만 값이 불연속적으로 바뀌므로, 그 외의 거의 모든 지점에서 그래디언트는 0이다.  
-
-#### 3. **학습 과정에서의 문제**  
-- 경사하강법(gradient descent)은 그래디언트를 이용해 매개변수 $\mathbf{v}$를 갱신한다.  
-- 그런데 그래디언트가 0이면 매개변수가 더 이상 업데이트되지 않으므로 학습이 진행되지 않는다.  
-- 이 문제를 해결하기 위해 **매끄러운 활성화 함수(smooth activation function)** 를 사용해 비제로(non-zero) 그래디언트를 확보한다.  
+> **1. Indicator 함수의 불연속성**  
+> - 함수 $h(x) = 1[\mathbf{v} \cdot \varphi(x) \ge 0]$ 은  
+>   $\mathbf{v} \cdot \varphi(x)$ 가 0을 기준으로 값이 갑자기 0에서 1로 바뀌는 **불연속 함수**이다.  
+> - 대부분의 영역에서는 값이 일정하게 유지되고, 기준점에서만 점프(discontinuity)가 발생한다.  
+>  
+> **2. 거의 모든 구간에서 그래디언트가 0인 이유**  
+> - 함수 값이 일정한 구간에서는 변화율이 없으므로 그래디언트가 0이다.  
+> - 오직 $\mathbf{v} \cdot \varphi(x) = 0$ 인 경계점에서만 값이 불연속적으로 변할 뿐,  
+>   그 외의 거의 모든 지점에서 그래디언트는 0이다.  
+>  
+> **3. 학습 과정에서의 문제**  
+> - 경사하강법은 그래디언트를 이용해 매개변수 $\mathbf{v}$ 를 갱신한다.  
+> - 그러나 그래디언트가 0이면 매개변수가 더 이상 업데이트되지 않아 학습이 멈추게 된다.  
+> - 따라서 매끄러운 활성화 함수(smooth activation function)를 사용하여  
+>   비제로(non-zero) 그래디언트를 확보하는 방식으로 문제를 해결한다.    
 
 ---
 
@@ -637,26 +636,26 @@ $$
 
 ---
 
-### 보충 설명  
-
-#### 1. **학습된 특징(learned features)의 의미**  
-- 전통적인 선형 예측기는 사람이 직접 설계한 특성(feature design)에 의존한다.  
-- 그러나 신경망의 중간(hidden) 유닛들은 학습 과정에서 데이터로부터 유용한 패턴을 자동으로 추출한다.  
-- 따라서 이 유닛들은 **스스로 학습된 특징(learned features)** 으로 해석될 수 있다.  
-
-#### 2. **선형 예측기와의 관계**  
-- 최종 출력은 여전히 선형 결합  
-
-  $$
-  \text{score} = \mathbf{w} \cdot \mathbf{h}
-  $$  
-
-  의 형태를 따른다.  
-- 하지만 입력 $x$ 자체가 아니라, 중간 유닛들이 만들어낸 **변환된 표현 $\mathbf{h}$** 에 대해 선형 결합을 수행한다는 점에서, 단순한 선형 모델보다 훨씬 복잡한 관계를 표현할 수 있다.  
-
-#### 3. **신경망에서의 입력 처리**  
-- 신경망에서는 $\varphi(x)$에 대해 별도의 feature design(특성 설계)을 하지 않고, **주어진 입력을 그대로 사용**한다.  
-- 복잡한 특징 변환은 네트워크 내부의 계층과 활성화 함수에 의해 자동으로 이루어지며, 이는 사람이 일일이 설계하지 않아도 된다는 장점을 제공한다.  
+> **1. 학습된 특징(learned features)의 의미**  
+> - 전통적인 선형 예측기는 사람이 직접 설계한 특성(feature design)에 의존한다.  
+> - 그러나 신경망의 중간(hidden) 유닛들은 학습 과정에서 데이터로부터 유용한 패턴을 자동으로 추출한다.  
+> - 따라서 이 유닛들은 **스스로 학습된 특징(learned features)** 로 해석될 수 있다.  
+>  
+> **2. 선형 예측기와의 관계**  
+> - 최종 출력은 여전히 선형 결합  
+>
+>   $$  
+>   \text{score} = \mathbf{w} \cdot \mathbf{h}  
+>   $$  
+>
+>   의 형태를 따른다.  
+> - 하지만 입력 $x$ 자체가 아니라, 중간 유닛들이 생성한 **변환된 표현 $\mathbf{h}$** 에 대해 선형 결합을 수행한다는 점에서  
+>   단순 선형 모델보다 훨씬 복잡한 관계를 표현할 수 있다.  
+>  
+> **3. 신경망에서의 입력 처리**  
+> - 신경망에서는 $\varphi(x)$ 와 같은 별도의 특성 설계를 하지 않고, **주어진 입력을 그대로 사용**한다.  
+> - 복잡한 특징 변환은 네트워크 내부의 계층과 활성화 함수에 의해 자동으로 이루어지며,  
+>   이는 사람이 일일이 feature design 을 하지 않아도 된다는 장점을 제공한다.    
 
 ---
 
@@ -731,70 +730,68 @@ $$
 
 ---
 
-### 보충 설명  
-
-#### 1. **1-계층 신경망 (선형 예측기)**  
-- 계산 과정:  
-
-  $$
-  \text{score} = \mathbf{w} \cdot \varphi(x)
-  $$  
-
-- 의미:  
-  - 입력 $\varphi(x)$를 가중치 벡터 $\mathbf{w}$와 단순히 선형 결합한 값이다.  
-  - 은닉층이 없으므로 비선형 변환은 일어나지 않는다.  
-  - 기본적인 **선형 모델**에 해당한다.  
-
----
-
-#### 2. **2-계층 신경망**  
-- 계산 과정:  
-  1. 은닉층 계산:  
-
-     $$
-     h = \sigma(\mathbf{V} \varphi(x))
-     $$  
-
-     - $\mathbf{V}$ : 입력을 은닉 유닛으로 변환하는 가중치 행렬  
-     - $\sigma$ : 비선형 활성화 함수(예: sigmoid, ReLU)  
-  2. 출력 계산:  
-
-     $$
-     \text{score} = \mathbf{w} \cdot h
-     $$  
-
-- 의미:  
-  - $\mathbf{V}$와 $\sigma$에 의해 입력이 비선형적으로 변환된다.  
-  - 변환된 표현 $h$는 사람이 설계하지 않은 **학습된 특성**으로 해석할 수 있다.  
-  - $\mathbf{w}$는 이 학습된 특성들을 다시 선형 결합하여 최종 출력을 만든다.  
-
----
-
-#### 3. **3-계층 신경망**  
-- 계산 과정:  
-  1. 첫 번째 은닉층:  
-
-     $$
-     h^{(1)} = \sigma(\mathbf{V}_1 \varphi(x))
-     $$  
-     
-  2. 두 번째 은닉층:  
-
-     $$
-     h^{(2)} = \sigma(\mathbf{V}_2 h^{(1)})
-     $$  
-
-  3. 출력 계산:  
-
-     $$
-     \text{score} = \mathbf{w} \cdot h^{(2)}
-     $$  
-
-- 의미:  
-  - 입력 $\varphi(x)$가 여러 번의 비선형 변환을 거치며 점점 더 복잡한 특성으로 추출된다.  
-  - $\mathbf{V}_1, \mathbf{V}_2$는 각 층에서 입력을 새로운 표현으로 바꾸는 가중치 행렬이다.  
-  - $\sigma$는 각 층에서 비선형성을 부여하여 단순한 선형 모델이 표현할 수 없는 복잡한 패턴을 학습할 수 있도록 한다.  
-  - 마지막에 $\mathbf{w}$가 이 최종 표현을 결합하여 예측을 만든다.  
+> **1-계층 신경망 (선형 예측기)**  
+> - 계산 과정:  
+>   $$  
+>   \text{score} = \mathbf{w} \cdot \varphi(x)  
+>   $$  
+>  
+> - 의미:  
+>   - 입력 $\varphi(x)$ 를 가중치 벡터 $\mathbf{w}$ 와 단순히 선형 결합한 값이다.  
+>   - 은닉층이 없으므로 비선형 변환은 일어나지 않는다.  
+>   - 기본적인 선형 모델에 해당한다.  
+>  
+> ---  
+>  
+> **2. 2-계층 신경망**  
+> - 계산 과정:  
+>   1. 은닉층 계산:  
+>  
+>      $$  
+>      h = \sigma(\mathbf{V} \varphi(x))  
+>      $$  
+>  
+>      - $\mathbf{V}$ : 입력을 은닉 유닛으로 변환하는 가중치 행렬  
+>      - $\sigma$ : 비선형 활성화 함수 (sigmoid, ReLU 등)  
+>  
+>   2. 출력 계산:  
+>  
+>      $$  
+>      \text{score} = \mathbf{w} \cdot h  
+>      $$  
+>  
+> - 의미:  
+>   - $\mathbf{V}$ 와 $\sigma$ 에 의해 입력이 비선형적으로 변환된다.  
+>   - 변환된 표현 $h$ 는 사람이 설계하지 않은 학습된 특성으로 해석할 수 있다.  
+>   - $\mathbf{w}$ 는 이 학습된 특성들을 다시 선형 결합하여 최종 출력을 만든다.  
+>  
+> ---  
+>  
+> **3. 3-계층 신경망**  
+> - 계산 과정:  
+>   1. 첫 번째 은닉층:  
+>  
+>      $$  
+>      h^{(1)} = \sigma(\mathbf{V}_1 \varphi(x))  
+>      $$  
+>  
+>   2. 두 번째 은닉층:  
+>  
+>      $$  
+>      h^{(2)} = \sigma(\mathbf{V}_2 h^{(1)})  
+>      $$  
+>  
+>   3. 출력 계산:  
+>  
+>      $$  
+>      \text{score} = \mathbf{w} \cdot h^{(2)}  
+>      $$  
+>  
+> - 의미:  
+>   - 입력 $\varphi(x)$ 가 여러 번의 비선형 변환을 거치며 점점 더 복잡한 특성으로 추출된다.  
+>   - $\mathbf{V}_1, \mathbf{V}_2$ 는 각 층에서 입력을 새로운 표현으로 바꾸는 가중치 행렬이다.  
+>   - $\sigma$ 는 각 층에 비선형성을 부여해 단순 선형 모델이 표현할 수 없는 복잡한 패턴을 학습하게 한다.  
+>   - 마지막에 $\mathbf{w}$ 가 이 최종 표현을 결합해 예측을 만든다.    
 
 ---
 
@@ -860,47 +857,43 @@ $$
 
 ---
 
-### 보충 설명  
-
-#### 1. **1개 은닉층 신경망 (총 75개 가중치)**  
-- 입력 노드 = 4  
-- 은닉 노드 = 15  
-- 각 은닉 노드 = 입력 4개 + bias 1개 = 5  
-- 총 가중치 수 = $15 \times 5 = 75$  
-
-#### 2. **3개 은닉층 신경망 (총 75개 가중치)**  
-- **첫 번째 은닉층 (bias 포함)**  
-   - 입력 = 4  
-   - 각 노드 = 입력 4개 + bias 1개 = 5  
-   - 가중치 수 = $5 \times 5 = 25$  
-
-- **두 번째 은닉층 (bias 제외)**  
-   - 입력 = 첫 번째 은닉층 출력 5개  
-   - 각 노드 = 입력 5개  
-   - 가중치 수 = $5 \times 5 = 25$  
-
-- **세 번째 은닉층 (bias 제외)**  
-   - 입력 = 두 번째 은닉층 출력 5개  
-   - 각 노드 = 입력 5개  
-   - 가중치 수 = $5 \times 5 = 25$  
-
-- 총합: $25 + 25 + 25 = 75$  
-
-#### 3. **경로 수 비교 (입력 1개 기준)**  
-- **1개 은닉층 신경망**  
-  - 입력 1개가 은닉층의 15개 노드 각각으로 연결된다.  
-  - 각 은닉 노드에서 출력으로 바로 연결 → 경로 수 = **15**  
-
-- **3개 은닉층 신경망**  
-  - 입력 1개가 첫 번째 은닉층의 5개 노드로 연결된다.  
-  - 첫 번째 은닉층의 각 노드 → 두 번째 은닉층의 5개 노드로 확장  
-  - 두 번째 은닉층의 각 노드 → 세 번째 은닉층의 5개 노드로 확장  
-  - 최종적으로 출력과 연결됨  
-  - 경로 수 = $5 \times 5 \times 5 = 125$  
-
-#### 4. **의미**  
-- 1층과 3층 모두 동일하게 **총 가중치 수 = 75개**이지만,  
-- 3층 구조는 훨씬 많은 경로(125)를 가지므로 같은 가중치 수로 더 복잡한 표현을 학습할 수 있다.  
+> **1. 1개 은닉층 신경망 (총 75개 가중치)**  
+> - 입력 노드 = 4  
+> - 은닉 노드 = 15  
+> - 각 은닉 노드 = 입력 4개 + bias 1개 = 5  
+> - 총 가중치 수 = $15 \times 5 = 75$  
+>  
+> **2. 3개 은닉층 신경망 (총 75개 가중치)**  
+> - 첫 번째 은닉층 (bias 포함)  
+>   - 입력 = 4  
+>   - 각 노드 = 입력 4개 + bias 1개 = 5  
+>   - 가중치 수 = $5 \times 5 = 25$  
+> - 두 번째 은닉층 (bias 제외)  
+>   - 입력 = 첫 번째 은닉층 출력 5개  
+>   - 각 노드 = 입력 5개  
+>   - 가중치 수 = $5 \times 5 = 25$  
+> - 세 번째 은닉층 (bias 제외)  
+>   - 입력 = 두 번째 은닉층 출력 5개  
+>   - 각 노드 = 입력 5개  
+>   - 가중치 수 = $5 \times 5 = 25$  
+> - 총합 = $25 + 25 + 25 = 75$  
+>  
+> **3. 경로 수 비교 (입력 1개 기준)**  
+> - 1개 은닉층 신경망  
+>   - 입력 1개가 은닉층 15개 노드로 연결됨  
+>   - 각 노드에서 바로 출력으로 연결  
+>   - 경로 수 = $15$  
+> - 3개 은닉층 신경망  
+>   - 입력 1개 → 첫 번째 은닉층 5개 노드  
+>   - 첫 번째 은닉층 5개 → 두 번째 은닉층 5개  
+>   - 두 번째 은닉층 5개 → 세 번째 은닉층 5개  
+>   - 최종적으로 출력과 연결  
+>   - 경로 수 = $5 \times 5 \times 5 = 125$  
+>  
+> **4. 의미**  
+> - 두 구조 모두 총 가중치 수는 $75$ 개이지만,  
+> - 3층 구조는 더 많은 경로(125)를 가져  
+>   같은 가중치 수로도 더 복잡한 표현을 학습할 수 있다.    
 
 ---
 
@@ -1040,72 +1033,66 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. 시그모이드 정의
-- 시그모이드는  
-
-  $$
-  \sigma(a)=\frac{1}{1+e^{-a}}
-  $$
-
-  로 정의한다.
-
-#### 2. 분수 미분 공식으로 단계별 미분
-- 분수 미분 공식(quotient rule):  
-
-  $$
-  \left(\frac{u}{v}\right)'=\frac{u'v-u\,v'}{v^2}
-  $$
-
-- 여기서 $\(u(a)=1,\; v(a)=1+e^{-a}\)$. 그러면
-
-  $$
-  u'(a)=0,\qquad v'(a)=\frac{d}{da}(1+e^{-a})=-e^{-a}.
-  $$
-
-- 공식을 대입하면
-
-  $$
-  \frac{d\sigma(a)}{da}
-  =\frac{0\cdot(1+e^{-a})-1\cdot(-e^{-a})}{(1+e^{-a})^2}
-  =\frac{-(-e^{-a})}{(1+e^{-a})^2}
-  =\frac{e^{-a}}{(1+e^{-a})^2}.
-  $$
-
-#### 3. (체크) 거듭제곱–연쇄 규칙으로도 같은 결과
-- $\(\sigma(a)=(1+e^{-a})^{-1}\)$ 로 보고 미분하면
-
-  $$
-  \frac{d\sigma(a)}{da}
-  =-1\cdot(1+e^{-a})^{-2}\cdot(-e^{-a})
-  =\frac{e^{-a}}{(1+e^{-a})^2}.
-  $$
-
-#### 4. 최종 정리: $\(\sigma(a)\big(1-\sigma(a)\big)\)$ 꼴로 변형
-1) $\(\sigma(a)=\dfrac{1}{1+e^{-a}}\)$ 이므로
-
-   $$
-   1-\sigma(a)=1-\frac{1}{1+e^{-a}}
-   =\frac{1+e^{-a}-1}{1+e^{-a}}
-   =\frac{e^{-a}}{1+e^{-a}}.
-   $$
-
-2) 두 식을 곱하면
-
-   $$
-   \sigma(a)\big(1-\sigma(a)\big)
-   =\frac{1}{1+e^{-a}}\cdot\frac{e^{-a}}{1+e^{-a}}
-   =\frac{e^{-a}}{(1+e^{-a})^2}.
-   $$
-
-3) 위 결과가 2절에서 구한 $\(\dfrac{d\sigma(a)}{da}\)$ 와 동일하므로
-
-   $$
-   \boxed{\displaystyle \frac{d\sigma(a)}{da}=\sigma(a)\big(1-\sigma(a)\big)}
-   $$
-
-   가 성립한다.
+> **1. 시그모이드 정의**  
+> - 시그모이드는  
+>
+>   $$  
+>   \sigma(a)=\frac{1}{1+e^{-a}}  
+>   $$  
+>
+>   로 정의한다.  
+>  
+> **2. 분수 미분 공식으로 단계별 미분**  
+> - 분수 미분 공식(quotient rule):  
+>
+>   $$  
+>   \left(\frac{u}{v}\right)'=\frac{u'v-u\,v'}{v^2}  
+>   $$  
+>
+> - 여기서 $u(a)=1,\; v(a)=1+e^{-a}$.  
+>
+>   $$  
+>   u'(a)=0,\qquad v'(a)=-e^{-a}  
+>   $$  
+>
+> - 공식을 대입하면  
+>
+>   $$  
+>   \frac{d\sigma(a)}{da}  
+>   =\frac{0\cdot(1+e^{-a})-1\cdot(-e^{-a})}{(1+e^{-a})^2}  
+>   =\frac{e^{-a}}{(1+e^{-a})^2}.  
+>   $$  
+>  
+> **3. 거듭제곱–연쇄 규칙으로도 같은 결과**  
+> - $\sigma(a)=(1+e^{-a})^{-1}$ 로 보고 미분하면  
+>
+>   $$  
+>   \frac{d\sigma(a)}{da}  
+>   =-1\cdot(1+e^{-a})^{-2}\cdot(-e^{-a})  
+>   =\frac{e^{-a}}{(1+e^{-a})^2}.  
+>   $$  
+>  
+> **4. 최종 정리: $\sigma(a)(1-\sigma(a))$ 꼴로 변형**  
+> 1)  
+> 
+>   $$  
+>   \sigma(a)=\frac{1}{1+e^{-a}},\qquad  
+>   1-\sigma(a)=\frac{e^{-a}}{1+e^{-a}}  
+>   $$  
+>
+> 2)  
+> 
+>   $$  
+>   \sigma(a)(1-\sigma(a))  
+>   =\frac{1}{1+e^{-a}}\cdot\frac{e^{-a}}{1+e^{-a}}  
+>   =\frac{e^{-a}}{(1+e^{-a})^2}.  
+>   $$  
+>
+> 3) 위 결과가 $\dfrac{d\sigma(a)}{da}$ 와 동일하므로  
+>
+>   $$  
+>   \boxed{\frac{d\sigma(a)}{da}=\sigma(a)(1-\sigma(a))}  
+>   $$  
 
 ---
 
@@ -1147,57 +1134,74 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. 순전파 (Forward)
-
-1) **점수 (score)**  
-$s = \mathbf{w} \cdot \varphi(x)$  
-
-2) **마진 (margin)**  
-$m = y \cdot s$  
-
-3) **잔차 (residual)**  
-$r = 1 - m$  
-
-4) **손실 (loss)**  
-$L = \max(r, 0)$  
-
-- $r \le 0 \;\Rightarrow\; L = 0$ (마진 충분)  
-- $r > 0 \;\Rightarrow\; L = r$ (마진 부족 또는 오분류)
-
-#### 2. 역전파 (Backward: 단계별 편미분)
-
-**① 손실 노드 $L = \max(r,0)$ 의 $r$에 대한 편미분**  
-- $r>0$일 때:  
-  $L = r \;\Rightarrow\; \dfrac{\partial L}{\partial r} = \dfrac{\partial r}{\partial r} = 1$  
-- $r \le 0$일 때:  
-  $L = 0 \;\Rightarrow\; \dfrac{\partial L}{\partial r} = \dfrac{\partial 0}{\partial r} = 0$  
-- 요약: $\dfrac{\partial L}{\partial r} = 1[r>0]$
-
----
-
-**② 잔차 노드 $r = 1 - m$ 의 $m$에 대한 편미분**  
-$\dfrac{\partial r}{\partial m} = \dfrac{\partial (1)}{\partial m} + \dfrac{\partial (-m)}{\partial m} = 0 + (-1) = -1$
-
----
-
-**③ 마진 노드 $m = y \cdot s$ 의 편미분**  
-- $s$에 대해: $\dfrac{\partial m}{\partial s} = \dfrac{\partial (y \cdot s)}{\partial s} = y$  
-- $y$에 대해: $\dfrac{\partial m}{\partial y} = \dfrac{\partial (y \cdot s)}{\partial y} = s$
-
----
-
-**④ 점수 노드 $s = \mathbf{w} \cdot \varphi(x)$ 의 편미분**  
-- $\mathbf{w}$에 대해: $\dfrac{\partial s}{\partial \mathbf{w}} = \dfrac{\partial \mathbf{w} \cdot \varphi(x)}{\partial \mathbf{w}} = \varphi(x)$  
-- $\varphi(x)$에 대해: $\dfrac{\partial s}{\partial \varphi(x)} = \dfrac{\partial \mathbf{w} \cdot \varphi(x)}{\partial \varphi(x)}  = \mathbf{w}$
-
----
-
-#### 3. 최종 그래디언트 (체인 룰 적용)
-
-- 가중치 $\mathbf{w}$에 대한 그래디언트:  
-$\nabla_{\mathbf{w}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial m} \cdot \dfrac{\partial m}{\partial s} \cdot \dfrac{\partial s}{\partial \mathbf{w}} = 1[r>0] \cdot (-1) \cdot y \cdot \varphi(x) = -\varphi(x)\, y \, 1[r>0]$
+> **1. 순전파 (Forward)**  
+>  
+> 1) 점수 (score)  
+> $s = \mathbf{w} \cdot \varphi(x)$  
+>  
+> 2) 마진 (margin)  
+> $m = y \cdot s$  
+>  
+> 3) 잔차 (residual)  
+> $r = 1 - m$  
+>  
+> 4) 손실 (loss)  
+> $L = \max(r, 0)$  
+>  
+> - $r \le 0 \Rightarrow L = 0$ (마진 충분)  
+> - $r > 0 \Rightarrow L = r$ (마진 부족 또는 오분류)  
+>  
+> ---  
+>  
+> **2. 역전파 (Backward: 단계별 편미분)**  
+>  
+> ① 손실 노드 $L = \max(r,0)$ 의 $r$에 대한 편미분  
+> - $r>0$ 일 때:  
+>   $$\frac{\partial L}{\partial r} = 1$$  
+> - $r \le 0$ 일 때:  
+>   $$\frac{\partial L}{\partial r} = 0$$  
+> - 요약:  
+>   $$\frac{\partial L}{\partial r} = 1[r>0]$$  
+>  
+> ---  
+>  
+> ② 잔차 노드 $r = 1 - m$ 의 $m$에 대한 편미분  
+> $$\frac{\partial r}{\partial m} = -1$$  
+>  
+> ---  
+>  
+> ③ 마진 노드 $m = y \cdot s$ 의 편미분  
+> - $s$ 에 대해:  
+>   $$\frac{\partial m}{\partial s} = y$$  
+> - $y$ 에 대해:  
+>   $$\frac{\partial m}{\partial y} = s$$  
+>  
+> ---  
+>  
+> ④ 점수 노드 $s = \mathbf{w} \cdot \varphi(x)$ 의 편미분  
+> - $\mathbf{w}$ 에 대해:  
+>   $$\frac{\partial s}{\partial \mathbf{w}} = \varphi(x)$$  
+> - $\varphi(x)$ 에 대해:  
+>   $$\frac{\partial s}{\partial \varphi(x)} = \mathbf{w}$$  
+>  
+> ---  
+>  
+> **3. 최종 그래디언트 (체인 룰 적용)**  
+>  
+> - 가중치 $\mathbf{w}$ 에 대한 그래디언트  
+>
+>   $$  
+>   \nabla_{\mathbf{w}} L  
+>   = \frac{\partial L}{\partial r}  
+>     \cdot \frac{\partial r}{\partial m}  
+>     \cdot \frac{\partial m}{\partial s}  
+>     \cdot \frac{\partial s}{\partial \mathbf{w}}  
+>   $$  
+>  
+>   $$  
+>   = 1[r>0] \cdot (-1) \cdot y \cdot \varphi(x)  
+>   = -\varphi(x)\, y \, 1[r>0]  
+>   $$  
 
 ---
 
@@ -1239,136 +1243,115 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. 순전파 (Forward)
-
-1) **은닉층 입력**  
-$z = \mathbf{V} \varphi(x)$  
-
-2) **은닉층 활성화**  
-$\mathbf{h} = \sigma(z)$  
-
-3) **출력 (예측값)**  
-$\hat{y} = \mathbf{w} \cdot \mathbf{h}$  
-
-4) **잔차 (residual)**  
-$r = \hat{y} - y$  
-
-5) **손실 (loss)**  
-$L = r^2 = (\hat{y} - y)^2$  
-
----
-
-#### 2. 역전파 (Backward: 단계별 편미분)
-
-**① 손실 노드 $L = r^2$ 의 $r$에 대한 편미분**  
-$\dfrac{\partial L}{\partial r} = \dfrac{\partial (r^2)}{\partial r} = 2r$
-
----
-
-**② 잔차 노드 $r = \hat{y} - y$ 의 편미분**  
-- $\hat{y}$에 대해:  
-  $\dfrac{\partial r}{\partial \hat{y}} = \dfrac{\partial (\hat{y} - y)}{\partial \hat{y}} = 1$  
-- $y$에 대해:  
-  $\dfrac{\partial r}{\partial y} = \dfrac{\partial (\hat{y} - y)}{\partial y} = -1$  
-
----
-
-**③ 출력 노드 $\hat{y} = \mathbf{w} \cdot \mathbf{h}$ 의 편미분**  
-- $\mathbf{w}$에 대해:  
-  $\dfrac{\partial \hat{y}}{\partial \mathbf{w}} = \dfrac{\partial (\mathbf{w} \cdot \mathbf{h})}{\partial \mathbf{w}} = \mathbf{h}$  
-- $\mathbf{h}$에 대해:  
-  $\dfrac{\partial \hat{y}}{\partial \mathbf{h}} = \dfrac{\partial (\mathbf{w} \cdot \mathbf{h})}{\partial \mathbf{h}} = \mathbf{w}$  
-
----
-
-**④ 은닉층 노드 $\mathbf{h} = \sigma(z)$ 의 $z$에 대한 편미분**  
-$\dfrac{\partial \mathbf{h}}{\partial z} = \dfrac{\partial \sigma(z)}{\partial z} = \sigma(z) \circ (1 - \sigma(z)) = \mathbf{h} \circ (1 - \mathbf{h})$  
-
----
-
-**⑤ 은닉층 입력 $z = \mathbf{V}\varphi(x)$ 의 편미분**  
-- $\mathbf{V}$에 대해(미분하면 전치가 되는 이유는 아래에 설명):  
-  $\dfrac{\partial z}{\partial \mathbf{V}} = \dfrac{\partial (\mathbf{V}\varphi(x))}{\partial \mathbf{V}} = \varphi(x)^\top$  
-- $\varphi(x)$에 대해:  
-  $\dfrac{\partial z}{\partial \varphi(x)} = \dfrac{\partial (\mathbf{V}\varphi(x))}{\partial \varphi(x)} = \mathbf{V}$  
-
----
-
-#### 3. 최종 그래디언트 (체인 룰 적용)
-
-- 가중치 $\mathbf{w}$에 대한 그래디언트:  
-$\nabla_{\mathbf{w}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial \mathbf{w}} = (2r) \cdot (1) \cdot \mathbf{h} = 2r \, \mathbf{h}$  
-
-- 가중치 $\mathbf{V}$에 대한 그래디언트:  
-$\nabla_{\mathbf{V}} L = \dfrac{\partial L}{\partial r} \cdot \dfrac{\partial r}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial \mathbf{h}} \cdot \dfrac{\partial \mathbf{h}}{\partial z} \cdot \dfrac{\partial z}{\partial \mathbf{V}}$  
-
-$= (2r) \cdot (1) \cdot \mathbf{w} \cdot \big(\mathbf{h} \circ (1-\mathbf{h})\big) \cdot \varphi(x)^\top$  
-
----
-
-### 추가 보충 설명: 왜 미분하면 전치가 나타나는가?
-
-#### 1. **형상(Shape) 확인**  
-$z = \mathbf{V}\varphi(x)$ 에서,  
-- $\mathbf{V}$ : $(k \times d)$  
-- $\varphi(x)$ : $(d \times 1)$  
-
-따라서  
-
-$$
-z \in \mathbb{R}^{k \times 1}
-$$  
-
-즉, $z$는 $k$차원 열 벡터이다.  
-
----
-
-#### 2. **$z$의 $i$번째 원소**  
-$z$의 $i$번째 원소는  
-
-$$
-z_i = \sum_{j=1}^d V_{ij}\,\varphi_j(x)
-$$  
-
-이다. 이는 곧 $\mathbf{V}$의 $i$번째 행과 $\varphi(x)$의 내적이다:  
-
-$$
-z_i = \mathbf{V}_{i,:} \cdot \varphi(x)
-$$  
-
----
-
-#### 3. **$i$행에 대한 미분**  
-$i$번째 원소 $z_i$를 $\mathbf{V}_{i,:}$에 대해 미분하면  
-
-$$
-\frac{\partial z_i}{\partial \mathbf{V}_{i,:}} 
-= \big[\varphi_1(x), \varphi_2(x), \dots, \varphi_d(x)\big]
-= \varphi(x)^\top
-$$  
-
-즉, **특정 행($i$행)에 대한 그래디언트는 $\varphi(x)$의 전치**이다.  
-행벡터가 되는 이유는, $V_{ij}$를 $j$별로 미분한 결과들이 가로로 나열되기 때문이다.  
-선형대수학에서 기본은 열벡터이고, 행벡터는 전치로 표현한다.  
-
----
-
-#### 4. **전체 $\mathbf{V}$에 대한 미분**  
-모든 $i=1,\dots,k$에 대해 동일한 논리가 적용되므로,  
-
-$$
-\frac{\partial z}{\partial \mathbf{V}} =
-\begin{bmatrix}
-\varphi(x)^\top \\
-\varphi(x)^\top \\
-\vdots \\
-\varphi(x)^\top
-\end{bmatrix}_{k \times d}
-$$  
-
-즉, **각 행이 $\varphi(x)^\top$인 행렬**이 된다.  
+> **1. 순전파 (Forward)**  
+>  
+> 1) 은닉층 입력  
+> $z = \mathbf{V} \varphi(x)$  
+>  
+> 2) 은닉층 활성화  
+> $\mathbf{h} = \sigma(z)$  
+>  
+> 3) 출력 (예측값)  
+> $\hat{y} = \mathbf{w} \cdot \mathbf{h}$  
+>  
+> 4) 잔차 (residual)  
+> $r = \hat{y} - y$  
+>  
+> 5) 손실 (loss)  
+> $L = r^2 = (\hat{y} - y)^2$  
+>  
+> ---  
+>  
+> **2. 역전파 (Backward: 단계별 편미분)**  
+>  
+> ① 손실 노드 $L = r^2$ 의 $r$에 대한 편미분  
+> $$\frac{\partial L}{\partial r} = 2r$$  
+>  
+> ---  
+>  
+> ② 잔차 노드 $r = \hat{y} - y$  
+> - $\hat{y}$ 에 대해  
+>   $$\frac{\partial r}{\partial \hat{y}} = 1$$  
+> - $y$ 에 대해  
+>   $$\frac{\partial r}{\partial y} = -1$$  
+>  
+> ---  
+>  
+> ③ 출력 노드 $\hat{y} = \mathbf{w} \cdot \mathbf{h}$  
+> - $\mathbf{w}$ 에 대해  
+>   $$\frac{\partial \hat{y}}{\partial \mathbf{w}} = \mathbf{h}$$  
+> - $\mathbf{h}$ 에 대해  
+>   $$\frac{\partial \hat{y}}{\partial \mathbf{h}} = \mathbf{w}$$  
+>  
+> ---  
+>  
+> ④ 은닉층 노드 $\mathbf{h} = \sigma(z)$  
+> $$\frac{\partial \mathbf{h}}{\partial z} = \mathbf{h} \circ (1 - \mathbf{h})$$  
+>  
+> ---  
+>  
+> ⑤ 은닉층 입력 $z = \mathbf{V}\varphi(x)$  
+> - $\mathbf{V}$ 에 대해  
+>   $$\frac{\partial z}{\partial \mathbf{V}} = \varphi(x)^\top$$  
+> - $\varphi(x)$ 에 대해  
+>   $$\frac{\partial z}{\partial \varphi(x)} = \mathbf{V}$$  
+>  
+> ---  
+>  
+> **3. 최종 그래디언트 (체인 룰 적용)**  
+>  
+> - 가중치 $\mathbf{w}$ 에 대한 그래디언트  
+>   $$  
+>   \nabla_{\mathbf{w}} L  
+>   = (2r)\cdot(1)\cdot \mathbf{h}  
+>   = 2r\,\mathbf{h}  
+>   $$  
+>  
+> - 가중치 $\mathbf{V}$ 에 대한 그래디언트  
+>   $$  
+>   \nabla_{\mathbf{V}} L  
+>   = (2r)\cdot(1)\cdot \mathbf{w}\cdot (\mathbf{h}\circ(1-\mathbf{h}))\cdot \varphi(x)^\top  
+>   $$  
+>  
+> ---  
+>  
+> **추가 보충 설명: 왜 미분하면 전치가 나타나는가?**  
+>  
+> **1) 형상(Shape) 확인**  
+> - $\mathbf{V}$ : $(k \times d)$  
+> - $\varphi(x)$ : $(d \times 1)$  
+> - 따라서 $z=\mathbf{V}\varphi(x)\in\mathbb{R}^{k\times 1}$  
+>  
+> **2) $z$의 $i$번째 원소**  
+>
+> $$  
+> z_i = \sum_{j=1}^d V_{ij}\,\varphi_j(x) = \mathbf{V}_{i,:}\cdot \varphi(x)  
+> $$  
+>  
+> **3) $i$행에 대한 미분**  
+>
+> $$  
+> \frac{\partial z_i}{\partial \mathbf{V}_{i,:}}  
+> = [\varphi_1(x),\dots,\varphi_d(x)]  
+> = \varphi(x)^\top  
+> $$  
+>  
+> → 특정 행에 대한 그래디언트가 **행벡터 = $\varphi(x)^\top$** 로 나타난다.  
+>  
+> **4) 전체 $\mathbf{V}$ 에 대한 미분**  
+>
+> $$  
+> \frac{\partial z}{\partial \mathbf{V}}  
+> =  
+> \begin{bmatrix}  
+> \varphi(x)^\top \\  
+> \varphi(x)^\top \\  
+> \vdots \\  
+> \varphi(x)^\top  
+> \end{bmatrix}_{k\times d}  
+> $$  
+>  
+> 즉, 모든 행이 동일하게 $\varphi(x)^\top$ 로 구성된 행렬이 된다.    
 
 ---
 
@@ -1451,29 +1434,28 @@ $$
 
 ---
 
-### 보충 설명  
-
-#### 1. **다층 구조로 인한 비선형성**  
-- 선형 예측기에서는 입력과 출력 사이의 관계가 단일 선형 결합으로 표현된다.  
-- 하지만 신경망은 여러 개의 은닉층(hidden layers)을 거치면서 각 층마다 새로운 표현을 만든다.  
-- 이 과정에서 입력이 여러 차례 **비선형 변환(non-linear transformation)** 을 거치기 때문에 손실 함수의 형태가 단순한 볼록 함수가 아니라 복잡한 비볼록 함수가 된다.  
-
-#### 2. **활성화 함수의 영향**  
-- 시그모이드(sigmoid), ReLU 등 활성화 함수는 모델에 비선형성을 부여한다.  
-- 활성화 함수의 곡선적 특성 때문에, 매개변수 공간에서 손실 함수는 매끄럽지 않고 구불구불한 지형을 가지게 된다.  
-- 이로 인해 최적화 과정에서 여러 개의 지역 최적해(local optima)나 안장점(saddle points)이 나타난다.  
-
-#### 3. **매개변수 공간의 고차원성**  
-- 신경망은 보통 수천, 수만 개 이상의 가중치와 편향을 가진다.  
-- 매개변수 차원이 커질수록 손실 함수의 표면은 훨씬 복잡해지고, 직관적으로 볼록(convex)한 성질을 유지하기 어렵다.  
-- 따라서 SGD 같은 최적화 기법이 전역 최소값(global minimum)에 도달하기보다 지역 최소값이나 평평한 영역에 머물 가능성이 높아진다.  
-
-#### 4. **요약**  
-- 신경망의 손실 함수가 복잡한 이유는  
-  1) **다층 구조**로 인한 반복적 비선형 변환,  
-  2) **활성화 함수**가 만들어내는 곡선적 성질,  
-  3) **매개변수 공간의 고차원성**  
-  때문이며, 이 세 가지가 결합되어 손실 함수가 비볼록(non-convex) 형태를 띠게 된다.  
+> **1. 다층 구조로 인한 비선형성**  
+> - 선형 예측기는 입력과 출력 사이의 관계가 단일 선형 결합으로 표현된다.  
+> - 반면 신경망은 여러 개의 은닉층을 거치며 각 층에서 새로운 표현을 만든다.  
+> - 이 과정에서 입력이 여러 차례 비선형 변환을 거치므로 손실 함수의 형태는 단순한 볼록 함수가 아니라 복잡한 비볼록 함수가 된다.  
+>  
+> **2. 활성화 함수의 영향**  
+> - 시그모이드(sigmoid), ReLU 등의 활성화 함수는 모델에 비선형성을 부여한다.  
+> - 이러한 함수의 곡선적 성질 때문에 매개변수 공간에서 손실 함수는 매끄럽지 않고 복잡한 지형을 갖는다.  
+> - 그 결과, 여러 개의 지역 최적해나 안장점(saddle points)이 자연스럽게 나타난다.  
+>  
+> **3. 매개변수 공간의 고차원성**  
+> - 신경망은 수천, 수만 개 이상의 가중치와 편향을 포함하는 고차원 매개변수 공간을 가진다.  
+> - 차원이 높아질수록 손실 함수의 표면은 더욱 복잡해지며, 직관적인 볼록성을 유지하기 어렵다.  
+> - 이 때문에 최적화 과정에서 SGD 같은 기법이 전역 최소값보다 지역 최소값이나 평평한 구간에 머물 가능성이 크다.  
+>  
+> **4. 요약**  
+> - 신경망의 손실 함수가 복잡한 이유는  
+>   1) 다층 구조로 인한 반복적 비선형 변환,  
+>   2) 활성화 함수가 만들어내는 곡선적 특성,  
+>   3) 매개변수 공간의 높은 차원성  
+>   때문이다.  
+> - 이 세 요소가 결합되면서 손실 함수는 자연스럽게 비볼록(non-convex) 형태를 띠게 된다.    
 
 ---
 

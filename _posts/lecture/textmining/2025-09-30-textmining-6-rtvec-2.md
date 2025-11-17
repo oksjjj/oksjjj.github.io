@@ -129,21 +129,19 @@ $$
 
 ---
 
-### 보충 설명
-
-#### PMI의 의미  
-- **PMI(Pointwise Mutual Information)** 는 두 단어가 **우연히 동시에 등장할 확률보다 실제로 얼마나 더 자주 함께 등장하는가**를 측정하는 지표이다.  
-- 수식으로 표현하면 다음과 같다.
-
-$$
-PMI(w_1, w_2) = \log \frac{P(w_1, w_2)}{P(w_1)P(w_2)}
-$$
-
-- 분모 $P(w_1)P(w_2)$ 는 **단어들이 서로 독립(independent)** 이라면 두 단어가 함께 등장할 확률을 의미한다.  
-- 반면 분자 $P(w_1, w_2)$ 는 실제 관찰된 **공동 등장 확률(joint probability)** 이다.  
-- 따라서  
-  - $PMI > 0$: 실제로 두 단어가 **독립적인 경우보다 자주 함께 등장**한다.  
-  - $PMI < 0$: 두 단어가 **서로 거의 함께 등장하지 않는다.**
+> **PMI(Pointwise Mutual Information)의 의미**  
+> - PMI는 두 단어가 **우연히 동시에 등장할 확률보다 실제로 얼마나 더 자주 함께 등장하는지**를 측정하는 지표이다.  
+>  
+>   $$  
+>   PMI(w_1, w_2) = \log \frac{P(w_1, w_2)}{P(w_1)P(w_2)}  
+>   $$  
+>  
+> - 분모 $P(w_1)P(w_2)$ 는 **두 단어가 서로 독립**일 때 공동으로 등장할 확률이다.  
+> - 분자 $P(w_1, w_2)$ 는 실제 문서에서 관찰된 **공동 등장 확률(joint probability)** 이다.  
+>  
+> 따라서  
+> - $PMI > 0$: 실제로 두 단어가 **독립적일 때보다 더 자주 함께 등장**한다.  
+> - $PMI < 0$: 두 단어가 **거의 함께 등장하지 않는다**는 뜻이다.  
 
 ---
 
@@ -395,54 +393,54 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. Skip-gram의 핵심 아이디어  
-- Skip-gram 모델은 중심 단어(center word) $w$가 주어졌을 때,  
-  **그 주변 단어(context word) $c$를 예측**하는 것을 목표로 한다.  
-- 즉, “단어 $w$가 주어졌을 때 단어 $c$가 등장할 확률” $p_\theta(c|w)$ 를  
-  가능한 한 크게 만드는 것이 학습의 목적이다.
-
-$$
-\max_{\theta} \prod_{(w,c)\in D} p_\theta(c|w)
-$$
-
-여기서 $D$는 말뭉치에서 얻은 모든 단어쌍 (center, context) 의 집합이다.
-
-#### 2. 로그 확률의 내적 표현  
-Skip-gram에서는 확률의 크기를 **두 단어 벡터의 내적(inner product)** 으로 표현한다.
-
-$$
-\log p_\theta(c|w) \propto \mathbf{v}_c \cdot \mathbf{v}_w
-$$
-
-- $\mathbf{v}_w$: 중심 단어(center word)의 임베딩 벡터  
-- $\mathbf{v}_c$: 문맥 단어(context word)의 임베딩 벡터  
-- 두 벡터의 내적이 클수록, 두 단어가 **함께 등장할 가능성(co-occurrence probability)** 이 높다고 본다.
-
-#### 3. $(w, c)$와 $(w, c')$의 의미적 차이  
-- $(w, c)$는 실제 문장에서 **함께 등장한 단어쌍**으로,  
-  모델은 이들의 내적 $$\mathbf{v}_w \cdot \mathbf{v}_c$$ 를 **크게** 만들도록 학습한다.  
-
-$$
-\log p_\theta(c|w) \propto \mathbf{v}_c \cdot \mathbf{v}_w \quad \text{(실제 문맥 단어)}
-$$
-
-- 반면 $(w, c')$는 **등장하지 않은 단어쌍(negative sample)** 로,  
-  이들의 내적 $$\mathbf{v}_w \cdot \mathbf{v}_{c'}$$ 는 **작게** 만들어야 한다.  
-
-$$
-\log p_\theta(c'|w) \propto \mathbf{v}_{c'} \cdot \mathbf{v}_w \quad \text{(잘못된 문맥 단어)}
-$$
-
-즉,  
-- $(w, c)$ → 함께 등장할수록 내적 ↑ (유사도 증가)  
-- $(w, c')$ → 함께 등장하지 않을수록 내적 ↓ (유사도 감소)
-
-#### 4. 요약  
-- Skip-gram은 단어 쌍의 **공동 등장 확률**을 내적 형태로 근사한다.  
-- 실제 문맥 단어는 내적을 크게, 비문맥 단어는 내적을 작게 학습함으로써  
-  단어의 **의미적 유사도(semantic similarity)** 를 반영하는 임베딩을 얻는다.
+> **1. Skip-gram의 핵심 아이디어**  
+> - Skip-gram 모델은 중심 단어(center word) $w$ 가 주어졌을 때  
+>   주변 단어(context word) $c$ 를 예측하는 것을 목표로 한다.  
+> - 즉, “$w$ 가 주어진 조건에서 $c$ 가 등장할 확률” $p_\theta(c|w)$ 를  
+>   가능한 한 크게 만드는 것이 목적이다.  
+>  
+>   $$  
+>   \max_{\theta} \prod_{(w,c)\in D} p_\theta(c|w)  
+>   $$  
+>  
+> **2. 로그 확률의 내적 표현**  
+> - Skip-gram에서는 두 단어의 로그 확률을 **벡터 내적(inner product)** 로 표현한다.  
+>  
+>   $$  
+>   \log p_\theta(c|w) \propto \mathbf{v}_c \cdot \mathbf{v}_w  
+>   $$  
+>  
+> - $\mathbf{v}_w$: 중심 단어 임베딩  
+> - $\mathbf{v}_c$: 문맥 단어 임베딩  
+> - 두 벡터의 내적이 클수록 두 단어의 **동시 등장 가능성(co-occurrence)** 이 높다고 본다.  
+>  
+> **3. $(w,c)$ 와 $(w,c')$ 의 의미적 차이**  
+> - $(w,c)$: 실제로 문장에서 함께 등장한 단어쌍  
+>  
+>   $$  
+>   \log p_\theta(c|w) \propto \mathbf{v}_c \cdot \mathbf{v}_w  
+>   \quad\text{(실제 문맥 단어)}  
+>   $$  
+>  
+>   → 내적을 **크게** 만들어야 한다.  
+>  
+> - $(w,c')$: 함께 등장하지 않은 단어쌍(negative sample)  
+>  
+>   $$  
+>   \log p_\theta(c'|w) \propto \mathbf{v}_{c'} \cdot \mathbf{v}_w  
+>   \quad\text{(잘못된 문맥 단어)}  
+>   $$  
+>  
+>   → 내적을 **작게** 만들어야 한다.  
+>  
+> 정리하면:  
+> - $(w,c)$ → 함께 등장한 적이 많을수록 내적 ↑  
+> - $(w,c')$ → 등장하지 않을수록 내적 ↓  
+>  
+> **4. 요약**  
+> - Skip-gram은 단어 쌍의 공동 등장 확률을 내적 형태로 근사한다.  
+> - 실제 문맥 단어는 내적을 크게, 비문맥 단어는 내적을 작게 학습함으로써  
+>   단어의 **의미적 유사도(semantic similarity)** 를 반영하는 임베딩을 얻는다.  
 
 ---
 
@@ -473,44 +471,44 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. Softmax의 역할  
-- Skip-gram 모델에서는 중심 단어 $w$가 주어졌을 때,  
-  주변 단어 $c$가 등장할 확률 $p_\theta(c|w)$ 를 계산해야 한다.  
-- 이때, 가능한 모든 단어(어휘집 $\mathcal{V}$) 중에서  
-  확률이 0~1 사이의 값으로 **정규화(normalization)** 되어야 한다.  
-- Softmax 함수는 바로 이 정규화를 수행한다.
-
-$$
-p_\theta(c|w) = \frac{\exp(\mathbf{v}_c \cdot \mathbf{v}_w)}
-{\sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)}
-$$
-
-- 분자: 현재 단어쌍 $(w, c)$ 의 유사도(내적)를 지수화하여 “점수(score)”로 변환  
-- 분모: 어휘 전체의 점수를 모두 합산해 정규화  
-  → 전체 확률의 합이 1이 되도록 만든다.
-
-#### 2. 확률적 해석  
-- $\exp(\mathbf{v}_c \cdot \mathbf{v}_w)$ 는 중심 단어 $w$가  
-  문맥 단어 $c$를 “선호하는 정도”를 나타낸다.  
-- 이 값이 클수록 $p_\theta(c|w)$ 도 커지며,  
-  실제로 두 단어가 **함께 등장할 확률이 높다고 모델이 판단**하게 된다.  
-
-즉, softmax는 **모든 단어 후보 중에서 어떤 단어가 문맥으로 등장할 가능성이 가장 높은지**  
-확률적으로 표현하는 함수이다.
-
-#### 3. 예시 (직관적 이해)  
-- 예를 들어 중심 단어 $w =$ **“Taylor”** 인 경우,  
-  모델은 가능한 모든 단어($c'$) 중에서  
-  $$\exp(\mathbf{v}_{c'} \cdot \mathbf{v}_{Taylor})$$ 값을 계산한다.  
-- 그중 실제 문맥 단어 $c =$ **“release”** 의 내적이 가장 크다면,  
-  softmax를 통해 $p_\theta(\text{release}|\text{Taylor})$ 가  
-  다른 후보들보다 높은 확률로 계산된다.
-
-#### 4. 정리  
-- Softmax는 내적 기반 점수를 **확률 분포(probability distribution)** 로 변환한다.  
-- 이를 통해 Skip-gram은 “모든 가능한 단어 중 실제 문맥 단어의 확률을 최대화”하도록 학습한다.
+> **1. Softmax의 역할**  
+> - Skip-gram 모델은 중심 단어 $w$ 가 주어졌을 때  
+>   주변 단어 $c$ 가 등장할 확률 $p_\theta(c|w)$ 를 계산해야 한다.  
+> - 가능한 모든 단어(어휘집 $\mathcal{V}$) 중 하나를 선택해야 하므로  
+>   각 후보 단어의 점수를 **0~1 사이의 확률**로 정규화해야 한다.  
+> - Softmax 함수가 바로 이 정규화를 수행한다.  
+>  
+>   $$  
+>   p_\theta(c|w)  
+>   =  
+>   \frac{\exp(\mathbf{v}_c \cdot \mathbf{v}_w)}  
+>          {\sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)}  
+>   $$  
+>  
+> - 분자: 단어쌍 $(w,c)$ 의 내적을 지수화해 “점수(score)”로 변환  
+> - 분모: 어휘 전체의 점수를 합하여 정규화  
+>   → 전체 확률의 합이 1이 되도록 만든다.  
+>  
+> **2. 확률적 해석**  
+> - $\exp(\mathbf{v}_c \cdot \mathbf{v}_w)$ 는  
+>   중심 단어 $w$ 가 문맥 단어 $c$ 를 **얼마나 선호하는지**를 나타내는 양이다.  
+> - 값이 클수록 $p_\theta(c|w)$ 도 커지며,  
+>   두 단어가 함께 등장할 가능성이 높다고 모델이 판단한다.  
+>  
+> **3. 예시 (직관적 이해)**  
+> - 예: 중심 단어 $w =$ “Taylor”  
+> - 모든 후보 단어 $c'$ 에 대해  
+>   $$\exp(\mathbf{v}_{c'} \cdot \mathbf{v}_{Taylor})$$  
+>   값을 계산한다.  
+> - 그중 실제 문맥 단어 $c =$ “release” 의 내적이 가장 크면  
+>   softmax 결과  
+>   $$p_\theta(\text{release}|\text{Taylor})$$  
+>   가 가장 크게 나온다.  
+>  
+> **4. 정리**  
+> - Softmax는 내적 기반 점수를 **확률 분포**로 변환하는 함수이다.  
+> - 이를 통해 Skip-gram 모델은  
+>   “가능한 모든 단어 중 실제 문맥 단어의 확률을 최대화”하도록 학습한다.  
 
 ---
 
@@ -537,69 +535,70 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. Skip-gram의 최적화 목표  
-- Skip-gram 모델은 중심 단어 $w$가 주어졌을 때,  
-  실제 문맥 단어 $c$가 등장할 확률 $p_\theta(c|w)$ 를 최대화하는 것이 목표이다.  
-- 이를 수학적으로 표현하면 다음과 같다.
-
-$$
-\max_\theta \prod_{(w,c)\in D} p_\theta(c|w)
-$$
-
-- 그러나 계산을 단순화하기 위해 **로그 변환(log transformation)** 을 적용하고,  
-  **부호를 반전**시켜 **손실(loss)** 형태로 바꾼다.
-
-$$
-\min_\theta \mathcal{L}(\theta) = - \sum_{(w,c)\in D} \log p_\theta(c|w)
-$$
-
-이 식은 “실제 등장한 단어쌍의 확률을 높이고(= 로그값을 크게),  
-그 부정확도를 최소화한다”는 의미를 가진다.
-
-#### 2. Softmax 확률을 대입한 형태  
-앞서 배운 softmax 식을 대입하면 다음과 같이 전개된다.
-
-$$
-p_\theta(c|w) = 
-\frac{\exp(\mathbf{v}_c \cdot \mathbf{v}_w)}
-{\sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)}
-$$
-
-이를 로그에 적용하면,
-
-$$
-\log p_\theta(c|w) =
-\mathbf{v}_c \cdot \mathbf{v}_w
-- \log \sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)
-$$
-
-따라서 최종 손실 함수는 다음과 같다.
-
-$$
-\mathcal{L}(\theta) = 
-- \sum_{(w,c)\in D}
-\left(
-\mathbf{v}_c \cdot \mathbf{v}_w
-- \log \sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)
-\right)
-$$
-
-#### 3. 각 항의 의미  
-- 첫 번째 항 $\mathbf{v}_c \cdot \mathbf{v}_w$:  
-  실제로 함께 등장한 단어쌍의 유사도를 높이는 항 (positive pair 강화)  
-
-- 두 번째 항 $\log \sum_{c'} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)$:  
-  모든 가능한 문맥 단어들에 대한 확률 합을 정규화하는 항  
-  → 잘못된 문맥 단어(negative pair)에 대한 **패널티(penalty)** 역할  
-
-#### 4. 직관적 이해  
-- 모델은 중심 단어 $w$와 실제 문맥 단어 $c$의 내적을 크게 만들어  
-  $p_\theta(c|w)$ 가 커지도록 학습한다.  
-- 동시에, 등장하지 않은 다른 문맥 단어 $c'$ 들의 확률은 작게 만들어야 한다.  
-- 이 과정을 반복함으로써,  
-  단어의 **의미적 관계(semantic similarity)** 를 반영한 임베딩이 형성된다.
+> **1. Skip-gram의 최적화 목표**  
+> - Skip-gram 모델은 중심 단어 $w$ 가 주어졌을 때  
+>   실제 문맥 단어 $c$ 가 등장할 확률 $p_\theta(c|w)$ 를 최대화한다.  
+>  
+>   $$  
+>   \max_\theta \prod_{(w,c)\in D} p_\theta(c|w)  
+>   $$  
+>  
+> - 이를 로그 변환하고 부호를 반전하면 손실 함수 형태가 된다.  
+>  
+>   $$  
+>   \min_\theta \mathcal{L}(\theta)  
+>   =  
+>   - \sum_{(w,c)\in D} \log p_\theta(c|w)  
+>   $$  
+>  
+> → 실제 등장한 단어쌍의 확률을 높이고, 그 부정확도를 최소화한다는 의미.  
+>  
+> **2. Softmax 확률을 대입한 형태**  
+>  
+>   $$  
+>   p_\theta(c|w)  
+>   =  
+>   \frac{\exp(\mathbf{v}_c \cdot \mathbf{v}_w)}  
+>          {\sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)}  
+>   $$  
+>  
+> 로그를 취하면  
+>  
+>   $$  
+>   \log p_\theta(c|w)  
+>   =  
+>   \mathbf{v}_c \cdot \mathbf{v}_w  
+>   -  
+>   \log \sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)  
+>   $$  
+>  
+> 따라서 최종 손실 함수는  
+>  
+>   $$  
+>   \mathcal{L}(\theta)  
+>   =  
+>   - \sum_{(w,c)\in D}  
+>   \left(  
+>   \mathbf{v}_c \cdot \mathbf{v}_w  
+>   -  
+>   \log \sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)  
+>   \right)  
+>   $$  
+>  
+> **3. 각 항의 의미**  
+> - $\mathbf{v}_c \cdot \mathbf{v}_w$:  
+>   실제 문맥 단어와 중심 단어의 유사도를 높이는 항 (positive pair 강화)  
+>  
+> - $\log \sum_{c'} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)$:  
+>   모든 다른 단어의 점수를 정규화하는 항  
+>   → 잘못된 문맥 단어(negative pair)를 억제하는 **패널티**  
+>  
+> **4. 직관적 이해**  
+> - 모델은 실제 단어쌍 $(w,c)$ 의 내적을 크게 만들어  
+>   $p_\theta(c|w)$ 를 키운다.  
+> - 동시에 등장하지 않은 단어 $c'$ 들의 내적은 작게 만들어야 한다.  
+> - 이 과정을 반복하면  
+>   단어의 **의미적 관계(semantic similarity)** 가 반영된 임베딩이 형성된다.  
 
 ---
 
@@ -694,60 +693,52 @@ $$
 
 ---
 
-### 보충 설명
-
-#### 1. 기존 문제점  
-- 이전의 Skip-gram 손실 함수는 다음과 같이 전체 어휘집 $\mathcal{V}$ 에 대해 합을 계산해야 한다.
-
-$$
-\mathcal{L}(\theta) = - \sum_{(w,c)\in D} 
-\left( 
-\mathbf{v}_c \cdot \mathbf{v}_w 
-- \log \sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)
-\right)
-$$
-
-- 이때 **분모의 합(Sum over entire vocabulary)** 은 어휘 크기가 수만~수십만 단어에 달하기 때문에  
-  매 학습 단계마다 이를 모두 계산하는 것은 **매우 비효율적**이다.  
-
-#### 2. 근사(approximation)의 핵심 아이디어  
-- 전체 확률 분포를 계산하지 않고,  
-  대신 “이 단어쌍이 실제로 함께 등장한 관계인지 아닌지”를  
-  **이진 분류(binary classification)** 문제로 바꾼다.  
-- 즉, Skip-gram 학습을  
-  “$(w, c)$가 실제 문맥에서 관찰된 **참(true) 쌍**인지,  
-  아니면 우연히 만들어진 **거짓(false) 쌍**인지”  
-  판별하는 문제로 재정의한다.
-
-#### 3. 시그모이드(Sigmoid) 함수를 통한 확률 표현  
-- 두 단어 벡터의 내적 $\mathbf{v}_c \cdot \mathbf{v}_w$ 을 입력값으로 받아  
-  시그모이드 함수를 통해 확률로 변환한다.
-
-$$
-p_\theta(\text{True} \mid c, w) = 
-\sigma(\mathbf{v}_c \cdot \mathbf{v}_w)
-= \frac{1}{1 + \exp(-\mathbf{v}_c \cdot \mathbf{v}_w)}
-$$
-
-- 즉,  
-  - 값이 1에 가까우면 → 실제 문맥에서 **자주 함께 등장하는 단어쌍**  
-  - 값이 0에 가까우면 → **무관한 단어쌍** 으로 간주된다.  
-
-- 반대로 “거짓 쌍(false pair)”의 확률은 다음과 같다.
-
-$$
-p_\theta(\text{False} \mid c, w)
-= 1 - \sigma(\mathbf{v}_c \cdot \mathbf{v}_w)
-= \sigma(-\mathbf{v}_c \cdot \mathbf{v}_w)
-$$
-
-#### 4. 직관적 이해  
-- 이 방식은 **Softmax의 복잡한 정규화 계산을 피하면서도**,  
-  단어쌍 간의 관계를 학습할 수 있도록 만든 근사 방법이다.  
-- 모델은 실제 문맥 단어쌍 $(w, c)$ 는 “참(1)”으로,  
-  무작위로 선택된 단어쌍 $(w, c')$ 는 “거짓(0)”으로 분류하도록 학습한다.  
-- 결과적으로 Skip-gram은 **단어 관계를 이진 분류 형태로 학습**하면서,  
-  계산 효율성을 크게 높이게 된다.
+> **1. 기존 문제점**  
+> - Skip-gram 손실 함수는 전체 어휘집 $\mathcal{V}$ 에 대해  
+>
+>   $$\sum_{c' \in \mathcal{V}} \exp(\mathbf{v}_{c'} \cdot \mathbf{v}_w)$$  
+>
+>   를 매번 계산해야 한다.  
+> - 어휘 크기가 매우 클 때(수만~수십만 단어),  
+>   이 계산은 **매우 비효율적**이다.  
+>  
+> **2. 근사의 핵심 아이디어**  
+> - 전체 확률 분포를 계산하지 않고,  
+>   Skip-gram 문제를 **이진 분류 문제**로 재해석한다.  
+> - 즉, 단어쌍 $(w,c)$ 가  
+>   **실제 문맥에서 등장한 참(true) 쌍인지**,  
+>   아니면 **무관한 거짓(false) 쌍인지** 판별하도록 학습한다.  
+>  
+> **3. 시그모이드(Sigmoid)를 이용한 확률 표현**  
+> - 두 단어 벡터의 내적을 시그모이드에 입력해  
+>   단어쌍이 참인지의 확률로 변환한다.  
+>  
+>   $$  
+>   p_\theta(\text{True} \mid c,w)  
+>   =  
+>   \sigma(\mathbf{v}_c \cdot \mathbf{v}_w)  
+>   =  
+>   \frac{1}{1 + \exp(-\mathbf{v}_c \cdot \mathbf{v}_w)}  
+>   $$  
+>  
+> - 내적이 클수록 두 단어가 **자주 등장하는 관계**라고 판단한다.  
+> - 거짓(false) 쌍의 확률은  
+>  
+>   $$  
+>   p_\theta(\text{False} \mid c,w)  
+>   =  
+>   1 - \sigma(\mathbf{v}_c \cdot \mathbf{v}_w)  
+>   =  
+>   \sigma(-\mathbf{v}_c \cdot \mathbf{v}_w)  
+>   $$  
+>  
+> **4. 직관적 이해**  
+> - Softmax의 복잡한 정규화 계산을 피하면서도  
+>   단어쌍 간의 관계를 학습할 수 있는 방식이다.  
+> - 실제 문맥 단어쌍 $(w,c)$ 는 “참(1)”으로,  
+>   임의로 뽑은 단어쌍 $(w,c')$ 는 “거짓(0)”으로 학습한다.  
+> - 결과적으로 Skip-gram은 **이진 분류 형태로 단어 의미 관계를 학습**하면서,  
+>   계산 효율을 크게 향상시킨다.  
 
 ---
 
