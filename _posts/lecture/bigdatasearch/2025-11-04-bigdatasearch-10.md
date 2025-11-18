@@ -15,20 +15,20 @@ tags: []
 ## p3. 검색 에이전트 개요  
 
 - **AI 에이전트 정의**  
-  - 사용자가 정의한 목표를 달성하기 위해 AI 모델을 활용하여 환경과 상호작용하는 시스템  
+  - **사용자가 정의한 목표를 달성하기 위해 AI 모델을 활용하여 환경과 상호작용하는 시스템**  
   - 추론(reasoning), 계획(planning), 그리고 외부 도구를 사용한 행동의 실행(execution)을 결합하여 작업을 수행  
 
 - **챗봇과의 차이점**  
   - 챗봇  
     - 사용자의 질문에 반응하여 답변하는 역할  
   - AI 에이전트  
-    - 챗봇을 넘어서 사용자가 원하는 최종 목표를 달성하기 위해 스스로 계획을 세우고 여러 단계를 거쳐 작업을 완수  
+    - 챗봇을 넘어서 **사용자가 원하는 최종 목표를 달성하기 위해 스스로 계획을 세우고 여러 단계를 거쳐 작업을 완수**  
 
 - **검색 에이전트와 기존 검색시스템과의 차이**  
   - 기존 검색  
     - 사용자가 입력한 키워드에 기반한 정적 정보 제공  
   - 검색 에이전트  
-    - 사용자의 복잡하고 추상적인 명령을 이해하고, 스스로 계획을 세워 외부 도구를 활용, 능동적으로 정보를 수집하고 처리하여 목표를 달성  
+    - **사용자의 복잡하고 추상적인 명령을 이해하고, 스스로 계획을 세워 외부 도구를 활용, 능동적으로 정보를 수집하고 처리하여 목표를 달성**  
 
 - **등장 배경 및 중요성**  
   - LLM의 발전과 외부 정보 및 도구 연동 필요성 증가  
@@ -151,23 +151,24 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
 
 ## p10. AI 에이전트의 핵심 요소기술  
 
-- **도구 사용**  
-  - 검색 에이전트가 LLM 학습 데이터만으로는 해결할 수 없는 작업을 수행하기 위해  
-    외부 시스템, API, 데이터베이스 등을 호출하고 활용하는 기술 (Function Calling)  
+**도구 사용**  
 
-  - **역할**  
-    - **최신성 확보:** 실시간 웹 검색 도구를 사용하여 LLM 학습시점 이후의 정보 탐색  
-    - **정확성 및 사실성:** 계산, 코드 실행, 데이터베이스 검색과 같은 정밀 작업 수행  
-    - **행동수행:** 메일전송, 파일생성, 외부 서비스 예약 등 실제 작업 처리  
+- 검색 에이전트가 LLM 학습 데이터만으로는 해결할 수 없는 작업을 수행하기 위해  
+  외부 시스템, API, 데이터베이스 등을 호출하고 활용하는 기술 (Function Calling)  
 
-  - **도구 사용의 동작원리 및 매커니즘**  
-    1. **사용자 요청 접수:** LLM에 Prompt 입력  
-    2. **도구결정:** LLM이 현재 상황과 사용 가능한 도구 목록을 보고 어떤 도구를 사용할지 추론  
-    3. **인수생성:** 호출할 도구와 필요한 매개변수를 결정하고 정해진 형식으로 출력  
-    4. **도구실행:** 에이전트 시스템이 LLM이 생성한 형식에 맞춰 실제 외부 도구(API)를 호출  
-    5. **결과수신:** 도구 실행결과가 에이전트로 반환  
-    6. **응답생성 및 반복:** LLM이 결과를 바탕으로 사용자에게 최종답변을 생성하거나  
-      다음행동을 계획하여 2~5단계를 반복  
+- **역할**  
+  - **최신성 확보:** 실시간 웹 검색 도구를 사용하여 LLM 학습시점 이후의 정보 탐색  
+  - **정확성 및 사실성:** 계산, 코드 실행, 데이터베이스 검색과 같은 정밀 작업 수행  
+  - **행동수행:** 메일전송, 파일생성, 외부 서비스 예약 등 실제 작업 처리  
+
+- **도구 사용의 동작원리 및 매커니즘**  
+  1. **사용자 요청 접수:** LLM에 Prompt 입력  
+  2. **도구결정:** LLM이 현재 상황과 사용 가능한 도구 목록을 보고 어떤 도구를 사용할지 추론  
+  3. **인수생성:** 호출할 도구와 필요한 매개변수를 결정하고 정해진 형식으로 출력  
+  4. **도구실행:** 에이전트 시스템이 LLM이 생성한 형식에 맞춰 실제 외부 도구(API)를 호출  
+  5. **결과수신:** 도구 실행결과가 에이전트로 반환  
+  6. **응답생성 및 반복:** LLM이 결과를 바탕으로 사용자에게 최종답변을 생성하거나  
+    다음행동을 계획하여 2~5단계를 반복  
 
 ---
 
@@ -195,13 +196,13 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
 
 - **프레임워크 지원**  
   - **LangChain**  
-    - Tools 모듈을 제공하여 다양한 사전 구축 도구를 쉽게 연결 가능  
-    - 커스텀 도구를 정의하여 사용하는 것도 가능  
+    - Tools 모듈을 제공하여 다양한 사전 구축 도구를 쉽게 연결 가능하며,  
+      커스텀 도구를 정의하여 사용하는 것이 가능함  
     - Agent 및 AgentExecutor가 이 도구들을 오케스트레이션  
 
   - **LangGraph**  
-    - 도구 사용 과정을 그래프의 노드(Node)와 엣지(Edge)로 명시적으로 정의  
-    - 도구 호출 후 다음 상태로 전환되는 복잡한 흐름을 제어하는 데 효과적  
+    - 도구 사용 과정을 그래프의 노드(Node)와 엣지(Edge)로 명시적으로 정의하여,  
+      도구 호출 후 다음 상태로 전환되는 복잡한 흐름을 제어하는 데 효과적  
 
 ---
 
@@ -229,13 +230,13 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
   - **단기 기억 (Short-Term Memory / STM)**  
     - 현재 진행 중인 대화나 작업 세션 내의 정보를 일시적으로 저장  
     - **구현방법**  
-      - 대화 기록(Chat History): 이전 메시지들을 그대로 프롬프트에 포함시켜 LLM에 전달  
-      - 컨텍스트 창 관리: LLM의 최대 토큰(Context Window) 한도 내에서 최신 대화 내용 위주로 포함되도록 관리  
+      - **대화 기록(Chat History):** 이전 메시지들을 그대로 프롬프트에 포함시켜 LLM에 전달  
+      - **컨텍스트 창 관리:** LLM의 최대 토큰(Context Window) 한도 내에서 최신 대화 내용 위주로 포함되도록 관리  
 
   - **장기 기억 (Long-Term Memory / LTM)**  
     - 여러 세션과 작업에 걸쳐 영구적으로 축적되는 지식의 토대  
     - 사실, 개념, 규칙 등 일반 지식과 에이전트의 경험(일화 기억)을 포함  
-    - **구현 방법:** RAG (Retrieval-Augmented Generation, 검색 증강 생성) 기술이 핵심  
+    - **구현 방법: RAG (Retrieval-Augmented Generation, 검색 증강 생성)** 기술이 핵심  
 
 ---
 
@@ -264,9 +265,8 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
     프로세스 흐름을 하나의 통일된 시스템으로 조정하고 관리하는 기술  
 
 - **필요성**  
-  - 검색 에이전트는 **추론, 계획, 도구 사용, 메모리 접근** 등  
-    다양한 기술의 복합체로 구성된 요소들이 언제, 어떻게 상호작용해야 하는지  
-    통제하는 체계가 필요함  
+  - 검색 에이전트는 **추론, 계획, 도구 사용, 메모리 접근** 등 다양한 기술의 복합체로  
+    구성 요소들이 언제, 어떻게 상호작용해야 하는지 통제하는 체계가 필요함  
 
 - **핵심원리 및 구성요소**  
   - **오케스트레이션 계층 (Orchestration Layer)**  
@@ -281,7 +281,7 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
 
   - **오케스트레이터 (Orchestrator)**  
     - 또 다른 LLM이 메타(Meta) 레벨의 오케스트레이터 역할을 수행하며,  
-      전체 작업 흐름을 내려다보며 다음 단계의 행동을 지시  
+    - 전체 작업 흐름을 내려다보며 다음 단계의 행동을 지시  
 
 ---
 
@@ -320,8 +320,8 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
   → 반복적 탐색, 질문유형에 따른 검색전략 사용, 품질평가, 다중소스 통합 등을 위해 AgenticRAG 등장  
 
 - **Agentic RAG**  
-  - '추론하고 행동하는(Agentic)' AI 에이전트 기술을 RAG 파이프라인에 도입 → 능동적인 정보 탐색 및 처리 가능  
-  - 전통적인 RAG 흐름에 에이전트의 '계획(Planning)' 및 '도구 사용(Tool Use)' 능력을 통합  
+  - **'추론하고 행동하는(Agentic)'** AI 에이전트 기술을 RAG 파이프라인에 도입 → 능동적인 정보 탐색 및 처리 가능  
+  - **전통적인 RAG 흐름에 에이전트의 '계획(Planning)' 및 '도구 사용(Tool Use)' 능력을 통합**  
 
   - **핵심 구성 요소(1)**  
     - **오케스트레이터 에이전트 (Orchestrator Agent):** 전체 프로세스를 관리(주로 LLM)  
@@ -380,7 +380,7 @@ def agentic_rag(query):
     - 선형계획: 간단한 질문에 적합  
     - 분기계획(Branching Planning): 조건부 실행이 필요한 경우  
     - 병렬 계획: 독립적인 여러 정보 수집  
-    - Agentic RAG의 핵심 패턴인 ReAct 패턴 활용  
+  - Agentic RAG의 핵심 패턴인 ReAct 패턴 활용  
 - **Retrieval(검색)**  
   - 적응형 검색(Adaptive Retrieval)  
   - 하이브리드 검색(Hybrid Search)  
@@ -912,7 +912,7 @@ chain = SequentialChain(
 
 - **Callbacks**  
   - 로깅, 모니터링, 스트리밍(ChatGPT와 같이 실시간 답변 생성) 등  
-  - LLM 애플리케이션의 다양한 단계와 연결하는 기능 제공  
+    LLM 애플리케이션의 다양한 단계와 연결하는 기능 제공  
 
 ---
 
@@ -996,24 +996,25 @@ chain = SequentialChain(
 
 ## p44. LangChain 구성요소  
 
-- **Composition**  
-  - 다른 시스템(예: 외부 API 및 서비스) 또는 LangChain Primitive를 결합한 상위 수준 구성 요소  
+**Composition**  
 
-  - **Tools**  
-    - LLM 및 기타 구성 요소가 다른 시스템과 상호 작용할 수 있는 인터페이스를 제공  
-    - 예: Wikipedia, 계산기, Python REPL 등  
-    - Ref) https://python.langchain.com/v0.1/docs/modules/tools/  
+- 다른 시스템(예: 외부 API 및 서비스) 또는 LangChain Primitive를 결합한 상위 수준 구성 요소  
 
-  - **Agents**  
-    - 언어 모델을 사용하여 수행할 일련의 작업을 결정  
-      - 언어모델은 수행할 작업과 순서를 결정하는 추론 엔진으로 사용  
-    - Runtime executor  
-      - Agent 호출, Agent가 선택한 도구 실행, 작업 출력을 Agent에 다시 전달하고 반복하는 역할  
-    - Ref) https://python.langchain.com/v0.1/docs/modules/agents/  
+- **Tools**  
+  - LLM 및 기타 구성 요소가 다른 시스템과 상호 작용할 수 있는 인터페이스를 제공  
+  - 예: Wikipedia, 계산기, Python REPL 등  
+  - Ref) https://python.langchain.com/v0.1/docs/modules/tools/  
 
-  - **Chains**  
-    - LCEL을 사용하여 LLM, 도구 또는 데이터 전처리 단계 등 일련의 호출 지원  
-    - Ref) https://python.langchain.com/v0.1/docs/modules/chains/  
+- **Agents**  
+  - 언어 모델을 사용하여 수행할 일련의 작업을 결정  
+    - 언어모델은 수행할 작업과 순서를 결정하는 추론 엔진으로 사용  
+  - Runtime executor  
+    - Agent 호출, Agent가 선택한 도구 실행, 작업 출력을 Agent에 다시 전달하고 반복하는 역할  
+  - Ref) https://python.langchain.com/v0.1/docs/modules/agents/  
+
+- **Chains**  
+  - LCEL을 사용하여 LLM, 도구 또는 데이터 전처리 단계 등 일련의 호출 지원  
+  - Ref) https://python.langchain.com/v0.1/docs/modules/chains/  
 
 ---
 
@@ -1059,10 +1060,16 @@ llm.invoke("지구의 자전 주기는?")
 # llm.invoke("지구의 자전 주기는?").content  # 출력 내용만 가져옴
 ```
 
-AIMessage(content='지구의 자전 주기는 약 24시간입니다. 이는 하루 동안 지구가 자전하는 시간을 의미하며, 이에 따라 낮과 밤이 생기게 됩니다. 지구의 자전 주기는 항상 일정하지는 않고
-다양한 외부 요인에 의해 조금씩 변할 수 있습니다.', response_metadata={'token_usage': {'completion_tokens': 100, 'prompt_tokens': 16, 'total_tokens': 116}, 'model_name': 'gpt-3.5-turbo-0125',
-'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-00a6deca-1c25-4c06-8a6f-a069c1fcc1bc-0', usage_metadata={'input_tokens': 16, 'output_tokens': 100, 'total_tokens':
-116})
+```
+AIMessage(content='지구의 자전 주기는 약 24시간입니다. 이는 하루 동안 지구가 자전하는 시간을 의미하며,  
+이에 따라 낮과 밤이 생기게 됩니다. 지구의 자전 주기는 항상 일정하지는 않고  
+다양한 외부 요인에 의해 조금씩 변할 수 있습니다.',  
+response_metadata={'token_usage': {'completion_tokens': 100, 'prompt_tokens': 16,  
+'total_tokens': 116}, 'model_name': 'gpt-3.5-turbo-0125',  
+'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None},  
+id='run-00a6deca-1c25-4c06-8a6f-a069c1fcc1bc-0',  
+usage_metadata={'input_tokens': 16, 'output_tokens': 100, 'total_tokens': 116})
+```
 
 (2) Prompt Template 도입  
 
@@ -1076,8 +1083,12 @@ prompt = ChatPromptTemplate.from_template(
 prompt
 ```
 
-ChatPromptTemplate(input_variables=['input'], messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['input'], template='You are an expert in astronomy.
-Answer the question. <Question>: {input}'))])
+```
+ChatPromptTemplate(input_variables=['input'],  
+messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['input'],  
+template='You are an expert in astronomy.  
+Answer the question. <Question>: {input}'))])  
+```
 
 (3) Chain으로 연결  
 
@@ -1087,9 +1098,13 @@ chain = prompt | llm
 chain.invoke({"input": "지구의 자전 주기는?"})
 ```
 
-AIMessage(content='지구의 자전 주기는 약 24시간 입니다. 이는 하루 동안 지구가 한 번 자전하는 주기를 의미합니다.', response_metadata={'token_usage': {'completion_tokens': 42,
-'prompt_tokens': 30, 'total_tokens': 72}, 'model_name': 'gpt-3.5-turbo-0125', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-83e54510-b44e-4b46-b4cf-2943803ff896-
-0', usage_metadata={'input_tokens': 30, 'output_tokens': 42, 'total_tokens': 72})
+```
+AIMessage(content='지구의 자전 주기는 약 24시간 입니다. 이는 하루 동안 지구가 한 번 자전하는 주기를 의미합니다.',  
+response_metadata={'token_usage': {'completion_tokens': 42, 'prompt_tokens': 30, 'total_tokens': 72},  
+'model_name': 'gpt-3.5-turbo-0125', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None},  
+id='run-83e54510-b44e-4b46-b4cf-2943803ff896-0',  
+usage_metadata={'input_tokens': 30, 'output_tokens': 42, 'total_tokens': 72})  
+```
 
 ---
 
@@ -1109,8 +1124,10 @@ chain = prompt | llm | output_parser
 chain.invoke({"input": "지구의 자전 주기는?"})
 ```
 
+```
 지구의 자전 주기는 약 24시간입니다. 이는 하루 동안 지구가 자전하는 시간을 의미합니다. 지구는
 자전하면서 자전축 주위를 도는데, 이러한 운동으로 하루가 끝나면 다시 일출이 일어나게 됩니다.
+```
 
 ---
 
@@ -1137,7 +1154,9 @@ chain2 = (
 chain2.invoke({"korean_word": "미래"})
 ```
 
+```
 미래: 사람이나 사물이나 사건의 뒤에 따라오는 시기.
+```
 
 ---
 
@@ -1191,7 +1210,9 @@ filled_prompt = prompt_template.format(name="홍길동", age=30)
 filled_prompt
 ```
 
+```
 안녕하세요, 제 이름은 홍길동이고, 나이는 30살입니다.
+```
 
 ---
 
@@ -1215,11 +1236,13 @@ chain = combined_prompt | llm | StrOutputParser()
 chain.invoke({"age": 30, "language": "영어", "name": "홍길동"})
 ```
 
+```
 Hello, my name is Hong Gil-dong and I am 30 years old.\n\nI cannot call my father "father."
+```
 
 ---
 
-## p53. Chat Prompt Template  
+## p54. Chat Prompt Template  
 
 <img src="/assets/img/lecture/bigdatasearch/10/image_19.png" alt="image" width="800px">  
 
@@ -1249,16 +1272,19 @@ messages = chat_prompt.format_messages(user_input="태양계에서 가장 큰 �
 messages
 ```
 
-[SystemMessage(content='이 시스템은 천문학 질문에 답변할 수 있습니다.
-’), HumanMessage(content='태양계에서 가장 큰 행성은
-무엇인가요?')]
+```
+[SystemMessage(content='이 시스템은 천문학 질문에 답변할 수 있습니다.’),  
+HumanMessage(content='태양계에서 가장 큰 행성은 무엇인가요?')]
+```
 
 ```python
 chain = chat_prompt | llm | StrOutputParser()
 chain.invoke({"user_input": "태양계에서 가장 큰 행성은 무엇인가요?"})
 ```
 
-태양계에서 가장 큰 행성은 목성입니다. 목성은 질량과 부피 모두에서 가장 큰 행성으로 알려져 있습니다
+```
+태양계에서 가장 큰 행성은 목성입니다. 목성은 질량과 부피 모두에서 가장 큰 행성으로 알려져 있습니다  
+```
 
 ---
 
@@ -1357,12 +1383,13 @@ after_answer = chain.invoke({"user_input": "태양계에서 가장 큰 행성은
 print(after_answer)
 ```
 
+```
 content=
-'가장 큰 행성은 목성입니다. 목성은 태양계에서 가장 크고 질량
-이 가장 큰 행성으로, 지름은 약 14만 2000km에 달합니다.’  
+'가장 큰 행성은 목성입니다. 목성은 태양계에서 가장 크고 질량이 가장 큰 행성으로, 지름은 약 14만 2000km에 달합니다.’  
 
 content=
 '태양계에서 가장 큰'
+```
 
 ---
 
@@ -1380,9 +1407,13 @@ from langchain_core.output_parsers import CommaSeparatedListOutputParser
 output_parser = CommaSeparatedListOutputParser()
 format_instructions = output_parser.get_format_instructions()
 print(format_instructions)
+```
 
-# Your response should be a list of comma separated values, eg: `foo, bar, baz` or `foo,bar,baz`
+```
+Your response should be a list of comma separated values, eg: `foo, bar, baz` or `foo,bar,baz`
+```
 
+```python
 prompt = PromptTemplate(
     template="List five {subject}.\n{format_instructions}",
     input_variables=["subject"],
@@ -1394,7 +1425,9 @@ chain = prompt | llm | output_parser
 chain.invoke({"subject": "popular Korean cuisine"})
 ```
 
+```
 ['Bibimbap', 'Kimchi', 'Bulgogi', 'Japchae', 'Tteokbokki']
+```
 
 ---
 
@@ -1467,28 +1500,46 @@ chain.invoke({"subject": "popular Korean cuisine"})
 - **종료 조건**  
   - LLM이 결정하고 코드에서 Hard Coding 됨  
 
-- **Schema**  
-  - AgentAction, AgentFinish, Intermediate Steps  
+<div style="
+  background-color: #d9b9d6;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+">
 
-- **Agent**  
-  - 다음 단계에 수행할 역할을 결정하며, Prompt, LLM, output parser로 실행됨  
+<ul>
+  <li><strong>Schema</strong><br>
+    AgentAction, AgentFinish, Intermediate Steps
+  </li>
 
-- **AgentExecutor**  
-  - Agent의 “런타임 Agent 호출, 선택한 작업 실행, 출력을 Agent로 전달” 반복하는 역할  
+  <li><strong>Agent</strong><br>
+    다음 단계에 수행할 역할을 결정하며, Prompt, LLM, output parser로 실행됨
+  </li>
 
-- **Tools**  
-  - Agent가 호출할 수 있는 함수  
+  <li><strong>AgentExecutor</strong><br>
+    Agent의 “런타임 Agent 호출, 선택한 작업 실행, 출력을 Agent로 전달” 반복하는 역할
+  </li>
 
-- **Toolkits**  
-  - 특정 목표를 달성하기 위해 여러 개의 Tools를 toolkit을 통해 제공
+  <li><strong>Tools</strong><br>
+    Agent가 호출할 수 있는 함수.
+  </li>
+
+  <li><strong>Toolkits</strong><br>
+    특정 목표를 달성하기 위해 여러 개의 Tools를 toolkit을 통해 제공
+  </li>
+</ul>
+
+</div>
 
 ---
 
 ## p66. LangChain Agents
 
-```python
+```
 !pip install wikipedia
+```
 
+```python
 from langchain.chat_models import ChatOpenAI
 llm = ChatOpenAI(
     temperature=0,  # 창의성 0으로 설정

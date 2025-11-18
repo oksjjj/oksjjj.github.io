@@ -17,7 +17,7 @@ tags: []
 AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learning)**, **컨트롤 센터(Control Centre)**,  
 **실행기(Effectors)** 로 구성된 구조를 통해 사용자의 요구와 환경 변화에 적응하며 자율적으로 작동  
 
-<img src="/assets/img/lecture/bigdatasearch/10/image_1.png" alt="image" width="800px">  
+<img src="/assets/img/lecture/bigdatasearch/11/image_3.png" alt="image" width="800px">  
 
 ---
 
@@ -53,31 +53,33 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
   - 미리 정의된 고정된 순서로 일련의 작업(프롬프트, 도구 호출 등)을 순차적으로 실행  
   - 선형적인 흐름에 적합  
   - 장단점: 구현이 단순하고 예측 가능성이 높으나, 유연성이 떨어지며 동적인 상황 변화에 대처하기 어려움  
-  - 프레임워크: LangChain Expression Language (LCEL)  
+  - 프레임워크: **LangChain Expression Language (LCEL)**  
 
 - **Agent(에이전트) 기반 오케스트레이션**  
   - LLM이 스스로 추론(Reasoning)하고 계획(Planning)하여 동적으로 다음 행동(Action)을 결정하는 방식으로  
     ReAct (Reasoning and Acting) 패턴이 대표적  
   - 높은 자율성과 유연성을 가지며, 복잡하고 예측 불가능한 문제 해결에 적합하나,  
     비결정적 특성으로 인해 결과의 일관성이 떨어질 수 있음  
-  - 프레임워크: LangChain의 AgentExecutor  
+  - 프레임워크: **LangChain의 AgentExecutor**  
 
 - **Graph(그래프) 기반 오케스트레이션**  
   - 작업 흐름을 노드(상태 또는 행동)와 엣지(전환 조건)로 구성된 방향성 그래프로 정의  
   - 체인 방식보다 유연하고 에이전트 방식보다 흐름 제어가 명시적이어서,  
     복잡한 워크플로우를 안정적으로 구축 가능  
   - Reflection(반성)과 Loop(반복) 구현에 매우 강력  
-  - 프레임워크: LangGraph, Microsoft Autogen (멀티 에이전트 협업)  
+  - 프레임워크: **LangGraph, Microsoft Autogen** (멀티 에이전트 협업)  
 
 ---
 
-## p6. Agentic RAG 핵심 구성요소  
+## p6. Agentic RAG
+
+**Agentic RAG 핵심 구성요소**
 
 - **Query Analysis**  
-  - 사용자의 질문의 의도, 복잡도, 필요 정보를 파악  
+  - 사용자의 질문의 **의도, 복잡도, 필요 정보**를 파악  
 
 - **Planning (계획 수립)**  
-  - 쿼리 분석 결과를 바탕으로 실행 계획을 수립  
+  - 쿼리 분석 결과를 바탕으로 **실행 계획**을 수립  
   - 계획 수립 전략  
     - 선형 계획: 간단한 질문에 적합  
     - 분기 계획 (Branching Planning): 조건부 실행이 필요한 경우  
@@ -90,13 +92,12 @@ AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learni
   - 다단계 검색 (Multi-hop Retrieval)  
 
 - **Self-Reflection (자기 성찰)**  
-  - 수집한 정보의 품질과 충분성을 평가  
+  - 수집한 정보의 **품질과 충분성**을 평가  
   - 관련성(검색결과가 질문과 관련있는 정도),  
     완전성(정보가 충분한지),  
     신뢰성(정보 출처와 신뢰성)  
 
-- **Tool Use (도구 사용)**  
-  - 다양한 도구 통합  
+- **Tool Use (도구 사용)**: 다양한 도구 통합  
 
 ---
 
