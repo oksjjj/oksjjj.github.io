@@ -698,3 +698,24 @@ FLARE의 하이퍼파라미터는 개발 세트를 기준으로 선택되며
 표 9에 나열되어 있다.  
 
 특별히 명시되지 않은 경우, FLARE는 $ \text{FLARE}_{\text{direct}} $를 의미한다.
+
+---
+
+**Multihop QA**  
+
+멀티홉 QA의 목표는 정보 검색과 추론을 통해 복잡한 질문에 답하는 것이다.  
+
+우리는 2WikiMultihopQA (Ho et al., 2020)를 사용하며,  
+이는 Wikipedia 문서들이 출처가 되는,  
+구성(composition), 비교(comparison), 또는 추론(inference)을 요구하는  
+2-홉(2-hop)의 복잡한 질문들을 포함한다.  
+예: “Why did the founder of Versus die?”  
+
+우리는 Wang et al. (2022)를 따라  
+연쇄적 사고(chain-of-thought)와 최종 답을 모두 생성한다.  
+
+실험 설정 세부사항은 Appendix B에 포함되어 있다.  
+
+우리는 정규표현식을 사용하여 출력에서 최종 답을 추출하고,  
+정확 일치(EM), 그리고 토큰 수준 F₁, 정밀도, 재현율을 이용하여  
+참조 답(reference answer)과 비교한다.

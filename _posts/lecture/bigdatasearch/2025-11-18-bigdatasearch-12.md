@@ -702,8 +702,8 @@ def extract_subgraph(query, graph, max_hops=3):
     이 하위 문제들을 **순차적으로 해결하도록** 유도하여 Multi-Hop 추론을 구조화
 
 - 연구 논문: **Active Retrieval (ActiveRAG)**
-  - Zhen Yang, et al.,  
-    “**Active Retrieval-Augmented Generation**”, 2023
+  - Zhengbao Jiang, et al.,  
+    “**Active Retrieval-Augmented Generation**”, EMNLP 2023  
   - LLM이 검색을 수행할지 여부  
     검색 내용을 어떻게 결정할지  
     를 **동적으로 판단**하고,  
@@ -716,9 +716,8 @@ def extract_subgraph(query, graph, max_hops=3):
 **노이즈 및 불일치 해결: Context & Verification**
 
 - 연구 논문: **RAG with Multi-Hop Knowledge and Reasoning**
-    - Wenhu
-    - ao Yu, et al.,  
-        “**Multi-Hop Knowledge Retrieval and Reasoning for Document-Grounded Question Answering**”, 2022
+    - Hao Liu, et al.,  
+        “**HopRAG: Multi-Hop Reasoning for Logic-Aware Retrieval-Augmented Generation**”, 2025 ACL  
     - RAG 시스템을 위한 Multi-Hop 검색 전용 **지식 구조(Knowledge Structure)** 구축 및 활용
 
 - 연구 논문: **Chain-of-Verification (CoVe)**
