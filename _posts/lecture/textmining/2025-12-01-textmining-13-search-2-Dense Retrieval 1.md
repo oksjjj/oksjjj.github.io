@@ -41,7 +41,7 @@ tags: []
    시스템은 **높은 임베딩 유사도(high embedding similarity)**  
    (예: 코사인 유사도 또는 내적)을 가진 문서들을 검색한다.
 
-<img src="/assets/img/lecture/textmining/13/image_1.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/13/image_1.png" alt="image" width="720px">
 
 ---
 
@@ -53,7 +53,7 @@ tags: []
 **1.** 각 문서는 **밀집 벡터(dense vector)**로 인코딩되고 **벡터 인덱스(vector index)**에 저장된다  
    (이를 **ANN index**라고 부른다).
 
-<img src="/assets/img/lecture/textmining/13/image_2.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/13/image_2.png" alt="image" width="720px">
 
 ---
 

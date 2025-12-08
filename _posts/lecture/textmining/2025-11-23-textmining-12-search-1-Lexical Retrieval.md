@@ -128,7 +128,7 @@ tags: []
 
   - Query: 사용자의 정보 요구(information need)를 **용어들의 집합**으로 표현한 것이다.
 
-<img src="/assets/img/lecture/textmining/12/image_5.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/12/image_5.png" alt="image" width="720px">
 
 ---
 
@@ -154,7 +154,7 @@ tags: []
 - 그렇다면 이 “관련성(relevance)”은 어떻게 측정할까?
   - 일반적으로 **쿼리와 문서 사이의 텍스트 유사도(textual similarity)** 를 이용해 이를 근사한다.
 
-<img src="/assets/img/lecture/textmining/12/image_5.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/12/image_5.png" alt="image" width="720px">
 
 ---
 
@@ -369,7 +369,7 @@ $NDCG@10 = \frac{2.71}{3.95} = 0.69$
   - 어떻게 **관련성 점수(relevance scores)** 를 계산하는가  
     (예: TF-IDF의 코사인 유사도, BM25)
 
-<img src="/assets/img/lecture/textmining/12/image_15.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/12/image_15.png" alt="image" width="720px">
 
 > (아래 그림 설명)
 >
@@ -517,7 +517,7 @@ Query: “zebra love” → {d1, d2, d8}
   - **쿼리 벡터의 정규화(query vector normalization)**는  
     모든 문서에 대해 일정하므로 생략된다.
 
-<img src="/assets/img/lecture/textmining/12/image_21.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/12/image_21.png" alt="image" width="720px">
 
 ---
 
@@ -545,7 +545,7 @@ Query: “zebra love” → {d1, d2, d8}
   - BM25는 TF-IDF의 철학 — 즉, **단어 빈도(term frequency)** 와 **역문서빈도(inverse document frequency)** 의 결합 — 을 따르지만,
     여기에 몇 가지 수정 사항을 추가한다.
 
-<img src="/assets/img/lecture/textmining/12/image_22.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/12/image_22.png" alt="image" width="720px">
 
 > (아래 그림 설명 — 사용자가 직접 삽입)
 >

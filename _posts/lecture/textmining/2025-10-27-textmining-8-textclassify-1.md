@@ -95,7 +95,7 @@ tags: []
      - 인코더(encoder)를 고정(freeze)하고 **헤드만 업데이트(only the head)** 한다.  
      - 인코더 대부분을 고정하고 **상위 층(top layers)** 과 **헤드(head)** 를 함께 업데이트한다.  
 
-<img src="/assets/img/lecture/textmining/8/image_5.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/8/image_5.png" alt="image" width="720px">
 
 ---
 
@@ -380,7 +380,7 @@ $$
   - 손실(loss)을 최소화함으로써 모델을 미세조정(fine-tuning)한다.  
     (전체 파라미터를 조정할 수도 있고, 일부만 조정할 수도 있다 — full vs. partial fine-tuning)
 
-<img src="/assets/img/lecture/textmining/8/image_10.png" alt="image" width="800px">
+<img src="/assets/img/lecture/textmining/8/image_10.png" alt="image" width="720px">
 
 ---
 
