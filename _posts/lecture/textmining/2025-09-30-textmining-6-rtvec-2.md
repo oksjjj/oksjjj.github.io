@@ -207,7 +207,6 @@ $$
 
 *SVD는 선형대수학 강의에서 다루어지는 내용이다. 혹시 잊었다면, 다음 참고 문헌을 보라 (for review):  
 <a href="https://web.stanford.edu/class/cs168/l/l9.pdf" target="_blank">Stanford CS168 강의노트</a>*  
-[**SVD 강의 한국어 번역**](/posts/math-svd/){:target="_blank"}
 
 ---
 
