@@ -8,8 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 텍스트 마이닝 – 강성구 교수님, 고려대학교 (2025)
-
 ## p11. 문맥적 표현 (Contextual representation?)
 
 - **정적 임베딩(Static embeddings):**  

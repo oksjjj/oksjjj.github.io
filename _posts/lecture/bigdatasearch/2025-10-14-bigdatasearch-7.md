@@ -8,8 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
-
 ## p2. 생성형 AI 검색의 정의와 특징  
 
 **생성형 AI 검색 (Generative AI Search)**  

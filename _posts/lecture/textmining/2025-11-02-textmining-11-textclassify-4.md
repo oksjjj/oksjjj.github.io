@@ -8,8 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 텍스트 마이닝 – 강성구 교수님, 고려대학교 (2025)
-
 ## p3. 제한된 레이블로 학습하기 (Learning with limited labels)
 
 - 지금까지 우리는 **레이블이 있는 데이터(labeled data)** 를 사용하여  

@@ -8,10 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
-
----
-
 ## p4. AI 에이전트 아키텍처  
 
 AI 에이전트는 **환경(Environment)**, **센서(Sensors)**, **학습(Learning)**, **컨트롤 센터(Control Centre)**,  

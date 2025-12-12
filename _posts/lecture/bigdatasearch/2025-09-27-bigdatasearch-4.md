@@ -8,8 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
-
 ## p2. ElasticSearch  
 
 - Elastic 창시: 2012년, 4인의 멤버가 회사로 설립  

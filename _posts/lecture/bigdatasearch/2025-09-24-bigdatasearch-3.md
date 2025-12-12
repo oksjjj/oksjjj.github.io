@@ -8,8 +8,6 @@ categories:
 tags: []
 ---
 
-> 출처: 빅데이터와 정보검색 – 황영숙 교수님, 고려대학교 (2025)
-
 ## p6. 랭킹 기반 검색 (Ranked Retrieval)
   
   
