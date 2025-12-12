@@ -13,7 +13,7 @@ tags: []
 <img src="/assets/img/lecture/bigdatasearch/2/image_1.png" alt="image" width="540px">
 
 
-1. User task (사용자 과제)  
+1. User task (사용자 과제)   
    - 사용자가 실제로 수행하려는 작업  
    - 예: 리포트 작성, 문제 해결, 특정 사실 확인  
 
