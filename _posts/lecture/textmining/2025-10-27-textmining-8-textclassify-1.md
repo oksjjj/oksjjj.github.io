@@ -724,7 +724,7 @@ Micro-F1 ≈ 0.730
       큰 클래스(majority class)가 결과에 더 큰 영향을 미친다.  
 
 - **활용 지침(Guideline):**  
-  클래스 불균형(class imbalance)이 중요한 경우에는 **매크로 평균(Macro)** 을 사용하고,  
+  클래스 불균형(class imbalance)이 이슈(concern)인 경우에는 **매크로 평균(Macro)** 을 사용하고,  
   전체적인 성능(overall performance)이 더 중요할 때는 **마이크로 평균(Micro)** 을 사용하는 것이 좋다.  
 
 ---
