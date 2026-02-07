@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Active Retrieval Augmented Generation"
+title: "[논문 번역] Active Retrieval Augmented Generation"
 date: 2025-11-23 23:00:00 +0900
 categories:
   - "논문 번역"

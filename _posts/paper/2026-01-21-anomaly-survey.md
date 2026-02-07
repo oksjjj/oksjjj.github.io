@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Anomaly detection: A survey"
+title: "[논문 번역] Anomaly detection: A survey"
 date: 2026-01-21 00:00:00 +0900
 categories:
   - "논문 번역"
