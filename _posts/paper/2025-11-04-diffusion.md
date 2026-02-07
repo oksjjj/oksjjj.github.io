@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "[논문] Denoising Diffusion Probabilistic Models"
+title: "Denoising Diffusion Probabilistic Models"
 date: 2025-11-04 12:00:00 +0900
 categories:
-  - "논문"
+  - "논문 번역"
 tags: []
 ---
 > 논문 출처  

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "[논문] Web Traffic Anomaly Detection Using Isolation Forest"
+title: "Web Traffic Anomaly Detection Using Isolation Forest"
 date: 2025-11-12 13:00:00 +0900
 categories:
-  - "논문"
+  - "논문 번역"
 tags: []
 ---
 > 논문 출처  

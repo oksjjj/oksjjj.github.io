@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "[논문] Attention Is All You Need"
+title: "Attention Is All You Need"
 date: 2025-10-02 12:40:00 +0900
 categories:
-  - "논문"
+  - "논문 번역"
 tags: []
 ---
 
